@@ -1,0 +1,310 @@
+{
+  "name": "Telegram Chat",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -560,
+        -20
+      ],
+      "id": "8dcab711-5786-4dfd-b083-cb4fa75b0cc2",
+      "name": "Telegram Trigger",
+      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma3:1b",
+        "options": {
+          "format": "default"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        200,
+        200
+      ],
+      "id": "5f8cbc96-d9cc-4a2f-ad9a-9150d5237b10",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        320
+      ],
+      "id": "8cf07e6e-e971-400a-9e6f-39f35d98a1fb",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "id": "722acebd-ac86-4d55-ad17-fb96a820c00c",
+      "name": "Data",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a7b94cfd-bd75-4a87-82f2-d903129bd236",
+              "leftValue": "={{ $json.body.sessionId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "12f58e00-c212-4c40-b1db-5c4006a14967",
+      "name": "If has SessionId",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -340,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d23dcfe6-87e4-4dad-b9cc-c1bbb52291eb",
+              "name": "sessionId",
+              "value": "={{ $json.body.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "90072504-b82a-4514-93ec-7d907397361c",
+              "name": "contactMessage",
+              "value": "={{ $json.body.contactMessage }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "235b763e-7323-498e-8335-0697630c6eb8",
+      "name": "Set with SessionId",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -120,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d23dcfe6-87e4-4dad-b9cc-c1bbb52291eb",
+              "name": "sessionId",
+              "value": "={{(+new Date).toString(36).slice(-5) + Math.random().toString(36).substr(2, 5)}}",
+              "type": "string"
+            },
+            {
+              "id": "90072504-b82a-4514-93ec-7d907397361c",
+              "name": "contactMessage",
+              "value": "={{ $('Telegram Trigger').item.json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ec02cd9-bb26-4dfd-b085-68ac8a5b3676",
+      "name": "Set with GeneratedID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -120,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.contactMessage }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        320,
+        -20
+      ],
+      "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        696,
+        -20
+      ],
+      "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
+      "name": "Telegram",
+      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If has SessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If has SessionId": {
+      "main": [
+        [
+          {
+            "node": "Set with SessionId",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set with GeneratedID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set with SessionId": {
+      "main": [
+        [
+          {
+            "node": "Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set with GeneratedID": {
+      "main": [
+        [
+          {
+            "node": "Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "01e23aba-d8ef-4411-8d6d-5c341f0343e3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "G0Vk5kYZGi0nCI12",
+  "tags": []
+}
