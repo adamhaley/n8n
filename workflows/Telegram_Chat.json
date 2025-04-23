@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -560,
-        -20
+        -860,
+        -200
       ],
       "id": "8dcab711-5786-4dfd-b083-cb4fa75b0cc2",
       "name": "Telegram Trigger",
@@ -34,8 +34,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        200,
-        200
+        708,
+        20
       ],
       "id": "5f8cbc96-d9cc-4a2f-ad9a-9150d5237b10",
       "name": "Ollama Chat Model",
@@ -47,12 +47,14 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "sessionKey": ""
+      },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        400,
-        320
+        828,
+        20
       ],
       "id": "8cf07e6e-e971-400a-9e6f-39f35d98a1fb",
       "name": "Simple Memory"
@@ -64,8 +66,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        100,
-        -20
+        460,
+        -200
       ]
     },
     {
@@ -74,7 +76,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -86,19 +89,31 @@
                 "operation": "notEmpty",
                 "singleValue": true
               }
+            },
+            {
+              "id": "ef39811f-aab0-4f58-8e8e-a7a52e6a1e50",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
           ],
           "combinator": "and"
         },
-        "options": {}
+        "options": {
+          "looseTypeValidation": false
+        }
       },
       "id": "12f58e00-c212-4c40-b1db-5c4006a14967",
       "name": "If has SessionId",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -340,
-        -20
+        20,
+        -200
       ]
     },
     {
@@ -126,8 +141,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.3,
       "position": [
-        -120,
-        -120
+        240,
+        -300
       ]
     },
     {
@@ -143,7 +158,7 @@
             {
               "id": "90072504-b82a-4514-93ec-7d907397361c",
               "name": "contactMessage",
-              "value": "={{ $('Telegram Trigger').item.json.message.text }}",
+              "value": "={{ $json.msg }}",
               "type": "string"
             }
           ]
@@ -155,8 +170,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.3,
       "position": [
-        -120,
-        80
+        240,
+        -100
       ]
     },
     {
@@ -168,24 +183,26 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        320,
-        -20
+        680,
+        -200
       ],
       "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
       "name": "AI Agent"
     },
     {
       "parameters": {
-        "operation": "sendAndWait",
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "message": "={{ $json.output }}",
-        "options": {}
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        696,
-        -20
+        1056,
+        -200
       ],
       "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
       "name": "Telegram",
@@ -196,15 +213,125 @@
           "name": "Telegram account"
         }
       }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -640,
+        -200
+      ],
+      "id": "b5b9be44-1c31-4689-bf1f-b2832f6b8c3a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/transcribe",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -275
+      ],
+      "id": "cdcc7627-783e-4753-b9dc-dfb8d33065d2",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -275
+      ],
+      "id": "098aedb9-0eec-4bfe-9960-142728654cc8",
+      "name": "Telegram1",
+      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "msg": "Hi, how are you?\n"
+        }
+      }
+    ]
+  },
   "connections": {
     "Telegram Trigger": {
       "main": [
         [
           {
-            "node": "If has SessionId",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -294,13 +421,53 @@
           }
         ]
       ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If has SessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If has SessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "01e23aba-d8ef-4411-8d6d-5c341f0343e3",
+  "versionId": "2d8df745-7c94-4279-a22f-ec3908a741c9",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
