@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, Response, make_response
 import openai
 import os
+import json
 from requests_toolbelt.multipart import decoder
 from dotenv import load_dotenv
     
@@ -32,10 +33,12 @@ def transcribe_audio():
                 
                 transcript = openai.audio.transcriptions.create(
                     model="whisper-1", 
-                    file=audio_file
+                    file=audio_file,
+                    response_format='text'
                 )
+                transcript_string = ''.join(transcript)
 
-            return Response(transcript, status=200)
+            return jsonify({'msg': transcript_string})
         except Exception as e:
             # Handle the exception
             error_message = str(e)
