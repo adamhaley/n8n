@@ -1,0 +1,269 @@
+{
+  "name": "Scrape Larajobs",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -200
+      ],
+      "id": "536cd28e-f7da-43f8-9c9d-8810ae236285",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://larajobs.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -200
+      ],
+      "id": "d2667a10-00d2-4bfe-afd1-1d4a8bc9f6e3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "html",
+              "cssSelector": ".job-link",
+              "returnValue": "html",
+              "returnArray": true
+            },
+            {
+              "key": "url",
+              "cssSelector": ".job-link",
+              "returnValue": "attribute",
+              "attribute": "data-url",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        20,
+        -200
+      ],
+      "id": "25ecff53-fc08-416b-a429-6887d6df52a4",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "html",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "company",
+              "cssSelector": "div > div > div > p:first-of-type"
+            },
+            {
+              "key": "job-title",
+              "cssSelector": "div > div > div > p:nth-child(3)"
+            },
+            {
+              "key": "terms",
+              "cssSelector": "div > div > div > p:nth-child(4)"
+            },
+            {
+              "key": "location",
+              "cssSelector": ".flex-none"
+            }
+          ]
+        },
+        "options": {
+          "cleanUpText": false
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        -200
+      ],
+      "id": "e38375a7-2c99-4bd5-85b5-cf023c941d76",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        460,
+        -200
+      ],
+      "id": "f684a321-1cb3-4c5a-b0b0-7884a28e9792",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        840,
+        -280
+      ],
+      "id": "a276acad-5a73-411b-9da8-d34e9477c0cc",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a81ddc18-55be-405d-9256-2b627e2e5c8c",
+              "name": "company",
+              "value": "={{ $json.company }}",
+              "type": "string"
+            },
+            {
+              "id": "2ed93d4c-96a1-44e4-8fb6-0d2db3cc8ef9",
+              "name": "job-title",
+              "value": "={{ $json['job-title'] }}",
+              "type": "string"
+            },
+            {
+              "id": "aafab17a-215d-417e-b83c-2d8aacc9655d",
+              "name": "terms",
+              "value": "={{ $json.terms }}",
+              "type": "string"
+            },
+            {
+              "id": "21d63fe5-a475-4eb7-a1cf-23b6105d070d",
+              "name": "location",
+              "value": "={{ $json.location }}",
+              "type": "string"
+            },
+            {
+              "id": "e278aec2-7c6e-449f-8bd4-a7e65e513d6b",
+              "name": "url",
+              "value": "={{ $('HTML').item.json.url[ $runIndex] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "selected",
+        "includeFields": "url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        -100
+      ],
+      "id": "6dd70292-c439-4975-8c94-394e769b19da",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "10c62c7d-d8a7-4ca1-adf9-e97dd27015fa",
+  "meta": {
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "eL1zWuEq378dkGx1",
+  "tags": []
+}
