@@ -1,3 +1,4 @@
 speech/venv
 *.ogg
 *.mp3
+.env
