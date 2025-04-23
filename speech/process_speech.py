@@ -1,8 +1,12 @@
 from flask import Flask, request, jsonify, Response, make_response
-from openai import OpenAI
+import openai
 import os
 from requests_toolbelt.multipart import decoder
+from dotenv import load_dotenv
+    
+load_dotenv()
 
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 app = Flask(__name__)
 
@@ -11,9 +15,9 @@ def transcribe_audio():
     
     if request.content_type == "application/octet-stream":
         print("content length header: {}".format(request.content_length))
-        data = request.get_data()
 
-        file_stream = request.stream
+
+        data = request.get_data()
         filename = request.headers.get('Filename') or 'speech.ogg'
         filepath = os.path.join('./', filename)
         
@@ -21,26 +25,31 @@ def transcribe_audio():
         
         try:
             with open(filepath, 'wb') as file:
-                while True:
-                    chunk = file_stream.read(4096)
-                    if not chunk:
-                        break
-                    file.write(chunk)
-            return Response("File uploaded successfully", status=200)
+                file.write(data)
+                file.close()
+
+                audio_file = open(filepath, "rb")
+                
+                transcript = openai.audio.transcriptions.create(
+                    model="whisper-1", 
+                    file=audio_file
+                )
+
+            return Response(transcript, status=200)
         except Exception as e:
             # Handle the exception
             error_message = str(e)
             print(f"An error occurred: {error_message}")
             return Response("There was an error: " + error_message,status=500)
+
+        return jsonify({
+            'msg': "received data ;)"
+            })
     else:
         return jsonify({
             'msg': "415 Unsupported Media Type ;)"
         })
 
-    #audio_file = request.files['body']
-    #temp_audio_path = "temp_audio.wav"
-    #audio_file.save(temp_audio_path)
-    #return jsonify({'success': 'Received audio: ' + request.files['body']})
 @app.route('/', methods=['GET'])
 def index():
     return 'Listening for audio file on /transcribe'
