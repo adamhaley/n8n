@@ -4,8 +4,8 @@ Description=Transcribe Speech to Text
 After=network.target
 
 [Service]
-WorkingDirectory=/home/ahmedia/n8n/speech/  # Replace with your app's path
-ExecStart=/home/ahmedia/n8n/speech/venv/bin/python3  /home/ahmedia/n8n/speech/process_speech.py  # Full path to python and app
+WorkingDirectory=/home/ahmedia/n8n/speech/  
+ExecStart=/home/ahmedia/n8n/speech/venv/bin/python3  /home/ahmedia/n8n/speech/process_speech.py  
 ExecReload=/home/ahmedia/n8n/speech/venv/bin/python3  /home/ahmedia/n8n/speech/process_speech.py   
 Restart=always
 
