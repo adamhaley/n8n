@@ -34,8 +34,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        708,
-        20
+        500,
+        180
       ],
       "id": "5f8cbc96-d9cc-4a2f-ad9a-9150d5237b10",
       "name": "Ollama Chat Model",
@@ -53,8 +53,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        828,
-        20
+        840,
+        180
       ],
       "id": "8cf07e6e-e971-400a-9e6f-39f35d98a1fb",
       "name": "Simple Memory"
@@ -177,8 +177,11 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.contactMessage }}",
-        "options": {}
+        "text": "={{ $json.contactMessage }} ",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect and be useful. You are expressive but do not use emoji characters in your output."
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
@@ -192,7 +195,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "={{ $json.output }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -201,7 +204,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1056,
+        1496,
         -200
       ],
       "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
@@ -279,24 +282,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://ahmedia.ai:8000/transcribe",
-        "sendBody": true,
-        "contentType": "binaryData",
-        "inputDataFieldName": "data",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -200,
-        -275
-      ],
-      "id": "cdcc7627-783e-4753-b9dc-dfb8d33065d2",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
         "resource": "file",
         "fileId": "={{ $json.message.voice.file_id }}"
       },
@@ -315,10 +300,88 @@
           "name": "Telegram account"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/transcribe",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -275
+      ],
+      "id": "cdcc7627-783e-4753-b9dc-dfb8d33065d2",
+      "name": "Transcribe Voice"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cartesia.ai/tts/bytes",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cartesia-Version",
+              "value": "2024-06-10"
+            },
+            {
+              "name": "X-API-Key",
+              "value": "sk_car_FEPKyLLq2FihfqZ3G1aHyA"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model_id\": \"sonic-2\",\n  \"transcript\": \"{{  $json.output }}\",\n  \"voice\": {\n    \"mode\": \"id\",\n    \"id\": \"ac15038c-c796-4b8f-b006-d63e7aa53e1c\"\n  },\n  \"output_format\": {\n    \"container\": \"mp3\",\n   \"bit_rate\": 128000,\n    \"sample_rate\": 44100\n  },\n  \"language\": \"en\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1056,
+        -200
+      ],
+      "id": "972b5599-f4f2-467b-9b7b-d3215befe603",
+      "name": "Cartesia TTS"
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "reply.mp3"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1276,
+        -200
+      ],
+      "id": "0854b2c3-dd1f-4b66-84b0-d9571c705970",
+      "name": "Telegram2",
+      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
     }
   ],
   "pinData": {
-    "HTTP Request": [
+    "Transcribe Voice": [
       {
         "json": {
           "msg": "Hi, how are you?\n"
@@ -415,7 +478,7 @@
       "main": [
         [
           {
-            "node": "Telegram",
+            "node": "Cartesia TTS",
             "type": "main",
             "index": 0
           }
@@ -444,18 +507,40 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Transcribe Voice",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "Transcribe Voice": {
       "main": [
         [
           {
             "node": "If has SessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cartesia TTS": {
+      "main": [
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram2": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
             "type": "main",
             "index": 0
           }
@@ -467,7 +552,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "2d8df745-7c94-4279-a22f-ec3908a741c9",
+  "versionId": "dc030451-1f96-4e24-9a9c-18dccfad56f8",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
