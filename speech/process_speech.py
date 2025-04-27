@@ -53,9 +53,40 @@ def transcribe_audio():
             'msg': "415 Unsupported Media Type ;)"
         })
 
+@app.route('/tts', methods=['POST'])
+def text_to_speech():
+    print("content length header: {}".format(request.content_length))
+
+    from cartesia import Cartesia
+    
+    client = Cartesia(api_key=os.environ.get("CARTESIA_API_KEY"))
+
+    try:
+        voice_id = os.environ.get("CARTESIA_VOICE_ID")
+        voice = client.voices.get(id=voice_id)
+        print(voice)
+
+        audio_bytes = client.tts.bytes(model_id="sonic-2", transcript="Hello, world!", voice={"mode": "id","id": voice_id}, output_format={"container":"mp3","bit_rate":128000,"sample_rate":44100} )
+        with open("output.wav", "wb") as f:
+            for chunk in audio_bytes:
+                f.write(chunk)
+
+    except Exception as e:
+        error_message = str(e)
+        print(f"An error occurred: {error_message}")
+        return Response("There was an error: " + error_message,status=500)
+    
+    return jsonify({
+            'msg': "wrote file ;)"
+            })
+
+    #data = request.get_data()
+    #return jsonify(data)
+
 @app.route('/', methods=['GET'])
 def index():
     return 'Listening for audio file on /transcribe'
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)

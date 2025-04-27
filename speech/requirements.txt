@@ -2,3 +2,4 @@ openai
 flask
 requests-toolbelt
 python-dotenv
+cartesia
