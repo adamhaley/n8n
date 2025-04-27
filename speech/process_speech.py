@@ -57,6 +57,7 @@ def transcribe_audio():
 def text_to_speech():
     print("content length header: {}".format(request.content_length))
 
+    from flask import send_file
     from cartesia import Cartesia
     
     client = Cartesia(api_key=os.environ.get("CARTESIA_API_KEY"))
@@ -66,10 +67,17 @@ def text_to_speech():
         voice = client.voices.get(id=voice_id)
         print(voice)
 
+        file_path = "output.wav"
+
         audio_bytes = client.tts.bytes(model_id="sonic-2", transcript="Hello, world!", voice={"mode": "id","id": voice_id}, output_format={"container":"mp3","bit_rate":128000,"sample_rate":44100} )
-        with open("output.wav", "wb") as f:
+        with open(file_path, "wb") as f:
             for chunk in audio_bytes:
                 f.write(chunk)
+            f.close()
+        try:
+            return send_file(file_path, as_attachment=True)
+        except Exception as e:
+            return f"Error sending file: {str(e)}", 500
 
     except Exception as e:
         error_message = str(e)
