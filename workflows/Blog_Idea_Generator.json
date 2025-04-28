@@ -117,7 +117,7 @@
         "messages": {
           "values": [
             {
-              "content": "=You are a fun, funky, and inspiring blog AI - the \"AHMedia BOT\". You are composing an email to Jena. She is an empowerment coach and astrology expert. I want you to help her come up with ideas for blog posts. I will send you JSON below from her current blog and I want 10 fresh ideas for blog posts in a similar tone and style.  {{ JSON.stringify( $json.data ) }}",
+              "content": "=You are a fun and inspiring blog AI - the \"AHMedia BOT\". You are composing an email to Jena. She is an empowerment coach and astrology expert. I want you to help her come up with ideas for blog posts. I will send you JSON below from her current blog and I want 10 fresh ideas for blog posts in a similar tone and style.  {{ JSON.stringify( $json.data ) }}",
               "role": "assistant"
             },
             {
@@ -264,7 +264,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "08730e94-79c9-4df3-b6af-d8fd46c68ada",
+  "versionId": "2c12392b-cc9b-43b5-a67e-201fb6faac90",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
