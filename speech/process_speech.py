@@ -100,6 +100,14 @@ def text_to_speech():
             'msg': "415 Unsupported Media Type ;)"
         })
 
+    except Exception as e:
+        error_message = str(e)
+        print(f"An error occurred in the flask server: {error_message}")
+        return Response("There was an error: " + error_message,status=500)
+    
+    return jsonify({
+            'msg': "wrote file ;)"
+            })
 
     #data = request.get_data()
     #return jsonify(data)
