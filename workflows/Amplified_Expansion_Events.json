@@ -1,0 +1,151 @@
+{
+  "name": "Amplified Expansion Events",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "calendarId": {
+          "__rl": true,
+          "value": "jenacarpenter@amplifiedexpansion.com",
+          "mode": "list",
+          "cachedResultName": "jenacarpenter@amplifiedexpansion.com"
+        },
+        "triggerOn": "eventCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTrigger",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -40
+      ],
+      "id": "bb24c63e-c1a6-4bfb-b7e7-1ceeb42c7181",
+      "name": "Google Calendar Trigger",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "V2dGJYVDD1lw5ut6",
+          "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/adamhaley",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "https://github.com/adamhaley/amplified-expansion-coaching",
+          "mode": "url"
+        },
+        "filePath": "data/events.json",
+        "fileContent": "={{ JSON.stringify($json.data,null,1) }}",
+        "commitMessage": "updating events from google calendar",
+        "additionalParameters": {
+          "branch": {
+            "branch": "staging"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -40
+      ],
+      "id": "fbec5e84-0459-4d32-b9fa-a48fb17f17a7",
+      "name": "GitHub",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        40,
+        -40
+      ],
+      "id": "0603c7bc-9f4e-4cdc-8c8d-7d09ef56cf49",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -180,
+        -40
+      ],
+      "id": "83b1934a-3ffc-40e9-a66b-dd91b86aa9b5",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Calendar Trigger": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d9759371-027a-4526-9ae8-d926e6afd63a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "zDtF72hspHu5RkTp",
+  "tags": []
+}
