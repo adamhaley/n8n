@@ -13,25 +13,6 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 app = Flask(__name__)
 
 
-def preprocess_text(text):
-    # Remove URLs
-    text = re.sub(r'http\S+|www.\S+', '', text)
-    
-    # Remove HTML tags
-    text = re.sub(r'<.*?>', '', text)
-    
-    # Remove punctuation and special characters, keeping only letters, numbers and spaces
-    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
-    
-    # Replace multiple spaces with single space
-    text = re.sub(r'\s+', ' ', text).strip()
-    
-    # Lowercase the text
-    text = text.lower()
-    
-    return text
-
-
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
     
@@ -98,8 +79,15 @@ def text_to_speech():
 
             file_path = "output.wav"
         
-            msg = prerocess_text(msg)
-            
+            text = msg
+            # Remove punctuation and special characters, keeping only letters, numbers and spaces
+            text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+            text = re.sub(r'[\*]','',text)
+            # Replace multiple spaces with single space
+            text = re.sub(r'\s+', ' ', text).strip()
+            msg = text
+
+
             audio_bytes = client.tts.bytes(model_id="sonic-2", transcript=msg, voice={"mode": "id","id": voice_id}, output_format={"container":"mp3","bit_rate":128000,"sample_rate":44100} )
             with open(file_path, "wb") as f:
                 for chunk in audio_bytes:
