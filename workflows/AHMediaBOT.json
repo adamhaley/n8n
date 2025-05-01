@@ -1,0 +1,424 @@
+{
+  "name": "AHMediaBOT",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -860,
+        -260
+      ],
+      "id": "8dcab711-5786-4dfd-b083-cb4fa75b0cc2",
+      "name": "Telegram Trigger",
+      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.contactMessage }} ",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        240,
+        -260
+      ],
+      "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        -260
+      ],
+      "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
+      "name": "Telegram",
+      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -640,
+        -260
+      ],
+      "id": "b5b9be44-1c31-4689-bf1f-b2832f6b8c3a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -360
+      ],
+      "id": "098aedb9-0eec-4bfe-9960-142728654cc8",
+      "name": "Telegram1",
+      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/transcribe",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -360
+      ],
+      "id": "cdcc7627-783e-4753-b9dc-dfb8d33065d2",
+      "name": "Transcribe Voice"
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "reply.mp3"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        836,
+        -260
+      ],
+      "id": "0854b2c3-dd1f-4b66-84b0-d9571c705970",
+      "name": "Telegram2",
+      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=sessionId"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        388,
+        -40
+      ],
+      "id": "2e0b3cd0-a22b-4a18-91be-65081ceb5bb3",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma3:1b",
+        "options": {
+          "format": "default"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        200,
+        -40
+      ],
+      "id": "354ad080-b360-4e5e-aad1-226c01af43ba",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
+              "name": "msg",
+              "value": "={{ $json.msg }}",
+              "type": "string"
+            },
+            {
+              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
+              "name": "sessionId",
+              "value": "={{ $('Switch').item.json.message.chat.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        20,
+        -360
+      ],
+      "id": "1eca0332-c8cc-43bf-9dd3-3d96606193db",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/tts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "msg",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        616,
+        -260
+      ],
+      "id": "335e9112-cf8f-4508-956e-e022c31ebb66",
+      "name": "Cartesia TTS"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Cartesia TTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram1": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Voice": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram2": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cartesia TTS": {
+      "main": [
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4b6ed919-0e5f-49d8-bfe2-6dc07f5ec632",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "G0Vk5kYZGi0nCI12",
+  "tags": []
+}
