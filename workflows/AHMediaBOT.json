@@ -27,7 +27,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.contactMessage }} ",
+        "text": "={{ $json.msg }}",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length."
@@ -202,8 +202,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        388,
-        -40
+        400,
+        0
       ],
       "id": "2e0b3cd0-a22b-4a18-91be-65081ceb5bb3",
       "name": "Redis Chat Memory",
@@ -224,8 +224,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        200,
-        -40
+        180,
+        0
       ],
       "id": "354ad080-b360-4e5e-aad1-226c01af43ba",
       "name": "Ollama Chat Model",
@@ -260,7 +260,7 @@
       "typeVersion": 3.4,
       "position": [
         20,
-        -360
+        -260
       ],
       "id": "1eca0332-c8cc-43bf-9dd3-3d96606193db",
       "name": "Edit Fields1"
@@ -288,6 +288,27 @@
       ],
       "id": "335e9112-cf8f-4508-956e-e022c31ebb66",
       "name": "Cartesia TTS"
+    },
+    {
+      "parameters": {
+        "keys": {
+          "key": [
+            {
+              "currentKey": "message.text",
+              "newKey": "msg"
+            }
+          ]
+        },
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.renameKeys",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -160
+      ],
+      "id": "e68c1574-266e-4b2f-8b20-0c02e8809db2",
+      "name": "Rename Keys"
     }
   ],
   "pinData": {},
@@ -325,7 +346,7 @@
         ],
         [
           {
-            "node": "Edit Fields1",
+            "node": "Rename Keys",
             "type": "main",
             "index": 0
           }
@@ -408,13 +429,24 @@
           }
         ]
       ]
+    },
+    "Rename Keys": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "4b6ed919-0e5f-49d8-bfe2-6dc07f5ec632",
+  "versionId": "94b9659c-6e43-4edd-96ad-91c867e738de",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
