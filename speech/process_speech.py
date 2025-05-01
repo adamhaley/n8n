@@ -70,7 +70,6 @@ def text_to_speech():
             data = json.dumps(data, ensure_ascii=False).encode('utf-8').decode('unicode-escape')
 
             data  = json.loads(data, strict=False)
-            #msg = data.body.msg
             msg =  data['msg']
 
             voice_id = os.environ.get("CARTESIA_VOICE_ID")
@@ -81,7 +80,7 @@ def text_to_speech():
         
             text = msg
             # Remove punctuation and special characters, keeping only letters, numbers and spaces
-            text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+            #text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
             text = re.sub(r'[\*]','',text)
             # Replace multiple spaces with single space
             text = re.sub(r'\s+', ' ', text).strip()
