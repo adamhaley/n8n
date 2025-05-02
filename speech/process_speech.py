@@ -83,7 +83,7 @@ def text_to_speech():
             #text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
             #text = re.sub(r'[\*]','',text)
             # Replace multiple spaces with single space
-            re.sub(r"[^a-zA-Z0-9\s.,!?\"'():;\-]", "", text)
+            text = re.sub(r"[^a-zA-Z0-9\s.,!?\"'():;\-]", "", text)
 
             msg = text
 
