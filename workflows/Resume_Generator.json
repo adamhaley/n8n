@@ -2,17 +2,6 @@
   "name": "Resume Generator",
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -580,
-        0
-      ],
-      "id": "575cb600-cfde-46b7-8a49-6f3cabbfa260",
-      "name": "When clicking ‘Test workflow’"
-    },
-    {
       "parameters": {
         "documentId": {
           "__rl": true,
@@ -31,8 +20,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -360,
-        0
+        -660,
+        -120
       ],
       "id": "6ff899aa-cc28-4bc8-a6b8-f5c5fcaac598",
       "name": "Google Sheets",
@@ -71,8 +60,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        80,
-        0
+        -220,
+        -120
       ],
       "id": "b076bbf1-c9b2-441e-9e9a-0c70282a4fa9",
       "name": "GitHub",
@@ -91,26 +80,55 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -140,
-        0
+        -440,
+        -120
       ],
       "id": "093ae441-2cdc-4cf0-bdb2-19087f4cc0e4",
       "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA",
+          "mode": "list",
+          "cachedResultName": "Resume SOURCE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1590795213,
+          "mode": "list",
+          "cachedResultName": "Work History",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit#gid=1590795213"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        -120
+      ],
+      "id": "f15fd056-9baf-4179-b439-c7e2ed9a94ad",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "sQ5tgNUU4rrOP3uy",
+          "name": "Google Sheets Trigger account"
+        }
+      }
     }
   ],
   "pinData": {},
   "connections": {
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Google Sheets",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Google Sheets": {
       "main": [
         [
@@ -132,13 +150,24 @@
           }
         ]
       ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3965f778-6762-4e48-a7bd-3a1d88702dec",
+  "versionId": "d7808e29-4e8e-480a-a531-994c108dd7de",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
