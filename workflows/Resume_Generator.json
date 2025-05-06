@@ -22,8 +22,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -720,
-        -260
+        -700,
+        -200
       ],
       "id": "6ff899aa-cc28-4bc8-a6b8-f5c5fcaac598",
       "name": "Google Sheets",
@@ -51,7 +51,7 @@
           "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
         "filePath": "data/resume.json",
-        "fileContent": "={{ JSON.stringify( $json.data, '', 2 ) }}",
+        "fileContent": "={{ JSON.stringify( $json.output , '', 2 ) }}",
         "commitMessage": "=updates to resume.json {{ $now }}",
         "additionalParameters": {
           "branch": {
@@ -62,8 +62,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -280,
-        -260
+        116,
+        -200
       ],
       "id": "b076bbf1-c9b2-441e-9e9a-0c70282a4fa9",
       "name": "GitHub",
@@ -82,8 +82,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -500,
-        -260
+        -480,
+        -200
       ],
       "id": "093ae441-2cdc-4cf0-bdb2-19087f4cc0e4",
       "name": "Aggregate"
@@ -116,8 +116,8 @@
       "type": "n8n-nodes-base.googleSheetsTrigger",
       "typeVersion": 1,
       "position": [
-        -940,
-        -160
+        -920,
+        -100
       ],
       "id": "f15fd056-9baf-4179-b439-c7e2ed9a94ad",
       "name": "Google Sheets Trigger",
@@ -133,11 +133,66 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -940,
-        -360
+        -920,
+        -300
       ],
-      "id": "7ef56bd5-3404-47fb-bdfd-a0b709f33dc0",
+      "id": "263f73a6-823d-4800-86d5-e2c712b097a4",
       "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -300,
+        40
+      ],
+      "id": "fcec67d9-2ee7-41c6-9a0d-61aef29f2791",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Filter the following json: {{ JSON.stringify( $json.data ) }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a high end resume builder. Your output JSON is the same format and structure as the incoming json. You filter the listed experiences down to the most recent 10 years and provide a summary of the jobs before that point. Only use the positions from the category \"Tech\" in your output."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -260,
+        -200
+      ],
+      "id": "e114c2dd-e33b-4428-a08d-ae98195a496f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[ \n  {\n    \"row_number\": 2,\n    \"Company\": \"AH Media\",\n    \"Title\": \"Principal\",\n    \"Start_Date\": \"2/1/2025\",\n    \"End_Date\": \"\",\n    \"Technologies\": \"n8n, Python, Langchain, OpenAI, Javascript, Ollama, docker\",\n    \"Description\": \"Digital Agency specializing in AI Automation, and research. Created RAG Systems (Retrieval Augmented Generation) using python/langchain and n8n. Also Voice AI pipelines with Transcription and TTS. Offerings include CX:Tools - Smart chatbot for your website, Automations , and AI Consulting services. Digital Cloning and building your \\\"second brain\\\" \",\n    \"Category\": \"Tech\"\n  },\n  {\n    \"row_number\": 3,\n    \"Company\": \"SingleWire Software\",\n    \"Title\": \"Software Engineer\",\n    \"Start_Date\": \"2/9/2023\",\n    \"End_Date\": \"2/31/2025\",\n    \"Technologies\": \"PHP/Laravel, MySQL, VueJS, Javascript, CSS3\",\n    \"Description\": \"·  Developed new features in PHP/Laravel codebase, refactored existing features, fixed bugs and delivered production Laravel/PHP/javascript as part of  the Visitor Aware application.\\n\\t\\t·  Worked closely with QA,Product, and Lead developer to improve the quality and robustness of the application.\\n\\t\\t· Attended Daily Standups and Sprint Planning, Story grooming sessions\\n\\t\\t· Created tests using PHPUnit\",\n    \"Category\": \"Tech\"\n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        40
+      ],
+      "id": "c04bda6a-cd8f-450e-b931-4adb175ab08c",
+      "name": "Structured Output Parser"
     }
   ],
   "pinData": {},
@@ -157,7 +212,7 @@
       "main": [
         [
           {
-            "node": "GitHub",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -185,13 +240,46 @@
           }
         ]
       ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fe86e6bf-ef66-4efc-a328-3fdc6a2f14a6",
+  "versionId": "f87c213c-7b08-43d8-945f-d034110df7ed",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
