@@ -79,12 +79,7 @@ def text_to_speech():
             file_path = "output.wav"
         
             text = msg
-            # Remove punctuation and special characters, keeping only letters, numbers and spaces
-            #text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
-            #text = re.sub(r'[\*]','',text)
-            # Replace multiple spaces with single space
             text = re.sub(r"[^a-zA-Z0-9\s.,!?\"'():;\-]", "", text)
-
             msg = text
 
 
