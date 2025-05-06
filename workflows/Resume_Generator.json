@@ -20,8 +20,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -660,
-        -120
+        -720,
+        -260
       ],
       "id": "6ff899aa-cc28-4bc8-a6b8-f5c5fcaac598",
       "name": "Google Sheets",
@@ -60,8 +60,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -220,
-        -120
+        -280,
+        -260
       ],
       "id": "b076bbf1-c9b2-441e-9e9a-0c70282a4fa9",
       "name": "GitHub",
@@ -80,8 +80,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -440,
-        -120
+        -500,
+        -260
       ],
       "id": "093ae441-2cdc-4cf0-bdb2-19087f4cc0e4",
       "name": "Aggregate"
@@ -114,8 +114,8 @@
       "type": "n8n-nodes-base.googleSheetsTrigger",
       "typeVersion": 1,
       "position": [
-        -880,
-        -120
+        -940,
+        -160
       ],
       "id": "f15fd056-9baf-4179-b439-c7e2ed9a94ad",
       "name": "Google Sheets Trigger",
@@ -125,6 +125,17 @@
           "name": "Google Sheets Trigger account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -940,
+        -360
+      ],
+      "id": "7ef56bd5-3404-47fb-bdfd-a0b709f33dc0",
+      "name": "When clicking ‘Test workflow’"
     }
   ],
   "pinData": {},
@@ -161,13 +172,24 @@
           }
         ]
       ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d7808e29-4e8e-480a-a531-994c108dd7de",
+  "versionId": "c454185c-7ad1-438a-947b-c0d88a5e79b2",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
