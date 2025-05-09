@@ -12,14 +12,12 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 app = Flask(__name__)
 
-def validate_json(json):
+def valid_json(json):
     try:
         json.loads(json_string)
         return True  # It's valid JSON
     except json.JSONDecodeError:
         return False
-
-
 
 
 @app.route('/transcribe', methods=['POST'])
