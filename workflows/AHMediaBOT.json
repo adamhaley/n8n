@@ -45,8 +45,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        400,
-        0
+        260,
+        20
       ],
       "id": "2e0b3cd0-a22b-4a18-91be-65081ceb5bb3",
       "name": "Redis Chat Memory",
@@ -59,39 +59,11 @@
     },
     {
       "parameters": {
-        "model": "gemma3:1b",
-        "options": {
-          "format": "default"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
-      "typeVersion": 1,
-      "position": [
-        180,
-        0
-      ],
-      "id": "354ad080-b360-4e5e-aad1-226c01af43ba",
-      "name": "Ollama Chat Model",
-      "credentials": {
-        "ollamaApi": {
-          "id": "b1Nz8WxwYDKRmecP",
-          "name": "Ollama account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "http://ahmedia.ai:8000/tts",
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "msg",
-              "value": "={{ $json.output }}"
-            }
-          ]
-        },
+        "contentType": "raw",
+        "body": "={{ $json.output }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -309,6 +281,30 @@
           "name": "Telegram account"
         }
       }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        100,
+        -20
+      ],
+      "id": "8c848e79-09df-4b46-a808-1f9cde10bb1a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -341,17 +337,6 @@
           {
             "node": "AI Agent",
             "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Ollama Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -440,13 +425,24 @@
           }
         ]
       ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "94b9659c-6e43-4edd-96ad-91c867e738de",
+  "versionId": "d8b25b83-8c67-4bc7-bfc5-ce550b8c64e3",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
