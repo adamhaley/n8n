@@ -12,14 +12,6 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 app = Flask(__name__)
 
-def valid_json(json):
-    try:
-        json.loads(json_string)
-        return True  # It's valid JSON
-    except json.JSONDecodeError:
-        return False
-
-
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
     
@@ -66,54 +58,40 @@ def transcribe_audio():
 def text_to_speech():
     print("content length header: {}".format(request.content_length))
 
-    if request.content_type == "application/json":
-        from flask import send_file
-        from cartesia import Cartesia
-        
-        client = Cartesia(api_key=os.environ.get("CARTESIA_API_KEY"))
+    from flask import send_file
+    from cartesia import Cartesia
+    
+    client = Cartesia(api_key=os.environ.get("CARTESIA_API_KEY"))
 
+    try:
+        msg = request.get_data(as_text=True)
+
+        voice_id = os.environ.get("CARTESIA_VOICE_ID")
+        voice = client.voices.get(id=voice_id)
+        print(voice)
+
+        file_path = "output.wav"
+    
+        msg = re.sub(r"[^a-zA-Z0-9\s.,!?\"'():;\-]", "", msg)
+
+        audio_bytes = client.tts.bytes(model_id="sonic-2", transcript=msg, voice={"mode": "id","id": voice_id}, output_format={"container":"mp3","bit_rate":128000,"sample_rate":44100} )
+        with open(file_path, "wb") as f:
+            for chunk in audio_bytes:
+                f.write(chunk)
+            f.close()
         try:
-            data = request.get_json()
-            data = json.dumps(data, ensure_ascii=False).encode('utf-8').decode('unicode-escape')
-
-            data  = json.loads(data, strict=False)
-            msg =  data['msg']
-
-            voice_id = os.environ.get("CARTESIA_VOICE_ID")
-            voice = client.voices.get(id=voice_id)
-            print(voice)
-
-            file_path = "output.wav"
-        
-            text = msg
-            text = re.sub(r"[^a-zA-Z0-9\s.,!?\"'():;\-]", "", text)
-            msg = text
-
-            if not valid_json(msg):
-                return Response("There was an error: Invalid JSON" ,status=500)
-
-            audio_bytes = client.tts.bytes(model_id="sonic-2", transcript=msg, voice={"mode": "id","id": voice_id}, output_format={"container":"mp3","bit_rate":128000,"sample_rate":44100} )
-            with open(file_path, "wb") as f:
-                for chunk in audio_bytes:
-                    f.write(chunk)
-                f.close()
-            try:
-                return send_file(file_path, as_attachment=True)
-            except Exception as e:
-                return f"Error sending file: {str(e)}", 500
-
+            return send_file(file_path, as_attachment=True)
         except Exception as e:
-            error_message = str(e)
-            print(f"An error occurred: {error_message}")
-            return Response("There was an error: " + error_message,status=500)
-        
-        return jsonify({
-                'msg': "wrote file ;)"
-                })
-    else:
-        return jsonify({
-            'msg': "415 Unsupported Media Type ;)"
-        })
+            return f"Error sending file: {str(e)}", 500
+
+    except Exception as e:
+        error_message = str(e)
+        print(f"An error occurred: {error_message}")
+        return Response("There was an error: " + error_message,status=500)
+    
+    return jsonify({
+            'msg': "wrote file ;)"
+            })
 
     
     return jsonify({
