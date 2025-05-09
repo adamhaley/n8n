@@ -4,3 +4,5 @@ speech/venv
 *.wav
 .env
 .DS_Store
+*.swp
+*.swo
