@@ -89,7 +89,7 @@ def text_to_speech():
             text = re.sub(r"[^a-zA-Z0-9\s.,!?\"'():;\-]", "", text)
             msg = text
 
-            if(!valid_json(msg)):
+            if not valid_json(msg):
                 return Response("There was an error: Invalid JSON" ,status=500)
 
             audio_bytes = client.tts.bytes(model_id="sonic-2", transcript=msg, voice={"mode": "id","id": voice_id}, output_format={"container":"mp3","bit_rate":128000,"sample_rate":44100} )
