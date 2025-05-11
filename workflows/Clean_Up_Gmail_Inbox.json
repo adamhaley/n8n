@@ -71,7 +71,7 @@
     {
       "parameters": {
         "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "Label_978496995099268376"
         ]
@@ -95,7 +95,7 @@
     {
       "parameters": {
         "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "Label_2771129364144171757"
         ]
@@ -119,7 +119,7 @@
     {
       "parameters": {
         "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "Label_3343201866846378292"
         ]
@@ -143,7 +143,7 @@
     {
       "parameters": {
         "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "Label_6650977126082951398"
         ]
@@ -167,7 +167,7 @@
     {
       "parameters": {
         "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "Label_8295924731551856544"
         ]
@@ -191,7 +191,7 @@
     {
       "parameters": {
         "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "Label_2771129364144171757"
         ]
@@ -1786,7 +1786,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "2ac611ec-4954-4e2f-9314-0d658ef0e590",
+  "versionId": "a06d52cf-0fee-49b6-babc-09fce1106c46",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
