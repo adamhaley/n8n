@@ -213,17 +213,6 @@
       }
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        200,
-        1100
-      ],
-      "id": "47477542-2490-4dfd-b584-5c8d978ec8af",
-      "name": "When clicking ‘Test workflow’"
-    },
-    {
       "parameters": {
         "operation": "getAll",
         "filters": {}
@@ -243,6 +232,23 @@
           "name": "Gmail account"
         }
       }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        1120
+      ],
+      "id": "fb9d5d94-e278-48d9-ad7d-ae9b39871702",
+      "name": "Schedule Trigger"
     }
   ],
   "pinData": {
@@ -1759,17 +1765,6 @@
         ]
       ]
     },
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Gmail6",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Gmail6": {
       "main": [
         [
@@ -1780,13 +1775,24 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a06d52cf-0fee-49b6-babc-09fce1106c46",
+  "versionId": "63c3512f-833c-46dc-bf78-590d0edc5bb4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
