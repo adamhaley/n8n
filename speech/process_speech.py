@@ -3,6 +3,7 @@ import openai
 import os
 import json
 import re
+import random
 from requests_toolbelt.multipart import decoder
 from dotenv import load_dotenv
     
@@ -103,7 +104,6 @@ def text_to_speech():
     
 @app.route("/generate-name", methods=["GET"])
 def generate_name():
-    name = generate_friendly_name()
     adjectives = [
         "quick", "bright", "silent", "brave", "calm", "lucky", "sunny", "clever", "happy", "shiny"
     ]
@@ -118,10 +118,6 @@ def generate_name():
     return f"{adjective}-{noun}-{number}"
 
     return jsonify({"name": name})
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
-
 
 
 @app.route('/', methods=['GET'])
