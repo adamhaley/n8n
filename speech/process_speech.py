@@ -100,6 +100,29 @@ def text_to_speech():
 
     #data = request.get_data()
     #return jsonify(data)
+    
+@app.route("/generate-name", methods=["GET"])
+def generate_name():
+    name = generate_friendly_name()
+    adjectives = [
+        "quick", "bright", "silent", "brave", "calm", "lucky", "sunny", "clever", "happy", "shiny"
+    ]
+    nouns = [
+        "tiger", "hill", "cloud", "river", "falcon", "stone", "tree", "flame", "wave", "trail"
+    ]
+
+    adjective = random.choice(adjectives)
+    noun = random.choice(nouns)
+    number = str(random.randint(0, 9999)).zfill(4)
+
+    return f"{adjective}-{noun}-{number}"
+
+    return jsonify({"name": name})
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+
 
 @app.route('/', methods=['GET'])
 def index():
