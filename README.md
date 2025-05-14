@@ -1,6 +1,6 @@
 This repository is to store all things related to my n8n automation life:
 
-1) my n8n workflows
+1) n8n workflows
 
 2) working apache / docker config for self-hosted n8n
 
