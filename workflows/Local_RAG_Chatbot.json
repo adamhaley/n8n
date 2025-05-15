@@ -3,22 +3,10 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "id": "e4e45c47-de65-49be-873c-b212a2382d1a",
-      "name": "When chat message received",
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "position": [
-        -120,
-        -160
-      ],
-      "webhookId": "53c136fe-3e77-4709-a143-fe82746dd8b6",
-      "typeVersion": 1.1
-    },
-    {
-      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
         "options": {
-          "systemMessage": "You are a helpful assistant"
+          "systemMessage": "You are a helpful assistant. You must answer questions using information found in the Pinecone vector store database. If the answer is not found, do not attempt to answer from outside knowledge"
         }
       },
       "id": "66e75857-5b12-4dfe-9839-273e106bcbe6",
@@ -43,7 +31,7 @@
         },
         "includeDocumentMetadata": false,
         "options": {
-          "pineconeNamespace": ""
+          "pineconeNamespace": "={{ $json.body.namespace }}"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
@@ -81,7 +69,10 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.namespace }}"
+      },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
@@ -120,21 +111,42 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "245a2818-056b-4f66-b730-116528e44bf7",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -140,
+        -200
+      ],
+      "id": "d123df97-ba98-4b32-a6d5-49c4dd3ebe90",
+      "name": "Webhook",
+      "webhookId": "245a2818-056b-4f66-b730-116528e44bf7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        520,
+        -180
+      ],
+      "id": "ab9dc158-9b44-4272-937c-9b13a55849f3",
+      "name": "Respond to Webhook"
     }
   ],
   "pinData": {},
   "connections": {
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Pinecone Vector Store1": {
       "ai_tool": [
         [
@@ -178,13 +190,35 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "eedf0941-2627-49c6-828e-3dfd6442a8db",
+  "versionId": "a5465b0a-cda6-4a9c-b7fb-7797abe45d7f",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
