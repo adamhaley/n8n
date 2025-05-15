@@ -13,8 +13,8 @@
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        132,
-        -160
+        112,
+        -200
       ],
       "typeVersion": 1.8
     },
@@ -37,8 +37,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.1,
       "position": [
-        340,
-        62.5
+        320,
+        22.5
       ],
       "id": "5219333f-cdef-4576-959e-fa4cf6e8f74c",
       "name": "Pinecone Vector Store1",
@@ -56,8 +56,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        428,
-        260
+        408,
+        220
       ],
       "id": "1753eba5-8407-4d4a-a89e-810ce6937c16",
       "name": "Embeddings Ollama",
@@ -76,8 +76,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        220,
-        60
+        200,
+        20
       ],
       "id": "194fa776-f74f-4b3c-8df9-f7619a41cc97",
       "name": "Redis Chat Memory",
@@ -100,8 +100,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -40,
-        100
+        80,
+        20
       ],
       "id": "0bb6f84e-3789-4253-ab29-02a909df1406",
       "name": "OpenAI Chat Model",
@@ -138,8 +138,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        520,
-        -180
+        696,
+        -200
       ],
       "id": "ab9dc158-9b44-4272-937c-9b13a55849f3",
       "name": "Respond to Webhook"
@@ -218,7 +218,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a5465b0a-cda6-4a9c-b7fb-7797abe45d7f",
+  "versionId": "51f59291-2a5b-4eb3-b7f6-38789758048c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
