@@ -262,6 +262,19 @@
       ],
       "id": "24965868-cdf5-4252-95cb-225f7d4e88e9",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -800,
+        -400
+      ],
+      "id": "d18544c0-8ad7-4607-9071-5284fa80cce4",
+      "name": "Respond to Webhook1"
     }
   ],
   "pinData": {
@@ -490,7 +503,13 @@
     },
     "Pinecone Vector Store": {
       "main": [
-        []
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "If": {
@@ -523,11 +542,11 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d75201b7-0bbb-4f90-9cea-a5adf112e91c",
+  "versionId": "73b225b2-7fb8-4d22-a9cd-67b1e2f40b42",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
