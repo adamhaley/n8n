@@ -17,7 +17,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.1,
       "position": [
-        -1604,
+        -1384,
         -400
       ],
       "id": "1469e45b-bdac-42d9-811e-5f255bf04301",
@@ -38,7 +38,7 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        -1620,
+        -1400,
         -180
       ],
       "id": "ebe7b232-0d4e-4f96-a26d-59e8458d997b",
@@ -60,7 +60,7 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1,
       "position": [
-        -1500,
+        -1280,
         -177.5
       ],
       "id": "6a64dc07-9255-42dd-a61e-db0bfa32f430",
@@ -75,7 +75,7 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        -1412,
+        -1192,
         20
       ],
       "id": "898f2b2a-f7ad-4d96-b3c8-63d1cb80a8d0",
@@ -94,7 +94,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -1840,
+        -1620,
         -400
       ],
       "id": "10aee22b-dfa0-4506-842e-ac82cd523cef",
@@ -119,7 +119,7 @@
       "typeVersion": 2,
       "position": [
         -2720,
-        -300
+        -275
       ],
       "id": "7bd02bd1-311e-4913-b35f-a1a2d6d6609a",
       "name": "Webhook",
@@ -134,8 +134,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        -1840,
-        -200
+        -1620,
+        -150
       ],
       "id": "01a41990-c15b-49dc-b0ab-6472c34cdb36",
       "name": "Respond to Webhook"
@@ -159,7 +159,7 @@
       "typeVersion": 3,
       "position": [
         -2500,
-        -300
+        -275
       ],
       "id": "0e628de4-969e-4246-ae7e-de5790cd2ec9",
       "name": "Google Drive1",
@@ -181,7 +181,7 @@
       "typeVersion": 4.2,
       "position": [
         -2280,
-        -300
+        -275
       ],
       "id": "c4b1a714-7235-46e6-9a7f-84c04384c4ae",
       "name": "Query File",
@@ -200,11 +200,45 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -2060,
-        -300
+        -1840,
+        -275
       ],
       "id": "f78b79dd-295b-477f-bf01-b027867c18c8",
       "name": "Get Unique Namespace"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3cb86ff3-683e-4013-94d0-bba50bcc4c0a",
+              "leftValue": "={{ $('Webhook').item.json.body.namespace }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2060,
+        -275
+      ],
+      "id": "496e814b-5bc5-4434-afd6-cd1e253bedc1",
+      "name": "If"
     }
   ],
   "pinData": {},
@@ -279,7 +313,7 @@
       "main": [
         [
           {
-            "node": "Get Unique Namespace",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -306,13 +340,36 @@
       "main": [
         []
       ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Unique Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "420620d1-70fe-4f8f-b718-888e58c8cf0f",
+  "versionId": "33454bf9-d5ac-4706-808a-0a6f84a6495e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
