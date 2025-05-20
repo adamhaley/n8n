@@ -11,13 +11,13 @@
           "cachedResultName": "ah-media"
         },
         "options": {
-          "pineconeNamespace": "={{ $('Get Unique Namespace').first().json.data }}"
+          "pineconeNamespace": "={{ $json.namespace }}"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.1,
       "position": [
-        -1384,
+        -1164,
         -400
       ],
       "id": "1469e45b-bdac-42d9-811e-5f255bf04301",
@@ -38,7 +38,7 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        -1400,
+        -1180,
         -180
       ],
       "id": "ebe7b232-0d4e-4f96-a26d-59e8458d997b",
@@ -60,7 +60,7 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1,
       "position": [
-        -1280,
+        -1060,
         -177.5
       ],
       "id": "6a64dc07-9255-42dd-a61e-db0bfa32f430",
@@ -75,7 +75,7 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        -1192,
+        -972,
         20
       ],
       "id": "898f2b2a-f7ad-4d96-b3c8-63d1cb80a8d0",
@@ -94,7 +94,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -1620,
+        -1400,
         -400
       ],
       "id": "10aee22b-dfa0-4506-842e-ac82cd523cef",
@@ -119,7 +119,7 @@
       "typeVersion": 2,
       "position": [
         -2720,
-        -275
+        -300
       ],
       "id": "7bd02bd1-311e-4913-b35f-a1a2d6d6609a",
       "name": "Webhook",
@@ -135,7 +135,7 @@
       "typeVersion": 1.1,
       "position": [
         -1620,
-        -150
+        -175
       ],
       "id": "01a41990-c15b-49dc-b0ab-6472c34cdb36",
       "name": "Respond to Webhook"
@@ -159,7 +159,7 @@
       "typeVersion": 3,
       "position": [
         -2500,
-        -275
+        -300
       ],
       "id": "0e628de4-969e-4246-ae7e-de5790cd2ec9",
       "name": "Google Drive1",
@@ -181,7 +181,7 @@
       "typeVersion": 4.2,
       "position": [
         -2280,
-        -275
+        -300
       ],
       "id": "c4b1a714-7235-46e6-9a7f-84c04384c4ae",
       "name": "Query File",
@@ -201,7 +201,7 @@
       "typeVersion": 4.2,
       "position": [
         -1840,
-        -275
+        -225
       ],
       "id": "f78b79dd-295b-477f-bf01-b027867c18c8",
       "name": "Get Unique Namespace"
@@ -235,13 +235,165 @@
       "typeVersion": 2.2,
       "position": [
         -2060,
-        -275
+        -300
       ],
       "id": "496e814b-5bc5-4434-afd6-cd1e253bedc1",
       "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84d62751-53eb-4145-9e72-fcd968d12b95",
+              "name": "namespace",
+              "value": "={{ $('Webhook').item.json.body.namespace || $('Get Unique Namespace').first().json.data }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1620,
+        -400
+      ],
+      "id": "24965868-cdf5-4252-95cb-225f7d4e88e9",
+      "name": "Edit Fields"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Google Drive1": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1MuWm6kxIzMm3rARZubYVVofEXohzCgwv",
+          "name": "keto.pdf",
+          "mimeType": "application/pdf",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "1zaQwxyD3xd090fwyWq8lSxWVcb1Dmf1Y"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "2",
+          "webContentLink": "https://drive.google.com/uc?id=1MuWm6kxIzMm3rARZubYVVofEXohzCgwv&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1MuWm6kxIzMm3rARZubYVVofEXohzCgwv/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/pdf",
+          "hasThumbnail": false,
+          "thumbnailVersion": "0",
+          "viewedByMe": false,
+          "createdTime": "2025-05-20T18:38:53.126Z",
+          "modifiedTime": "2025-05-20T18:38:53.686Z",
+          "modifiedByMeTime": "2025-05-20T18:38:53.686Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJ0UGkrHi3v8BrvVTdroCtIHC1myJibvCcrQYfgOqhY14mmCA=s64",
+              "me": true,
+              "permissionId": "04451763509125001877",
+              "emailAddress": "adam@adamhaley.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJ0UGkrHi3v8BrvVTdroCtIHC1myJibvCcrQYfgOqhY14mmCA=s64",
+            "me": true,
+            "permissionId": "04451763509125001877",
+            "emailAddress": "adam@adamhaley.com"
+          },
+          "shared": true,
+          "ownedByMe": true,
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "04451763509125001877",
+              "type": "user",
+              "emailAddress": "adam@adamhaley.com",
+              "role": "owner",
+              "displayName": "adam",
+              "deleted": false,
+              "pendingOwner": false
+            },
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "writer",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "04451763509125001877",
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "pdf",
+          "fileExtension": "pdf",
+          "md5Checksum": "9fb1d58d1c9bad63d8225633e5820045",
+          "sha1Checksum": "e7724bce0e30fa647f42e62c7f64cfb5839b8fb8",
+          "sha256Checksum": "23b615262cad318684a2a25c9929914a6a364949985048c34dc7ae6c99a99e16",
+          "size": "14974",
+          "quotaBytesUsed": "14974",
+          "headRevisionId": "0By9KDWEdZ1scWGFLV1JBSkVCdmZCazB4eVBvcndKc3lPZ3NNPQ",
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      }
+    ]
+  },
   "connections": {
     "Embeddings Ollama": {
       "ai_embedding": [
@@ -329,7 +481,7 @@
             "index": 0
           },
           {
-            "node": "Google Drive",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -345,12 +497,7 @@
       "main": [
         [
           {
-            "node": "Google Drive",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Respond to Webhook",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -363,13 +510,24 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "33454bf9-d5ac-4706-808a-0a6f84a6495e",
+  "versionId": "d75201b7-0bbb-4f90-9cea-a5adf112e91c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
