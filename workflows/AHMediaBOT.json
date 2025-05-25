@@ -13,7 +13,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        240,
+        272,
         -260
       ],
       "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
@@ -45,8 +45,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        260,
-        20
+        360,
+        -40
       ],
       "id": "2e0b3cd0-a22b-4a18-91be-65081ceb5bb3",
       "name": "Redis Chat Memory",
@@ -69,7 +69,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        616,
+        680,
         -260
       ],
       "id": "335e9112-cf8f-4508-956e-e022c31ebb66",
@@ -158,7 +158,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        836,
+        900,
         -260
       ],
       "id": "0854b2c3-dd1f-4b66-84b0-d9571c705970",
@@ -183,7 +183,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1056,
+        1120,
         -260
       ],
       "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
@@ -294,8 +294,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        100,
-        -20
+        240,
+        -40
       ],
       "id": "8c848e79-09df-4b46-a808-1f9cde10bb1a",
       "name": "OpenAI Chat Model",
@@ -305,6 +305,49 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "name": "journal_entry",
+        "description": "Call this tool to write a journal entry.",
+        "workflowId": {
+          "__rl": true,
+          "value": "H0HZQnMr1hgjQMmI",
+          "mode": "list",
+          "cachedResultName": "Journal Entry"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', `This should be the contents of the journal entry sent by the transcribe node`, 'string') }}"
+          },
+          "matchingColumns": [
+            "content"
+          ],
+          "schema": [
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        -40
+      ],
+      "id": "12571506-f233-49bd-8d4f-af791e3c7f82",
+      "name": "Journal Entry Tool"
     }
   ],
   "pinData": {},
@@ -436,13 +479,24 @@
           }
         ]
       ]
+    },
+    "Journal Entry Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d8b25b83-8c67-4bc7-bfc5-ce550b8c64e3",
+  "versionId": "0b39cf32-5dca-4bbd-9832-64fbc115625b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
