@@ -23,7 +23,6 @@
     {
       "parameters": {
         "resource": "file",
-        "operation": "list",
         "owner": {
           "__rl": true,
           "value": "adamhaley",
@@ -36,130 +35,8 @@
           "cachedResultName": "adamhaley-com",
           "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
-        "filePath": "=journal"
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        280,
-        -120
-      ],
-      "id": "43dbe309-ea1b-4189-b916-b9ac127adf87",
-      "name": "GitHub",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.name }}",
-                    "rightValue": "={{ $('Code').item.json.filename }}",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "a72f1cf1-bc8a-494b-8f74-29f6a889e12e"
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "looseTypeValidation": "={{ false }}",
-        "options": {
-          "allMatchingOutputs": false
-        }
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        500,
-        -120
-      ],
-      "id": "706f0803-a00f-4684-a76a-a72a2aa4cbfd",
-      "name": "Switch",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {
-        "jsCode": "//create filename\nlet filename = $now.toFormat('y-MM-d') + '.md';\nlet content = '';\nif($input.first().json.content !== null){\n  content = $input.first().json.content;\n}\nreturn { filename: filename, content: content }"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        60,
-        -120
-      ],
-      "id": "1dda2c38-5e49-48b0-a292-e01a60485f4e",
-      "name": "Code"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
-              "leftValue": "={{ $input.first().json }}",
-              "rightValue": "",
-              "operator": {
-                "type": "object",
-                "operation": "empty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        720,
-        -120
-      ],
-      "id": "a8413e2c-c7e3-47c9-b84d-5c0916c4a23e",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "adamhaley-com",
-          "mode": "list",
-          "cachedResultName": "adamhaley-com",
-          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
-        },
-        "filePath": "=journal/{{ $('Code').item.json.filename }}",
-        "fileContent": "={{$('Code').item.json.content  }}",
+        "filePath": "=journal/{{ $('Create Filename').item.json.filename }}",
+        "fileContent": "={{$('Create Filename').item.json.content  }}",
         "commitMessage": "=committing journal entry for {{$now }} }}"
       },
       "type": "n8n-nodes-base.github",
@@ -169,42 +46,7 @@
         -220
       ],
       "id": "d26ad079-0ce4-4289-be2c-68e3f35472a0",
-      "name": "GitHub1",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "operation": "edit",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "adamhaley-com",
-          "mode": "list",
-          "cachedResultName": "adamhaley-com",
-          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
-        },
-        "filePath": "=journal/{{$('Code').item.json.filename }}",
-        "fileContent": "={{ $json.data }}\n\n{{ $('Code').item.json.content }}\n",
-        "commitMessage": "=appending content to  {{ $('Code').item.json.filename }}"
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        1380,
-        -20
-      ],
-      "id": "aac3e1a8-6610-46da-a2ea-22169a6461dc",
-      "name": "GitHub2",
+      "name": "Create File",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -238,7 +80,7 @@
         -20
       ],
       "id": "5b8a0a9a-e56a-4f8d-94ae-430ad519c8e6",
-      "name": "GitHub3",
+      "name": "Get File",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -258,32 +100,232 @@
         -20
       ],
       "id": "b5ae02b3-c1cc-4388-9f09-c6efb7cce92c",
-      "name": "Extract from File"
-    }
-  ],
-  "pinData": {
-    "Code": [
-      {
-        "json": {
-          "filename": "2025-05-24.md",
-          "content": ""
+      "name": "Get Contents"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "adamhaley-com",
+          "mode": "list",
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+        },
+        "filePath": "=journal/{{$('Create Filename').item.json.filename }}",
+        "fileContent": "={{ $json.data }}\n\n{{ $now.toLocaleString({ timeStyle: 'short' }) }}\n{{ $('Create Filename').item.json.content }}\n",
+        "commitMessage": "=appending content to  {{ $('Create Filename').item.json.filename }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        -20
+      ],
+      "id": "aac3e1a8-6610-46da-a2ea-22169a6461dc",
+      "name": "Append New Contents",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
         }
       }
-    ]
-  },
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
+              "leftValue": "={{ $input.first() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        -120
+      ],
+      "id": "a8413e2c-c7e3-47c9-b84d-5c0916c4a23e",
+      "name": "If File Doesn't Exist"
+    },
+    {
+      "parameters": {
+        "jsCode": "//create filename\nlet filename = $now.toFormat('y-MM-d') + '.md';\nlet content = '';\nif($input.first().json.content !== null){\n  content = $input.first().json.content;\n}\nreturn { filename: filename, content: content }"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        60,
+        -120
+      ],
+      "id": "1dda2c38-5e49-48b0-a292-e01a60485f4e",
+      "name": "Create Filename"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "adamhaley-com",
+          "mode": "list",
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+        },
+        "filePath": "=journal"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -120
+      ],
+      "id": "43dbe309-ea1b-4189-b916-b9ac127adf87",
+      "name": "Github List FIles",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.name }}",
+                    "rightValue": "={{$('Create Filename').item.json.filename }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a72f1cf1-bc8a-494b-8f74-29f6a889e12e"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {
+          "allMatchingOutputs": false
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        500,
+        -120
+      ],
+      "id": "706f0803-a00f-4684-a76a-a72a2aa4cbfd",
+      "name": "Switch",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
   "connections": {
     "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Code",
+            "node": "Create Filename",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "GitHub": {
+    "Get File": {
+      "main": [
+        [
+          {
+            "node": "Get Contents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Contents": {
+      "main": [
+        [
+          {
+            "node": "Append New Contents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If File Doesn't Exist": {
+      "main": [
+        [
+          {
+            "node": "Create File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Filename": {
+      "main": [
+        [
+          {
+            "node": "Github List FIles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Github List FIles": {
       "main": [
         [
           {
@@ -294,62 +336,11 @@
         ]
       ]
     },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "GitHub",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Switch": {
       "main": [
         [
           {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "GitHub1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "GitHub3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "GitHub3": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract from File": {
-      "main": [
-        [
-          {
-            "node": "GitHub2",
+            "node": "If File Doesn't Exist",
             "type": "main",
             "index": 0
           }
@@ -361,7 +352,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "64db614c-282c-4c1e-a14b-65e7c8abc1ca",
+  "versionId": "3e22ce93-41f1-4c8c-9b90-e5034f7f64c2",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
