@@ -70,7 +70,8 @@
           "cachedResultName": "adamhaley-com",
           "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
-        "filePath": "=journal/{{ $json.name }}",
+        "filePath": "=journal/{{$('Create Filename').item.json.filename }}",
+        "asBinaryProperty": "={{ true }}",
         "additionalParameters": {}
       },
       "type": "n8n-nodes-base.github",
@@ -149,11 +150,11 @@
           "conditions": [
             {
               "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
-              "leftValue": "={{ $input.first() }}",
+              "leftValue": "={{ $('Switch').first() }}",
               "rightValue": "",
               "operator": {
                 "type": "object",
-                "operation": "notExists",
+                "operation": "empty",
                 "singleValue": true
               }
             }
@@ -352,7 +353,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3e22ce93-41f1-4c8c-9b90-e5034f7f64c2",
+  "versionId": "5d1f80d5-ed9c-4e57-8f89-27f28b38a062",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
