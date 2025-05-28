@@ -37,7 +37,12 @@
         },
         "filePath": "=journal/{{ $('Create Filename').item.json.filename }}",
         "fileContent": "={{$('Create Filename').item.json.content  }}",
-        "commitMessage": "=committing journal entry for {{$now }} }}"
+        "commitMessage": "=committing journal entry for {{$now }} }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "master"
+          }
+        }
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
@@ -150,12 +155,12 @@
           "conditions": [
             {
               "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
-              "leftValue": "={{ $('Switch').first() }}",
-              "rightValue": "",
+              "leftValue": "={{ $input.all().map(item => item.json.name) }}",
+              "rightValue": "={{ $('Create Filename').first().json.filename }}",
               "operator": {
-                "type": "object",
-                "operation": "empty",
-                "singleValue": true
+                "type": "array",
+                "operation": "notContains",
+                "rightType": "any"
               }
             }
           ],
@@ -220,46 +225,17 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.name }}",
-                    "rightValue": "={{$('Create Filename').item.json.filename }}",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "a72f1cf1-bc8a-494b-8f74-29f6a889e12e"
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "looseTypeValidation": "={{ false }}",
-        "options": {
-          "allMatchingOutputs": false
-        }
+        "mode": "runOnceForEachItem",
+        "jsCode": "return { name: $json.name }"
       },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         500,
         -120
       ],
-      "id": "706f0803-a00f-4684-a76a-a72a2aa4cbfd",
-      "name": "Switch",
-      "alwaysOutputData": true
+      "id": "cf89d7ac-1755-4385-a838-5be612a25766",
+      "name": "Code"
     }
   ],
   "pinData": {},
@@ -330,14 +306,14 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Switch": {
+    "Code": {
       "main": [
         [
           {
@@ -353,7 +329,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "5d1f80d5-ed9c-4e57-8f89-27f28b38a062",
+  "versionId": "a7504ae2-656f-4fe2-943a-06582ebe3759",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
