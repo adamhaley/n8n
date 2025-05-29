@@ -1,49 +1,10 @@
 {
   "createdAt": "2025-05-28T23:55:41.084Z",
-  "updatedAt": "2025-05-29T21:48:15.000Z",
+  "updatedAt": "2025-05-29T21:49:16.000Z",
   "id": "8fe5watbQxmC2dhL",
   "name": "Backup Workflows To Github",
   "active": true,
   "nodes": [
-    {
-      "parameters": {
-        "resource": "file",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "n8n",
-          "mode": "list",
-          "cachedResultName": "n8n",
-          "cachedResultUrl": "https://github.com/adamhaley/n8n"
-        },
-        "filePath": "=workflows/{{ $('Proper filename from Workflow').item.json.name }}",
-        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').first().json ) }}",
-        "commitMessage": "=creating backup file for workflow \"{{ $('n8n Get Active Workflows').first().json.name }}\"\"",
-        "additionalParameters": {
-          "branch": {
-            "branch": "main"
-          }
-        }
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        -1400,
-        800
-      ],
-      "id": "977c417e-89ae-41e5-af3e-f89f24e07875",
-      "name": "Create File",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub Fine-Grained"
-        }
-      }
-    },
     {
       "parameters": {
         "conditions": {
@@ -77,41 +38,6 @@
       ],
       "id": "8af2d74f-8c3e-49e2-89b9-65af17f90943",
       "name": "If File Exists"
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "operation": "edit",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "n8n",
-          "mode": "list",
-          "cachedResultName": "n8n",
-          "cachedResultUrl": "https://github.com/adamhaley/n8n"
-        },
-        "filePath": "=workflows/{{ $('Get The File').item.json.name }}",
-        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').item.json, null, 2 ) }}",
-        "commitMessage": "=Updating n8n workflow \"{{ $('n8n Get Active Workflows').item.json.name }}\""
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        -740,
-        600
-      ],
-      "id": "2a6f2e48-a263-4368-81ce-0f461c1dacb2",
-      "name": "GitHub2",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub Fine-Grained"
-        }
-      }
     },
     {
       "parameters": {
@@ -285,6 +211,80 @@
       ],
       "id": "80fc970f-0bac-4c19-bc8a-23c00d954713",
       "name": "if n8n Workflow has Updates"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $('Proper filename from Workflow').item.json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').first().json ) }}",
+        "commitMessage": "=creating backup file for workflow \"{{ $('n8n Get Active Workflows').first().json.name }}\"\"",
+        "additionalParameters": {
+          "branch": {
+            "branch": "main"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        800
+      ],
+      "id": "977c417e-89ae-41e5-af3e-f89f24e07875",
+      "name": "Create File on Github",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub Fine-Grained"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $('Get The File').item.json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').item.json, null, 2 ) }}",
+        "commitMessage": "=Updating n8n workflow \"{{ $('n8n Get Active Workflows').item.json.name }}\""
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -740,
+        600
+      ],
+      "id": "2a6f2e48-a263-4368-81ce-0f461c1dacb2",
+      "name": "Update File on GIthub",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub Fine-Grained"
+        }
+      }
     }
   ],
   "connections": {
@@ -299,7 +299,7 @@
         ],
         [
           {
-            "node": "Create File",
+            "node": "Create File on Github",
             "type": "main",
             "index": 0
           }
@@ -376,7 +376,7 @@
       "main": [
         [
           {
-            "node": "GitHub2",
+            "node": "Update File on GIthub",
             "type": "main",
             "index": 0
           }
@@ -400,7 +400,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "d7ab1828-a658-4231-ac23-a3d96c9ef6e9",
+  "versionId": "82c80d53-9f26-4c16-bfc5-3c65e0a6a0bb",
   "triggerCount": 1,
   "tags": []
 }
