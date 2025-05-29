@@ -1,1 +1,232 @@
-{"createdAt":"2025-05-26T22:27:23.870Z","updatedAt":"2025-05-27T21:22:47.000Z","id":"VWv2pB3hMztiSLug","name":"Resume RAG Chatbot","active":true,"nodes":[{"parameters":{"promptType":"define","text":"={{ $json.body.message }}","options":{"systemMessage":"You are a helpful assistant. You will answer questions about Adam Haley's resume. You must answer questions using information found in the Pinecone vector store database. If the answer is not found, do not attempt to answer from outside knowledge. Do not refer to the Pinecone vector store database by name when answering questions. Just call it \"My Knowledgebase\". You can refer to yourself in the first person as Adam Haley, as if you are giving an interview on behalf of Adam to prospective employers."}},"id":"2a047b68-cb1b-4ca0-aeb7-8f1f216bc38b","name":"AI Agent","type":"@n8n/n8n-nodes-langchain.agent","position":[32,-200],"typeVersion":1.8},{"parameters":{"mode":"retrieve-as-tool","toolName":"knowledgebase","toolDescription":"load details from knowledge base","pineconeIndex":{"__rl":true,"value":"ah-media","mode":"list","cachedResultName":"ah-media"},"includeDocumentMetadata":false,"options":{"pineconeNamespace":"shiny-river-7309"}},"type":"@n8n/n8n-nodes-langchain.vectorStorePinecone","typeVersion":1.1,"position":[240,22.5],"id":"c3d13e5e-2665-4845-894a-5770547dd0f4","name":"Pinecone Vector Store1","credentials":{"pineconeApi":{"id":"x0bN3Ljld6zAEruh","name":"PineconeApi account"}}},{"parameters":{"model":"nomic-embed-text:latest"},"type":"@n8n/n8n-nodes-langchain.embeddingsOllama","typeVersion":1,"position":[328,220],"id":"49311ae9-bb40-413b-a6ea-7bc65b45436e","name":"Embeddings Ollama","credentials":{"ollamaApi":{"id":"b1Nz8WxwYDKRmecP","name":"Ollama account"}}},{"parameters":{"sessionIdType":"customKey","sessionKey":"={{ $json.body.namespace }}"},"type":"@n8n/n8n-nodes-langchain.memoryRedisChat","typeVersion":1.5,"position":[120,20],"id":"e5f1318b-5768-4e54-b1a0-3f8aa8a58ded","name":"Redis Chat Memory","credentials":{"redis":{"id":"PAxrnIdpjZ24fsIc","name":"Redis account"}}},{"parameters":{"model":{"__rl":true,"value":"gpt-4","mode":"list","cachedResultName":"gpt-4"},"options":{}},"type":"@n8n/n8n-nodes-langchain.lmChatOpenAi","typeVersion":1.2,"position":[0,20],"id":"c60e67c4-9b46-4c50-8e19-7aa23a09c822","name":"OpenAI Chat Model","credentials":{"openAiApi":{"id":"5GRgzlcJ5Ujkvgcd","name":"OpenAi account"}}},{"parameters":{"httpMethod":"POST","path":"3c8f2fca-5a61-4402-887c-a43f6c137e73","responseMode":"responseNode","options":{"allowedOrigins":"*"}},"type":"n8n-nodes-base.webhook","typeVersion":2,"position":[-220,-200],"id":"cf826304-5821-4608-93f2-73fd43e033b5","name":"Webhook","webhookId":"3c8f2fca-5a61-4402-887c-a43f6c137e73"},{"parameters":{"options":{}},"type":"n8n-nodes-base.respondToWebhook","typeVersion":1.1,"position":[616,-200],"id":"734a04b1-386c-4f0e-9690-0a4b68d1ebd5","name":"Respond to Webhook"}],"connections":{"Pinecone Vector Store1":{"ai_tool":[[{"node":"AI Agent","type":"ai_tool","index":0}]]},"Embeddings Ollama":{"ai_embedding":[[{"node":"Pinecone Vector Store1","type":"ai_embedding","index":0}]]},"Redis Chat Memory":{"ai_memory":[[{"node":"AI Agent","type":"ai_memory","index":0}]]},"OpenAI Chat Model":{"ai_languageModel":[[{"node":"AI Agent","type":"ai_languageModel","index":0}]]},"Webhook":{"main":[[{"node":"AI Agent","type":"main","index":0}]]},"AI Agent":{"main":[[{"node":"Respond to Webhook","type":"main","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":{"templateCredsSetupCompleted":true},"pinData":{},"versionId":"0e939dcc-4d68-4069-9315-9c3220b3f3b6","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-05-26T22:27:23.870Z",
+  "updatedAt": "2025-05-27T21:22:47.000Z",
+  "id": "VWv2pB3hMztiSLug",
+  "name": "Resume RAG Chatbot",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "You are a helpful assistant. You will answer questions about Adam Haley's resume. You must answer questions using information found in the Pinecone vector store database. If the answer is not found, do not attempt to answer from outside knowledge. Do not refer to the Pinecone vector store database by name when answering questions. Just call it \"My Knowledgebase\". You can refer to yourself in the first person as Adam Haley, as if you are giving an interview on behalf of Adam to prospective employers."
+        }
+      },
+      "id": "2a047b68-cb1b-4ca0-aeb7-8f1f216bc38b",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        32,
+        -200
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "knowledgebase",
+        "toolDescription": "load details from knowledge base",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ah-media",
+          "mode": "list",
+          "cachedResultName": "ah-media"
+        },
+        "includeDocumentMetadata": false,
+        "options": {
+          "pineconeNamespace": "shiny-river-7309"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        22.5
+      ],
+      "id": "c3d13e5e-2665-4845-894a-5770547dd0f4",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "x0bN3Ljld6zAEruh",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        328,
+        220
+      ],
+      "id": "49311ae9-bb40-413b-a6ea-7bc65b45436e",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.namespace }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        120,
+        20
+      ],
+      "id": "e5f1318b-5768-4e54-b1a0-3f8aa8a58ded",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4",
+          "mode": "list",
+          "cachedResultName": "gpt-4"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        20
+      ],
+      "id": "c60e67c4-9b46-4c50-8e19-7aa23a09c822",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3c8f2fca-5a61-4402-887c-a43f6c137e73",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        -200
+      ],
+      "id": "cf826304-5821-4608-93f2-73fd43e033b5",
+      "name": "Webhook",
+      "webhookId": "3c8f2fca-5a61-4402-887c-a43f6c137e73"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        616,
+        -200
+      ],
+      "id": "734a04b1-386c-4f0e-9690-0a4b68d1ebd5",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Pinecone Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0e939dcc-4d68-4069-9315-9c3220b3f3b6",
+  "triggerCount": 1,
+  "tags": []
+}
