@@ -1,1 +1,302 @@
-{"createdAt":"2025-04-02T18:38:13.147Z","updatedAt":"2025-05-11T22:22:03.000Z","id":"Ey0bE1Ie1l6NfsfG","name":"Invoice / Receipt collector","active":true,"nodes":[{"parameters":{"pollTimes":{"item":[{}]},"simple":false,"filters":{},"options":{"downloadAttachments":true}},"type":"n8n-nodes-base.gmailTrigger","typeVersion":1.2,"position":[-480,-80],"id":"af888bfb-7b2b-420b-8139-13d7ae123dfc","name":"Gmail Trigger","credentials":{"gmailOAuth2":{"id":"p2hZcd01ehWmDyQ7","name":"Gmail account"}}},{"parameters":{"operation":"get","messageId":"={{ $json.id }}","simple":false,"options":{}},"type":"n8n-nodes-base.gmail","typeVersion":2.1,"position":[-260,-80],"id":"e5bed9ba-faa0-4e84-b963-7956ca287965","name":"Gmail","webhookId":"52b0b2ad-459c-4f48-98af-976fded42e84","credentials":{"gmailOAuth2":{"id":"p2hZcd01ehWmDyQ7","name":"Gmail account"}}},{"parameters":{"promptType":"define","text":"=EMAIL SUBJECT:  {{ $json.subject }}\n\nSENDER: {{ $('Gmail Trigger').item.json.From }}\n\nBODY:{{ $json.text }}","options":{"systemMessage":"Your task is to identify whether this email is a receipt/invoice, or not.\n\nIf it IS a receipt or invoice, output the word \"YES\", otherwise output \"NO\"."}},"type":"@n8n/n8n-nodes-langchain.agent","typeVersion":1.8,"position":[-40,-80],"id":"fcd63bae-8f2b-4f5d-bfd0-633d9fa57ca3","name":"AI Agent"},{"parameters":{"rules":{"values":[{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"leftValue":"={{ $json.output }}","rightValue":"YES","operator":{"type":"string","operation":"equals"},"id":"489b4962-90b8-43a1-877f-c2de1f02847e"}],"combinator":"and"}}]},"options":{}},"type":"n8n-nodes-base.switch","typeVersion":3.2,"position":[336,-80],"id":"2a5beb71-a133-4014-91cb-77e016180508","name":"Switch"},{"parameters":{"operation":"get","messageId":"={{ $('Gmail Trigger').item.json.id }}","simple":false,"options":{"downloadAttachments":true}},"type":"n8n-nodes-base.gmail","typeVersion":2.1,"position":[556,-80],"id":"a9aeb51f-2fca-4492-a6d2-0dcc17a11a5b","name":"Gmail1","webhookId":"52b0b2ad-459c-4f48-98af-976fded42e84","credentials":{"gmailOAuth2":{"id":"p2hZcd01ehWmDyQ7","name":"Gmail account"}}},{"parameters":{"inputDataFieldName":"attachment_0","name":"={{ $binary.attachment_0.fileName }}\n","driveId":{"__rl":true,"mode":"list","value":"My Drive"},"folderId":{"__rl":true,"mode":"list","value":"root","cachedResultName":"/ (Root folder)"},"options":{}},"type":"n8n-nodes-base.googleDrive","typeVersion":3,"position":[776,-80],"id":"88a785bd-6f2a-4b96-8145-eb40fca17c1a","name":"Google Drive","credentials":{"googleDriveOAuth2Api":{"id":"fA1w6gMdQ2aJNFpG","name":"Google Drive account"}}},{"parameters":{"model":"gemma3:1b","options":{}},"type":"@n8n/n8n-nodes-langchain.lmChatOllama","typeVersion":1,"position":[48,140],"id":"845744a8-bb69-4482-9b09-61c461bf5ad9","name":"Ollama Chat Model","credentials":{"ollamaApi":{"id":"b1Nz8WxwYDKRmecP","name":"Ollama account"}}}],"connections":{"Gmail Trigger":{"main":[[{"node":"Gmail","type":"main","index":0}]]},"Gmail":{"main":[[{"node":"AI Agent","type":"main","index":0}]]},"AI Agent":{"main":[[{"node":"Switch","type":"main","index":0}]]},"Switch":{"main":[[{"node":"Gmail1","type":"main","index":0}]]},"Gmail1":{"main":[[{"node":"Google Drive","type":"main","index":0}]]},"Ollama Chat Model":{"ai_languageModel":[[{"node":"AI Agent","type":"ai_languageModel","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":{"node:Gmail Trigger":{"Gmail Trigger":{"lastTimeChecked":1748542713,"possibleDuplicates":["1971d446c5d59927","1971d369f6cdcd85","1971d1049922ee7b","1971c966e01a301c","1971ba40f313f363","1971b53051653f0b","1971ad7d13016d3e","19719a804a1b37b2","19717e6f0b486cd4"]}}},"meta":{"templateCredsSetupCompleted":true},"pinData":{},"versionId":"11cf847e-cbe5-48a5-8692-cd54305973be","triggerCount":1,"tags":[{"createdAt":"2025-04-02T22:42:59.542Z","updatedAt":"2025-04-02T22:42:59.542Z","id":"S3cz45xaBEgGjQya","name":"business"},{"createdAt":"2025-04-02T22:42:56.017Z","updatedAt":"2025-04-02T22:42:56.017Z","id":"g7KzoidkGeRmZE14","name":"accounting"}]}
+{
+  "createdAt": "2025-04-02T18:38:13.147Z",
+  "updatedAt": "2025-05-11T22:22:03.000Z",
+  "id": "Ey0bE1Ie1l6NfsfG",
+  "name": "Invoice / Receipt collector",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {}
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        -80
+      ],
+      "id": "af888bfb-7b2b-420b-8139-13d7ae123dfc",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "p2hZcd01ehWmDyQ7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "simple": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -260,
+        -80
+      ],
+      "id": "e5bed9ba-faa0-4e84-b963-7956ca287965",
+      "name": "Gmail",
+      "webhookId": "52b0b2ad-459c-4f48-98af-976fded42e84",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "p2hZcd01ehWmDyQ7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=EMAIL SUBJECT:  {{ $json.subject }}\n\nSENDER: {{ $('Gmail Trigger').item.json.From }}\n\nBODY:{{ $json.text }}",
+        "options": {
+          "systemMessage": "Your task is to identify whether this email is a receipt/invoice, or not.\n\nIf it IS a receipt or invoice, output the word \"YES\", otherwise output \"NO\"."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -40,
+        -80
+      ],
+      "id": "fcd63bae-8f2b-4f5d-bfd0-633d9fa57ca3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "YES",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "489b4962-90b8-43a1-877f-c2de1f02847e"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        336,
+        -80
+      ],
+      "id": "2a5beb71-a133-4014-91cb-77e016180508",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "simple": false,
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        556,
+        -80
+      ],
+      "id": "a9aeb51f-2fca-4492-a6d2-0dcc17a11a5b",
+      "name": "Gmail1",
+      "webhookId": "52b0b2ad-459c-4f48-98af-976fded42e84",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "p2hZcd01ehWmDyQ7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}\n",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        776,
+        -80
+      ],
+      "id": "88a785bd-6f2a-4b96-8145-eb40fca17c1a",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "fA1w6gMdQ2aJNFpG",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma3:1b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        48,
+        140
+      ],
+      "id": "845744a8-bb69-4482-9b09-61c461bf5ad9",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Gmail Trigger": {
+      "Gmail Trigger": {
+        "lastTimeChecked": 1748542713,
+        "possibleDuplicates": [
+          "1971d446c5d59927",
+          "1971d369f6cdcd85",
+          "1971d1049922ee7b",
+          "1971c966e01a301c",
+          "1971ba40f313f363",
+          "1971b53051653f0b",
+          "1971ad7d13016d3e",
+          "19719a804a1b37b2",
+          "19717e6f0b486cd4"
+        ]
+      }
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "11cf847e-cbe5-48a5-8692-cd54305973be",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-04-02T22:42:59.542Z",
+      "updatedAt": "2025-04-02T22:42:59.542Z",
+      "id": "S3cz45xaBEgGjQya",
+      "name": "business"
+    },
+    {
+      "createdAt": "2025-04-02T22:42:56.017Z",
+      "updatedAt": "2025-04-02T22:42:56.017Z",
+      "id": "g7KzoidkGeRmZE14",
+      "name": "accounting"
+    }
+  ]
+}
