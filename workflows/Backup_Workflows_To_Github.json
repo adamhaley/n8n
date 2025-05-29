@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-28T23:55:41.084Z",
-  "updatedAt": "2025-05-29T21:20:58.000Z",
+  "updatedAt": "2025-05-29T21:42:22.000Z",
   "id": "8fe5watbQxmC2dhL",
   "name": "Backup Workflows To Github",
   "active": true,
@@ -136,14 +136,14 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://github.com/adamhaley/n8n"
         },
-        "filePath": "=workflows/{{$json.name }}",
-        "fileContent": "={{ JSON.stringify( $('n8n').item.json ) }}",
+        "filePath": "=workflows/{{ $('GitHub1').item.json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n').item.json, null, 2 ) }}",
         "commitMessage": "=Updating n8n workflow \"{{ $('n8n').item.json.name }}\""
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -1180,
+        -740,
         600
       ],
       "id": "2a6f2e48-a263-4368-81ce-0f461c1dacb2",
@@ -238,6 +238,53 @@
           "name": "GitHub Fine-Grained"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        600
+      ],
+      "id": "b48c4f6e-4d22-4fa1-af7a-de4a65c41288",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c9576a13-befb-4a51-85e2-7ee04cb3664f",
+              "leftValue": "={{ JSON.stringify( $('Extract from File').item.json.data, null, 2 ) }}",
+              "rightValue": "={{ JSON.stringify( $('n8n').item.json, null, 2 ) }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -960,
+        600
+      ],
+      "id": "80fc970f-0bac-4c19-bc8a-23c00d954713",
+      "name": "if  file has Updates"
     }
   ],
   "connections": {
@@ -307,11 +354,34 @@
       "main": [
         [
           {
-            "node": "GitHub2",
+            "node": "Extract from File",
             "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "if  file has Updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if  file has Updates": {
+      "main": [
+        [
+          {
+            "node": "GitHub2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
       ]
     }
   },
@@ -327,7 +397,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "103c7d39-3566-40e2-9d17-6e490487130a",
+  "versionId": "5ae4cd53-4172-4094-8385-01e8c0169d30",
   "triggerCount": 1,
   "tags": []
 }
