@@ -1,1 +1,333 @@
-{"createdAt":"2025-05-28T23:55:41.084Z","updatedAt":"2025-05-29T21:20:58.000Z","id":"8fe5watbQxmC2dhL","name":"Backup Workflows To Github","active":true,"nodes":[{"parameters":{"returnAll":false,"filters":{"activeWorkflows":true,"tags":""},"requestOptions":{}},"type":"n8n-nodes-base.n8n","typeVersion":1,"position":[-2060,700],"id":"9ed13440-3d61-41bb-9ca1-828ff0099266","name":"n8n","executeOnce":true,"credentials":{"n8nApi":{"id":"v9vxnDOn8eyJwvsI","name":"n8n account"}}},{"parameters":{"resource":"file","owner":{"__rl":true,"value":"adamhaley","mode":"name"},"repository":{"__rl":true,"value":"n8n","mode":"list","cachedResultName":"n8n","cachedResultUrl":"https://github.com/adamhaley/n8n"},"filePath":"=workflows/{{ $('Code1').item.json.name }}","fileContent":"={{ JSON.stringify( $('n8n').first().json ) }}","commitMessage":"=creating backup file for workflow \"{{ $('n8n').first().json.name }}\"\"","additionalParameters":{"branch":{"branch":"main"}}},"type":"n8n-nodes-base.github","typeVersion":1,"position":[-1400,800],"id":"977c417e-89ae-41e5-af3e-f89f24e07875","name":"Create File","credentials":{"githubApi":{"id":"Jvt1VN8GL1z1M8pS","name":"GitHub Fine-Grained"}}},{"parameters":{"rule":{"interval":[{}]}},"type":"n8n-nodes-base.scheduleTrigger","typeVersion":1.2,"position":[-2500,700],"id":"a65d415c-fba3-4765-a72f-518c0e9e2fde","name":"Schedule Trigger"},{"parameters":{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"id":"c1235fed-ae2f-4520-9158-2cf406bb2586","leftValue":"={{ $('GitHub3').all().map(item => item.json.name) }}","rightValue":"={{ $json.name }}","operator":{"type":"array","operation":"contains","rightType":"any"}}],"combinator":"and"},"options":{}},"type":"n8n-nodes-base.if","typeVersion":2.2,"position":[-1620,700],"id":"8af2d74f-8c3e-49e2-89b9-65af17f90943","name":"If File Exists"},{"parameters":{"resource":"file","operation":"edit","owner":{"__rl":true,"value":"adamhaley","mode":"name"},"repository":{"__rl":true,"value":"n8n","mode":"list","cachedResultName":"n8n","cachedResultUrl":"https://github.com/adamhaley/n8n"},"filePath":"=workflows/{{$json.name }}","fileContent":"={{ JSON.stringify( $('n8n').item.json ) }}","commitMessage":"=Updating n8n workflow \"{{ $('n8n').item.json.name }}\""},"type":"n8n-nodes-base.github","typeVersion":1,"position":[-1180,600],"id":"2a6f2e48-a263-4368-81ce-0f461c1dacb2","name":"GitHub2","credentials":{"githubApi":{"id":"Jvt1VN8GL1z1M8pS","name":"GitHub Fine-Grained"}}},{"parameters":{"resource":"file","operation":"list","owner":{"__rl":true,"value":"adamhaley","mode":"name"},"repository":{"__rl":true,"value":"n8n","mode":"list","cachedResultName":"n8n","cachedResultUrl":"https://github.com/adamhaley/n8n"},"filePath":"workflows"},"type":"n8n-nodes-base.github","typeVersion":1,"position":[-2280,700],"id":"3a53cc1b-53e1-450d-8909-97e2fe22e74f","name":"GitHub3","executeOnce":true,"credentials":{"githubApi":{"id":"Jvt1VN8GL1z1M8pS","name":"GitHub Fine-Grained"}}},{"parameters":{"mode":"runOnceForEachItem","jsCode":"// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nlet name =  $json.name.replace(/ /g,'_');\nname = name.replace('/','') + '.json';\nreturn { name: name }"},"type":"n8n-nodes-base.code","typeVersion":2,"position":[-1840,700],"id":"dab9d8d7-101d-4484-b6b6-2609d1f3fa4b","name":"Code1","executeOnce":false},{"parameters":{"resource":"file","operation":"get","owner":{"__rl":true,"value":"adamhaley","mode":"name"},"repository":{"__rl":true,"value":"n8n","mode":"list","cachedResultName":"n8n","cachedResultUrl":"https://github.com/adamhaley/n8n"},"filePath":"=workflows/{{ $json.name }}","additionalParameters":{}},"type":"n8n-nodes-base.github","typeVersion":1,"position":[-1400,600],"id":"08ffd244-c3ad-4f14-974e-2a23079151b3","name":"GitHub1","executeOnce":false,"credentials":{"githubApi":{"id":"Jvt1VN8GL1z1M8pS","name":"GitHub Fine-Grained"}}}],"connections":{"n8n":{"main":[[{"node":"Code1","type":"main","index":0}]]},"Schedule Trigger":{"main":[[{"node":"GitHub3","type":"main","index":0}]]},"If File Exists":{"main":[[{"node":"GitHub1","type":"main","index":0}],[{"node":"Create File","type":"main","index":0}]]},"GitHub3":{"main":[[{"node":"n8n","type":"main","index":0}]]},"Code1":{"main":[[{"node":"If File Exists","type":"main","index":0}]]},"GitHub1":{"main":[[{"node":"GitHub2","type":"main","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":{"node:Schedule Trigger":{"recurrenceRules":[]}},"meta":{"templateCredsSetupCompleted":true},"pinData":{},"versionId":"103c7d39-3566-40e2-9d17-6e490487130a","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-05-28T23:55:41.084Z",
+  "updatedAt": "2025-05-29T21:20:58.000Z",
+  "id": "8fe5watbQxmC2dhL",
+  "name": "Backup Workflows To Github",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "returnAll": false,
+        "filters": {
+          "activeWorkflows": true,
+          "tags": ""
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -2060,
+        700
+      ],
+      "id": "9ed13440-3d61-41bb-9ca1-828ff0099266",
+      "name": "n8n",
+      "executeOnce": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "v9vxnDOn8eyJwvsI",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $('Code1').item.json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n').first().json ) }}",
+        "commitMessage": "=creating backup file for workflow \"{{ $('n8n').first().json.name }}\"\"",
+        "additionalParameters": {
+          "branch": {
+            "branch": "main"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        800
+      ],
+      "id": "977c417e-89ae-41e5-af3e-f89f24e07875",
+      "name": "Create File",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub Fine-Grained"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2500,
+        700
+      ],
+      "id": "a65d415c-fba3-4765-a72f-518c0e9e2fde",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
+              "leftValue": "={{ $('GitHub3').all().map(item => item.json.name) }}",
+              "rightValue": "={{ $json.name }}",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1620,
+        700
+      ],
+      "id": "8af2d74f-8c3e-49e2-89b9-65af17f90943",
+      "name": "If File Exists"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{$json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n').item.json ) }}",
+        "commitMessage": "=Updating n8n workflow \"{{ $('n8n').item.json.name }}\""
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        600
+      ],
+      "id": "2a6f2e48-a263-4368-81ce-0f461c1dacb2",
+      "name": "GitHub2",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub Fine-Grained"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "workflows"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -2280,
+        700
+      ],
+      "id": "3a53cc1b-53e1-450d-8909-97e2fe22e74f",
+      "name": "GitHub3",
+      "executeOnce": true,
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub Fine-Grained"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nlet name =  $json.name.replace(/ /g,'_');\nname = name.replace('/','') + '.json';\nreturn { name: name }"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1840,
+        700
+      ],
+      "id": "dab9d8d7-101d-4484-b6b6-2609d1f3fa4b",
+      "name": "Code1",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $json.name }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        600
+      ],
+      "id": "08ffd244-c3ad-4f14-974e-2a23079151b3",
+      "name": "GitHub1",
+      "executeOnce": false,
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub Fine-Grained"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GitHub3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If File Exists": {
+      "main": [
+        [
+          {
+            "node": "GitHub1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub3": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "If File Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub1": {
+      "main": [
+        [
+          {
+            "node": "GitHub2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "103c7d39-3566-40e2-9d17-6e490487130a",
+  "triggerCount": 1,
+  "tags": []
+}
