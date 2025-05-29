@@ -1,1 +1,510 @@
-{"createdAt":"2025-04-22T17:59:05.709Z","updatedAt":"2025-05-29T17:10:01.000Z","id":"G0Vk5kYZGi0nCI12","name":"AHMediaBOT","active":true,"nodes":[{"parameters":{"promptType":"define","text":"={{ $json.msg }}","hasOutputParser":true,"options":{"systemMessage":"You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length."}},"type":"@n8n/n8n-nodes-langchain.agent","typeVersion":1.8,"position":[272,-260],"id":"247de43d-0e0b-41e6-a85c-9e0725fc5256","name":"AI Agent"},{"parameters":{"method":"POST","url":"http://ahmedia.ai:8000/transcribe","sendBody":true,"contentType":"binaryData","inputDataFieldName":"data","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[-200,-360],"id":"cdcc7627-783e-4753-b9dc-dfb8d33065d2","name":"Transcribe Voice"},{"parameters":{"sessionIdType":"customKey","sessionKey":"=sessionId"},"type":"@n8n/n8n-nodes-langchain.memoryRedisChat","typeVersion":1.5,"position":[360,-40],"id":"2e0b3cd0-a22b-4a18-91be-65081ceb5bb3","name":"Redis Chat Memory","credentials":{"redis":{"id":"PAxrnIdpjZ24fsIc","name":"Redis account"}}},{"parameters":{"method":"POST","url":"http://ahmedia.ai:8000/tts","sendBody":true,"contentType":"raw","body":"={{ $json.output }}","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[680,-260],"id":"335e9112-cf8f-4508-956e-e022c31ebb66","name":"Cartesia TTS"},{"parameters":{"resource":"file","fileId":"={{ $json.message.voice.file_id }}"},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[-420,-360],"id":"098aedb9-0eec-4bfe-9960-142728654cc8","name":"Download Message","webhookId":"d6239fda-b394-43c7-87b8-889f340989e6","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"assignments":{"assignments":[{"id":"8743551c-0890-4d1a-9791-dd1d4087849d","name":"msg","value":"={{ $json.msg }}","type":"string"},{"id":"caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9","name":"sessionId","value":"={{ $('Is Voice or Text?').item.json.message.chat.id }}","type":"number"}]},"options":{}},"type":"n8n-nodes-base.set","typeVersion":3.4,"position":[20,-260],"id":"1eca0332-c8cc-43bf-9dd3-3d96606193db","name":"Add sessionId"},{"parameters":{"keys":{"key":[{"currentKey":"message.text","newKey":"msg"}]},"additionalOptions":{}},"type":"n8n-nodes-base.renameKeys","typeVersion":1,"position":[-200,-160],"id":"e68c1574-266e-4b2f-8b20-0c02e8809db2","name":"Normalize Msg"},{"parameters":{"operation":"sendAudio","chatId":"={{ $('Receive Message').item.json.message.chat.id }}","binaryData":true,"additionalFields":{"fileName":"reply.mp3"}},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[900,-260],"id":"0854b2c3-dd1f-4b66-84b0-d9571c705970","name":"Send Audio Reply","webhookId":"660355ff-7f58-4b7a-b966-21497023ff9d","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"chatId":"={{ $('Receive Message').item.json.message.chat.id }}","text":"={{ $('AI Agent').item.json.output }}","additionalFields":{"appendAttribution":false,"parse_mode":"HTML"}},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[1120,-260],"id":"de3ac29a-17cf-4569-b480-fba7d2de4f30","name":"Send Text Reply","webhookId":"531a0f31-0dd2-4cfa-80cc-0ac6e12e595d","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"rules":{"values":[{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"leftValue":"={{ $json.message.voice }}","rightValue":"","operator":{"type":"object","operation":"exists","singleValue":true},"id":"a8116d0d-5bdb-49da-8984-08a077e816ae"}],"combinator":"and"}},{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"id":"cb242f13-0ce2-4645-9a69-6d9816104485","leftValue":"={{ $json.message.text }}","rightValue":"","operator":{"type":"string","operation":"exists","singleValue":true}}],"combinator":"and"}}]},"options":{}},"type":"n8n-nodes-base.switch","typeVersion":3.2,"position":[-640,-260],"id":"b5b9be44-1c31-4689-bf1f-b2832f6b8c3a","name":"Is Voice or Text?"},{"parameters":{"updates":["message"],"additionalFields":{}},"type":"n8n-nodes-base.telegramTrigger","typeVersion":1.2,"position":[-860,-260],"id":"8dcab711-5786-4dfd-b083-cb4fa75b0cc2","name":"Receive Message","webhookId":"aac89fdd-865b-4f9b-9875-75909cc27924","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"name":"journal_entry","description":"Call this tool to write a journal entry.","workflowId":{"__rl":true,"value":"H0HZQnMr1hgjQMmI","mode":"list","cachedResultName":"Journal Entry"},"workflowInputs":{"mappingMode":"defineBelow","value":{"content":"={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', `This should be the contents of the journal entry sent by the transcribe node`, 'string') }}"},"matchingColumns":["content"],"schema":[{"id":"content","displayName":"content","required":false,"defaultMatch":false,"display":true,"canBeUsedToMatch":true,"type":"string","removed":false}],"attemptToConvertTypes":false,"convertFieldsToString":false}},"type":"@n8n/n8n-nodes-langchain.toolWorkflow","typeVersion":2.1,"position":[480,-40],"id":"12571506-f233-49bd-8d4f-af791e3c7f82","name":"Journal Entry Tool"},{"parameters":{"model":{"__rl":true,"mode":"list","value":"claude-3-7-sonnet-20250219","cachedResultName":"Claude 3.7 Sonnet"},"options":{}},"type":"@n8n/n8n-nodes-langchain.lmChatAnthropic","typeVersion":1.3,"position":[240,-40],"id":"9e9b2405-527a-4db5-a93d-2bbb9578e1bb","name":"Anthropic Chat Model","credentials":{"anthropicApi":{"id":"7GlvHIE0IYuYuCXb","name":"Anthropic account"}}}],"connections":{"AI Agent":{"main":[[{"node":"Cartesia TTS","type":"main","index":0}]]},"Transcribe Voice":{"main":[[{"node":"Add sessionId","type":"main","index":0}]]},"Redis Chat Memory":{"ai_memory":[[{"node":"AI Agent","type":"ai_memory","index":0}]]},"Cartesia TTS":{"main":[[{"node":"Send Audio Reply","type":"main","index":0}]]},"Download Message":{"main":[[{"node":"Transcribe Voice","type":"main","index":0}]]},"Add sessionId":{"main":[[{"node":"AI Agent","type":"main","index":0}]]},"Normalize Msg":{"main":[[{"node":"Add sessionId","type":"main","index":0}]]},"Send Audio Reply":{"main":[[{"node":"Send Text Reply","type":"main","index":0}]]},"Is Voice or Text?":{"main":[[{"node":"Download Message","type":"main","index":0}],[{"node":"Normalize Msg","type":"main","index":0}]]},"Receive Message":{"main":[[{"node":"Is Voice or Text?","type":"main","index":0}]]},"Journal Entry Tool":{"ai_tool":[[{"node":"AI Agent","type":"ai_tool","index":0}]]},"Anthropic Chat Model":{"ai_languageModel":[[{"node":"AI Agent","type":"ai_languageModel","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":{"templateCredsSetupCompleted":true},"pinData":{},"versionId":"19425a04-f3ad-4737-a334-84ceab891c38","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-04-22T17:59:05.709Z",
+  "updatedAt": "2025-05-29T17:10:01.000Z",
+  "id": "G0Vk5kYZGi0nCI12",
+  "name": "AHMediaBOT",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.msg }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        272,
+        -260
+      ],
+      "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/transcribe",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -360
+      ],
+      "id": "cdcc7627-783e-4753-b9dc-dfb8d33065d2",
+      "name": "Transcribe Voice"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=sessionId"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        360,
+        -40
+      ],
+      "id": "2e0b3cd0-a22b-4a18-91be-65081ceb5bb3",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/tts",
+        "sendBody": true,
+        "contentType": "raw",
+        "body": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        -260
+      ],
+      "id": "335e9112-cf8f-4508-956e-e022c31ebb66",
+      "name": "Cartesia TTS"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -360
+      ],
+      "id": "098aedb9-0eec-4bfe-9960-142728654cc8",
+      "name": "Download Message",
+      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
+              "name": "msg",
+              "value": "={{ $json.msg }}",
+              "type": "string"
+            },
+            {
+              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
+              "name": "sessionId",
+              "value": "={{ $('Is Voice or Text?').item.json.message.chat.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        20,
+        -260
+      ],
+      "id": "1eca0332-c8cc-43bf-9dd3-3d96606193db",
+      "name": "Add sessionId"
+    },
+    {
+      "parameters": {
+        "keys": {
+          "key": [
+            {
+              "currentKey": "message.text",
+              "newKey": "msg"
+            }
+          ]
+        },
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.renameKeys",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -160
+      ],
+      "id": "e68c1574-266e-4b2f-8b20-0c02e8809db2",
+      "name": "Normalize Msg"
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "reply.mp3"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        900,
+        -260
+      ],
+      "id": "0854b2c3-dd1f-4b66-84b0-d9571c705970",
+      "name": "Send Audio Reply",
+      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        -260
+      ],
+      "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
+      "name": "Send Text Reply",
+      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -640,
+        -260
+      ],
+      "id": "b5b9be44-1c31-4689-bf1f-b2832f6b8c3a",
+      "name": "Is Voice or Text?"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -860,
+        -260
+      ],
+      "id": "8dcab711-5786-4dfd-b083-cb4fa75b0cc2",
+      "name": "Receive Message",
+      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "journal_entry",
+        "description": "Call this tool to write a journal entry.",
+        "workflowId": {
+          "__rl": true,
+          "value": "H0HZQnMr1hgjQMmI",
+          "mode": "list",
+          "cachedResultName": "Journal Entry"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', `This should be the contents of the journal entry sent by the transcribe node`, 'string') }}"
+          },
+          "matchingColumns": [
+            "content"
+          ],
+          "schema": [
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        -40
+      ],
+      "id": "12571506-f233-49bd-8d4f-af791e3c7f82",
+      "name": "Journal Entry Tool"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        -40
+      ],
+      "id": "9e9b2405-527a-4db5-a93d-2bbb9578e1bb",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "7GlvHIE0IYuYuCXb",
+          "name": "Anthropic account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Cartesia TTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Voice": {
+      "main": [
+        [
+          {
+            "node": "Add sessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cartesia TTS": {
+      "main": [
+        [
+          {
+            "node": "Send Audio Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Message": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add sessionId": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Msg": {
+      "main": [
+        [
+          {
+            "node": "Add sessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Audio Reply": {
+      "main": [
+        [
+          {
+            "node": "Send Text Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?": {
+      "main": [
+        [
+          {
+            "node": "Download Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Message": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Journal Entry Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "19425a04-f3ad-4737-a334-84ceab891c38",
+  "triggerCount": 1,
+  "tags": []
+}
