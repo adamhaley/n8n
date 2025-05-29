@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-05-28T23:55:41.084Z",
-  "updatedAt": "2025-05-29T00:23:25.000Z",
+  "updatedAt": "2025-05-29T00:26:21.000Z",
   "id": "8fe5watbQxmC2dhL",
   "name": "Backup Workflows To Github",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -62,13 +62,13 @@
           "cachedResultUrl": "https://github.com/adamhaley/n8n"
         },
         "filePath": "=workflows/{{ $json.name }}",
-        "fileContent": "={{ JSON.stringify($('n8n').item.json)  }}",
+        "fileContent": "={{ JSON.stringify($('n8n').item.json, null, 2)  }}",
         "commitMessage": "=updating workflow \"{{ $json.name }}\"\""
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        760,
+        700,
         200
       ],
       "id": "04beb958-6b1a-4372-b3be-15e6e1bfb9d7",
@@ -112,41 +112,6 @@
       ],
       "id": "977c417e-89ae-41e5-af3e-f89f24e07875",
       "name": "Create File",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "operation": "get",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "n8n",
-          "mode": "list",
-          "cachedResultName": "n8n",
-          "cachedResultUrl": "https://github.com/adamhaley/n8n"
-        },
-        "filePath": "=workflows/{{ $('n8n').first().json.name.replace(/ /g,'_') }}.json",
-        "asBinaryProperty": "={{ true }}",
-        "additionalParameters": {}
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        0,
-        -360
-      ],
-      "id": "56d1b38a-74d9-4329-aa78-dc2cdc165726",
-      "name": "Get File",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -332,8 +297,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bdd9783f-e6b9-4147-8d39-613d9b1a0b4c",
-  "triggerCount": 0,
+  "versionId": "9920bdf5-f83c-4809-bf1c-7f7df0c6f6af",
+  "triggerCount": 1,
   "shared": [
     {
       "createdAt": "2025-05-28T23:55:41.087Z",
