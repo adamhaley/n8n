@@ -1,1 +1,273 @@
-{"createdAt":"2025-04-25T17:52:35.238Z","updatedAt":"2025-05-27T18:42:27.000Z","id":"Q1HVkL2oehj9cSlc","name":"Resume Generator","active":true,"nodes":[{"parameters":{"documentId":{"__rl":true,"value":"1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8","mode":"list","cachedResultName":"Resume SOURCE","cachedResultUrl":"https://docs.google.com/spreadsheets/d/1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8/edit?usp=drivesdk"},"sheetName":{"__rl":true,"value":1590795213,"mode":"list","cachedResultName":"Work History","cachedResultUrl":"https://docs.google.com/spreadsheets/d/1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8/edit#gid=1590795213"},"options":{}},"type":"n8n-nodes-base.googleSheets","typeVersion":4.5,"position":[-700,-200],"id":"6ff899aa-cc28-4bc8-a6b8-f5c5fcaac598","name":"Google Sheets","credentials":{"googleSheetsOAuth2Api":{"id":"XEt20yHVtBArkULc","name":"Google Sheets account"}}},{"parameters":{"resource":"file","operation":"edit","owner":{"__rl":true,"value":"adamhaley","mode":"name"},"repository":{"__rl":true,"value":"adamhaley-com","mode":"list","cachedResultName":"adamhaley-com","cachedResultUrl":"https://github.com/adamhaley/adamhaley-com"},"filePath":"data/resume.json","fileContent":"={{ $json.output }}","commitMessage":"=updates to resume.json {{ $now }}","additionalParameters":{"branch":{"branch":"master"}}},"type":"n8n-nodes-base.github","typeVersion":1,"position":[116,-200],"id":"b076bbf1-c9b2-441e-9e9a-0c70282a4fa9","name":"GitHub","credentials":{"githubApi":{"id":"Jvt1VN8GL1z1M8pS","name":"GitHub account"}}},{"parameters":{"aggregate":"aggregateAllItemData","options":{}},"type":"n8n-nodes-base.aggregate","typeVersion":1,"position":[-480,-200],"id":"093ae441-2cdc-4cf0-bdb2-19087f4cc0e4","name":"Aggregate"},{"parameters":{"pollTimes":{"item":[{}]},"documentId":{"__rl":true,"value":"1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA","mode":"list","cachedResultName":"Resume SOURCE","cachedResultUrl":"https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit?usp=drivesdk"},"sheetName":{"__rl":true,"value":1590795213,"mode":"list","cachedResultName":"Work History","cachedResultUrl":"https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit#gid=1590795213"},"options":{}},"type":"n8n-nodes-base.googleSheetsTrigger","typeVersion":1,"position":[-920,-100],"id":"f15fd056-9baf-4179-b439-c7e2ed9a94ad","name":"Google Sheets Trigger","credentials":{"googleSheetsTriggerOAuth2Api":{"id":"sQ5tgNUU4rrOP3uy","name":"Google Sheets Trigger account"}}},{"parameters":{},"type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[-920,-300],"id":"263f73a6-823d-4800-86d5-e2c712b097a4","name":"When clicking ‘Test workflow’"},{"parameters":{"promptType":"define","text":"=Pass through all the newer job listings in the following json. Summarize older job listings. I want newer listing passed through as-is, but any roles before New Wave Entertainment in 2014 summarized together in a single listing. Dont mix roles from different categories when summarizing, make a different summary for each category. keep the row_number node in numerical order with the rest of the flow. don't use words in place of the row number such as \"summary\", use numbers:  {{ JSON.stringify( $json.data ) }}","options":{"systemMessage":"You are a helpful resume building assistant. Return json in the same format you are receiving it, but with some of the listings summarized. do not in clude backticks ```json, simply output the json in the same format as you are recieving it."}},"type":"@n8n/n8n-nodes-langchain.agent","typeVersion":1.8,"position":[-260,-200],"id":"008980ad-7d64-4738-9609-b3ac03e2467f","name":"AI Agent"},{"parameters":{"model":{"__rl":true,"value":"gpt-4.5-preview-2025-02-27","mode":"list","cachedResultName":"gpt-4.5-preview-2025-02-27"},"options":{}},"type":"@n8n/n8n-nodes-langchain.lmChatOpenAi","typeVersion":1.2,"position":[-300,40],"id":"1a8b2b91-695a-42de-b148-9882eca72ca6","name":"OpenAI Chat Model","credentials":{"openAiApi":{"id":"5GRgzlcJ5Ujkvgcd","name":"OpenAi account"}}}],"connections":{"Google Sheets":{"main":[[{"node":"Aggregate","type":"main","index":0}]]},"Aggregate":{"main":[[{"node":"AI Agent","type":"main","index":0}]]},"Google Sheets Trigger":{"main":[[{"node":"Google Sheets","type":"main","index":0}]]},"When clicking ‘Test workflow’":{"main":[[{"node":"Google Sheets","type":"main","index":0}]]},"AI Agent":{"main":[[{"node":"GitHub","type":"main","index":0}]]},"OpenAI Chat Model":{"ai_languageModel":[[{"node":"AI Agent","type":"ai_languageModel","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":{"node:Google Sheets Trigger":{"documentId":"1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA","sheetId":1590795213,"lastRevision":1,"lastRevisionLink":"https://docs.google.com/spreadsheets/export?id=1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA&revision=1&exportFormat=xlsx"}},"meta":{"templateCredsSetupCompleted":true},"pinData":{},"versionId":"aaa20966-53ea-40d9-b9db-eae9993cd60e","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-04-25T17:52:35.238Z",
+  "updatedAt": "2025-05-27T18:42:27.000Z",
+  "id": "Q1HVkL2oehj9cSlc",
+  "name": "Resume Generator",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8",
+          "mode": "list",
+          "cachedResultName": "Resume SOURCE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1590795213,
+          "mode": "list",
+          "cachedResultName": "Work History",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8/edit#gid=1590795213"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -700,
+        -200
+      ],
+      "id": "6ff899aa-cc28-4bc8-a6b8-f5c5fcaac598",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XEt20yHVtBArkULc",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "adamhaley-com",
+          "mode": "list",
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+        },
+        "filePath": "data/resume.json",
+        "fileContent": "={{ $json.output }}",
+        "commitMessage": "=updates to resume.json {{ $now }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "master"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        116,
+        -200
+      ],
+      "id": "b076bbf1-c9b2-441e-9e9a-0c70282a4fa9",
+      "name": "GitHub",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        -200
+      ],
+      "id": "093ae441-2cdc-4cf0-bdb2-19087f4cc0e4",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {}
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA",
+          "mode": "list",
+          "cachedResultName": "Resume SOURCE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1590795213,
+          "mode": "list",
+          "cachedResultName": "Work History",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit#gid=1590795213"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        -100
+      ],
+      "id": "f15fd056-9baf-4179-b439-c7e2ed9a94ad",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "sQ5tgNUU4rrOP3uy",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        -300
+      ],
+      "id": "263f73a6-823d-4800-86d5-e2c712b097a4",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Pass through all the newer job listings in the following json. Summarize older job listings. I want newer listing passed through as-is, but any roles before New Wave Entertainment in 2014 summarized together in a single listing. Dont mix roles from different categories when summarizing, make a different summary for each category. keep the row_number node in numerical order with the rest of the flow. don't use words in place of the row number such as \"summary\", use numbers:  {{ JSON.stringify( $json.data ) }}",
+        "options": {
+          "systemMessage": "You are a helpful resume building assistant. Return json in the same format you are receiving it, but with some of the listings summarized. do not in clude backticks ```json, simply output the json in the same format as you are recieving it."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -260,
+        -200
+      ],
+      "id": "008980ad-7d64-4738-9609-b3ac03e2467f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.5-preview-2025-02-27",
+          "mode": "list",
+          "cachedResultName": "gpt-4.5-preview-2025-02-27"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -300,
+        40
+      ],
+      "id": "1a8b2b91-695a-42de-b148-9882eca72ca6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Google Sheets Trigger": {
+      "documentId": "1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA",
+      "sheetId": 1590795213,
+      "lastRevision": 1,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA&revision=1&exportFormat=xlsx"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "aaa20966-53ea-40d9-b9db-eae9993cd60e",
+  "triggerCount": 1,
+  "tags": []
+}
