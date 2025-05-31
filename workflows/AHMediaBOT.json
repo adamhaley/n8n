@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-05-29T17:10:01.000Z",
+  "updatedAt": "2025-05-30T22:45:08.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "AHMediaBOT",
   "active": true,
@@ -17,7 +17,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        272,
+        392,
         -260
       ],
       "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
@@ -73,7 +73,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        680,
+        920,
         -260
       ],
       "id": "335e9112-cf8f-4508-956e-e022c31ebb66",
@@ -162,7 +162,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        900,
+        1140,
         -260
       ],
       "id": "0854b2c3-dd1f-4b66-84b0-d9571c705970",
@@ -187,7 +187,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1120,
+        1360,
         -260
       ],
       "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
@@ -353,6 +353,48 @@
           "name": "Anthropic account"
         }
       }
+    },
+    {
+      "parameters": {
+        "format": "imperial",
+        "cityName": "=Los Angeles, CA",
+        "language": "=en"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -40
+      ],
+      "id": "72017dc9-5f93-47a8-9a12-88f06df75977",
+      "name": "Current Weather",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "UfuojLEC6ZKLR31Z",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "format": "imperial",
+        "cityName": "Los Angeles, CA"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        720,
+        -40
+      ],
+      "id": "6a934437-0dd5-4c01-9a5d-66a44fd8b157",
+      "name": "Weather Forecast",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "UfuojLEC6ZKLR31Z",
+          "name": "OpenWeatherMap account"
+        }
+      }
     }
   ],
   "connections": {
@@ -494,6 +536,28 @@
           }
         ]
       ]
+    },
+    "Current Weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weather Forecast": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -504,7 +568,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "19425a04-f3ad-4737-a334-84ceab891c38",
+  "versionId": "4cb526b7-bc59-405f-94ab-fe1ab47e7d88",
   "triggerCount": 1,
   "tags": []
 }
