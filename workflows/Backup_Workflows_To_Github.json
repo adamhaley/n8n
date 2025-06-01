@@ -1,9 +1,10 @@
 {
-  "createdAt": "2025-05-28T23:55:41.084Z",
-  "updatedAt": "2025-05-29T21:49:16.000Z",
-  "id": "8fe5watbQxmC2dhL",
+  "createdAt": "2025-06-01T03:39:11.805Z",
+  "updatedAt": "2025-06-01T04:23:35.000Z",
+  "id": "90aE9VfgouGkDwgi",
   "name": "Backup Workflows To Github",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -33,10 +34,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1620,
-        700
+        -220,
+        100
       ],
-      "id": "8af2d74f-8c3e-49e2-89b9-65af17f90943",
+      "id": "c87ea7e1-4b7b-49c0-b9ec-c526e31dbb0c",
       "name": "If File Exists"
     },
     {
@@ -47,10 +48,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        -1180,
-        600
+        220,
+        0
       ],
-      "id": "b48c4f6e-4d22-4fa1-af7a-de4a65c41288",
+      "id": "26bc9481-074b-4950-9c03-56041aff3623",
       "name": "Extract from File"
     },
     {
@@ -64,10 +65,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -2500,
-        700
+        -1100,
+        100
       ],
-      "id": "a65d415c-fba3-4765-a72f-518c0e9e2fde",
+      "id": "e5cb6eff-8cf3-4a93-b35a-6f5efa323715",
       "name": "Run Daily"
     },
     {
@@ -91,16 +92,17 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -2280,
-        700
+        -880,
+        100
       ],
-      "id": "3a53cc1b-53e1-450d-8909-97e2fe22e74f",
+      "id": "69d04e91-6d0f-4eec-aab9-85a93aa35e30",
       "name": "List Workflow Files on Github",
       "executeOnce": true,
+      "webhookId": "ef7828ec-cf4d-42a9-b12f-5c088cf829ec",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub Fine-Grained"
+          "name": "GitHub account"
         }
       }
     },
@@ -112,10 +114,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1840,
-        700
+        -440,
+        100
       ],
-      "id": "dab9d8d7-101d-4484-b6b6-2609d1f3fa4b",
+      "id": "a49d6b22-041d-4a0e-9264-f6de138121bd",
       "name": "Proper filename from Workflow",
       "executeOnce": false
     },
@@ -141,16 +143,17 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -1400,
-        600
+        0,
+        0
       ],
-      "id": "08ffd244-c3ad-4f14-974e-2a23079151b3",
+      "id": "c41a0ba7-3e0d-4edf-96e3-a622fae80b6d",
       "name": "Get The File",
       "executeOnce": false,
+      "webhookId": "c6bcc826-6787-45c1-a756-6aedb5fd81b7",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub Fine-Grained"
+          "name": "GitHub account"
         }
       }
     },
@@ -166,10 +169,10 @@
       "type": "n8n-nodes-base.n8n",
       "typeVersion": 1,
       "position": [
-        -2060,
-        700
+        -660,
+        100
       ],
-      "id": "9ed13440-3d61-41bb-9ca1-828ff0099266",
+      "id": "c39a265e-d245-4f9e-9ec6-ed03343a6c4b",
       "name": "n8n Get Active Workflows",
       "executeOnce": true,
       "credentials": {
@@ -206,10 +209,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -960,
-        600
+        440,
+        0
       ],
-      "id": "80fc970f-0bac-4c19-bc8a-23c00d954713",
+      "id": "4dbe5457-692e-4dc0-8587-c9d225570e88",
       "name": "if n8n Workflow has Updates"
     },
     {
@@ -239,15 +242,16 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -1400,
-        800
+        0,
+        200
       ],
-      "id": "977c417e-89ae-41e5-af3e-f89f24e07875",
+      "id": "ee4bd454-0057-4545-98ab-145461c6055d",
       "name": "Create File on Github",
+      "webhookId": "23889cba-d3e7-4dd0-ab91-4b262d0112f1",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub Fine-Grained"
+          "name": "GitHub account"
         }
       }
     },
@@ -274,15 +278,16 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -740,
-        600
+        660,
+        0
       ],
-      "id": "2a6f2e48-a263-4368-81ce-0f461c1dacb2",
+      "id": "b6e6b224-e0ab-41da-a2cf-d0ca4f5b711a",
       "name": "Update File on GIthub",
+      "webhookId": "f6489b4e-6185-449d-b876-e17fd2afbbd1",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub Fine-Grained"
+          "name": "GitHub account"
         }
       }
     }
@@ -380,8 +385,7 @@
             "type": "main",
             "index": 0
           }
-        ],
-        []
+        ]
       ]
     }
   },
@@ -389,18 +393,13 @@
     "executionOrder": "v1"
   },
   "staticData": {
-    "node:Schedule Trigger": {
-      "recurrenceRules": []
-    },
     "node:Run Daily": {
       "recurrenceRules": []
     }
   },
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "meta": null,
   "pinData": {},
-  "versionId": "82c80d53-9f26-4c16-bfc5-3c65e0a6a0bb",
+  "versionId": "a3617828-8ca2-4c04-8fba-0fe15680211c",
   "triggerCount": 1,
   "tags": []
 }
