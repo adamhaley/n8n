@@ -4,6 +4,7 @@
   "id": "sJg7GoV8oZu4E0UT",
   "name": "Blog Idea Generator",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -261,7 +262,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        147
+        140
       ]
     }
   },
