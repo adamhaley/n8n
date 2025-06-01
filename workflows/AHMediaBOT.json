@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-01T03:32:52.000Z",
+  "updatedAt": "2025-06-01T04:33:23.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "AHMediaBOT",
   "active": true,
@@ -18,7 +18,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        -88,
+        -80,
         -220
       ],
       "id": "939c92a6-c15e-4649-abdd-669d3faa6754",
@@ -41,26 +41,6 @@
       ],
       "id": "3ee226a1-8fcb-43c3-882f-8a5e1de5922b",
       "name": "Transcribe Voice"
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=sessionId"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        -620,
-        340
-      ],
-      "id": "a6bcab99-38df-4aa7-a4f1-e20ca9c6b784",
-      "name": "Redis Chat Memory",
-      "credentials": {
-        "redis": {
-          "id": "PAxrnIdpjZ24fsIc",
-          "name": "Redis account"
-        }
-      }
     },
     {
       "parameters": {
@@ -432,11 +412,6 @@
         ]
       ]
     },
-    "Redis Chat Memory": {
-      "ai_memory": [
-        []
-      ]
-    },
     "Cartesia TTS": {
       "main": [
         [
@@ -585,7 +560,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f8675802-c528-4f21-a198-b0aba7cff9b2",
+  "versionId": "a4e2ee9b-c1c3-4a5f-82d0-d545fd1479b1",
   "triggerCount": 1,
   "tags": []
 }
