@@ -4,6 +4,7 @@
   "id": "GlxGUI8W69Gwp3ui",
   "name": "Jena Substack Embed",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
