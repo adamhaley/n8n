@@ -4,6 +4,7 @@
   "id": "zDtF72hspHu5RkTp",
   "name": "Amplified Expansion Events",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -145,7 +146,7 @@
   },
   "staticData": {
     "node:Google Calendar Trigger": {
-      "lastTimeChecked": "2025-05-27T21:03:37Z"
+      "lastTimeChecked": "2025-06-01T03:04:20Z"
     }
   },
   "meta": {
