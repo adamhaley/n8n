@@ -4,6 +4,7 @@
   "id": "MIuTunGx5TlJ2JNI",
   "name": "Capture Email AHMedia",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
