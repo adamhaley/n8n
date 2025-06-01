@@ -4,6 +4,7 @@
   "id": "GmeUFdXNPBAPvpmO",
   "name": "RAG Ingest and Process File",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
