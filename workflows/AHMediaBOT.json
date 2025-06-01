@@ -1,9 +1,10 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-05-30T22:45:08.000Z",
+  "updatedAt": "2025-06-01T03:32:52.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "AHMediaBOT",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -17,10 +18,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        392,
-        -260
+        -88,
+        -220
       ],
-      "id": "247de43d-0e0b-41e6-a85c-9e0725fc5256",
+      "id": "939c92a6-c15e-4649-abdd-669d3faa6754",
       "name": "AI Agent"
     },
     {
@@ -35,10 +36,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -200,
-        -360
+        -680,
+        -320
       ],
-      "id": "cdcc7627-783e-4753-b9dc-dfb8d33065d2",
+      "id": "3ee226a1-8fcb-43c3-882f-8a5e1de5922b",
       "name": "Transcribe Voice"
     },
     {
@@ -49,10 +50,10 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        360,
-        -40
+        -620,
+        340
       ],
-      "id": "2e0b3cd0-a22b-4a18-91be-65081ceb5bb3",
+      "id": "a6bcab99-38df-4aa7-a4f1-e20ca9c6b784",
       "name": "Redis Chat Memory",
       "credentials": {
         "redis": {
@@ -73,10 +74,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        -260
+        440,
+        -220
       ],
-      "id": "335e9112-cf8f-4508-956e-e022c31ebb66",
+      "id": "181f7453-b8e0-4e89-a9c4-eb73fd475dd4",
       "name": "Cartesia TTS"
     },
     {
@@ -87,10 +88,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -420,
-        -360
+        -900,
+        -320
       ],
-      "id": "098aedb9-0eec-4bfe-9960-142728654cc8",
+      "id": "1db68457-d043-43ad-b876-a7ee3b166640",
       "name": "Download Message",
       "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
       "credentials": {
@@ -123,10 +124,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        20,
-        -260
+        -460,
+        -220
       ],
-      "id": "1eca0332-c8cc-43bf-9dd3-3d96606193db",
+      "id": "863aea4c-1ed7-46a6-b9b8-4c900b258d0f",
       "name": "Add sessionId"
     },
     {
@@ -144,10 +145,10 @@
       "type": "n8n-nodes-base.renameKeys",
       "typeVersion": 1,
       "position": [
-        -200,
-        -160
+        -680,
+        -120
       ],
-      "id": "e68c1574-266e-4b2f-8b20-0c02e8809db2",
+      "id": "b80de887-b541-4ef3-9475-af76f4d121fc",
       "name": "Normalize Msg"
     },
     {
@@ -162,10 +163,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1140,
-        -260
+        660,
+        -220
       ],
-      "id": "0854b2c3-dd1f-4b66-84b0-d9571c705970",
+      "id": "f8d0b3f3-3810-4a6e-8bdb-b3d1be3d35c5",
       "name": "Send Audio Reply",
       "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
       "credentials": {
@@ -187,10 +188,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1360,
-        -260
+        880,
+        -220
       ],
-      "id": "de3ac29a-17cf-4569-b480-fba7d2de4f30",
+      "id": "51cb39ad-a38d-4870-836e-16f9daa2a4a2",
       "name": "Send Text Reply",
       "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
       "credentials": {
@@ -257,10 +258,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -640,
-        -260
+        -1120,
+        -220
       ],
-      "id": "b5b9be44-1c31-4689-bf1f-b2832f6b8c3a",
+      "id": "2f6d91ba-a3d3-4f12-94c3-9fda6e5a7b1f",
       "name": "Is Voice or Text?"
     },
     {
@@ -273,10 +274,10 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -860,
-        -260
+        -1340,
+        -220
       ],
-      "id": "8dcab711-5786-4dfd-b083-cb4fa75b0cc2",
+      "id": "4c73364b-56eb-48e5-8e27-ad426d71e0bb",
       "name": "Receive Message",
       "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
       "credentials": {
@@ -323,10 +324,10 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        480,
-        -40
+        0,
+        0
       ],
-      "id": "12571506-f233-49bd-8d4f-af791e3c7f82",
+      "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
       "name": "Journal Entry Tool"
     },
     {
@@ -342,14 +343,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "typeVersion": 1.3,
       "position": [
-        240,
-        -40
+        -240,
+        0
       ],
-      "id": "9e9b2405-527a-4db5-a93d-2bbb9578e1bb",
+      "id": "5233198c-94ce-42f6-b2d5-7df26f827a6e",
       "name": "Anthropic Chat Model",
       "credentials": {
         "anthropicApi": {
-          "id": "7GlvHIE0IYuYuCXb",
+          "id": "RpSgqhlCVqkttICM",
           "name": "Anthropic account"
         }
       }
@@ -363,14 +364,14 @@
       "type": "n8n-nodes-base.openWeatherMapTool",
       "typeVersion": 1,
       "position": [
-        600,
-        -40
+        120,
+        0
       ],
-      "id": "72017dc9-5f93-47a8-9a12-88f06df75977",
+      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
       "name": "Current Weather",
       "credentials": {
         "openWeatherMapApi": {
-          "id": "UfuojLEC6ZKLR31Z",
+          "id": "zgxk8C7ZNwfWz6cx",
           "name": "OpenWeatherMap account"
         }
       }
@@ -384,17 +385,28 @@
       "type": "n8n-nodes-base.openWeatherMapTool",
       "typeVersion": 1,
       "position": [
-        720,
-        -40
+        240,
+        0
       ],
-      "id": "6a934437-0dd5-4c01-9a5d-66a44fd8b157",
+      "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
       "name": "Weather Forecast",
       "credentials": {
         "openWeatherMapApi": {
-          "id": "UfuojLEC6ZKLR31Z",
+          "id": "zgxk8C7ZNwfWz6cx",
           "name": "OpenWeatherMap account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        380,
+        0
+      ],
+      "id": "9e1f028f-1bbf-414d-9299-78e4fbce5dc9",
+      "name": "Simple Memory"
     }
   ],
   "connections": {
@@ -422,13 +434,7 @@
     },
     "Redis Chat Memory": {
       "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Cartesia TTS": {
@@ -558,6 +564,17 @@
           }
         ]
       ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -568,7 +585,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "4cb526b7-bc59-405f-94ab-fe1ab47e7d88",
+  "versionId": "f8675802-c528-4f21-a198-b0aba7cff9b2",
   "triggerCount": 1,
   "tags": []
 }
