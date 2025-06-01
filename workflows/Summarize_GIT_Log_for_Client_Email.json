@@ -4,6 +4,7 @@
   "id": "X1V3UPGUPaa2TOki",
   "name": "Summarize GIT Log for Client Email",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -249,9 +250,7 @@
   },
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": [
-        148
-      ]
+      "recurrenceRules": []
     }
   },
   "meta": {
