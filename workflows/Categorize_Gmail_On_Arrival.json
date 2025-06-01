@@ -1,12 +1,17 @@
 {
+  "createdAt": "2025-05-11T19:19:19.275Z",
+  "updatedAt": "2025-06-01T05:19:45.000Z",
+  "id": "aOXmAxM5FDNzAj98",
   "name": "Categorize Gmail On Arrival",
+  "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
         "pollTimes": {
           "item": [
             {
-              "mode": "everyHour"
+              "mode": "everyMinute"
             }
           ]
         },
@@ -15,21 +20,21 @@
       "type": "n8n-nodes-base.gmailTrigger",
       "typeVersion": 1.2,
       "position": [
-        -180,
+        -480,
         160
       ],
       "id": "f6401e93-3bea-49df-81a5-f04cefe77370",
       "name": "Gmail Trigger",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
         }
       }
     },
     {
       "parameters": {
-        "inputText": "={{ $json.headers.subject }}{{ $json.html }}",
+        "inputText": "={{ $json.headers.subject }}{{$json.text }}",
         "categories": {
           "categories": [
             {
@@ -38,7 +43,7 @@
             },
             {
               "category": "Personal",
-              "description": "Personal email from family or friends about anything"
+              "description": "Personal email from family or friends"
             },
             {
               "category": "Recruitment",
@@ -50,20 +55,26 @@
             },
             {
               "category": "Social",
-              "description": "Any email from a social media site - instagram, facebook, youtube, X, etc"
+              "description": "Any email from a social media site - instagram, facebook, youtube, X, meetup.com, livejournal, or LinkedIn"
             },
             {
               "category": "Transactional",
               "description": "Receipts or Invoices"
+            },
+            {
+              "category": "Reddit",
+              "description": "Reddit emails or tab watchers from reddit"
             }
           ]
         },
-        "options": {}
+        "options": {
+          "multiClass": false
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1,
       "position": [
-        260,
+        -40,
         160
       ],
       "id": "f70fef52-1293-4920-a596-1551596b7270",
@@ -71,41 +82,16 @@
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "o3-mini-2025-01-31",
-          "mode": "list",
-          "cachedResultName": "o3-mini-2025-01-31"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        348,
-        380
-      ],
-      "id": "805a5c1c-6e37-4758-add0-61371b2ac300",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "addLabels",
         "messageId": "={{ $('Gmail Trigger').item.json.id }}",
         "labelIds": [
-          "Label_978496995099268376"
+          "Label_756443160637827591"
         ]
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        636,
+        336,
         660
       ],
       "id": "7acb9d74-34df-4bac-9826-0f701a0705b0",
@@ -113,8 +99,8 @@
       "webhookId": "e2c61e3e-2e83-460f-a45e-957e4530784a",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
         }
       }
     },
@@ -123,46 +109,22 @@
         "operation": "addLabels",
         "messageId": "={{ $('Gmail Trigger').item.json.id }}",
         "labelIds": [
-          "Label_2771129364144171757"
+          "CATEGORY_SOCIAL"
         ]
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        636,
+        336,
         260
-      ],
-      "id": "a0acbe65-9f34-489e-9c0a-b2a54208da1c",
-      "name": "Gmail1",
-      "webhookId": "078771e2-92b3-4703-86b4-10eb07f153bd",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "addLabels",
-        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
-        "labelIds": [
-          "Label_3343201866846378292"
-        ]
-      },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.1,
-      "position": [
-        636,
-        460
       ],
       "id": "78b56b0b-7532-40f0-9999-fe0f0ac43817",
       "name": "Gmail2",
       "webhookId": "20d7a267-f2a8-4e94-820a-04147bef9e38",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
         }
       }
     },
@@ -171,13 +133,13 @@
         "operation": "addLabels",
         "messageId": "={{ $('Gmail Trigger').item.json.id }}",
         "labelIds": [
-          "Label_6650977126082951398"
+          "CATEGORY_PERSONAL"
         ]
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        636,
+        336,
         -140
       ],
       "id": "623c2e8f-d550-452b-91dd-5ded0202e403",
@@ -185,8 +147,8 @@
       "webhookId": "ef756d4a-5cd9-4c79-b80e-ecdcb1501253",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
         }
       }
     },
@@ -195,13 +157,14 @@
         "operation": "addLabels",
         "messageId": "={{ $('Gmail Trigger').item.json.id }}",
         "labelIds": [
-          "Label_8295924731551856544"
+          "CATEGORY_PROMOTIONS",
+          "SPAM"
         ]
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        636,
+        336,
         -340
       ],
       "id": "0786bf6e-4e6f-4eac-8fb0-30529535332e",
@@ -209,8 +172,8 @@
       "webhookId": "10405ac6-76fc-4b10-a465-0272d1f88b19",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
         }
       }
     },
@@ -219,13 +182,13 @@
         "operation": "addLabels",
         "messageId": "={{ $('Gmail Trigger').item.json.id }}",
         "labelIds": [
-          "Label_2771129364144171757"
+          "INBOX"
         ]
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        636,
+        336,
         60
       ],
       "id": "f134401a-e2f3-44ad-b10a-3ea35d861dc0",
@@ -233,8 +196,8 @@
       "webhookId": "9d17b717-c8e6-4dd9-bb37-98b916f0c5b8",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
         }
       }
     },
@@ -248,7 +211,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        40,
+        -260,
         160
       ],
       "id": "9bfc888b-793c-4da6-8895-0fe40f35b8a9",
@@ -256,13 +219,56 @@
       "webhookId": "ce37e66a-fe39-4919-b7ce-9e0f203fe1e7",
       "credentials": {
         "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "labelIds": [
+          "Label_1207247273045055523"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        336,
+        460
+      ],
+      "id": "e3459969-c255-49ed-83e7-ae0cc22b2127",
+      "name": "Gmail1",
+      "webhookId": "c664bd39-cab1-4f96-83b5-bc36f5807b26",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma3:1b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        48,
+        380
+      ],
+      "id": "ce571224-ea00-479d-97fe-84fc9fcd9144",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
         }
       }
     }
   ],
-  "pinData": {},
   "connections": {
     "Gmail Trigger": {
       "main": [
@@ -270,17 +276,6 @@
           {
             "node": "Gmail6",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Text Classifier",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -309,13 +304,7 @@
             "index": 0
           }
         ],
-        [
-          {
-            "node": "Gmail1",
-            "type": "main",
-            "index": 0
-          }
-        ],
+        [],
         [
           {
             "node": "Gmail2",
@@ -326,6 +315,13 @@
         [
           {
             "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail1",
             "type": "main",
             "index": 0
           }
@@ -342,17 +338,38 @@
           }
         ]
       ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "ad36a564-e793-4958-990e-9d5a1d806943",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  "staticData": {
+    "node:Gmail Trigger": {
+      "Gmail Trigger": {
+        "lastTimeChecked": 1748760637,
+        "possibleDuplicates": [
+          "1972a41b373e647a",
+          "1972a3e7f15369fa"
+        ]
+      }
+    }
   },
-  "id": "aOXmAxM5FDNzAj98",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "3c2dd6c5-7877-4463-9577-ee2d9324c433",
+  "triggerCount": 1,
   "tags": []
 }
