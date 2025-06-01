@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-11T19:56:26.120Z",
-  "updatedAt": "2025-05-11T20:54:00.000Z",
+  "updatedAt": "2025-06-01T05:03:26.000Z",
   "id": "7eVo932Tjecd6d6Q",
   "name": "Clean Up Gmail Inbox",
   "active": true,
@@ -50,31 +50,6 @@
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "o3-mini-2025-01-31",
-          "mode": "list",
-          "cachedResultName": "o3-mini-2025-01-31"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        668,
-        1320
-      ],
-      "id": "e64fcbb3-5f72-4268-8ed5-c6c3c46fb2cd",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "addLabels",
         "messageId": "={{ $json.id }}",
         "labelIds": [
@@ -93,7 +68,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -117,7 +92,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -141,7 +116,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -165,7 +140,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -189,7 +164,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -213,7 +188,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -234,7 +209,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -254,6 +229,26 @@
       ],
       "id": "fb9d5d94-e278-48d9-ad7d-ae9b39871702",
       "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "model": "gemma3:1b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        668,
+        1320
+      ],
+      "id": "49597222-99eb-4355-b27c-e23ac76c02a4",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
+        }
+      }
     }
   ],
   "connections": {
@@ -303,17 +298,6 @@
         ]
       ]
     },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Text Classifier",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Gmail6": {
       "main": [
         [
@@ -331,6 +315,17 @@
           {
             "node": "Gmail6",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -1804,7 +1799,7 @@
       }
     ]
   },
-  "versionId": "a6eee8cb-1376-4562-a96d-898ce6020d8e",
+  "versionId": "92f79cb5-e1d9-434b-9bd7-d37af34b2329",
   "triggerCount": 1,
   "tags": []
 }
