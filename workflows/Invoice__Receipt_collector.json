@@ -4,6 +4,7 @@
   "id": "Ey0bE1Ie1l6NfsfG",
   "name": "Invoice / Receipt collector",
   "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -264,24 +265,9 @@
   "staticData": {
     "node:Gmail Trigger": {
       "Gmail Trigger": {
-        "lastTimeChecked": 1748633266,
+        "lastTimeChecked": 1748741554,
         "possibleDuplicates": [
-          "19722aa2bb377942",
-          "1972207f9575dea8",
-          "19721e5978191d6b",
-          "19721def196c5984",
-          "19721c2cc798ae35",
-          "19721c281772f08d",
-          "1972198f988f417c",
-          "1971ffe2573366f6",
-          "1971f22461250fde",
-          "1971f1a5a94f2390",
-          "1971efd57c1ce0e5",
-          "1971eefb0e5b685a",
-          "1971e68e4bccab3f",
-          "1971e22ed99e7140",
-          "1971e01949f86850",
-          "1971d446c5d59927"
+          "197291e83b33bfb9"
         ]
       }
     }
