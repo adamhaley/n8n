@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-01T04:33:23.000Z",
+  "updatedAt": "2025-06-02T02:03:23.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "AHMediaBOT",
   "active": true,
@@ -12,13 +12,13 @@
         "text": "={{ $json.msg }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length."
+          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length. For tool calls requiring location data, use Los Angeles unless otherwise specified."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        -80,
+        -28,
         -220
       ],
       "id": "939c92a6-c15e-4649-abdd-669d3faa6754",
@@ -54,7 +54,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        440,
+        560,
         -220
       ],
       "id": "181f7453-b8e0-4e89-a9c4-eb73fd475dd4",
@@ -143,7 +143,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        660,
+        780,
         -220
       ],
       "id": "f8d0b3f3-3810-4a6e-8bdb-b3d1be3d35c5",
@@ -168,7 +168,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        880,
+        1000,
         -220
       ],
       "id": "51cb39ad-a38d-4870-836e-16f9daa2a4a2",
@@ -269,6 +269,115 @@
     },
     {
       "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "5233198c-94ce-42f6-b2d5-7df26f827a6e",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RpSgqhlCVqkttICM",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to record a \"content idea\" ",
+        "workflowId": {
+          "__rl": true,
+          "value": "uHh2zhO8z0QbHbow",
+          "mode": "list",
+          "cachedResultName": "Record Content Idea"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "content"
+          ],
+          "schema": [
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
+      "name": "Record Content Idea"
+    },
+    {
+      "parameters": {
+        "format": "imperial",
+        "cityName": "Los Angeles, CA",
+        "language": "=en"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        120,
+        0
+      ],
+      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
+      "name": "Weather",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "7DhsapvM6ZDKxoUN",
+          "name": "OPEN WEATHER API KEY"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "format": "imperial",
+        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
+      "name": "Forecast",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "7DhsapvM6ZDKxoUN",
+          "name": "OPEN WEATHER API KEY"
+        }
+      }
+    },
+    {
+      "parameters": {
         "name": "journal_entry",
         "description": "Call this tool to write a journal entry.",
         "workflowId": {
@@ -304,89 +413,32 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        0,
+        360,
         0
       ],
       "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
-      "name": "Journal Entry Tool"
+      "name": "Journal Entry",
+      "executeOnce": true
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "claude-3-7-sonnet-20250219",
-          "cachedResultName": "Claude 3.7 Sonnet"
-        },
-        "options": {}
+        "sessionIdType": "customKey",
+        "sessionKey": "ah_media_bot"
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.3,
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
       "position": [
-        -240,
+        -120,
         0
       ],
-      "id": "5233198c-94ce-42f6-b2d5-7df26f827a6e",
-      "name": "Anthropic Chat Model",
+      "id": "c470ae27-ab74-4406-bf1c-c1e42be858f0",
+      "name": "Redis Chat Memory",
       "credentials": {
-        "anthropicApi": {
-          "id": "RpSgqhlCVqkttICM",
-          "name": "Anthropic account"
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "format": "imperial",
-        "cityName": "=Los Angeles, CA",
-        "language": "=en"
-      },
-      "type": "n8n-nodes-base.openWeatherMapTool",
-      "typeVersion": 1,
-      "position": [
-        120,
-        0
-      ],
-      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
-      "name": "Current Weather",
-      "credentials": {
-        "openWeatherMapApi": {
-          "id": "zgxk8C7ZNwfWz6cx",
-          "name": "OpenWeatherMap account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "5DayForecast",
-        "format": "imperial",
-        "cityName": "Los Angeles, CA"
-      },
-      "type": "n8n-nodes-base.openWeatherMapTool",
-      "typeVersion": 1,
-      "position": [
-        240,
-        0
-      ],
-      "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
-      "name": "Weather Forecast",
-      "credentials": {
-        "openWeatherMapApi": {
-          "id": "zgxk8C7ZNwfWz6cx",
-          "name": "OpenWeatherMap account"
-        }
-      }
-    },
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        380,
-        0
-      ],
-      "id": "9e1f028f-1bbf-414d-9299-78e4fbce5dc9",
-      "name": "Simple Memory"
     }
   ],
   "connections": {
@@ -496,17 +548,6 @@
         ]
       ]
     },
-    "Journal Entry Tool": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Anthropic Chat Model": {
       "ai_languageModel": [
         [
@@ -518,7 +559,7 @@
         ]
       ]
     },
-    "Current Weather": {
+    "Record Content Idea": {
       "ai_tool": [
         [
           {
@@ -529,7 +570,7 @@
         ]
       ]
     },
-    "Weather Forecast": {
+    "Weather": {
       "ai_tool": [
         [
           {
@@ -540,7 +581,29 @@
         ]
       ]
     },
-    "Simple Memory": {
+    "Forecast": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Journal Entry": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
       "ai_memory": [
         [
           {
@@ -560,7 +623,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a4e2ee9b-c1c3-4a5f-82d0-d545fd1479b1",
+  "versionId": "0eb5107a-d177-452c-9229-423241428485",
   "triggerCount": 1,
   "tags": []
 }
