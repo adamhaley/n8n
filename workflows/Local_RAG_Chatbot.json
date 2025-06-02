@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-12T18:16:17.446Z",
-  "updatedAt": "2025-06-01T05:22:19.000Z",
+  "updatedAt": "2025-06-01T19:47:06.000Z",
   "id": "6hVEPWSdWtEgAvFL",
   "name": "Local RAG Chatbot",
   "active": true,
@@ -130,15 +130,24 @@
       "name": "Respond to Webhook"
     },
     {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "local_rag"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
       "position": [
         200,
         20
       ],
-      "id": "c42e4b55-a8dd-4495-8241-bfbd0ec0cc5d",
-      "name": "Simple Memory"
+      "id": "1bf70585-5ddf-425b-a0ad-4056673c7dda",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "connections": {
@@ -197,7 +206,7 @@
         ]
       ]
     },
-    "Simple Memory": {
+    "Redis Chat Memory": {
       "ai_memory": [
         [
           {
@@ -217,7 +226,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cc6cb7ac-7a64-4ef2-9505-dfab37c58219",
+  "versionId": "dd020506-0a66-4824-b5db-2f391f072abc",
   "triggerCount": 1,
   "tags": []
 }
