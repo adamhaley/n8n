@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-18T19:59:00.319Z",
-  "updatedAt": "2025-05-18T21:11:44.000Z",
+  "updatedAt": "2025-06-02T23:24:13.000Z",
   "id": "X1V3UPGUPaa2TOki",
   "name": "Summarize GIT Log for Client Email",
   "active": true,
@@ -33,7 +33,7 @@
           "parameters": [
             {
               "name": "=since",
-              "value": "={{ $now.minus(7,'days').format('YYYY-MM-DDTHH:MM') }}"
+              "value": "={{ $now.minus(7,'days') }}"
             },
             {
               "name": "sha",
@@ -259,7 +259,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b933659c-d9ad-4627-9cce-ba58befbf056",
+  "versionId": "ce94718a-3c3a-4e9a-90db-034d9339cad5",
   "triggerCount": 1,
   "tags": []
 }
