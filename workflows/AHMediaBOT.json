@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-02T02:03:23.000Z",
+  "updatedAt": "2025-06-03T03:15:14.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "AHMediaBOT",
   "active": true,
@@ -269,31 +269,6 @@
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "claude-3-7-sonnet-20250219",
-          "cachedResultName": "Claude 3.7 Sonnet"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.3,
-      "position": [
-        -240,
-        0
-      ],
-      "id": "5233198c-94ce-42f6-b2d5-7df26f827a6e",
-      "name": "Anthropic Chat Model",
-      "credentials": {
-        "anthropicApi": {
-          "id": "RpSgqhlCVqkttICM",
-          "name": "Anthropic account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "description": "Call this tool to record a \"content idea\" ",
         "workflowId": {
           "__rl": true,
@@ -439,6 +414,25 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "870ef1fc-10f5-43f1-9955-0f159dd052ba",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "ulwRJnMKLZ1UXHig",
+          "name": "Groq account"
+        }
+      }
     }
   ],
   "connections": {
@@ -548,17 +542,6 @@
         ]
       ]
     },
-    "Anthropic Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Record Content Idea": {
       "ai_tool": [
         [
@@ -613,6 +596,17 @@
           }
         ]
       ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -623,7 +617,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0eb5107a-d177-452c-9229-423241428485",
+  "versionId": "8993251d-deba-427f-a17c-186ccd08e767",
   "triggerCount": 1,
   "tags": []
 }
