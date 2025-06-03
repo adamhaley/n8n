@@ -1,1 +1,321 @@
-{"createdAt":"2025-04-12T18:16:17.446Z","updatedAt":"2025-06-01T19:47:06.000Z","id":"6hVEPWSdWtEgAvFL","name":"Local RAG Chatbot","active":true,"isArchived":false,"nodes":[{"parameters":{"promptType":"define","text":"={{ $json.body.message }}","options":{"systemMessage":"You are a helpful assistant. You must answer questions using information found in the Pinecone vector store database. If the answer is not found, do not attempt to answer from outside knowledge. Do not refer to the Pinecone vector store database by name when answering questions. Just call it \"My Knowledgebase\""}},"id":"66e75857-5b12-4dfe-9839-273e106bcbe6","name":"AI Agent","type":"@n8n/n8n-nodes-langchain.agent","position":[112,-200],"typeVersion":1.8},{"parameters":{"mode":"retrieve-as-tool","toolName":"knowledgebase","toolDescription":"load details from knowledge base","pineconeIndex":{"__rl":true,"value":"ah-media","mode":"list","cachedResultName":"ah-media"},"includeDocumentMetadata":false,"options":{"pineconeNamespace":"={{ $json.body.namespace }}"}},"type":"@n8n/n8n-nodes-langchain.vectorStorePinecone","typeVersion":1.1,"position":[320,22.5],"id":"5219333f-cdef-4576-959e-fa4cf6e8f74c","name":"Pinecone Vector Store1","credentials":{"pineconeApi":{"id":"x0bN3Ljld6zAEruh","name":"PineconeApi account"}}},{"parameters":{"model":"nomic-embed-text:latest"},"type":"@n8n/n8n-nodes-langchain.embeddingsOllama","typeVersion":1,"position":[408,220],"id":"1753eba5-8407-4d4a-a89e-810ce6937c16","name":"Embeddings Ollama","credentials":{"ollamaApi":{"id":"b1Nz8WxwYDKRmecP","name":"Ollama account"}}},{"parameters":{"model":{"__rl":true,"mode":"list","value":"gpt-4o-mini"},"options":{}},"type":"@n8n/n8n-nodes-langchain.lmChatOpenAi","typeVersion":1.2,"position":[80,20],"id":"0bb6f84e-3789-4253-ab29-02a909df1406","name":"OpenAI Chat Model","credentials":{"openAiApi":{"id":"5GRgzlcJ5Ujkvgcd","name":"OpenAi account"}}},{"parameters":{"httpMethod":"POST","path":"245a2818-056b-4f66-b730-116528e44bf7","responseMode":"responseNode","options":{"allowedOrigins":"*"}},"type":"n8n-nodes-base.webhook","typeVersion":2,"position":[-140,-200],"id":"d123df97-ba98-4b32-a6d5-49c4dd3ebe90","name":"Webhook","webhookId":"245a2818-056b-4f66-b730-116528e44bf7"},{"parameters":{"options":{}},"type":"n8n-nodes-base.respondToWebhook","typeVersion":1.1,"position":[696,-200],"id":"ab9dc158-9b44-4272-937c-9b13a55849f3","name":"Respond to Webhook"},{"parameters":{"sessionIdType":"customKey","sessionKey":"local_rag"},"type":"@n8n/n8n-nodes-langchain.memoryRedisChat","typeVersion":1.5,"position":[200,20],"id":"1bf70585-5ddf-425b-a0ad-4056673c7dda","name":"Redis Chat Memory","credentials":{"redis":{"id":"PAxrnIdpjZ24fsIc","name":"Redis account"}}}],"connections":{"Pinecone Vector Store1":{"ai_tool":[[{"node":"AI Agent","type":"ai_tool","index":0}]]},"Embeddings Ollama":{"ai_embedding":[[{"node":"Pinecone Vector Store1","type":"ai_embedding","index":0}]]},"OpenAI Chat Model":{"ai_languageModel":[[{"node":"AI Agent","type":"ai_languageModel","index":0}]]},"Webhook":{"main":[[{"node":"AI Agent","type":"main","index":0}]]},"AI Agent":{"main":[[{"node":"Respond to Webhook","type":"main","index":0}]]},"Redis Chat Memory":{"ai_memory":[[{"node":"AI Agent","type":"ai_memory","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":{"templateCredsSetupCompleted":true},"pinData":{},"versionId":"dd020506-0a66-4824-b5db-2f391f072abc","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-06-01T05:04:13.940Z",
+  "updatedAt": "2025-06-02T01:09:39.000Z",
+  "id": "L9M7MrQz8udYPlcv",
+  "name": "Clean Up adamhaley@gmail.com",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputText": "={{ $json.Subject }}{{ $json.snippet }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Spammy",
+              "description": "Emails from people or companies with the intent to sell a product or service, is a mass email and doesnt apply to me directly"
+            },
+            {
+              "category": "Personal",
+              "description": "Personal email from family or friends about anything"
+            },
+            {
+              "category": "Recruitment",
+              "description": "Job offers or requests for resumes, interviews or intro calls"
+            },
+            {
+              "category": "Social",
+              "description": "Any email from a social media site - instagram, facebook, youtube, X, etc"
+            },
+            {
+              "category": "Transactional",
+              "description": "Receipts or Invoices"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        580,
+        1100
+      ],
+      "id": "f812d38e-de5d-46aa-aa4e-6ba2f856f0a0",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        360,
+        1100
+      ],
+      "id": "7b2444db-e6e6-4bf4-baf3-2ae4f5494fe6",
+      "name": "Gmail6",
+      "webhookId": "8171207a-a218-461b-aae1-71478bbfb934",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        1100
+      ],
+      "id": "5fa53d93-79e6-4c5a-afc2-0244a7bbbdee",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-sonnet-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 3.5 (New)"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        680,
+        1320
+      ],
+      "id": "a46972ca-d38f-414d-8f2f-a3ee4a17e3c0",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RpSgqhlCVqkttICM",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "SPAM"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        600
+      ],
+      "id": "010d3ba7-a7bc-4fee-b726-e04f253ff029",
+      "name": "SPAM",
+      "webhookId": "ce225a15-311e-4b10-8da7-c6d4fcafa1bc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "CATEGORY_PERSONAL"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        956,
+        800
+      ],
+      "id": "cad0c2dc-9fd2-4af2-8992-8569745fb762",
+      "name": "PERSONAL",
+      "webhookId": "b4550827-f0fe-4d83-af7f-343253d97238",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_5737925553883926836"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        1000
+      ],
+      "id": "25b3f4d7-d826-4d00-8412-85319a00f640",
+      "name": "RECRUITERS",
+      "webhookId": "6207bc2f-eaba-4fd7-98d3-c400a543be18",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_756443160637827591"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        956,
+        1400
+      ],
+      "id": "2487723c-660a-4da9-a0e0-ce251d370071",
+      "name": "TRANSACTIONAL",
+      "webhookId": "e26a2307-a6ac-40b0-9b30-2adcab0a78e1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "CATEGORY_SOCIAL"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        1200
+      ],
+      "id": "9c316099-c9c8-49be-879c-4182630a62d3",
+      "name": "SOCIAL",
+      "webhookId": "b8ba08b5-1e3a-4687-9090-fc3bbbffb167",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "SPAM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RECRUITERS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PERSONAL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SOCIAL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "TRANSACTIONAL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Gmail6": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6e5b21a7-6359-4539-a44e-3aabe2089f43",
+  "triggerCount": 1,
+  "tags": []
+}
