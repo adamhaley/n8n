@@ -1,5 +1,10 @@
 {
+  "createdAt": "2025-04-22T17:59:05.709Z",
+  "updatedAt": "2025-06-04T22:23:12.000Z",
+  "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
+  "active": false,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -257,7 +262,6 @@
       "name": "Scrape Google Maps"
     }
   ],
-  "pinData": {},
   "connections": {
     "AI Agent": {
       "main": [
@@ -353,15 +357,15 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a1e858ca-81fc-48c3-86af-f855c44b3899",
+  "staticData": null,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true
   },
-  "id": "G0Vk5kYZGi0nCI12",
+  "pinData": {},
+  "versionId": "a1e858ca-81fc-48c3-86af-f855c44b3899",
+  "triggerCount": 1,
   "tags": []
 }
