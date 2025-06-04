@@ -1,5 +1,10 @@
 {
+  "createdAt": "2025-06-04T22:07:05.836Z",
+  "updatedAt": "2025-06-04T22:52:27.000Z",
+  "id": "26OUjbuI1flCV0fh",
   "name": "Scrape Google Maps",
+  "active": false,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -123,7 +128,6 @@
       "name": "When Executed by Another Workflow"
     }
   ],
-  "pinData": {},
   "connections": {
     "Split Out": {
       "main": [
@@ -159,15 +163,15 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "77902719-207a-4f89-90f6-2a3c9909c9b8",
+  "staticData": null,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true
   },
-  "id": "26OUjbuI1flCV0fh",
+  "pinData": {},
+  "versionId": "77902719-207a-4f89-90f6-2a3c9909c9b8",
+  "triggerCount": 0,
   "tags": []
 }
