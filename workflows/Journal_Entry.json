@@ -1,24 +1,24 @@
 {
+  "createdAt": "2025-05-25T00:01:08.305Z",
+  "updatedAt": "2025-06-02T01:11:49.000Z",
+  "id": "H0HZQnMr1hgjQMmI",
   "name": "Journal Entry",
+  "active": false,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "workflowInputs": {
-          "values": [
-            {
-              "name": "content"
-            }
-          ]
-        }
+        "mode": "runOnceForEachItem",
+        "jsCode": "return { name: $json.name }"
       },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        -160,
-        -120
+        -440,
+        640
       ],
-      "id": "58f2b0ae-1fdc-4614-ba88-a024550f41a5",
-      "name": "When Executed by Another Workflow"
+      "id": "16419d4b-5a9b-4397-98c8-406df60642ff",
+      "name": "Code"
     },
     {
       "parameters": {
@@ -35,8 +35,8 @@
           "cachedResultName": "adamhaley-com",
           "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
-        "filePath": "=journal/{{ $('Create Filename').item.json.filename }}",
-        "fileContent": "={{$('Create Filename').item.json.content  }}",
+        "filePath": "=journal/{{ $('Create Filename1').item.json.filename }}",
+        "fileContent": "={{$('Create Filename1').item.json.content  }}",
         "commitMessage": "=committing journal entry for {{$now }} }}",
         "additionalParameters": {
           "branch": {
@@ -47,11 +47,12 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        940,
-        -220
+        0,
+        740
       ],
-      "id": "d26ad079-0ce4-4289-be2c-68e3f35472a0",
-      "name": "Create File",
+      "id": "768b6ab2-3fec-4380-81c4-45f0aa45a212",
+      "name": "Create File1",
+      "webhookId": "e63bf744-6684-4324-8490-8e2ff702ba3b",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -75,18 +76,19 @@
           "cachedResultName": "adamhaley-com",
           "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
-        "filePath": "=journal/{{$('Create Filename').item.json.filename }}",
+        "filePath": "=journal/{{$('Create Filename1').item.json.filename }}",
         "asBinaryProperty": "={{ true }}",
         "additionalParameters": {}
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        940,
-        -20
+        0,
+        540
       ],
-      "id": "5b8a0a9a-e56a-4f8d-94ae-430ad519c8e6",
-      "name": "Get File",
+      "id": "c7b02ccb-84c3-4f55-8faa-376496d029ac",
+      "name": "Get File1",
+      "webhookId": "b82cb6cc-ee1b-442c-9b07-e472f637ea22",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -102,11 +104,11 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        1160,
-        -20
+        220,
+        540
       ],
-      "id": "b5ae02b3-c1cc-4388-9f09-c6efb7cce92c",
-      "name": "Get Contents"
+      "id": "485025b8-1997-453a-96f6-a138a68e08c3",
+      "name": "Get Contents1"
     },
     {
       "parameters": {
@@ -124,18 +126,19 @@
           "cachedResultName": "adamhaley-com",
           "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
-        "filePath": "=journal/{{$('Create Filename').item.json.filename }}",
-        "fileContent": "={{ $json.data }}\n\n{{ $now.toLocaleString({ timeStyle: 'short' }) }}\n{{ $('Create Filename').item.json.content }}\n",
-        "commitMessage": "=appending content to  {{ $('Create Filename').item.json.filename }}"
+        "filePath": "=journal/{{$('Create Filename1').item.json.filename }}",
+        "fileContent": "={{ $json.data }}\n\n{{ $now.toLocaleString({ timeStyle: 'short' }) }}\n{{ $('Create Filename1').item.json.content }}\n",
+        "commitMessage": "=appending content to  {{ $('Create Filename1').item.json.filename }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        1380,
-        -20
+        440,
+        540
       ],
-      "id": "aac3e1a8-6610-46da-a2ea-22169a6461dc",
-      "name": "Append New Contents",
+      "id": "44e3be97-94d4-42a4-8caf-cca76c106b59",
+      "name": "Append New Contents1",
+      "webhookId": "e534c27a-bd91-4045-b3f7-3e9cd6db060f",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -145,50 +148,16 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
-              "leftValue": "={{ $input.all().map(item => item.json.name) }}",
-              "rightValue": "={{ $('Create Filename').first().json.filename }}",
-              "operator": {
-                "type": "array",
-                "operation": "notContains",
-                "rightType": "any"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        720,
-        -120
-      ],
-      "id": "a8413e2c-c7e3-47c9-b84d-5c0916c4a23e",
-      "name": "If File Doesn't Exist"
-    },
-    {
-      "parameters": {
         "jsCode": "//create filename\nlet filename = $now.toFormat('y-MM-d') + '.md';\nlet content = '';\nif($input.first().json.content !== null){\n  content = $input.first().json.content;\n}\nreturn { filename: filename, content: content }"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        60,
-        -120
+        -880,
+        640
       ],
-      "id": "1dda2c38-5e49-48b0-a292-e01a60485f4e",
-      "name": "Create Filename"
+      "id": "51485ddf-1149-4438-ab27-1b7831dcd313",
+      "name": "Create Filename1"
     },
     {
       "parameters": {
@@ -211,11 +180,12 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        280,
-        -120
+        -660,
+        640
       ],
-      "id": "43dbe309-ea1b-4189-b916-b9ac127adf87",
-      "name": "Github List FIles",
+      "id": "a7edfbe2-4625-46a0-9751-f7cba627e165",
+      "name": "Github List FIles1",
+      "webhookId": "3c3f7fc3-d024-4715-87f3-f7eeab3b814c",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -225,84 +195,105 @@
     },
     {
       "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "return { name: $json.name }"
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "content"
+            }
+          ]
+        }
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
       "position": [
-        500,
-        -120
+        -1100,
+        640
       ],
-      "id": "cf89d7ac-1755-4385-a838-5be612a25766",
-      "name": "Code"
+      "id": "caeaabab-7036-48b2-b1e7-c783398eda70",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
+              "leftValue": "={{ $input.all().map(item => item.json.name) }}",
+              "rightValue": "={{ $('Create Filename1').first().json.filename }}",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -220,
+        640
+      ],
+      "id": "a1759c3f-0a5f-4eca-8746-57a3e17ddddb",
+      "name": "If File Exists",
+      "executeOnce": true
     }
   ],
-  "pinData": {},
   "connections": {
-    "When Executed by Another Workflow": {
+    "Code": {
       "main": [
         [
           {
-            "node": "Create Filename",
+            "node": "If File Exists",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get File": {
+    "Get File1": {
       "main": [
         [
           {
-            "node": "Get Contents",
+            "node": "Get Contents1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get Contents": {
+    "Get Contents1": {
       "main": [
         [
           {
-            "node": "Append New Contents",
+            "node": "Append New Contents1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If File Doesn't Exist": {
+    "Create Filename1": {
       "main": [
         [
           {
-            "node": "Create File",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Get File",
+            "node": "Github List FIles1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Create Filename": {
-      "main": [
-        [
-          {
-            "node": "Github List FIles",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Github List FIles": {
+    "Github List FIles1": {
       "main": [
         [
           {
@@ -313,11 +304,29 @@
         ]
       ]
     },
-    "Code": {
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "If File Doesn't Exist",
+            "node": "Create Filename1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If File Exists": {
+      "main": [
+        [
+          {
+            "node": "Get File1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create File1",
             "type": "main",
             "index": 0
           }
@@ -325,15 +334,15 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a7504ae2-656f-4fe2-943a-06582ebe3759",
+  "staticData": null,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true
   },
-  "id": "H0HZQnMr1hgjQMmI",
+  "pinData": {},
+  "versionId": "437f96d1-dc25-4cc5-80d8-313b70fff17e",
+  "triggerCount": 0,
   "tags": []
 }
