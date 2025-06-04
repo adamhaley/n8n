@@ -1,0 +1,173 @@
+{
+  "name": "Scrape Google Maps",
+  "nodes": [
+    {
+      "parameters": {
+        "fieldToSplitOut": "data[0]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -460
+      ],
+      "id": "59f71df7-10de-4dd2-a7d8-df85e22aefe2",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2e172538-efa3-4997-aad9-0c522cd607b7",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "790182be-f054-464f-bf08-0e67374e062e",
+              "name": "site",
+              "value": "={{ $json.site }}",
+              "type": "string"
+            },
+            {
+              "id": "0f573acd-c2fc-469d-ad13-441c5a6a4b09",
+              "name": "full_address",
+              "value": "={{ $json.full_address }}",
+              "type": "string"
+            },
+            {
+              "id": "7e04ba70-0506-43ef-9f22-6c55e809bf7f",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "edb48b22-8a72-4783-bdf0-5e9f628f91a5",
+              "name": "category",
+              "value": "={{ $json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "1de435de-4dd1-450e-ba57-e2c5b0a0b2a4",
+              "name": "subtypes",
+              "value": "={{ $json.subtypes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -500,
+        -460
+      ],
+      "id": "c96535a7-d4c1-4552-a274-4f5103fba9db",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://api.outscraper.cloud/maps/search-v3",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.parameters }}"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "async",
+              "value": "false"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "ZDVhMWE1MjE3NTQ0NDVmYWIwZTFjYjQ4OGM1ZjNiNzJ8YTQ0MzlhYzIyMQ"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -940,
+        -460
+      ],
+      "id": "054bc784-8d78-4d0e-b77c-9ff47dd590a6",
+      "name": "Outscraper"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n \"parameters\": \"Barbers in Hollywood, CA\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1160,
+        -460
+      ],
+      "id": "bc2f1451-f6dc-484a-82a2-355e8fb83357",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outscraper": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Outscraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "77902719-207a-4f89-90f6-2a3c9909c9b8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "26OUjbuI1flCV0fh",
+  "tags": []
+}
