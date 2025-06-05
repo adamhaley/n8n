@@ -1,1 +1,273 @@
-{"createdAt":"2025-04-21T18:58:10.843Z","updatedAt":"2025-05-16T18:43:02.000Z","id":"0nTFUgJw31voQl2P","name":"Upload FIle to Google Drive for RAG","active":false,"isArchived":false,"nodes":[{"parameters":{"httpMethod":"POST","path":"fded596d-4a61-4fd2-90a4-006df43136bf","responseMode":"responseNode","options":{"binaryPropertyName":"data"}},"type":"n8n-nodes-base.webhook","typeVersion":2,"position":[-220,0],"id":"0ab3c7cc-96cc-46ca-a1f6-7d8d864eada3","name":"Webhook","webhookId":"fded596d-4a61-4fd2-90a4-006df43136bf"},{"parameters":{"inputDataFieldName":"data0","driveId":{"__rl":true,"mode":"list","value":"My Drive"},"folderId":{"__rl":true,"value":"1zaQwxyD3xd090fwyWq8lSxWVcb1Dmf1Y","mode":"id"},"options":{}},"type":"n8n-nodes-base.googleDrive","typeVersion":3,"position":[0,-100],"id":"2bfc817c-7125-4cce-9b52-5971d3b54fce","name":"Google Drive","credentials":{"googleDriveOAuth2Api":{"id":"fA1w6gMdQ2aJNFpG","name":"Google Drive account"}}},{"parameters":{"url":"http://ahmedia.ai:8000/generate-name","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[0,100],"id":"c42364ca-2389-471b-bd8b-55bfe2858ce4","name":"HTTP Request"},{"parameters":{"options":{}},"type":"n8n-nodes-base.respondToWebhook","typeVersion":1.1,"position":[220,100],"id":"0f540489-2ee7-453f-b4ab-03364693199e","name":"Respond to Webhook"}],"connections":{"Webhook":{"main":[[{"node":"Google Drive","type":"main","index":0},{"node":"HTTP Request","type":"main","index":0}]]},"Google Drive":{"main":[[]]},"HTTP Request":{"main":[[{"node":"Respond to Webhook","type":"main","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":null,"pinData":{},"versionId":"bb5bbbd6-2626-4265-9c03-468f358086d5","triggerCount":1,"tags":[{"createdAt":"2025-04-21T19:07:16.984Z","updatedAt":"2025-04-21T19:07:16.984Z","id":"8Bm30fL0KHwW334K","name":"ahmedia"},{"createdAt":"2025-04-21T19:07:26.761Z","updatedAt":"2025-04-21T19:07:26.761Z","id":"Or52YJQ2PjEuu9AU","name":"chatbots"},{"createdAt":"2025-04-21T19:07:13.297Z","updatedAt":"2025-04-21T19:07:13.297Z","id":"nJjC20pVwfCRhy4V","name":"rag"}]}
+{
+  "createdAt": "2025-04-25T21:48:02.748Z",
+  "updatedAt": "2025-04-25T22:22:53.000Z",
+  "id": "I4kf43NNTQsmBdQL",
+  "name": "Extract Resume to AirTable",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -80
+      ],
+      "id": "04d8c722-53a5-48d3-b9e8-36dfc89dfb9d",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "=https://docs.google.com/document/d/1HUdGpSRPUijSm3z-TZgQRlOKg85ZAbveHoG7QHo8fyA/edit?tab=t.0"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -420,
+        -80
+      ],
+      "id": "00701202-3eba-457c-8b34-22b2e009f8b5",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "7bNV16GXW9mKhM7l",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "You are a helpful text-transforming assistant. I am passing in some text I want uploaded to an Airtable database using the Airtable tool. The text is a resume. I want each job listing on the resume to be inserted into its own record in the airtable DB. Can you analyze the document and match the appropriate fields - Company or Client, Title, Start Date and End Date, and technologies?"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -200,
+        -80
+      ],
+      "id": "fdab57e0-a979-4441-b441-e4f91df79c63",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -260,
+        160
+      ],
+      "id": "7b49379f-e8cf-4db8-8fdd-b3bf078f35e8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appJvUU7LLPZMZWBe",
+          "mode": "list",
+          "cachedResultName": "AHMedia",
+          "cachedResultUrl": "https://airtable.com/appJvUU7LLPZMZWBe"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1RmNxAEUXKGnAc",
+          "mode": "list",
+          "cachedResultName": "Resume",
+          "cachedResultUrl": "https://airtable.com/appJvUU7LLPZMZWBe/tbl1RmNxAEUXKGnAc"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Company or Client",
+              "displayName": "Company or Client",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "technologies",
+              "displayName": "technologies",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "options": [],
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        40,
+        200
+      ],
+      "id": "7ae9d09d-39be-4108-9216-b4b36c324c54",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "hL0MA6fZb8S06sMK",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -120,
+        140
+      ],
+      "id": "e3518c9a-8a09-4138-9157-ef8fa7edf0f1",
+      "name": "Simple Memory"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6ade8cb4-8294-46cc-ae8d-6871f0bacd2a",
+  "triggerCount": 0,
+  "tags": []
+}
