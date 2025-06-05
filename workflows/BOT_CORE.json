@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-04T22:23:12.000Z",
+  "updatedAt": "2025-06-04T23:50:37.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
   "active": false,
@@ -18,7 +18,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        -148,
+        -28,
         -260
       ],
       "id": "939c92a6-c15e-4649-abdd-669d3faa6754",
@@ -60,8 +60,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        -120,
-        -40
+        -100,
+        -20
       ],
       "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
       "name": "Record Content Idea"
@@ -76,7 +76,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        -40
+        80
       ],
       "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
       "name": "Weather",
@@ -96,8 +96,8 @@
       "type": "n8n-nodes-base.openWeatherMapTool",
       "typeVersion": 1,
       "position": [
-        120,
-        -40
+        140,
+        120
       ],
       "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
       "name": "Forecast",
@@ -145,8 +145,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        240,
-        -40
+        260,
+        80
       ],
       "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
       "name": "Journal Entry",
@@ -255,8 +255,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        360,
-        -40
+        380,
+        20
       ],
       "id": "5551efa4-e37f-42cf-91d3-66740516ab05",
       "name": "Scrape Google Maps"
@@ -365,7 +365,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a1e858ca-81fc-48c3-86af-f855c44b3899",
+  "versionId": "3dd349b7-29f4-4143-b015-70a2e0f71891",
   "triggerCount": 1,
   "tags": []
 }
