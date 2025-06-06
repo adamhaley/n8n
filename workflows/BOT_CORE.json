@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-04T23:50:37.000Z",
+  "updatedAt": "2025-06-06T01:19:49.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
   "active": false,
@@ -60,8 +60,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        -100,
-        -20
+        -120,
+        0
       ],
       "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
       "name": "Record Content Idea"
@@ -75,8 +75,8 @@
       "type": "n8n-nodes-base.openWeatherMapTool",
       "typeVersion": 1,
       "position": [
-        0,
-        80
+        -20,
+        60
       ],
       "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
       "name": "Weather",
@@ -96,8 +96,8 @@
       "type": "n8n-nodes-base.openWeatherMapTool",
       "typeVersion": 1,
       "position": [
-        140,
-        120
+        100,
+        80
       ],
       "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
       "name": "Forecast",
@@ -145,8 +145,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        260,
-        80
+        220,
+        60
       ],
       "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
       "name": "Journal Entry",
@@ -226,7 +226,7 @@
           "__rl": true,
           "value": "26OUjbuI1flCV0fh",
           "mode": "list",
-          "cachedResultName": "Scrape Google Maps"
+          "cachedResultName": "Scrape Google Maps and Store"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -255,11 +255,40 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        380,
-        20
+        360,
+        40
       ],
       "id": "5551efa4-e37f-42cf-91d3-66740516ab05",
       "name": "Scrape Google Maps"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08NS9Z8JH1",
+          "mode": "list",
+          "cachedResultName": "ahmedia-rampup"
+        },
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_Text', ``, 'string') }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 2.3,
+      "position": [
+        480,
+        -20
+      ],
+      "id": "e7f48dc5-cd84-47fd-9296-c518fc01dd9c",
+      "name": "Slack",
+      "webhookId": "1afa7a03-a11a-4bc7-a6b6-e337bb43de14",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "aku9PHR5ccUxQYCi",
+          "name": "Slack account"
+        }
+      }
     }
   ],
   "connections": {
@@ -355,6 +384,17 @@
           }
         ]
       ]
+    },
+    "Slack": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -365,7 +405,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3dd349b7-29f4-4143-b015-70a2e0f71891",
+  "versionId": "994710d4-c917-4707-8090-370be1d42d40",
   "triggerCount": 1,
   "tags": []
 }
