@@ -122,17 +122,22 @@ def generate_name():
 
 @app.route("/google", methods=["GET"])
 def google_search():
-    api_key = os.getenv("API_KEY")
+    api_key = os.getenv("GOOGLE_API_KEY")
     cx = os.getenv("CX")
 
     service = googleapiclient.discovery.build("customsearch", "v1", developerKey=api_key)
 
-    res = service.cse().list(
-        q="where are all the open mics in los angeles?",
-        cx=cx
-    ).execute()
+    query = request.args.get('q')
 
-    return jsonify({"name": res})
+    if query:
+        res = service.cse().list(
+            q=query,
+            cx=cx
+        ).execute()
+
+        return jsonify({"name": res})
+    else:
+        return "No search query provided"
 
 
 @app.route('/', methods=['GET'])
