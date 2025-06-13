@@ -4,6 +4,7 @@ import os
 import json
 import re
 import random
+import googleapiclient.discovery
 from requests_toolbelt.multipart import decoder
 from dotenv import load_dotenv
     
@@ -118,6 +119,20 @@ def generate_name():
     return f"{adjective}-{noun}-{number}"
 
     return jsonify({"name": name})
+
+@app.route("/google", methods=["GET"])
+def google_search():
+    api_key = os.getenv("API_KEY")
+    cx = os.getenv("CX")
+
+    service = googleapiclient.discovery.build("customsearch", "v1", developerKey=api_key)
+
+    res = service.cse().list(
+        q="where are all the open mics in los angeles?",
+        cx=cx
+    ).execute()
+
+    return jsonify({"name": res})
 
 
 @app.route('/', methods=['GET'])

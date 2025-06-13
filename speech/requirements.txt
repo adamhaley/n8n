@@ -3,3 +3,4 @@ flask
 requests-toolbelt
 python-dotenv
 cartesia
+google-api-python-client
