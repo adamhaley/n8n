@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-06T01:19:49.000Z",
+  "updatedAt": "2025-06-13T23:08:33.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
   "active": false,
@@ -60,7 +60,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        -120,
+        -140,
         0
       ],
       "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
@@ -160,7 +160,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -240,
+        -260,
         -40
       ],
       "id": "c470ae27-ab74-4406-bf1c-c1e42be858f0",
@@ -184,7 +184,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -360,
+        -400,
         -40
       ],
       "id": "d8b5c771-b958-450a-8dfb-36d90be29e43",
@@ -289,6 +289,79 @@
           "name": "Slack account"
         }
       }
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyB7U9hzQhUkKKRo098Pny785Fq6c0_jhOg"
+            },
+            {
+              "name": "cx",
+              "value": "c7e85857fa87443a1"
+            },
+            {
+              "name": "q",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        620,
+        -100
+      ],
+      "id": "973945d7-fdc6-47e0-b763-ff05380bb8e2",
+      "name": "Search Google"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get Hungarian Travel data from the Hungarian Travel Competitor Scraper",
+        "workflowId": {
+          "__rl": true,
+          "value": "7LxKIMORR0hJsyhf",
+          "mode": "list",
+          "cachedResultName": "Travel Competitor Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -340,
+        80
+      ],
+      "id": "81124500-a405-4c70-a4ac-7042df49b5d4",
+      "name": "Hungarian Travel Competitor"
     }
   ],
   "connections": {
@@ -395,6 +468,28 @@
           }
         ]
       ]
+    },
+    "Search Google": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hungarian Travel Competitor": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -405,7 +500,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "994710d4-c917-4707-8090-370be1d42d40",
+  "versionId": "3aee7ecb-6e80-403e-92ba-1d1fc17a13a6",
   "triggerCount": 1,
   "tags": []
 }
