@@ -1,0 +1,550 @@
+{
+  "name": "Travel Competitor Scraper",
+  "nodes": [
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        856,
+        -220
+      ],
+      "id": "22f4b47e-575c-4db4-b70e-2918d619fe75",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        -220
+      ],
+      "id": "785f94f5-2a89-4d36-8cd0-b0a463f8515c",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "14iWGkhOdXI7pTIS4J0FJElMl_j1-Y90xOsimLVk3jVw",
+          "mode": "list",
+          "cachedResultName": "Travel Competitors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14iWGkhOdXI7pTIS4J0FJElMl_j1-Y90xOsimLVk3jVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14iWGkhOdXI7pTIS4J0FJElMl_j1-Y90xOsimLVk3jVw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "country": "={{ $json.country }}",
+            "dates": "={{ $json.dates }}",
+            "match": "={{ $json.match }}",
+            "matchDetail": "={{ $json.matchDetail }}",
+            "difference": "={{ $json.difference }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "dates",
+              "displayName": "dates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "match",
+              "displayName": "match",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "matchDetail",
+              "displayName": "matchDetail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "difference",
+              "displayName": "difference",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2560,
+        -220
+      ],
+      "id": "6b6548c5-0f25-43c2-9c5d-824aa28c2dd2",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XEt20yHVtBArkULc",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n     {\n        \"country\":\"\",\n        \"date\":\"\",\n       \"match\":\"\"\n      },\n      {\n        \"country\":\"\",\n        \"date\":\"\",\n        \"match\":\"\"\n      }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1884,
+        0
+      ],
+      "id": "a7c938e0-92b2-4d00-aace-a62a7c0392ce",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2112,
+        -220
+      ],
+      "id": "008dcc1a-edaa-4bbc-bef8-ce870d331fda",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1764,
+        0
+      ],
+      "id": "ccd1b124-88d0-40ae-9fd0-ec7e8001e538",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RpSgqhlCVqkttICM",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        68,
+        0
+      ],
+      "id": "3115802a-3ebc-4388-9869-a0316b02ac93",
+      "name": "Anthropic Chat Model1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RpSgqhlCVqkttICM",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"country\":\"\",\n    \"date\":\"2025.09.06\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        0
+      ],
+      "id": "5cb9436a-9ca7-4475-9440-3eb496bdc6b9",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the single input date from another node (e.g., format query)\nconst inputDateStr = $('format query').first().json.output.date;\nconst inputDate = new Date(inputDateStr);\n\n\nfor (const item of $input.all()) {\n  const startStr = item.json.date; // now using \"date\" instead of \"dates\"\n\n  // Parse and normalize the start date\n  const startDate = new Date(startStr.replace(/\\./g, '-'));\n\nconsole.log('inputDateStr:', inputDateStr);\nconsole.log('startStr:', startStr);\nconsole.log('inputDate:', inputDate.toISOString());\nconsole.log('startDate:', startDate.toISOString());\n  \n  // Determine match type\n  if (inputDate.getTime() === startDate.getTime()) {\n    item.json.match = 'full';\n    item.json.matchDetail = 'exact match';\n    item.json.difference = 0;\n  } else {\n    const difference = Math.abs(Math.ceil((startDate - inputDate) / (1000 * 60 * 60 * 24)));\n    item.json.match = 'partial';\n    item.json.matchDetail = inputDate < startDate ? 'before date' : 'after date';\n    item.json.difference = difference;\n  }\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2340,
+        -220
+      ],
+      "id": "3ab7afc9-a139-4335-95d7-b93bf2ed985e",
+      "name": "Code"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        -220
+      ],
+      "id": "0a67056f-0324-47f4-8be3-7f1b761f70cf",
+      "name": "start"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Format the city and dates in \"{{ $json.query }}\"  to the specific formatted json output",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        40,
+        -220
+      ],
+      "id": "ffd0391a-cddc-4d8e-8417-92d1a128933d",
+      "name": "format query"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Filter the incoming travel data in this JSON: {{ JSON.stringify( $json.data ) }} and country to only pass through the values that match the city and date in {{ JSON.stringify( $('format query').item.json.output ) }}.  include a) full matches (ie: both country and date match the incoming query) and partial matches (ie: the country matches but the date does not match the incoming query). Return the country names in English. If there are no dates available for a specific result, do not include it. Do not include results where the country does not match. Add a \"match\" property to the output. If the date matches and the city matches, assign \"full\" to that property. If only the city matches and not the date, assign \"partial\" to that property",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1736,
+        -220
+      ],
+      "id": "dfc39704-8e2c-4486-aae0-992118f24da0",
+      "name": "Filter Results",
+      "executeOnce": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "data",
+              "cssSelector": ".a-box",
+              "returnValue": "html",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        636,
+        -220
+      ],
+      "id": "17804c5c-29e7-481a-a3bb-29efca699aa6",
+      "name": "Extract Results",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "url": "https://1000ut.hu/korutazas",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        -220
+      ],
+      "id": "ee9a5071-fc74-4e3f-9acf-21df5bb0368b",
+      "name": "Scrape Competitor"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "country",
+              "cssSelector": ".country-name"
+            },
+            {
+              "key": "dates",
+              "cssSelector": ".date-from-to"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1076,
+        -220
+      ],
+      "id": "5c55c618-d4bc-4e23-bda5-1d073deb9dc7",
+      "name": "HTML to JSON"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.date = item.json.dates.split(\"-\")[0];\n  delete item.json.dates;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        -220
+      ],
+      "id": "13428aa9-d7f6-4af2-8119-d3053dbd62f6",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {
+    "start": [
+      {
+        "json": {
+          "query": "Australia May 23, 2026"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "HTML to JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Filter Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Filter Results",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Filter Results",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "format query",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "format query",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start": {
+      "main": [
+        [
+          {
+            "node": "format query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format query": {
+      "main": [
+        [
+          {
+            "node": "Scrape Competitor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Results": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Results": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Competitor": {
+      "main": [
+        [
+          {
+            "node": "Extract Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML to JSON": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "703af0ec-d05c-4ebb-b81c-57e9ac0d5975",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "8sKbnISEFuq9ZDFi",
+  "tags": []
+}
