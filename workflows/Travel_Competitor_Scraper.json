@@ -23,7 +23,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1296,
+        1516,
         -220
       ],
       "id": "785f94f5-2a89-4d36-8cd0-b0a463f8515c",
@@ -114,7 +114,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        2340,
+        2552,
         -220
       ],
       "id": "6b6548c5-0f25-43c2-9c5d-824aa28c2dd2",
@@ -128,12 +128,12 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "[\n     {\n        \"country\":\"\",\n        \"dates\":\"\"\n      },\n      {\n        \"country\":\"\",\n        \"dates\":\"\"\n      }\n]"
+        "jsonSchemaExample": "[\n     {\n        \"country\":\"\",\n        \"date\":\"\",\n       \"match\":\"\"\n      },\n      {\n        \"country\":\"\",\n        \"date\":\"\",\n        \"match\":\"\"\n      }\n]"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        1664,
+        1884,
         0
       ],
       "id": "a7c938e0-92b2-4d00-aace-a62a7c0392ce",
@@ -147,7 +147,7 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1892,
+        2112,
         -220
       ],
       "id": "008dcc1a-edaa-4bbc-bef8-ce870d331fda",
@@ -166,7 +166,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "typeVersion": 1.3,
       "position": [
-        1544,
+        1764,
         0
       ],
       "id": "ccd1b124-88d0-40ae-9fd0-ec7e8001e538",
@@ -205,7 +205,7 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n\t\"country\":\"\",\n    \"dates\":\"2025.09.06-2025.09.13\"\n}"
+        "jsonSchemaExample": "{\n\t\"country\":\"\",\n    \"date\":\"2025.09.06\"\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
@@ -218,12 +218,12 @@
     },
     {
       "parameters": {
-        "jsCode": "// Get the single input date from another node (e.g., format query)\nconst inputDateStr = $('format query').first().json.output.dates;\nconst inputDate = new Date(inputDateStr);\ninputDate.setHours(0, 0, 0, 0); // Normalize to midnight\n\nfor (const item of $input.all()) {\n  const rangeStr = item.json.dates;\n\n  // Parse and normalize range\n  const [startStr, endStr] = rangeStr.split('-');\n  const startDate = new Date(startStr.replace(/\\./g, '-'));\n  const endDate = new Date(endStr.replace(/\\./g, '-'));\n  startDate.setHours(0, 0, 0, 0);\n  endDate.setHours(0, 0, 0, 0);\n\n  // Determine match type\n  if (inputDate >= startDate && inputDate <= endDate) {\n    item.json.match = 'full';\n    item.json.matchDetail = 'within range';\n    item.json.difference = 0;\n  } else if (inputDate < startDate) {\n    const difference = Math.ceil((startDate - inputDate) / (1000 * 60 * 60 * 24));\n    item.json.match = 'partial';\n    item.json.matchDetail = 'before range';\n    item.json.difference = difference + ' days';\n  } else if (inputDate > endDate) {\n    const difference = Math.ceil((inputDate - endDate) / (1000 * 60 * 60 * 24));\n    item.json.match = 'partial';\n    item.json.matchDetail = 'after range';\n    item.json.difference = difference + ' days';\n  }\n}\n\nreturn $input.all();\n"
+        "jsCode": "// Get the single input date from another node (e.g., format query)\nconst inputDateStr = $('format query').first().json.output.date;\nconst inputDate = new Date(inputDateStr);\n\n\nfor (const item of $input.all()) {\n  const startStr = item.json.date; // now using \"date\" instead of \"dates\"\n\n  // Parse and normalize the start date\n  const startDate = new Date(startStr.replace(/\\./g, '-'));\n\nconsole.log('inputDateStr:', inputDateStr);\nconsole.log('startStr:', startStr);\nconsole.log('inputDate:', inputDate.toISOString());\nconsole.log('startDate:', startDate.toISOString());\n  \n  // Determine match type\n  if (inputDate.getTime() === startDate.getTime()) {\n    item.json.match = 'full';\n    item.json.matchDetail = 'exact match';\n    item.json.difference = 0;\n  } else {\n    const difference = Math.abs(Math.ceil((startDate - inputDate) / (1000 * 60 * 60 * 24)));\n    item.json.match = 'partial';\n    item.json.matchDetail = inputDate < startDate ? 'before date' : 'after date';\n    item.json.difference = difference + ' days';\n  }\n}\n\nreturn $input.all();\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2120,
+        2332,
         -220
       ],
       "id": "3ab7afc9-a139-4335-95d7-b93bf2ed985e",
@@ -259,14 +259,14 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Filter the incoming travel data in this JSON: {{ JSON.stringify( $json.data ) }} and country to only pass through the values that match the city and dates in {{ JSON.stringify( $('format query').item.json.output ) }}.  include a) full matches (ie: both country and dates match the incoming query) and partial matches (ie: the country matches but the dates do not match the incoming query). Return the country names in English. If there are no dates available for a specific result, do not include it. Do not include results where the country does not match.",
+        "text": "=Filter the incoming travel data in this JSON: {{ JSON.stringify( $json.data ) }} and country to only pass through the values that match the city and date in {{ JSON.stringify( $('format query').item.json.output ) }}.  include a) full matches (ie: both country and date match the incoming query) and partial matches (ie: the country matches but the date does not match the incoming query). Return the country names in English. If there are no dates available for a specific result, do not include it. Do not include results where the country does not match. Add a \"match\" property to the output. If the date matches and the city matches, assign \"full\" to that property. If only the city matches and not the date, assign \"partial\" to that property",
         "hasOutputParser": true,
         "batching": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1516,
+        1736,
         -220
       ],
       "id": "dfc39704-8e2c-4486-aae0-992118f24da0",
@@ -309,7 +309,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        420,
+        416,
         -220
       ],
       "id": "ee9a5071-fc74-4e3f-9acf-21df5bb0368b",
@@ -340,6 +340,19 @@
       ],
       "id": "5c55c618-d4bc-4e23-bda5-1d073deb9dc7",
       "name": "HTML to JSON"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.date = item.json.dates.split(\"-\")[0];\n  delete item.json.dates;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        -220
+      ],
+      "id": "13428aa9-d7f6-4af2-8119-d3053dbd62f6",
+      "name": "Get Start Date"
     }
   ],
   "pinData": {
@@ -504,6 +517,17 @@
       "main": [
         [
           {
+            "node": "Get Start Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Start Date": {
+      "main": [
+        [
+          {
             "node": "Aggregate",
             "type": "main",
             "index": 0
@@ -516,7 +540,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7e5af19b-c5d9-4c9f-a6c4-ef3f6d629e85",
+  "versionId": "6d57e1e5-4127-489b-ac92-d32be8978acc",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
