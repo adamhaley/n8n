@@ -1,278 +1,24 @@
 {
+  "createdAt": "2025-06-13T22:28:09.442Z",
+  "updatedAt": "2025-06-14T00:21:33.000Z",
+  "id": "7LxKIMORR0hJsyhf",
   "name": "Travel Competitor Scraper",
+  "active": false,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "fieldToSplitOut": "data",
+        "url": "https://1000ut.hu/korutazas",
         "options": {}
       },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        856,
-        -220
-      ],
-      "id": "22f4b47e-575c-4db4-b70e-2918d619fe75",
-      "name": "Split Out"
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        1516,
-        -220
-      ],
-      "id": "785f94f5-2a89-4d36-8cd0-b0a463f8515c",
-      "name": "Aggregate"
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "14iWGkhOdXI7pTIS4J0FJElMl_j1-Y90xOsimLVk3jVw",
-          "mode": "list",
-          "cachedResultName": "Travel Competitors",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14iWGkhOdXI7pTIS4J0FJElMl_j1-Y90xOsimLVk3jVw/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14iWGkhOdXI7pTIS4J0FJElMl_j1-Y90xOsimLVk3jVw/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "country": "={{ $json.country }}",
-            "dates": "={{ $json.dates }}",
-            "match": "={{ $json.match }}",
-            "matchDetail": "={{ $json.matchDetail }}",
-            "difference": "={{ $json.difference }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "country",
-              "displayName": "country",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "dates",
-              "displayName": "dates",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "match",
-              "displayName": "match",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "matchDetail",
-              "displayName": "matchDetail",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "difference",
-              "displayName": "difference",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        2552,
-        -220
-      ],
-      "id": "6b6548c5-0f25-43c2-9c5d-824aa28c2dd2",
-      "name": "Google Sheets",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "XEt20yHVtBArkULc",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "[\n     {\n        \"country\":\"\",\n        \"date\":\"\",\n       \"match\":\"\"\n      },\n      {\n        \"country\":\"\",\n        \"date\":\"\",\n        \"match\":\"\"\n      }\n]"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.2,
-      "position": [
-        1884,
+        220,
         0
       ],
-      "id": "a7c938e0-92b2-4d00-aace-a62a7c0392ce",
-      "name": "Structured Output Parser"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "output",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        2112,
-        -220
-      ],
-      "id": "008dcc1a-edaa-4bbc-bef8-ce870d331fda",
-      "name": "Split Out1"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "claude-3-7-sonnet-20250219",
-          "cachedResultName": "Claude 3.7 Sonnet"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.3,
-      "position": [
-        1764,
-        0
-      ],
-      "id": "ccd1b124-88d0-40ae-9fd0-ec7e8001e538",
-      "name": "Anthropic Chat Model",
-      "credentials": {
-        "anthropicApi": {
-          "id": "RpSgqhlCVqkttICM",
-          "name": "Anthropic account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "claude-3-7-sonnet-20250219",
-          "cachedResultName": "Claude 3.7 Sonnet"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.3,
-      "position": [
-        68,
-        0
-      ],
-      "id": "3115802a-3ebc-4388-9869-a0316b02ac93",
-      "name": "Anthropic Chat Model1",
-      "credentials": {
-        "anthropicApi": {
-          "id": "RpSgqhlCVqkttICM",
-          "name": "Anthropic account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n\t\"country\":\"\",\n    \"date\":\"2025.09.06\"\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.2,
-      "position": [
-        188,
-        0
-      ],
-      "id": "5cb9436a-9ca7-4475-9440-3eb496bdc6b9",
-      "name": "Structured Output Parser1"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Get the single input date from another node (e.g., format query)\nconst inputDateStr = $('format query').first().json.output.date;\nconst inputDate = new Date(inputDateStr);\n\n\nfor (const item of $input.all()) {\n  const startStr = item.json.date; // now using \"date\" instead of \"dates\"\n\n  // Parse and normalize the start date\n  const startDate = new Date(startStr.replace(/\\./g, '-'));\n\nconsole.log('inputDateStr:', inputDateStr);\nconsole.log('startStr:', startStr);\nconsole.log('inputDate:', inputDate.toISOString());\nconsole.log('startDate:', startDate.toISOString());\n  \n  // Determine match type\n  if (inputDate.getTime() === startDate.getTime()) {\n    item.json.match = 'full';\n    item.json.matchDetail = 'exact match';\n    item.json.difference = 0;\n  } else {\n    const difference = Math.abs(Math.ceil((startDate - inputDate) / (1000 * 60 * 60 * 24)));\n    item.json.match = 'partial';\n    item.json.matchDetail = inputDate < startDate ? 'before date' : 'after date';\n    item.json.difference = difference + ' days';\n  }\n}\n\nreturn $input.all();\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2332,
-        -220
-      ],
-      "id": "3ab7afc9-a139-4335-95d7-b93bf2ed985e",
-      "name": "Code"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -180,
-        -220
-      ],
-      "id": "0a67056f-0324-47f4-8be3-7f1b761f70cf",
-      "name": "start"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=Format the city and dates in \"{{ $json.query }}\"  to the specific formatted json output",
-        "hasOutputParser": true,
-        "batching": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.7,
-      "position": [
-        40,
-        -220
-      ],
-      "id": "ffd0391a-cddc-4d8e-8417-92d1a128933d",
-      "name": "format query"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=Filter the incoming travel data in this JSON: {{ JSON.stringify( $json.data ) }} and country to only pass through the values that match the city and date in {{ JSON.stringify( $('format query').item.json.output ) }}.  include a) full matches (ie: both country and date match the incoming query) and partial matches (ie: the country matches but the date does not match the incoming query). Return the country names in English. If there are no dates available for a specific result, do not include it. Do not include results where the country does not match. Add a \"match\" property to the output. If the date matches and the city matches, assign \"full\" to that property. If only the city matches and not the date, assign \"partial\" to that property",
-        "hasOutputParser": true,
-        "batching": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.7,
-      "position": [
-        1736,
-        -220
-      ],
-      "id": "dfc39704-8e2c-4486-aae0-992118f24da0",
-      "name": "Filter Results",
-      "executeOnce": true,
-      "onError": "continueErrorOutput"
+      "id": "fd7fbb69-da94-4544-b735-f518c5163fe3",
+      "name": "HTTP Request"
     },
     {
       "parameters": {
@@ -294,26 +40,12 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        636,
-        -220
+        440,
+        0
       ],
-      "id": "17804c5c-29e7-481a-a3bb-29efca699aa6",
-      "name": "Extract Results",
+      "id": "a6196b6e-f2d4-469e-a824-638e7236421a",
+      "name": "HTML",
       "executeOnce": false
-    },
-    {
-      "parameters": {
-        "url": "https://1000ut.hu/korutazas",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        416,
-        -220
-      ],
-      "id": "ee9a5071-fc74-4e3f-9acf-21df5bb0368b",
-      "name": "Scrape Competitor"
     },
     {
       "parameters": {
@@ -335,163 +67,120 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1076,
-        -220
+        880,
+        0
       ],
-      "id": "5c55c618-d4bc-4e23-bda5-1d073deb9dc7",
-      "name": "HTML to JSON"
+      "id": "899362de-6369-4552-ae57-38aae2e9da3c",
+      "name": "HTML1"
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.date = item.json.dates.split(\"-\")[0];\n  delete item.json.dates;\n}\n\nreturn $input.all();"
+        "fieldToSplitOut": "data",
+        "options": {}
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
       "position": [
-        1300,
-        -220
+        660,
+        0
       ],
-      "id": "13428aa9-d7f6-4af2-8119-d3053dbd62f6",
-      "name": "Get Start Date"
-    }
-  ],
-  "pinData": {
-    "start": [
-      {
-        "json": {
-          "query": "Australia May 23, 2026"
+      "id": "6262b7b0-3e6b-4c3f-baca-3cc36f627a1c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Filter the incoming dates in this JSON: {{ JSON.stringify( $json.data ) }} and country by the query in {{ JSON.stringify( $('When Executed by Another Workflow').item.json.query ) }}. ",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an expert travel parser. You need will be given incoming json with country and dates as well as a search query. Return the results in structured JSON similar to the incoming json. include a) full matches (ie: both country and dates match the incoming query) and partial matches (ie: the country matches but the dates do not match the incoming query). DO not return results where the dates match but the countries do not match. "
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1320,
+        0
+      ],
+      "id": "bdf36a21-56cc-4a1a-82fc-de88c289600b",
+      "name": "Basic LLM Chain",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1408,
+        220
+      ],
+      "id": "8fa92855-44b4-40d5-be72-305c2d4863c1",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
         }
       }
-    ]
-  },
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        0
+      ],
+      "id": "db5303e0-079d-4619-8767-28a7afa5b385",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9175d2a0-9247-4014-9ed2-f29fba7a3509",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
   "connections": {
-    "Split Out": {
+    "HTTP Request": {
       "main": [
         [
           {
-            "node": "HTML to JSON",
+            "node": "HTML",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Aggregate": {
-      "main": [
-        [
-          {
-            "node": "Filter Results",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Structured Output Parser": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "Filter Results",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out1": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Anthropic Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Filter Results",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Anthropic Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "format query",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Structured Output Parser1": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "format query",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Sheets": {
-      "main": [
-        []
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Google Sheets",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "start": {
-      "main": [
-        [
-          {
-            "node": "format query",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "format query": {
-      "main": [
-        [
-          {
-            "node": "Scrape Competitor",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Filter Results": {
-      "main": [
-        [
-          {
-            "node": "Split Out1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract Results": {
+    "HTML": {
       "main": [
         [
           {
@@ -502,29 +191,18 @@
         ]
       ]
     },
-    "Scrape Competitor": {
+    "Split Out": {
       "main": [
         [
           {
-            "node": "Extract Results",
+            "node": "HTML1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTML to JSON": {
-      "main": [
-        [
-          {
-            "node": "Get Start Date",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Start Date": {
+    "HTML1": {
       "main": [
         [
           {
@@ -534,17 +212,50 @@
           }
         ]
       ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "6d57e1e5-4127-489b-ac92-d32be8978acc",
+  "staticData": null,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true
   },
-  "id": "8sKbnISEFuq9ZDFi",
+  "pinData": {},
+  "versionId": "6be229ab-2af6-4e9d-9a01-edd1bbd0b089",
+  "triggerCount": 0,
   "tags": []
 }
