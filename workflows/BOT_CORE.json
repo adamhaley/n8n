@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-13T23:08:33.000Z",
+  "updatedAt": "2025-06-15T05:22:00.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
   "active": false,
@@ -61,31 +61,10 @@
       "typeVersion": 2.2,
       "position": [
         -140,
-        0
+        20
       ],
       "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
       "name": "Record Content Idea"
-    },
-    {
-      "parameters": {
-        "format": "imperial",
-        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}",
-        "language": "=en"
-      },
-      "type": "n8n-nodes-base.openWeatherMapTool",
-      "typeVersion": 1,
-      "position": [
-        -20,
-        60
-      ],
-      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
-      "name": "Weather",
-      "credentials": {
-        "openWeatherMapApi": {
-          "id": "7DhsapvM6ZDKxoUN",
-          "name": "OPEN WEATHER API KEY"
-        }
-      }
     },
     {
       "parameters": {
@@ -145,7 +124,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        220,
+        240,
         60
       ],
       "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
@@ -161,7 +140,7 @@
       "typeVersion": 1.5,
       "position": [
         -260,
-        -40
+        -20
       ],
       "id": "c470ae27-ab74-4406-bf1c-c1e42be858f0",
       "name": "Redis Chat Memory",
@@ -185,7 +164,7 @@
       "typeVersion": 1.2,
       "position": [
         -400,
-        -40
+        -60
       ],
       "id": "d8b5c771-b958-450a-8dfb-36d90be29e43",
       "name": "OpenAI Chat Model",
@@ -255,8 +234,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        360,
-        40
+        380,
+        20
       ],
       "id": "5551efa4-e37f-42cf-91d3-66740516ab05",
       "name": "Scrape Google Maps"
@@ -277,7 +256,7 @@
       "type": "n8n-nodes-base.slackTool",
       "typeVersion": 2.3,
       "position": [
-        480,
+        500,
         -20
       ],
       "id": "e7f48dc5-cd84-47fd-9296-c518fc01dd9c",
@@ -323,12 +302,33 @@
     },
     {
       "parameters": {
-        "description": "Call this tool to get Hungarian Travel data from the Hungarian Travel Competitor Scraper",
+        "format": "imperial",
+        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}",
+        "language": "=en"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        60
+      ],
+      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
+      "name": "Weather",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "7DhsapvM6ZDKxoUN",
+          "name": "OPEN WEATHER API KEY"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the next lead that has not been called in \"Local Leads\". ",
         "workflowId": {
           "__rl": true,
-          "value": "7LxKIMORR0hJsyhf",
+          "value": "WIyeaKA7U16CMDr0",
           "mode": "list",
-          "cachedResultName": "Travel Competitor Scraper"
+          "cachedResultName": "Get Next Lead"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -357,11 +357,11 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        -340,
-        80
+        -280,
+        140
       ],
-      "id": "81124500-a405-4c70-a4ac-7042df49b5d4",
-      "name": "Hungarian Travel Competitor"
+      "id": "2314abe2-5606-4489-9ea1-b5b8002e287b",
+      "name": "Get Next Lead"
     }
   ],
   "connections": {
@@ -371,17 +371,6 @@
       ]
     },
     "Record Content Idea": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Weather": {
       "ai_tool": [
         [
           {
@@ -480,7 +469,18 @@
         ]
       ]
     },
-    "Hungarian Travel Competitor": {
+    "Weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Next Lead": {
       "ai_tool": [
         [
           {
@@ -500,7 +500,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3aee7ecb-6e80-403e-92ba-1d1fc17a13a6",
+  "versionId": "7685462e-352e-4116-a1c4-de256f601c78",
   "triggerCount": 1,
   "tags": []
 }
