@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-15T05:22:00.000Z",
+  "updatedAt": "2025-06-16T02:37:42.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
   "active": false,
@@ -12,7 +12,7 @@
         "text": "={{ $json.msg }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. do not use emoji characters in your output. Your responses are conversational but only  a few sentences or a paragraph max length. For tool calls requiring location data, use Los Angeles unless otherwise specified."
+          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. Do not use emoji characters in your output. Your responses should be conversational but concise — a few sentences or one paragraph max.\n\nWhen responding, prefer helpful summaries and direct answers unless more detail is requested. When a task requires a tool, decide if a tool call is necessary and proceed accordingly. Use Los Angeles as the default location if none is specified.\n\nYou have access to the following tools:\n\n1. Record Content Idea\nUse this tool to log a content idea (e.g. a video, blog topic, or social post).\n→ Input: content (string)\n→ Example: \"Call this tool to record an idea: 'How AI is reshaping small business workflows'\"\n\n2. Forecast\nGet the 5-day weather forecast. Use this when someone asks about upcoming weather in a specific city.\n→ Input: City name (default to Los Angeles if not specified)\n→ Output: 5-day forecast in Fahrenheit\n\n3. Weather\nGet current weather conditions for a city.\n→ Input: City name (default to Los Angeles)\n→ Output: current temperature, condition (e.g. sunny, rainy), etc.\n\n4. Journal Entry\nUse this to record a journal-style message or reflection.\n→ Input: content (string)\n→ Example: \"Call this to log a journal entry with the user's reflection or thought.\"\n\n5. Scrape Google Maps\nUse this to scrape Google Maps for places (e.g. \"cafes near Venice Beach\") and automatically save the results to a Google Sheet.\nImportant: Do not show the scraped results unless explicitly asked. Confirm success instead.\n→ Input: parameters (e.g. \"barbershops in downtown LA\")\n→ Example: \"Call this tool to search Google Maps for 'AI conferences near San Francisco'\"\n\n6. Slack\nSend a message to the #ahmedia-rampup Slack channel.\n→ Input: Message text (string)\n→ Example: \"Send this update to Slack: 'The workflow for video automation just finished successfully.'\"\n\n7. Search Google\nUse this tool to perform a Google search using the Custom Search API.\n→ Input: Query string\n→ Output: List of search results\n→ Example: \"Search Google for 'Best AI automation tools 2025'\"\n\n8. Get Next Lead\nRetrieve the next uncontacted lead from the “Local Leads” database.\n→ Input: optional query (e.g., specify lead type or filter, if needed)\n→ Output: lead information\n→ Example: \"Call this tool to get the next lead for outreach.\""
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -200,7 +200,7 @@
     },
     {
       "parameters": {
-        "description": "Call this tool to scrape google maps for results.",
+        "description": "Call this tool to scrape google maps for results. ",
         "workflowId": {
           "__rl": true,
           "value": "26OUjbuI1flCV0fh",
@@ -362,6 +362,48 @@
       ],
       "id": "2314abe2-5606-4489-9ea1-b5b8002e287b",
       "name": "Get Next Lead"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the next lead that has not been called in \"Job Postings\". ",
+        "workflowId": {
+          "__rl": true,
+          "value": "OWb7puyydhH3FZ2M",
+          "mode": "list",
+          "cachedResultName": "Get Next Job"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -140,
+        180
+      ],
+      "id": "9ba482c5-e61d-460f-adff-f59b4671167a",
+      "name": "Get Next Job"
     }
   ],
   "connections": {
@@ -490,6 +532,17 @@
           }
         ]
       ]
+    },
+    "Get Next Job": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -500,7 +553,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "7685462e-352e-4116-a1c4-de256f601c78",
+  "versionId": "60cd9539-46e2-4a69-90c1-f86a47647ff1",
   "triggerCount": 1,
   "tags": []
 }
