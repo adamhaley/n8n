@@ -4,7 +4,7 @@ This repository is to store all things related to my n8n automation life:
 
 2) working apache / docker config for self-hosted n8n
 
-3) speech-to-text and text-to-speech server in Flask that uses (for now) openai for transcribing and cartesia for tts
+3) speech-to-text and text-to-speech server in Flask that uses openai Whisper for transcribing and cartesia for  TTS
 
 4) random services I think up to support n8n workflows, usually invoked by the http node
 
