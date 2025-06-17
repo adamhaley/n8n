@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-04-18T20:03:03.830Z",
-  "updatedAt": "2025-05-22T19:44:41.000Z",
+  "updatedAt": "2025-06-16T22:25:47.000Z",
   "id": "GmeUFdXNPBAPvpmO",
   "name": "RAG Ingest and Process File",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -88,31 +88,6 @@
     },
     {
       "parameters": {
-        "operation": "download",
-        "fileId": {
-          "__rl": true,
-          "value": "={{ $('Query File').first().json.id }}",
-          "mode": "id"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        -1400,
-        -400
-      ],
-      "id": "10aee22b-dfa0-4506-842e-ac82cd523cef",
-      "name": "Google Drive",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "fA1w6gMdQ2aJNFpG",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "httpMethod": "POST",
         "path": "fded596d-4a61-4fd2-90a4-006df43136bf",
         "responseMode": "responseNode",
@@ -133,29 +108,55 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"namespace\": \"{{ $json.data }}\"\n}",
+        "responseBody": "={\n  \"namespace\": \"{{ $('Inject Namespace').item.json.namespace }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        -1620,
-        -175
+        -244,
+        -400
       ],
-      "id": "01a41990-c15b-49dc-b0ab-6472c34cdb36",
-      "name": "Respond to Webhook"
+      "id": "d5b825fc-4238-45ad-81d2-d5db89402ca1",
+      "name": "Respond to Webhook1"
     },
     {
       "parameters": {
-        "inputDataFieldName": "data0",
-        "driveId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "My Drive"
+        "jsCode": "  const adjectives = [\n    \"quick\", \"bright\", \"silent\", \"brave\", \"calm\", \"lucky\", \"sunny\", \"clever\", \"happy\", \"shiny\"\n  ];\n  const nouns = [\n    \"tiger\", \"hill\", \"cloud\", \"river\", \"falcon\", \"stone\", \"tree\", \"flame\", \"wave\", \"trail\"\n  ];\n\n  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];\n  const noun = nouns[Math.floor(Math.random() * nouns.length)];\n  const number = Math.floor(Math.random() * 10000); // 0 to 9999\n\n  return { namespace: `${adjective}-${noun}-${number}` };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1840,
+        -220
+      ],
+      "id": "458e2f0e-2033-4120-bfbf-c5cec482a2fc",
+      "name": "Generate Namespace"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
         },
-        "folderId": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -684,
+        -400
+      ],
+      "id": "d4768517-9f2d-48cf-b5e1-48218203001b",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
           "__rl": true,
-          "value": "1zaQwxyD3xd090fwyWq8lSxWVcb1Dmf1Y",
+          "value": "={{ $('Get File Info').first().json.id }}",
           "mode": "id"
         },
         "options": {}
@@ -163,53 +164,40 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -2500,
-        -300
+        -1400,
+        -400
       ],
-      "id": "0e628de4-969e-4246-ae7e-de5790cd2ec9",
-      "name": "Google Drive1",
+      "id": "10aee22b-dfa0-4506-842e-ac82cd523cef",
+      "name": "Download File",
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "fA1w6gMdQ2aJNFpG",
-          "name": "Google Drive account"
+          "name": "adam@adamhaley.com Google Drive"
         }
       }
     },
     {
       "parameters": {
-        "url": "=https://www.googleapis.com/drive/v3/files/{{ $json.id }}?fields=*",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "googleDriveOAuth2Api",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84d62751-53eb-4145-9e72-fcd968d12b95",
+              "name": "namespace",
+              "value": "={{ $('Webhook').item.json.body.namespace || $('Generate Namespace').item.json.namespace }}",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        -2280,
-        -300
+        -1620,
+        -400
       ],
-      "id": "c4b1a714-7235-46e6-9a7f-84c04384c4ae",
-      "name": "Query File",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "fA1w6gMdQ2aJNFpG",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "url": "http://ahmedia.ai:8000/generate-name",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -1840,
-        -225
-      ],
-      "id": "f78b79dd-295b-477f-bf01-b027867c18c8",
-      "name": "Get Unique Namespace"
+      "id": "24965868-cdf5-4252-95cb-225f7d4e88e9",
+      "name": "Inject Namespace"
     },
     {
       "parameters": {
@@ -243,45 +231,59 @@
         -300
       ],
       "id": "496e814b-5bc5-4434-afd6-cd1e253bedc1",
-      "name": "If"
+      "name": "If Namespace with Request"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "84d62751-53eb-4145-9e72-fcd968d12b95",
-              "name": "namespace",
-              "value": "={{ $('Webhook').item.json.body.namespace || $('Get Unique Namespace').first().json.data }}",
-              "type": "string"
-            }
-          ]
+        "inputDataFieldName": "data0",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1zaQwxyD3xd090fwyWq8lSxWVcb1Dmf1Y",
+          "mode": "id"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
       "position": [
-        -1620,
-        -400
+        -2500,
+        -300
       ],
-      "id": "24965868-cdf5-4252-95cb-225f7d4e88e9",
-      "name": "Edit Fields"
+      "id": "0e628de4-969e-4246-ae7e-de5790cd2ec9",
+      "name": "Upload to Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "fA1w6gMdQ2aJNFpG",
+          "name": "adam@adamhaley.com Google Drive"
+        }
+      }
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"namespace\": \"{{ $('Edit Fields').item.json.namespace }}\"\n}",
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $json.id }}?fields=*",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
         "options": {}
       },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        -464,
-        -400
+        -2280,
+        -300
       ],
-      "id": "d5b825fc-4238-45ad-81d2-d5db89402ca1",
-      "name": "Respond to Webhook1"
+      "id": "c4b1a714-7235-46e6-9a7f-84c04384c4ae",
+      "name": "Get File Info",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "fA1w6gMdQ2aJNFpG",
+          "name": "adam@adamhaley.com Google Drive"
+        }
+      }
     },
     {
       "parameters": {
@@ -290,7 +292,7 @@
             {
               "id": "2dedd910-8caf-421a-8160-de47286ecfbb",
               "name": "namespace",
-              "value": "={{ $('Edit Fields').item.json.namespace }}",
+              "value": "={{ $('Inject Namespace').item.json.namespace }}",
               "type": "string"
             }
           ]
@@ -300,11 +302,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -684,
+        -464,
         -400
       ],
       "id": "7c24f0ad-e1c1-4d32-8175-d32a762d3789",
-      "name": "Edit Fields1"
+      "name": "Extract Namespace"
     }
   ],
   "connections": {
@@ -341,60 +343,11 @@
         ]
       ]
     },
-    "Google Drive": {
-      "main": [
-        [
-          {
-            "node": "Pinecone Vector Store",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
           {
-            "node": "Google Drive1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Drive1": {
-      "main": [
-        [
-          {
-            "node": "Query File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Query File": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Unique Namespace": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Edit Fields",
+            "node": "Upload to Google Drive",
             "type": "main",
             "index": 0
           }
@@ -405,43 +358,98 @@
       "main": [
         [
           {
-            "node": "Edit Fields1",
+            "node": "Aggregate",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If": {
+    "Generate Namespace": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "Inject Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Extract Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inject Namespace": {
+      "main": [
+        [
+          {
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Namespace with Request": {
+      "main": [
+        [
+          {
+            "node": "Inject Namespace",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Get Unique Namespace",
+            "node": "Generate Namespace",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields": {
+    "Upload to Google Drive": {
       "main": [
         [
           {
-            "node": "Google Drive",
+            "node": "Get File Info",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields1": {
+    "Get File Info": {
+      "main": [
+        [
+          {
+            "node": "If Namespace with Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Namespace": {
       "main": [
         [
           {
@@ -465,7 +473,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "324fe6e9-3304-44b9-8611-2e676ce77a89",
+  "versionId": "a9254f81-e471-4d5b-933f-4083caf89a23",
   "triggerCount": 1,
   "tags": []
 }
