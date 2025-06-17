@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-06-13T23:26:59.764Z",
-  "updatedAt": "2025-06-17T00:33:03.000Z",
+  "updatedAt": "2025-06-24T20:07:07.000Z",
   "id": "8sKbnISEFuq9ZDFi",
   "name": "Travel Competitor Scraper",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -28,7 +28,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1516,
+        1520,
         -220
       ],
       "id": "785f94f5-2a89-4d36-8cd0-b0a463f8515c",
@@ -245,7 +245,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1736,
+        1740,
         -220
       ],
       "id": "dfc39704-8e2c-4486-aae0-992118f24da0",
@@ -549,7 +549,7 @@
       }
     ]
   },
-  "versionId": "e639045a-e936-4ab7-a08e-c82bff8292c7",
+  "versionId": "727ea0dd-4c72-4651-876e-aa927aa23c90",
   "triggerCount": 0,
   "tags": []
 }
