@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-06-13T22:28:09.442Z",
-  "updatedAt": "2025-06-14T00:21:33.000Z",
+  "updatedAt": "2025-06-17T00:27:32.000Z",
   "id": "7LxKIMORR0hJsyhf",
   "name": "Travel Competitor Scraper",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -255,7 +255,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6be229ab-2af6-4e9d-9a01-edd1bbd0b089",
+  "versionId": "9eab5532-99b4-4dbd-b5fb-d48eebeae957",
   "triggerCount": 0,
   "tags": []
 }
