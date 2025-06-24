@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-12T18:16:17.446Z",
-  "updatedAt": "2025-06-01T19:47:06.000Z",
+  "updatedAt": "2025-06-24T18:24:21.000Z",
   "id": "6hVEPWSdWtEgAvFL",
   "name": "Local RAG Chatbot",
   "active": true,
@@ -75,30 +75,6 @@
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        80,
-        20
-      ],
-      "id": "0bb6f84e-3789-4253-ab29-02a909df1406",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "httpMethod": "POST",
         "path": "245a2818-056b-4f66-b730-116528e44bf7",
         "responseMode": "responseNode",
@@ -131,8 +107,32 @@
     },
     {
       "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        20
+      ],
+      "id": "0bb6f84e-3789-4253-ab29-02a909df1406",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "local_rag"
+        "sessionKey": "={{ $('Webhook').item.json.body.namespace }}"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
@@ -141,7 +141,7 @@
         20
       ],
       "id": "1bf70585-5ddf-425b-a0ad-4056673c7dda",
-      "name": "Redis Chat Memory",
+      "name": "Redis",
       "credentials": {
         "redis": {
           "id": "PAxrnIdpjZ24fsIc",
@@ -173,17 +173,6 @@
         ]
       ]
     },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
@@ -206,7 +195,18 @@
         ]
       ]
     },
-    "Redis Chat Memory": {
+    "OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
       "ai_memory": [
         [
           {
@@ -226,7 +226,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "dd020506-0a66-4824-b5db-2f391f072abc",
+  "versionId": "8c2ba10b-9d47-4aa7-97c2-fff10abeb487",
   "triggerCount": 1,
   "tags": []
 }
