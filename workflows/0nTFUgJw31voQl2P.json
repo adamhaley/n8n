@@ -1,333 +1,258 @@
 {
-  "createdAt": "2025-05-25T00:01:08.305Z",
-  "updatedAt": "2025-06-02T01:11:49.000Z",
-  "id": "H0HZQnMr1hgjQMmI",
-  "name": "Journal Entry",
+  "createdAt": "2025-04-25T21:48:02.748Z",
+  "updatedAt": "2025-04-25T22:22:53.000Z",
+  "id": "I4kf43NNTQsmBdQL",
+  "name": "Extract Resume to AirTable",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -80
+      ],
+      "id": "04d8c722-53a5-48d3-b9e8-36dfc89dfb9d",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
       "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "return { name: $json.name }"
+        "operation": "get",
+        "documentURL": "=https://docs.google.com/document/d/1HUdGpSRPUijSm3z-TZgQRlOKg85ZAbveHoG7QHo8fyA/edit?tab=t.0"
       },
-      "type": "n8n-nodes-base.code",
+      "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 2,
       "position": [
-        -440,
-        640
+        -420,
+        -80
       ],
-      "id": "16419d4b-5a9b-4397-98c8-406df60642ff",
-      "name": "Code"
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "adamhaley-com",
-          "mode": "list",
-          "cachedResultName": "adamhaley-com",
-          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
-        },
-        "filePath": "=journal/{{ $('Create Filename1').item.json.filename }}",
-        "fileContent": "={{$('Create Filename1').item.json.content  }}",
-        "commitMessage": "=committing journal entry for {{$now }} }}",
-        "additionalParameters": {
-          "branch": {
-            "branch": "master"
-          }
-        }
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        0,
-        740
-      ],
-      "id": "768b6ab2-3fec-4380-81c4-45f0aa45a212",
-      "name": "Create File1",
-      "webhookId": "e63bf744-6684-4324-8490-8e2ff702ba3b",
+      "id": "00701202-3eba-457c-8b34-22b2e009f8b5",
+      "name": "Google Docs",
       "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
+        "googleDocsOAuth2Api": {
+          "id": "7bNV16GXW9mKhM7l",
+          "name": "Google Docs account"
         }
       }
     },
     {
       "parameters": {
-        "resource": "file",
-        "operation": "get",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "adamhaley-com",
-          "mode": "list",
-          "cachedResultName": "adamhaley-com",
-          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
-        },
-        "filePath": "=journal/{{$('Create Filename1').item.json.filename }}",
-        "asBinaryProperty": "={{ true }}",
-        "additionalParameters": {}
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        0,
-        540
-      ],
-      "id": "c7b02ccb-84c3-4f55-8faa-376496d029ac",
-      "name": "Get File1",
-      "webhookId": "b82cb6cc-ee1b-442c-9b07-e472f637ea22",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "You are a helpful text-transforming assistant. I am passing in some text I want uploaded to an Airtable database using the Airtable tool. The text is a resume. I want each job listing on the resume to be inserted into its own record in the airtable DB. Can you analyze the document and match the appropriate fields - Company or Client, Title, Start Date and End Date, and technologies?"
         }
-      }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -200,
+        -80
+      ],
+      "id": "fdab57e0-a979-4441-b441-e4f91df79c63",
+      "name": "AI Agent"
     },
     {
       "parameters": {
-        "operation": "text",
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        220,
-        540
+        -260,
+        160
       ],
-      "id": "485025b8-1997-453a-96f6-a138a68e08c3",
-      "name": "Get Contents1"
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "operation": "edit",
-        "owner": {
-          "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "adamhaley-com",
-          "mode": "list",
-          "cachedResultName": "adamhaley-com",
-          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
-        },
-        "filePath": "=journal/{{$('Create Filename1').item.json.filename }}",
-        "fileContent": "={{ $json.data }}\n\n{{ $now.toLocaleString({ timeStyle: 'short' }) }}\n{{ $('Create Filename1').item.json.content }}\n",
-        "commitMessage": "=appending content to  {{ $('Create Filename1').item.json.filename }}"
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        440,
-        540
-      ],
-      "id": "44e3be97-94d4-42a4-8caf-cca76c106b59",
-      "name": "Append New Contents1",
-      "webhookId": "e534c27a-bd91-4045-b3f7-3e9cd6db060f",
+      "id": "7b49379f-e8cf-4db8-8fdd-b3bf078f35e8",
+      "name": "OpenAI Chat Model",
       "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
         }
       }
     },
     {
       "parameters": {
-        "jsCode": "//create filename\nlet filename = $now.toFormat('y-MM-d') + '.md';\nlet content = '';\nif($input.first().json.content !== null){\n  content = $input.first().json.content;\n}\nreturn { filename: filename, content: content }"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -880,
-        640
-      ],
-      "id": "51485ddf-1149-4438-ab27-1b7831dcd313",
-      "name": "Create Filename1"
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "operation": "list",
-        "owner": {
+        "operation": "create",
+        "base": {
           "__rl": true,
-          "value": "adamhaley",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "adamhaley-com",
+          "value": "appJvUU7LLPZMZWBe",
           "mode": "list",
-          "cachedResultName": "adamhaley-com",
-          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+          "cachedResultName": "AHMedia",
+          "cachedResultUrl": "https://airtable.com/appJvUU7LLPZMZWBe"
         },
-        "filePath": "=journal"
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        -660,
-        640
-      ],
-      "id": "a7edfbe2-4625-46a0-9751-f7cba627e165",
-      "name": "Github List FIles1",
-      "webhookId": "3c3f7fc3-d024-4715-87f3-f7eeab3b814c",
-      "credentials": {
-        "githubApi": {
-          "id": "Jvt1VN8GL1z1M8pS",
-          "name": "GitHub account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "workflowInputs": {
-          "values": [
+        "table": {
+          "__rl": true,
+          "value": "tbl1RmNxAEUXKGnAc",
+          "mode": "list",
+          "cachedResultName": "Resume",
+          "cachedResultUrl": "https://airtable.com/appJvUU7LLPZMZWBe/tbl1RmNxAEUXKGnAc"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
             {
-              "name": "content"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -1100,
-        640
-      ],
-      "id": "caeaabab-7036-48b2-b1e7-c783398eda70",
-      "name": "When Executed by Another Workflow"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
+              "id": "Company or Client",
+              "displayName": "Company or Client",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
             {
-              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
-              "leftValue": "={{ $input.all().map(item => item.json.name) }}",
-              "rightValue": "={{ $('Create Filename1').first().json.filename }}",
-              "operator": {
-                "type": "array",
-                "operation": "contains",
-                "rightType": "any"
-              }
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "technologies",
+              "displayName": "technologies",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "options": [],
+              "readOnly": false,
+              "removed": false
             }
           ],
-          "combinator": "and"
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
       "position": [
-        -220,
-        640
+        40,
+        200
       ],
-      "id": "a1759c3f-0a5f-4eca-8746-57a3e17ddddb",
-      "name": "If File Exists",
-      "executeOnce": true
+      "id": "7ae9d09d-39be-4108-9216-b4b36c324c54",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "hL0MA6fZb8S06sMK",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -120,
+        140
+      ],
+      "id": "e3518c9a-8a09-4138-9157-ef8fa7edf0f1",
+      "name": "Simple Memory"
     }
   ],
   "connections": {
-    "Code": {
+    "When clicking ‘Test workflow’": {
       "main": [
         [
           {
-            "node": "If File Exists",
+            "node": "Google Docs",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get File1": {
+    "Google Docs": {
       "main": [
         [
           {
-            "node": "Get Contents1",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get Contents1": {
-      "main": [
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
         [
           {
-            "node": "Append New Contents1",
-            "type": "main",
+            "node": "AI Agent",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Create Filename1": {
-      "main": [
+    "Airtable": {
+      "ai_tool": [
         [
           {
-            "node": "Github List FIles1",
-            "type": "main",
+            "node": "AI Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
       ]
     },
-    "Github List FIles1": {
-      "main": [
+    "Simple Memory": {
+      "ai_memory": [
         [
           {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When Executed by Another Workflow": {
-      "main": [
-        [
-          {
-            "node": "Create Filename1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If File Exists": {
-      "main": [
-        [
-          {
-            "node": "Get File1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Create File1",
-            "type": "main",
+            "node": "AI Agent",
+            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -342,7 +267,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "437f96d1-dc25-4cc5-80d8-313b70fff17e",
+  "versionId": "6ade8cb4-8294-46cc-ae8d-6871f0bacd2a",
   "triggerCount": 0,
   "tags": []
 }
