@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-24T19:44:48.000Z",
+  "updatedAt": "2025-06-24T21:16:31.000Z",
   "id": "G0Vk5kYZGi0nCI12",
   "name": "BOT CORE",
   "active": false,
@@ -271,21 +271,13 @@
     },
     {
       "parameters": {
-        "url": "https://www.googleapis.com/customsearch/v1",
+        "url": "http://n8n.ahmedia.ai:8000/google",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
-              "name": "key",
-              "value": "AIzaSyB7U9hzQhUkKKRo098Pny785Fq6c0_jhOg"
-            },
-            {
-              "name": "cx",
-              "value": "c7e85857fa87443a1"
-            },
-            {
               "name": "q",
-              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
             }
           ]
         },
@@ -294,8 +286,8 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.2,
       "position": [
-        620,
-        -100
+        640,
+        -80
       ],
       "id": "973945d7-fdc6-47e0-b763-ff05380bb8e2",
       "name": "Search Google"
@@ -484,7 +476,7 @@
       "typeVersion": 2.2,
       "position": [
         180,
-        220
+        240
       ],
       "id": "745027ad-b698-4500-adce-916de2e08fa5",
       "name": "Get Next"
@@ -659,7 +651,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "fb49f5e2-e242-46e8-8b25-a4d07185e07f",
+  "versionId": "252f2bca-e7f8-4c20-bf27-512e560a5ff3",
   "triggerCount": 1,
   "tags": []
 }
