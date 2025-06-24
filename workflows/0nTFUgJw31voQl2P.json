@@ -1,75 +1,152 @@
 {
-  "createdAt": "2025-06-24T19:23:41.405Z",
-  "updatedAt": "2025-06-24T19:41:05.000Z",
-  "id": "PEh6LcSsKzGMRlZH",
-  "name": "Get Scrape Results",
+  "createdAt": "2025-06-06T19:24:30.233Z",
+  "updatedAt": "2025-06-15T02:26:29.000Z",
+  "id": "T4PQ8f64i0VA0KcJ",
+  "name": "Scrape  HNHiring",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "workflowInputs": {
-          "values": [
-            {
-              "name": "query"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -140,
-        0
-      ],
-      "id": "d48be0be-a88b-4473-87c4-72140afc5e91",
-      "name": "When Executed by Another Workflow"
-    },
-    {
-      "parameters": {
-        "resource": "fileFolder",
-        "queryString": "={{ $json.query }}",
-        "filter": {},
+        "url": "https://hnhiring.com/june-2025",
         "options": {}
       },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        80,
-        0
+        220,
+        -20
       ],
-      "id": "6306f9ec-0a8f-441c-929a-49f7cd90370d",
-      "name": "Google Drive",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "reZwBdwR7JImRDL0",
-          "name": "Google Drive account"
-        }
-      }
+      "id": "c96116e5-0401-49fa-8aa9-4456443db997",
+      "name": "HTTP Request"
     },
     {
       "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "jobs",
+              "cssSelector": "li.job",
+              "returnValue": "html",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        -20
+      ],
+      "id": "4e150009-880d-4631-8ee2-aba232461750",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "jobs",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "url",
+              "cssSelector": "a",
+              "returnValue": "attribute",
+              "attribute": "href"
+            },
+            {
+              "key": "date",
+              "cssSelector": "span.gray.right.type-info"
+            },
+            {
+              "key": "body",
+              "cssSelector": ".body",
+              "returnArray": "={{ false }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        660,
+        -20
+      ],
+      "id": "60270ac6-aaf0-46e6-9e4b-c84dadbc56ca",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "={{ $json.id }}",
-          "mode": "id"
+          "value": "1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE",
+          "mode": "list",
+          "cachedResultName": "Job Postings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1374417673,
+          "value": "gid=0",
           "mode": "list",
           "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ct2lzFXhDkWAROpdmN6L1e_uQQxKLSPlZCCKI4i44OY/edit#gid=1374417673"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "output"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        300,
-        0
+        880,
+        -20
       ],
-      "id": "e4228a97-8d1b-4993-bfad-c208f637004e",
+      "id": "5f21c8df-67b0-4ddb-9b57-6a18eaacf721",
       "name": "Google Sheets",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -77,25 +154,66 @@
           "name": "adamhaley@gmail Google Sheets"
         }
       }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        -20
+      ],
+      "id": "968612f9-6c90-4918-9d3b-5d8123399b78",
+      "name": "Schedule Trigger"
     }
   ],
   "connections": {
-    "When Executed by Another Workflow": {
+    "HTTP Request": {
       "main": [
         [
           {
-            "node": "Google Drive",
+            "node": "HTML",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Google Drive": {
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
       "main": [
         [
           {
             "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -110,16 +228,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "query": "auto body or auto glass"
-        }
-      }
-    ]
-  },
-  "versionId": "d869a979-279a-433f-947c-78ba36b0da05",
+  "pinData": {},
+  "versionId": "cf8a860a-6b21-423f-8bfd-3040ac39eb76",
   "triggerCount": 0,
   "tags": []
 }
