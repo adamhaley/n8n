@@ -1,645 +1,358 @@
 {
-  "createdAt": "2025-04-22T17:59:05.709Z",
-  "updatedAt": "2025-06-24T21:16:31.000Z",
-  "id": "G0Vk5kYZGi0nCI12",
-  "name": "BOT CORE",
+  "createdAt": "2025-06-03T23:18:50.870Z",
+  "updatedAt": "2025-06-04T22:07:31.000Z",
+  "id": "GayT2MiHLX1ouiLA",
+  "name": "Scrape Google Maps for Leads",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.msg }}",
-        "hasOutputParser": true,
-        "options": {
-          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. Do not use emoji characters in your output. Your responses should be conversational but concise — a few sentences or one paragraph max.\n\nWhen responding, prefer helpful summaries and direct answers unless more detail is requested. When a task requires a tool, decide if a tool call is necessary and proceed accordingly. Use Los Angeles as the default location if none is specified.\n\nYou have access to the following tools:\n\n1. Record Content Idea\nUse this tool to log a content idea (e.g. a video, blog topic, or social post).\n→ Input: content (string)\n→ Example: \"Call this tool to record an idea: 'How AI is reshaping small business workflows'\"\n\n2. Forecast\nGet the 5-day weather forecast. Use this when someone asks about upcoming weather in a specific city.\n→ Input: City name (default to Los Angeles if not specified)\n→ Output: 5-day forecast in Fahrenheit\n\n3. Weather\nGet current weather conditions for a city.\n→ Input: City name (default to Los Angeles)\n→ Output: current temperature, condition (e.g. sunny, rainy), etc.\n\n4. Journal Entry\nUse this to record a journal-style message or reflection.\n→ Input: content (string)\n→ Example: \"Call this to log a journal entry with the user's reflection or thought.\"\n\n5. Scrape Google Maps\nUse this to scrape Google Maps for places (e.g. \"cafes near Venice Beach\") and automatically save the results to a Google Sheet.\nImportant: Do not show the scraped results unless explicitly asked. Confirm success instead.\n→ Input: parameters (e.g. \"barbershops in downtown LA\")\n→ Example: \"Call this tool to search Google Maps for 'AI conferences near San Francisco'\"\n\n6. Slack\nSend a message to the #ahmedia-rampup Slack channel.\n→ Input: Message text (string)\n→ Example: \"Send this update to Slack: 'The workflow for video automation just finished successfully.'\"\n\n7. Search Google\nUse this tool to perform a Google search using the Custom Search API.\n→ Input: Query string\n→ Output: List of search results\n→ Example: \"Search Google for 'Best AI automation tools 2025'\"\n\n8. Get Next Lead\nRetrieve the next uncontacted lead from the “Local Leads” database.\n→ Input: optional query (e.g., specify lead type or filter, if needed)\n→ Output: lead information\n→ Example: \"Call this tool to get the next lead for outreach.\"\n\n9. Get Next [generic name]\nRetrieve the next resource from [generic name]\n→ Input: query, which is the name of the google sheet this will load data from \n→ Output: record information\n→ Example: \"Call this tool to get the next generic data that has been scraped into a google sheet.\"\n\n"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.8,
-      "position": [
-        -28,
-        -260
-      ],
-      "id": "939c92a6-c15e-4649-abdd-669d3faa6754",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "description": "Call this tool to record a \"content idea\" ",
-        "workflowId": {
-          "__rl": true,
-          "value": "uHh2zhO8z0QbHbow",
-          "mode": "list",
-          "cachedResultName": "Record Content Idea"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "content"
-          ],
-          "schema": [
-            {
-              "id": "content",
-              "displayName": "content",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
-      "position": [
-        -140,
-        20
-      ],
-      "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
-      "name": "Record Content Idea"
-    },
-    {
-      "parameters": {
-        "operation": "5DayForecast",
-        "format": "imperial",
-        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}"
-      },
-      "type": "n8n-nodes-base.openWeatherMapTool",
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        100,
-        80
+        -620,
+        0
       ],
-      "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
-      "name": "Forecast",
-      "credentials": {
-        "openWeatherMapApi": {
-          "id": "7DhsapvM6ZDKxoUN",
-          "name": "OPEN WEATHER API KEY"
-        }
-      }
+      "id": "acd558ff-2865-4b8e-a560-652e80a026d1",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
-        "name": "journal_entry",
-        "description": "Call this tool to write a journal entry.",
-        "workflowId": {
-          "__rl": true,
-          "value": "H0HZQnMr1hgjQMmI",
-          "mode": "list",
-          "cachedResultName": "Journal Entry"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', `This should be the contents of the journal entry sent by the transcribe node`, 'string') }}"
-          },
-          "matchingColumns": [
-            "content"
-          ],
-          "schema": [
-            {
-              "id": "content",
-              "displayName": "content",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.1,
-      "position": [
-        240,
-        60
-      ],
-      "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
-      "name": "Journal Entry",
-      "executeOnce": true
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "ah_media_bot"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        -260,
-        -20
-      ],
-      "id": "c470ae27-ab74-4406-bf1c-c1e42be858f0",
-      "name": "Redis Chat Memory",
-      "credentials": {
-        "redis": {
-          "id": "PAxrnIdpjZ24fsIc",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        -400,
-        -60
-      ],
-      "id": "d8b5c771-b958-450a-8dfb-36d90be29e43",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "workflowInputs": {
-          "values": [
-            {
-              "name": "msg"
-            },
-            {
-              "name": "sessionId",
-              "type": "number"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -580,
-        -260
-      ],
-      "id": "2858fbee-f600-4ef4-bee1-76452f1544a6",
-      "name": "When Executed by Another Workflow"
-    },
-    {
-      "parameters": {
-        "description": "Call this tool to scrape google maps for results. ",
-        "workflowId": {
-          "__rl": true,
-          "value": "26OUjbuI1flCV0fh",
-          "mode": "list",
-          "cachedResultName": "Scrape Google Maps and Store"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "parameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "parameters"
-          ],
-          "schema": [
-            {
-              "id": "parameters",
-              "displayName": "parameters",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
-      "position": [
-        380,
-        20
-      ],
-      "id": "5551efa4-e37f-42cf-91d3-66740516ab05",
-      "name": "Scrape Google Maps"
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "select": "channel",
-        "channelId": {
-          "__rl": true,
-          "value": "C08NS9Z8JH1",
-          "mode": "list",
-          "cachedResultName": "ahmedia-rampup"
-        },
-        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_Text', ``, 'string') }}",
-        "otherOptions": {}
-      },
-      "type": "n8n-nodes-base.slackTool",
-      "typeVersion": 2.3,
-      "position": [
-        500,
-        -20
-      ],
-      "id": "e7f48dc5-cd84-47fd-9296-c518fc01dd9c",
-      "name": "Slack",
-      "webhookId": "1afa7a03-a11a-4bc7-a6b6-e337bb43de14",
-      "credentials": {
-        "slackOAuth2Api": {
-          "id": "aku9PHR5ccUxQYCi",
-          "name": "Slack account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "url": "http://n8n.ahmedia.ai:8000/google",
+        "url": "https://api.outscraper.cloud/maps/search-v3",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
-              "name": "q",
-              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+              "name": "query",
+              "value": "={{ $json.category }} {{ $json.location }}"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "async",
+              "value": "false"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "ZDVhMWE1MjE3NTQ0NDVmYWIwZTFjYjQ4OGM1ZjNiNzJ8YTQ0MzlhYzIyMQ"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequestTool",
+      "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        640,
-        -80
+        -180,
+        0
       ],
-      "id": "973945d7-fdc6-47e0-b763-ff05380bb8e2",
-      "name": "Search Google"
+      "id": "c3bf8463-9dd9-4a1c-b077-f03a40536454",
+      "name": "Outscraper"
     },
     {
       "parameters": {
-        "format": "imperial",
-        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}",
-        "language": "=en"
+        "documentId": {
+          "__rl": true,
+          "value": "1xB29_qcR7NFIWIJngMpKvjBYICUC_z77i06vwFI6rZE",
+          "mode": "list",
+          "cachedResultName": "Leads To Scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xB29_qcR7NFIWIJngMpKvjBYICUC_z77i06vwFI6rZE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xB29_qcR7NFIWIJngMpKvjBYICUC_z77i06vwFI6rZE/edit#gid=0"
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.openWeatherMapTool",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
       "position": [
-        -20,
-        60
+        -400,
+        0
       ],
-      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
-      "name": "Weather",
+      "id": "ab3a751e-5cd6-4fb1-981f-f87f440008e5",
+      "name": "Google Sheets",
       "credentials": {
-        "openWeatherMapApi": {
-          "id": "7DhsapvM6ZDKxoUN",
-          "name": "OPEN WEATHER API KEY"
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
         }
       }
     },
     {
       "parameters": {
-        "description": "Call this tool to get the next lead that has not been called in \"Local Leads\". ",
-        "workflowId": {
-          "__rl": true,
-          "value": "WIyeaKA7U16CMDr0",
-          "mode": "list",
-          "cachedResultName": "Get Next Lead"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "query"
-          ],
-          "schema": [
-            {
-              "id": "query",
-              "displayName": "query",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
+        "fieldToSplitOut": "data[0]",
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
       "position": [
-        -280,
-        140
+        40,
+        0
       ],
-      "id": "2314abe2-5606-4489-9ea1-b5b8002e287b",
-      "name": "Get Next Lead"
+      "id": "7f1de0f9-6768-4c76-a324-b7a2b9201663",
+      "name": "Split Out"
     },
     {
       "parameters": {
-        "description": "Call this tool to get the next lead that has not been called in \"Job Postings\". ",
-        "workflowId": {
-          "__rl": true,
-          "value": "OWb7puyydhH3FZ2M",
-          "mode": "list",
-          "cachedResultName": "Get Next Job"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "query"
-          ],
-          "schema": [
+        "assignments": {
+          "assignments": [
             {
-              "id": "query",
-              "displayName": "query",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "id": "2e172538-efa3-4997-aad9-0c522cd607b7",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "790182be-f054-464f-bf08-0e67374e062e",
+              "name": "site",
+              "value": "={{ $json.site }}",
+              "type": "string"
+            },
+            {
+              "id": "0f573acd-c2fc-469d-ad13-441c5a6a4b09",
+              "name": "full_address",
+              "value": "={{ $json.full_address }}",
+              "type": "string"
+            },
+            {
+              "id": "7e04ba70-0506-43ef-9f22-6c55e809bf7f",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "edb48b22-8a72-4783-bdf0-5e9f628f91a5",
+              "name": "category",
+              "value": "={{ $json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "1de435de-4dd1-450e-ba57-e2c5b0a0b2a4",
+              "name": "subtypes",
+              "value": "={{ $json.subtypes }}",
+              "type": "string"
+            },
+            {
+              "id": "3a76063c-695c-4dea-846f-5c8573c16165",
+              "name": "logo",
+              "value": "={{ $json.logo }}",
+              "type": "string"
+            },
+            {
+              "id": "17945574-0387-4ac6-80ed-70f4d65f405a",
+              "name": "location_link",
+              "value": "={{ $json.location_link }}",
+              "type": "string"
             }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
+          ]
+        },
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        -140,
-        180
+        260,
+        0
       ],
-      "id": "9ba482c5-e61d-460f-adff-f59b4671167a",
-      "name": "Get Next Job"
+      "id": "6c9c5698-18f7-4eb2-bd50-f248227ffb43",
+      "name": "Edit Fields"
     },
     {
       "parameters": {
-        "description": "Call this tool to get the results of a scrape into google sheets. The input is \"query\" and will be the resource name  and will come from user input.",
-        "workflowId": {
+        "operation": "append",
+        "documentId": {
           "__rl": true,
-          "value": "PEh6LcSsKzGMRlZH",
+          "value": "1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4",
           "mode": "list",
-          "cachedResultName": "Get Scrape Results"
+          "cachedResultName": "Local Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit?usp=drivesdk"
         },
-        "workflowInputs": {
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit#gid=0"
+        },
+        "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+            "name": "={{ $json.name }}",
+            "site": "={{ $json.site }}",
+            "full_address": "={{ $json.full_address }}",
+            "phone": "=''{{ $json.phone }}",
+            "category": "={{ $json.category }}",
+            "subtypes": "={{ $json.subtypes }}",
+            "logo": "={{ $json.logo }}",
+            "location_link": "={{ $json.location_link }}"
           },
-          "matchingColumns": [
-            "query"
-          ],
+          "matchingColumns": [],
           "schema": [
             {
-              "id": "query",
-              "displayName": "query",
+              "id": "name",
+              "displayName": "name",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "canBeUsedToMatch": true,
               "type": "string",
-              "removed": false
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "site",
+              "displayName": "site",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "full_address",
+              "displayName": "full_address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subtypes",
+              "displayName": "subtypes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "logo",
+              "displayName": "logo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "location_link",
+              "displayName": "location_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             }
           ],
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
-      "position": [
-        20,
-        220
-      ],
-      "id": "9c8de023-1366-47bc-a7a1-3f379736714d",
-      "name": "Get Scrape Results"
-    },
-    {
-      "parameters": {
-        "description": "Call this tool to get next row from a given resource name, which will be sent from user input.",
-        "workflowId": {
-          "__rl": true,
-          "value": "k5q06WQui1IpAp8b",
-          "mode": "list",
-          "cachedResultName": "Get Next"
         },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "query"
-          ],
-          "schema": [
-            {
-              "id": "query",
-              "displayName": "query",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
       "position": [
-        180,
-        240
+        480,
+        0
       ],
-      "id": "745027ad-b698-4500-adce-916de2e08fa5",
-      "name": "Get Next"
+      "id": "bd40b668-2ae4-42a2-a34b-7f965e1a2049",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
     }
   ],
   "connections": {
-    "AI Agent": {
-      "main": [
-        []
-      ]
-    },
-    "Record Content Idea": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Forecast": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Journal Entry": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Redis Chat Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When Executed by Another Workflow": {
+    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Google Sheets",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Scrape Google Maps": {
-      "ai_tool": [
+    "Google Sheets": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_tool",
+            "node": "Outscraper",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Slack": {
-      "ai_tool": [
+    "Outscraper": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_tool",
+            "node": "Split Out",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Search Google": {
-      "ai_tool": [
+    "Split Out": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_tool",
+            "node": "Edit Fields",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Weather": {
-      "ai_tool": [
+    "Edit Fields": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_tool",
+            "node": "Google Sheets1",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get Next Lead": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Next Job": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Scrape Results": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Next": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
+    "Google Sheets1": {
+      "main": [
+        []
       ]
     }
   },
@@ -651,7 +364,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "252f2bca-e7f8-4c20-bf27-512e560a5ff3",
-  "triggerCount": 1,
+  "versionId": "483caf80-c20d-44f6-8385-a01e073762c1",
+  "triggerCount": 0,
   "tags": []
 }
