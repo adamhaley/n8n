@@ -1,167 +1,11 @@
 {
-  "createdAt": "2025-06-10T18:48:07.541Z",
-  "updatedAt": "2025-06-16T02:25:45.000Z",
-  "id": "OWb7puyydhH3FZ2M",
-  "name": "Get Next Job",
+  "createdAt": "2025-06-24T19:23:41.405Z",
+  "updatedAt": "2025-06-24T19:41:05.000Z",
+  "id": "PEh6LcSsKzGMRlZH",
+  "name": "Get Scrape Results",
   "active": false,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE",
-          "mode": "list",
-          "cachedResultName": "Job Postings",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Sheet1",
-          "mode": "name"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "viewed"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        0,
-        0
-      ],
-      "id": "1ded9b86-3ec4-4ca6-8d39-677c2d8c2f0e",
-      "name": "Google Sheets",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dFntNaEYJAOsYZIZ",
-          "name": "adamhaley@gmail Google Sheets"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "\nreturn $input.first();"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        220,
-        0
-      ],
-      "id": "7d3454f5-c4e2-4992-b635-73eb716f6dfa",
-      "name": "Code"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE",
-          "mode": "list",
-          "cachedResultName": "Job Postings",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "date": "={{ $json.date }}",
-            "url": "={{ $json.url }}",
-            "body": "={{ $json.body }}",
-            "viewed": "=1",
-            "applied": "={{ $json.applied }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "date",
-              "displayName": "date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "url",
-              "displayName": "url",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "viewed",
-              "displayName": "viewed",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "applied",
-              "displayName": "applied",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        440,
-        0
-      ],
-      "id": "da94435b-09d9-47eb-b147-10763484ecba",
-      "name": "Google Sheets1",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dFntNaEYJAOsYZIZ",
-          "name": "adamhaley@gmail Google Sheets"
-        }
-      }
-    },
     {
       "parameters": {
         "workflowInputs": {
@@ -175,37 +19,79 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        -180,
+        -140,
         0
       ],
-      "id": "c4f9ea1f-2bdb-4e4e-8cfe-fab02e3374ec",
+      "id": "d48be0be-a88b-4473-87c4-72140afc5e91",
       "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.query }}",
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        80,
+        0
+      ],
+      "id": "6306f9ec-0a8f-441c-929a-49f7cd90370d",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "reZwBdwR7JImRDL0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1374417673,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ct2lzFXhDkWAROpdmN6L1e_uQQxKLSPlZCCKI4i44OY/edit#gid=1374417673"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        300,
+        0
+      ],
+      "id": "e4228a97-8d1b-4993-bfad-c208f637004e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
     }
   ],
   "connections": {
-    "Google Sheets": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Google Sheets1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
       "main": [
         [
           {
@@ -221,9 +107,19 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "6d8bb389-b33e-4e55-9170-0c5038469a7a",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "query": "auto body or auto glass"
+        }
+      }
+    ]
+  },
+  "versionId": "d869a979-279a-433f-947c-78ba36b0da05",
   "triggerCount": 0,
   "tags": []
 }
