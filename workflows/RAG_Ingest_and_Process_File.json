@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-04-18T20:03:03.830Z",
-  "updatedAt": "2025-06-16T22:25:47.000Z",
+  "updatedAt": "2025-06-23T22:55:17.000Z",
   "id": "GmeUFdXNPBAPvpmO",
   "name": "RAG Ingest and Process File",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -307,6 +307,85 @@
       ],
       "id": "7c24f0ad-e1c1-4d32-8175-d32a762d3789",
       "name": "Extract Namespace"
+    },
+    {
+      "parameters": {
+        "content": "## Ingest File\n",
+        "height": 700,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2800,
+        -540
+      ],
+      "id": "5b16aa16-ec7f-4959-8820-c9fb4cc1e312",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Manage Namespace for Multi-tenancy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf a namespace came in with the webhook call, use that namespace. Otherwise we need to generate a namespace (see code node).\nNamespace is generated with a random adjective, noun, and number. This balance the best-of-both worlds of having a human-readable name, and also low likelihood of collisions.\n ",
+        "height": 700,
+        "width": 660,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2120,
+        -540
+      ],
+      "id": "54a514b3-7823-4f9a-a113-0a703907f2eb",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Document Loading and Vector Embedding\n",
+        "height": 700,
+        "width": 700,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        -540
+      ],
+      "id": "e5c085b4-c9cf-4247-b68b-1e6e2dfa703c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Return Data\n",
+        "height": 700,
+        "width": 660,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -540
+      ],
+      "id": "ac06c135-20b7-4e73-9496-97f389c73405",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## RAG Injest and Process File (multi-tenant)",
+        "height": 120,
+        "width": 640,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2800,
+        -900
+      ],
+      "id": "9a1980b3-309a-4dc7-9b2f-1bb575bc316e",
+      "name": "Sticky Note4"
     }
   ],
   "connections": {
@@ -473,7 +552,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a9254f81-e471-4d5b-933f-4083caf89a23",
+  "versionId": "dd4fd000-92fc-4c15-8a41-e11dbb4df864",
   "triggerCount": 1,
   "tags": []
 }
