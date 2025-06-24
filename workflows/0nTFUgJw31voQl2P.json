@@ -1,358 +1,336 @@
 {
-  "createdAt": "2025-06-03T23:18:50.870Z",
-  "updatedAt": "2025-06-04T22:07:31.000Z",
-  "id": "GayT2MiHLX1ouiLA",
-  "name": "Scrape Google Maps for Leads",
+  "createdAt": "2025-05-25T00:01:08.305Z",
+  "updatedAt": "2025-06-02T01:11:49.000Z",
+  "id": "H0HZQnMr1hgjQMmI",
+  "name": "Journal Entry",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return { name: $json.name }"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        640
+      ],
+      "id": "16419d4b-5a9b-4397-98c8-406df60642ff",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "adamhaley-com",
+          "mode": "list",
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+        },
+        "filePath": "=journal/{{ $('Create Filename1').item.json.filename }}",
+        "fileContent": "={{$('Create Filename1').item.json.content  }}",
+        "commitMessage": "=committing journal entry for {{$now }} }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "master"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -620,
-        0
+        0,
+        740
       ],
-      "id": "acd558ff-2865-4b8e-a560-652e80a026d1",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "url": "https://api.outscraper.cloud/maps/search-v3",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "query",
-              "value": "={{ $json.category }} {{ $json.location }}"
-            },
-            {
-              "name": "limit",
-              "value": "10"
-            },
-            {
-              "name": "async",
-              "value": "false"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "X-API-KEY",
-              "value": "ZDVhMWE1MjE3NTQ0NDVmYWIwZTFjYjQ4OGM1ZjNiNzJ8YTQ0MzlhYzIyMQ"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -180,
-        0
-      ],
-      "id": "c3bf8463-9dd9-4a1c-b077-f03a40536454",
-      "name": "Outscraper"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1xB29_qcR7NFIWIJngMpKvjBYICUC_z77i06vwFI6rZE",
-          "mode": "list",
-          "cachedResultName": "Leads To Scrape",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xB29_qcR7NFIWIJngMpKvjBYICUC_z77i06vwFI6rZE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xB29_qcR7NFIWIJngMpKvjBYICUC_z77i06vwFI6rZE/edit#gid=0"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        -400,
-        0
-      ],
-      "id": "ab3a751e-5cd6-4fb1-981f-f87f440008e5",
-      "name": "Google Sheets",
+      "id": "768b6ab2-3fec-4380-81c4-45f0aa45a212",
+      "name": "Create File1",
+      "webhookId": "e63bf744-6684-4324-8490-8e2ff702ba3b",
       "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dFntNaEYJAOsYZIZ",
-          "name": "adamhaley@gmail Google Sheets"
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
         }
       }
     },
     {
       "parameters": {
-        "fieldToSplitOut": "data[0]",
-        "options": {}
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "adamhaley-com",
+          "mode": "list",
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+        },
+        "filePath": "=journal/{{$('Create Filename1').item.json.filename }}",
+        "asBinaryProperty": "={{ true }}",
+        "additionalParameters": {}
       },
-      "type": "n8n-nodes-base.splitOut",
+      "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        40,
-        0
+        0,
+        540
       ],
-      "id": "7f1de0f9-6768-4c76-a324-b7a2b9201663",
-      "name": "Split Out"
+      "id": "c7b02ccb-84c3-4f55-8faa-376496d029ac",
+      "name": "Get File1",
+      "webhookId": "b82cb6cc-ee1b-442c-9b07-e472f637ea22",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2e172538-efa3-4997-aad9-0c522cd607b7",
-              "name": "name",
-              "value": "={{ $json.name }}",
-              "type": "string"
-            },
-            {
-              "id": "790182be-f054-464f-bf08-0e67374e062e",
-              "name": "site",
-              "value": "={{ $json.site }}",
-              "type": "string"
-            },
-            {
-              "id": "0f573acd-c2fc-469d-ad13-441c5a6a4b09",
-              "name": "full_address",
-              "value": "={{ $json.full_address }}",
-              "type": "string"
-            },
-            {
-              "id": "7e04ba70-0506-43ef-9f22-6c55e809bf7f",
-              "name": "phone",
-              "value": "={{ $json.phone }}",
-              "type": "string"
-            },
-            {
-              "id": "edb48b22-8a72-4783-bdf0-5e9f628f91a5",
-              "name": "category",
-              "value": "={{ $json.category }}",
-              "type": "string"
-            },
-            {
-              "id": "1de435de-4dd1-450e-ba57-e2c5b0a0b2a4",
-              "name": "subtypes",
-              "value": "={{ $json.subtypes }}",
-              "type": "string"
-            },
-            {
-              "id": "3a76063c-695c-4dea-846f-5c8573c16165",
-              "name": "logo",
-              "value": "={{ $json.logo }}",
-              "type": "string"
-            },
-            {
-              "id": "17945574-0387-4ac6-80ed-70f4d65f405a",
-              "name": "location_link",
-              "value": "={{ $json.location_link }}",
-              "type": "string"
-            }
-          ]
-        },
+        "operation": "text",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
       "position": [
-        260,
-        0
+        220,
+        540
       ],
-      "id": "6c9c5698-18f7-4eb2-bd50-f248227ffb43",
-      "name": "Edit Fields"
+      "id": "485025b8-1997-453a-96f6-a138a68e08c3",
+      "name": "Get Contents1"
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
           "__rl": true,
-          "value": "1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4",
-          "mode": "list",
-          "cachedResultName": "Local Leads",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit?usp=drivesdk"
+          "value": "adamhaley",
+          "mode": "name"
         },
-        "sheetName": {
+        "repository": {
           "__rl": true,
-          "value": "gid=0",
+          "value": "adamhaley-com",
           "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit#gid=0"
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
         },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "name": "={{ $json.name }}",
-            "site": "={{ $json.site }}",
-            "full_address": "={{ $json.full_address }}",
-            "phone": "=''{{ $json.phone }}",
-            "category": "={{ $json.category }}",
-            "subtypes": "={{ $json.subtypes }}",
-            "logo": "={{ $json.logo }}",
-            "location_link": "={{ $json.location_link }}"
+        "filePath": "=journal/{{$('Create Filename1').item.json.filename }}",
+        "fileContent": "={{ $json.data }}\n\n{{ $now.toLocaleString({ timeStyle: 'short' }) }}\n{{ $('Create Filename1').item.json.content }}\n",
+        "commitMessage": "=appending content to  {{ $('Create Filename1').item.json.filename }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        440,
+        540
+      ],
+      "id": "44e3be97-94d4-42a4-8caf-cca76c106b59",
+      "name": "Append New Contents1",
+      "webhookId": "e534c27a-bd91-4045-b3f7-3e9cd6db060f",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "//create filename\nlet filename = $now.toFormat('y-MM-d') + '.md';\nlet content = '';\nif($input.first().json.content !== null){\n  content = $input.first().json.content;\n}\nreturn { filename: filename, content: content }"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        640
+      ],
+      "id": "51485ddf-1149-4438-ab27-1b7831dcd313",
+      "name": "Create Filename1"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "adamhaley-com",
+          "mode": "list",
+          "cachedResultName": "adamhaley-com",
+          "cachedResultUrl": "https://github.com/adamhaley/adamhaley-com"
+        },
+        "filePath": "=journal"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        640
+      ],
+      "id": "a7edfbe2-4625-46a0-9751-f7cba627e165",
+      "name": "Github List FIles1",
+      "webhookId": "3c3f7fc3-d024-4715-87f3-f7eeab3b814c",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "content"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1100,
+        640
+      ],
+      "id": "caeaabab-7036-48b2-b1e7-c783398eda70",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
           },
-          "matchingColumns": [],
-          "schema": [
+          "conditions": [
             {
-              "id": "name",
-              "displayName": "name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "site",
-              "displayName": "site",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "full_address",
-              "displayName": "full_address",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "phone",
-              "displayName": "phone",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "category",
-              "displayName": "category",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "subtypes",
-              "displayName": "subtypes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "logo",
-              "displayName": "logo",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "location_link",
-              "displayName": "location_link",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
+              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
+              "leftValue": "={{ $input.all().map(item => item.json.name) }}",
+              "rightValue": "={{ $('Create Filename1').first().json.filename }}",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
             }
           ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "combinator": "and"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
       "position": [
-        480,
-        0
+        -220,
+        640
       ],
-      "id": "bd40b668-2ae4-42a2-a34b-7f965e1a2049",
-      "name": "Google Sheets1",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dFntNaEYJAOsYZIZ",
-          "name": "adamhaley@gmail Google Sheets"
-        }
-      }
+      "id": "a1759c3f-0a5f-4eca-8746-57a3e17ddddb",
+      "name": "If File Exists",
+      "executeOnce": true
     }
   ],
   "connections": {
-    "When clicking ‘Execute workflow’": {
+    "Code": {
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "If File Exists",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Google Sheets": {
+    "Get File1": {
       "main": [
         [
           {
-            "node": "Outscraper",
+            "node": "Get Contents1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Outscraper": {
+    "Get Contents1": {
       "main": [
         [
           {
-            "node": "Split Out",
+            "node": "Append New Contents1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Split Out": {
+    "Create Filename1": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "Github List FIles1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields": {
+    "Github List FIles1": {
       "main": [
         [
           {
-            "node": "Google Sheets1",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Google Sheets1": {
+    "When Executed by Another Workflow": {
       "main": [
-        []
+        [
+          {
+            "node": "Create Filename1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If File Exists": {
+      "main": [
+        [
+          {
+            "node": "Get File1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -364,7 +342,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "483caf80-c20d-44f6-8385-a01e073762c1",
+  "versionId": "437f96d1-dc25-4cc5-80d8-313b70fff17e",
   "triggerCount": 0,
   "tags": []
 }
