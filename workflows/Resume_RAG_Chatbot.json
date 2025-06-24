@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-01T05:11:54.290Z",
-  "updatedAt": "2025-06-03T01:54:09.000Z",
+  "updatedAt": "2025-06-24T18:50:23.000Z",
   "id": "LbyD7f0By61nIvKG",
   "name": "Resume RAG Chatbot",
   "active": true,
@@ -107,26 +107,6 @@
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=resume_rag"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        -700,
-        220
-      ],
-      "id": "8f7fe256-d3f9-43f4-bdc2-dd3f51023da0",
-      "name": "Redis Chat Memory",
-      "credentials": {
-        "redis": {
-          "id": "PAxrnIdpjZ24fsIc",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "model": {
           "__rl": true,
           "mode": "list",
@@ -143,11 +123,31 @@
         220
       ],
       "id": "e870b9f3-90ad-4a93-a4f2-5bc4e6e53c76",
-      "name": "OpenAI Chat Model",
+      "name": "OpenAI",
       "credentials": {
         "openAiApi": {
           "id": "5GRgzlcJ5Ujkvgcd",
           "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=resume_rag"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -700,
+        220
+      ],
+      "id": "8f7fe256-d3f9-43f4-bdc2-dd3f51023da0",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
         }
       }
     }
@@ -197,23 +197,23 @@
         ]
       ]
     },
-    "Redis Chat Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
+    "OpenAI": {
       "ai_languageModel": [
         [
           {
             "node": "AI Agent",
             "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -228,7 +228,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "106e61af-ba08-4035-9ac2-0a48df86c5bc",
+  "versionId": "86bceea4-c8ad-45ea-ab3a-b9abb5c2bd57",
   "triggerCount": 1,
   "tags": []
 }
