@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-18T19:59:00.319Z",
-  "updatedAt": "2025-06-02T23:24:13.000Z",
+  "updatedAt": "2025-06-23T23:16:14.000Z",
   "id": "X1V3UPGUPaa2TOki",
   "name": "Summarize GIT Log for Client Email",
   "active": true,
@@ -20,14 +20,14 @@
       "typeVersion": 1.2,
       "position": [
         0,
-        0
+        100
       ],
       "id": "b6bc1083-1970-48f8-a317-d5576cd6fbdb",
       "name": "Schedule Trigger"
     },
     {
       "parameters": {
-        "url": "https://api.github.com/repos/adamhaley/amplified-expansion-coaching/commits",
+        "url": "https://api.github.com/repos/adamhaley/adamhaley-com/commits",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -37,7 +37,7 @@
             },
             {
               "name": "sha",
-              "value": "staging"
+              "value": "master"
             }
           ]
         },
@@ -47,7 +47,7 @@
       "typeVersion": 4.2,
       "position": [
         220,
-        0
+        100
       ],
       "id": "a25d5cf5-5505-4448-bf23-39e3478e06c8",
       "name": "Get Commit History"
@@ -125,7 +125,7 @@
       "typeVersion": 2.2,
       "position": [
         440,
-        0
+        100
       ],
       "id": "3882bd17-645f-4a93-b3ca-e3c199e182f4",
       "name": "If"
@@ -133,10 +133,10 @@
     {
       "parameters": {
         "fromEmail": "info@ahmedia.ai",
-        "toEmail": "jenacarpenter@gmail.com",
-        "subject": "=Updates to AmplifiedExpansion.com!",
+        "toEmail": "adamhaley@gmail.com",
+        "subject": "=Updates to AdamHaley.com!",
         "emailFormat": "text",
-        "text": "=Hi Jena,\n\nI wanted to keep you in the loop on your latest site updates from your team at AHMedia this week! \n\n{{ $json.response.text }}\n\nAs always, feel free to reach out if you have any questions!\n\nSincerely,\n\nAHMedia BOT",
+        "text": "=Hi Adam,\n\nI wanted to keep you in the loop on your latest site updates from your team at AHMedia this week! \n\n{{ $json.response.text }}\n\nAs always, feel free to reach out if you have any questions!\n\nSincerely,\n\nAHMedia BOT",
         "options": {
           "appendAttribution": false
         }
@@ -144,7 +144,7 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1256,
+        1260,
         0
       ],
       "id": "83d7693a-7101-415b-aec3-4d5fcac3ea79",
@@ -175,6 +175,95 @@
       ],
       "id": "213fd304-79d0-4c80-a625-8a1e633b4013",
       "name": "Summarize Git Log"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        660,
+        200
+      ],
+      "id": "0670114a-d985-4878-b0e7-364e33edb9c0",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "# AdamHaley.COM Summarize GIT Commit History for client email\n\nThis workflow looks at the git history of a public github repository. If there are any commits in the last 7 days, commit messages are summarized into a friendly client email and sent to the client.\n",
+        "height": 240,
+        "width": 420,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -460
+      ],
+      "id": "5d97926c-6dff-48bd-a98f-b9c41a3645d5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Every Week, load the past weeks commit history ",
+        "height": 540,
+        "width": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -120
+      ],
+      "id": "0c3e2e67-1d27-4d39-a567-5342499fadcd",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## If there are commits, aggregate for AI processing\n",
+        "height": 540,
+        "width": 440,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        400,
+        -120
+      ],
+      "id": "4b1b6236-a246-4019-baf8-c5a1381e13c5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Summarize commit history messages into friendly client email\n",
+        "height": 540,
+        "width": 340,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        -120
+      ],
+      "id": "01d15945-1f7d-4e2a-84e6-032dbe18bf69",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Send client email",
+        "height": 540,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        -120
+      ],
+      "id": "be2ac454-f0e8-41bd-ad17-b0544a05c5f8",
+      "name": "Sticky Note4"
     }
   ],
   "connections": {
@@ -230,6 +319,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -251,7 +347,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        152
+        173
       ]
     }
   },
@@ -259,7 +355,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ce94718a-3c3a-4e9a-90db-034d9339cad5",
+  "versionId": "6ecf2a0a-6631-4519-802b-a82c8a7f2285",
   "triggerCount": 1,
   "tags": []
 }
