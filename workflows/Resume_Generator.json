@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-25T17:52:35.238Z",
-  "updatedAt": "2025-05-07T22:48:52.000Z",
+  "updatedAt": "2025-06-17T00:18:26.000Z",
   "id": "Q1HVkL2oehj9cSlc",
   "name": "Resume Generator",
   "active": true,
@@ -72,6 +72,7 @@
       ],
       "id": "b076bbf1-c9b2-441e-9e9a-0c70282a4fa9",
       "name": "GitHub",
+      "webhookId": "022ea827-7246-48ae-a0e9-947fbcab7be5",
       "credentials": {
         "githubApi": {
           "id": "Jvt1VN8GL1z1M8pS",
@@ -97,24 +98,22 @@
       "parameters": {
         "pollTimes": {
           "item": [
-            {
-              "mode": "everyMinute"
-            }
+            {}
           ]
         },
         "documentId": {
           "__rl": true,
-          "value": "1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA",
+          "value": "1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8",
           "mode": "list",
           "cachedResultName": "Resume SOURCE",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": 1590795213,
           "mode": "list",
           "cachedResultName": "Work History",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA/edit#gid=1590795213"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8/edit#gid=1590795213"
         },
         "options": {}
       },
@@ -129,7 +128,7 @@
       "credentials": {
         "googleSheetsTriggerOAuth2Api": {
           "id": "sQ5tgNUU4rrOP3uy",
-          "name": "Google Sheets Trigger account"
+          "name": "adam@adamhaley.com Google Sheets"
         }
       }
     },
@@ -196,17 +195,17 @@
   },
   "staticData": {
     "node:Google Sheets Trigger": {
-      "documentId": "1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA",
+      "documentId": "1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8",
       "sheetId": 1590795213,
-      "lastRevision": 1,
-      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1GaAVqQmK45QCrCtHTxJLaQBKN2P6gdntYnaarpTE8HA&revision=1&exportFormat=xlsx"
+      "lastRevision": 192,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1omzLm4dho_9UMKGma_wffrb-rSFlR58GAwbkohZxHu8&revision=192&exportFormat=xlsx"
     }
   },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2a86de2b-5cea-4c3a-b513-83e63e620c71",
+  "versionId": "641719eb-bcf4-4b66-92bd-96ab578e6f04",
   "triggerCount": 1,
   "tags": []
 }
