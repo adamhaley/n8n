@@ -1,1 +1,405 @@
-{"createdAt":"2025-06-04T21:09:33.208Z","updatedAt":"2025-06-04T22:05:32.000Z","id":"2Ei9KR4iP84Nv4QL","name":"Telegram Chat Agent","active":true,"isArchived":false,"nodes":[{"parameters":{"method":"POST","url":"http://ahmedia.ai:8000/transcribe","sendBody":true,"contentType":"binaryData","inputDataFieldName":"data","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[-900,0],"id":"739d3005-da94-42bb-911a-3da68eca2233","name":"Transcribe Voice"},{"parameters":{"resource":"file","fileId":"={{ $json.message.voice.file_id }}"},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[-1120,0],"id":"c2af79ae-b51a-48a7-8642-52461533c385","name":"Download Message","webhookId":"d6239fda-b394-43c7-87b8-889f340989e6","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"assignments":{"assignments":[{"id":"8743551c-0890-4d1a-9791-dd1d4087849d","name":"msg","value":"={{ $json.msg }}","type":"string"},{"id":"caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9","name":"sessionId","value":"={{ $('Is Voice or Text?').item.json.message.chat.id }}","type":"number"}]},"options":{}},"type":"n8n-nodes-base.set","typeVersion":3.4,"position":[-680,100],"id":"d7295af2-8ee1-4651-a8d5-c442c42e33c4","name":"Add sessionId"},{"parameters":{"keys":{"key":[{"currentKey":"message.text","newKey":"msg"}]},"additionalOptions":{}},"type":"n8n-nodes-base.renameKeys","typeVersion":1,"position":[-900,200],"id":"e178c350-da20-47e5-911f-0a4ddbdc6ee3","name":"Normalize Msg"},{"parameters":{"rules":{"values":[{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"leftValue":"={{ $json.message.voice }}","rightValue":"","operator":{"type":"object","operation":"exists","singleValue":true},"id":"a8116d0d-5bdb-49da-8984-08a077e816ae"}],"combinator":"and"}},{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"id":"cb242f13-0ce2-4645-9a69-6d9816104485","leftValue":"={{ $json.message.text }}","rightValue":"","operator":{"type":"string","operation":"exists","singleValue":true}}],"combinator":"and"}}]},"options":{}},"type":"n8n-nodes-base.switch","typeVersion":3.2,"position":[-1340,100],"id":"008da576-5d75-445c-95db-79727ee8544d","name":"Is Voice or Text?"},{"parameters":{"updates":["message"],"additionalFields":{}},"type":"n8n-nodes-base.telegramTrigger","typeVersion":1.2,"position":[-1560,100],"id":"375c1654-1c28-4bbb-90fd-0b133166ee1e","name":"Receive Message","webhookId":"aac89fdd-865b-4f9b-9875-75909cc27924","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"method":"POST","url":"http://ahmedia.ai:8000/tts","sendBody":true,"contentType":"raw","body":"={{ $json.output }}","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[-240,100],"id":"14a4696d-fb96-4cd6-ac3f-ca6be72dddf4","name":"Cartesia TTS"},{"parameters":{"operation":"sendAudio","chatId":"={{ $('Receive Message').item.json.message.chat.id }}","binaryData":true,"additionalFields":{"fileName":"reply.mp3"}},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[-20,100],"id":"c28c5d6c-4736-455c-b86f-1bdb2d07dd3e","name":"Send Audio Reply","webhookId":"660355ff-7f58-4b7a-b966-21497023ff9d","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"chatId":"={{ $('Receive Message').item.json.message.chat.id }}","text":"={{ $('Call BOT CORE').item.json.output }}","additionalFields":{"appendAttribution":false,"parse_mode":"HTML"}},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[200,100],"id":"205d33f0-b5c4-45e4-88b4-674a40940e86","name":"Send Text Reply","webhookId":"531a0f31-0dd2-4cfa-80cc-0ac6e12e595d","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"workflowId":{"__rl":true,"value":"G0Vk5kYZGi0nCI12","mode":"list","cachedResultName":"BOT CORE"},"workflowInputs":{"mappingMode":"defineBelow","value":{"msg":"={{ $json.msg }}","sessionId":"={{ $json.sessionId }}"},"matchingColumns":[],"schema":[{"id":"msg","displayName":"msg","required":false,"defaultMatch":false,"display":true,"canBeUsedToMatch":true,"type":"string","removed":false},{"id":"sessionId","displayName":"sessionId","required":false,"defaultMatch":false,"display":true,"canBeUsedToMatch":true,"type":"number","removed":false}],"attemptToConvertTypes":false,"convertFieldsToString":true},"options":{}},"type":"n8n-nodes-base.executeWorkflow","typeVersion":1.2,"position":[-460,100],"id":"c2b9053c-3857-4331-ad1d-71b537d31dc2","name":"Call BOT CORE"}],"connections":{"Transcribe Voice":{"main":[[{"node":"Add sessionId","type":"main","index":0}]]},"Download Message":{"main":[[{"node":"Transcribe Voice","type":"main","index":0}]]},"Normalize Msg":{"main":[[{"node":"Add sessionId","type":"main","index":0}]]},"Is Voice or Text?":{"main":[[{"node":"Download Message","type":"main","index":0}],[{"node":"Normalize Msg","type":"main","index":0}]]},"Receive Message":{"main":[[{"node":"Is Voice or Text?","type":"main","index":0}]]},"Cartesia TTS":{"main":[[{"node":"Send Audio Reply","type":"main","index":0}]]},"Send Audio Reply":{"main":[[{"node":"Send Text Reply","type":"main","index":0}]]},"Add sessionId":{"main":[[{"node":"Call BOT CORE","type":"main","index":0}]]},"Call BOT CORE":{"main":[[{"node":"Cartesia TTS","type":"main","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":null,"pinData":{},"versionId":"46a7d962-7379-4ea6-895a-13ec598637fb","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-06-01T03:39:11.805Z",
+  "updatedAt": "2025-06-24T22:06:45.000Z",
+  "id": "90aE9VfgouGkDwgi",
+  "name": "Backup Workflows To Github (Proper Names)",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1235fed-ae2f-4520-9158-2cf406bb2586",
+              "leftValue": "={{ $('List Workflow Files on Github').all().map(item => item.json.name) }}",
+              "rightValue": "={{ $json.name }}",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -660,
+        60
+      ],
+      "id": "47e9b7a7-50a8-4c96-b0c6-6665dab721f2",
+      "name": "If File Exists"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -40
+      ],
+      "id": "fcf4b8dc-6b84-42c2-8dc7-037edfd88273",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1540,
+        60
+      ],
+      "id": "7e7a6f8c-ef3a-45bd-9d8f-e152149e3d3a",
+      "name": "Run Daily"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "workflows"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -1320,
+        60
+      ],
+      "id": "1083b86d-442d-4a30-9ff9-d132ecee33b3",
+      "name": "List Workflow Files on Github",
+      "executeOnce": true,
+      "webhookId": "ef7828ec-cf4d-42a9-b12f-5c088cf829ec",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nlet name =  $json.name.replace(/ /g,'_');\nname = name.replace('/','') + '.json';\nreturn { name: name }"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        60
+      ],
+      "id": "48297519-1180-4cd2-8c55-76bfdb367cbc",
+      "name": "Proper filename from Workflow",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $json.name }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        -40
+      ],
+      "id": "a02616b2-e821-49ca-9dbf-a1fc6500e0a0",
+      "name": "Get The File",
+      "executeOnce": false,
+      "webhookId": "c6bcc826-6787-45c1-a756-6aedb5fd81b7",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "returnAll": false,
+        "filters": {
+          "activeWorkflows": true,
+          "tags": ""
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        60
+      ],
+      "id": "81c6f055-5983-476a-8c0c-00def6ad1075",
+      "name": "n8n Get Active Workflows",
+      "executeOnce": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "v9vxnDOn8eyJwvsI",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c9576a13-befb-4a51-85e2-7ee04cb3664f",
+              "leftValue": "={{ JSON.stringify( $('Extract from File').item.json.data, null, 2 ) }}",
+              "rightValue": "={{ JSON.stringify( $('n8n Get Active Workflows').item.json, null, 2 ) }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -40
+      ],
+      "id": "d505afcd-faf8-42a8-9693-b3746dab7c3e",
+      "name": "if n8n Workflow has Updates"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $('Proper filename from Workflow').item.json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').first().json ) }}",
+        "commitMessage": "=creating backup file for workflow \"{{ $('n8n Get Active Workflows').first().json.name }}\"\"",
+        "additionalParameters": {
+          "branch": {
+            "branch": "main"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        160
+      ],
+      "id": "67644118-0954-45a2-9d5f-f5239e338084",
+      "name": "Create File on Github",
+      "webhookId": "23889cba-d3e7-4dd0-ab91-4b262d0112f1",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "adamhaley",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://github.com/adamhaley/n8n"
+        },
+        "filePath": "=workflows/{{ $('Get The File').item.json.name }}",
+        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').item.json, null, 2 ) }}",
+        "commitMessage": "=Updating n8n workflow \"{{ $('n8n Get Active Workflows').item.json.name }}\""
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        220,
+        -40
+      ],
+      "id": "985273cf-0d79-424e-bfd1-d0c91020cc58",
+      "name": "Update File on GIthub",
+      "webhookId": "f6489b4e-6185-449d-b876-e17fd2afbbd1",
+      "credentials": {
+        "githubApi": {
+          "id": "Jvt1VN8GL1z1M8pS",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "If File Exists": {
+      "main": [
+        [
+          {
+            "node": "Get The File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create File on Github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "if n8n Workflow has Updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Daily": {
+      "main": [
+        [
+          {
+            "node": "List Workflow Files on Github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Workflow Files on Github": {
+      "main": [
+        [
+          {
+            "node": "n8n Get Active Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proper filename from Workflow": {
+      "main": [
+        [
+          {
+            "node": "If File Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n Get Active Workflows": {
+      "main": [
+        [
+          {
+            "node": "Proper filename from Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if n8n Workflow has Updates": {
+      "main": [
+        [
+          {
+            "node": "Update File on GIthub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Run Daily": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": null,
+  "pinData": {},
+  "versionId": "26d06aa5-a3a5-467b-b735-d909e200791a",
+  "triggerCount": 1,
+  "tags": []
+}
