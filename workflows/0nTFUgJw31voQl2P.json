@@ -1,153 +1,11 @@
 {
-  "createdAt": "2025-06-13T22:28:09.442Z",
-  "updatedAt": "2025-06-17T00:27:32.000Z",
-  "id": "7LxKIMORR0hJsyhf",
-  "name": "Travel Competitor Scraper",
+  "createdAt": "2025-06-24T19:08:22.417Z",
+  "updatedAt": "2025-06-24T19:10:23.000Z",
+  "id": "7ax0RFpVRCn6NeLR",
+  "name": "My workflow",
   "active": false,
   "isArchived": true,
   "nodes": [
-    {
-      "parameters": {
-        "url": "https://1000ut.hu/korutazas",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        220,
-        0
-      ],
-      "id": "fd7fbb69-da94-4544-b735-f518c5163fe3",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "operation": "extractHtmlContent",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "data",
-              "cssSelector": ".a-box",
-              "returnValue": "html",
-              "returnArray": true
-            }
-          ]
-        },
-        "options": {
-          "trimValues": true
-        }
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        440,
-        0
-      ],
-      "id": "a6196b6e-f2d4-469e-a824-638e7236421a",
-      "name": "HTML",
-      "executeOnce": false
-    },
-    {
-      "parameters": {
-        "operation": "extractHtmlContent",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "country",
-              "cssSelector": ".country-name"
-            },
-            {
-              "key": "dates",
-              "cssSelector": ".date-from-to"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        880,
-        0
-      ],
-      "id": "899362de-6369-4552-ae57-38aae2e9da3c",
-      "name": "HTML1"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "data",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        660,
-        0
-      ],
-      "id": "6262b7b0-3e6b-4c3f-baca-3cc36f627a1c",
-      "name": "Split Out"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=Filter the incoming dates in this JSON: {{ JSON.stringify( $json.data ) }} and country by the query in {{ JSON.stringify( $('When Executed by Another Workflow').item.json.query ) }}. ",
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are an expert travel parser. You need will be given incoming json with country and dates as well as a search query. Return the results in structured JSON similar to the incoming json. include a) full matches (ie: both country and dates match the incoming query) and partial matches (ie: the country matches but the dates do not match the incoming query). DO not return results where the dates match but the countries do not match. "
-            }
-          ]
-        },
-        "batching": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.7,
-      "position": [
-        1320,
-        0
-      ],
-      "id": "bdf36a21-56cc-4a1a-82fc-de88c289600b",
-      "name": "Basic LLM Chain",
-      "executeOnce": true
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        1408,
-        220
-      ],
-      "id": "8fa92855-44b4-40d5-be72-305c2d4863c1",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        1100,
-        0
-      ],
-      "id": "db5303e0-079d-4619-8767-28a7afa5b385",
-      "name": "Aggregate"
-    },
     {
       "parameters": {
         "workflowInputs": {
@@ -164,98 +22,18 @@
         0,
         0
       ],
-      "id": "9175d2a0-9247-4014-9ed2-f29fba7a3509",
+      "id": "5823ff09-6236-4fac-ab9c-8a64c33934c2",
       "name": "When Executed by Another Workflow"
     }
   ],
-  "connections": {
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "HTML",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTML": {
-      "main": [
-        [
-          {
-            "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out": {
-      "main": [
-        [
-          {
-            "node": "HTML1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTML1": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Aggregate": {
-      "main": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When Executed by Another Workflow": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
+  "connections": {},
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "meta": null,
   "pinData": {},
-  "versionId": "9eab5532-99b4-4dbd-b5fb-d48eebeae957",
+  "versionId": "6aa93fee-307c-452c-881d-d73c0bf75b00",
   "triggerCount": 0,
   "tags": []
 }
