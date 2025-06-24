@@ -1,266 +1,114 @@
 {
-  "createdAt": "2025-04-21T22:46:07.764Z",
-  "updatedAt": "2025-05-16T18:42:51.000Z",
-  "id": "6mkowCQYIbNZthAQ",
-  "name": "Another RAG Example",
+  "createdAt": "2025-06-13T22:28:09.442Z",
+  "updatedAt": "2025-06-17T00:27:32.000Z",
+  "id": "7LxKIMORR0hJsyhf",
+  "name": "Travel Competitor Scraper",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
-        "content": "### Load data into database\nFetch file from Google Drive, split it into chunks and insert into Pinecone index",
-        "height": 627,
-        "width": 918,
-        "color": 7
+        "url": "https://1000ut.hu/korutazas",
+        "options": {}
       },
-      "id": "2587302a-db05-4fbd-9325-e38c9ba71aa4",
-      "name": "Sticky Note",
-      "type": "n8n-nodes-base.stickyNote",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        -671,
-        -187
+        220,
+        0
       ],
-      "typeVersion": 1
+      "id": "fd7fbb69-da94-4544-b735-f518c5163fe3",
+      "name": "HTTP Request"
     },
     {
       "parameters": {
-        "content": "### Chat with database\nEmbed the incoming chat message and use it retrieve relevant chunks from the vector store. These are passed to the model to formulate an answer ",
-        "height": 627,
-        "width": 534,
-        "color": 7
-      },
-      "id": "6e30b3a1-9dc0-4c6a-9cf3-5801e9b187dd",
-      "name": "Sticky Note1",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -699,
-        473
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## Try me out\n1. In Pinecone, create an index with 1536 dimensions and select it in *both* Pinecone nodes\n2. Click 'test workflow' at the bottom of the canvas to load data into the vector store\n3. Click 'chat' at the bottom of the canvas to ask questions about the data",
-        "height": 264.61498034081166
-      },
-      "id": "0d44bd49-821e-4f83-b6b4-5e0a269c3470",
-      "name": "Sticky Note2",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -860,
-        140
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {},
-      "id": "2e95b662-d574-4269-9e66-5d9f0771dba9",
-      "name": "When clicking 'Test Workflow' button",
-      "type": "n8n-nodes-base.manualTrigger",
-      "position": [
-        -840,
-        -120
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "mode": "insert",
-        "pineconeIndex": {
-          "__rl": true,
-          "value": "rag-test-pdf",
-          "mode": "list",
-          "cachedResultName": "rag-test-pdf"
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "data",
+              "cssSelector": ".a-box",
+              "returnValue": "html",
+              "returnArray": true
+            }
+          ]
         },
         "options": {
-          "clearNamespace": true
+          "trimValues": true
         }
       },
-      "id": "00bbcd2f-42e3-48d0-bd80-dc484793cbc4",
-      "name": "Pinecone Vector Store",
-      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
       "position": [
-        -164,
-        -120
+        440,
+        0
       ],
-      "typeVersion": 1,
-      "credentials": {
-        "pineconeApi": {
-          "id": "x0bN3Ljld6zAEruh",
-          "name": "PineconeApi account"
-        }
-      }
+      "id": "a6196b6e-f2d4-469e-a824-638e7236421a",
+      "name": "HTML",
+      "executeOnce": false
     },
     {
       "parameters": {
-        "options": {}
-      },
-      "id": "a35a7e12-9849-425e-b020-37b9fd7a5701",
-      "name": "When chat message received",
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "position": [
-        -840,
-        540
-      ],
-      "webhookId": "dec328cc-f47e-4727-b1c5-7370be86a958",
-      "typeVersion": 1.1
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "bd6f0f0c-849b-4576-9e7b-87c2cb1c8121",
-      "name": "Question & Answer",
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "position": [
-        -604,
-        540
-      ],
-      "typeVersion": 1.8
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
             {
-              "id": "d08ef1f5-932b-4bbb-bb02-0cbdff26a636",
-              "name": "file_url",
-              "type": "string",
-              "value": "https://drive.google.com/file/d/11Koq9q53nkk0F5Y8eZgaWJUVR03I4-MM/view"
+              "key": "country",
+              "cssSelector": ".country-name"
+            },
+            {
+              "key": "dates",
+              "cssSelector": ".date-from-to"
             }
           ]
         },
         "options": {}
       },
-      "id": "a2e55ece-d73f-4c7b-b1e2-2dcf5ada4ecc",
-      "name": "Set Google Drive file URL",
-      "type": "n8n-nodes-base.set",
-      "position": [
-        -620,
-        -120
-      ],
-      "typeVersion": 3.4
-    },
-    {
-      "parameters": {
-        "operation": "download",
-        "fileId": {
-          "__rl": true,
-          "mode": "url",
-          "value": "={{ $json.file_url }}"
-        },
-        "options": {}
-      },
-      "id": "c56f6641-931a-44e8-8054-2293fa0fa325",
-      "name": "Google Drive",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        -400,
-        -120
-      ],
-      "typeVersion": 3,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "fA1w6gMdQ2aJNFpG",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "dataType": "binary",
-        "options": {}
-      },
-      "id": "1b7948f8-0d75-43fa-ba62-80e670c5d8f7",
-      "name": "Default Data Loader",
-      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-      "position": [
-        -60,
-        102.5
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "chunkSize": 3000,
-        "chunkOverlap": 200,
-        "options": {}
-      },
-      "id": "b8d8f453-e38c-4e18-984e-9ed41dcdcf1c",
-      "name": "Recursive Character Text Splitter",
-      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
-      "position": [
-        28,
-        300
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "837b3d16-4020-4bd8-a9cc-3e8b4f970838",
-      "name": "Embeddings OpenAI1",
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "position": [
-        -420,
-        960
-      ],
+      "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
+      "position": [
+        880,
+        0
+      ],
+      "id": "899362de-6369-4552-ae57-38aae2e9da3c",
+      "name": "HTML1"
     },
     {
       "parameters": {
+        "fieldToSplitOut": "data",
         "options": {}
       },
-      "id": "f3bab987-4d1a-4f80-a180-28141a6a46d9",
-      "name": "Embeddings OpenAI",
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "position": [
-        -180,
-        100
-      ],
-      "typeVersion": 1.2,
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "mode": "retrieve-as-tool",
-        "toolName": "bitcoin_paper",
-        "toolDescription": "Call this tool to retrieve facts from the bitcoin whitepaper",
-        "pineconeIndex": {
-          "__rl": true,
-          "value": "rag-test-pdf",
-          "mode": "list",
-          "cachedResultName": "rag-test-pdf"
-        },
-        "includeDocumentMetadata": false,
-        "options": {}
-      },
-      "id": "858adcb1-51e9-4088-83a2-dcb4e87bf882",
-      "name": "Pinecone Vector Store1",
-      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
-      "position": [
-        -500,
-        760
-      ],
+      "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "credentials": {
-        "pineconeApi": {
-          "id": "x0bN3Ljld6zAEruh",
-          "name": "PineconeApi account"
-        }
-      }
+      "position": [
+        660,
+        0
+      ],
+      "id": "6262b7b0-3e6b-4c3f-baca-3cc36f627a1c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Filter the incoming dates in this JSON: {{ JSON.stringify( $json.data ) }} and country by the query in {{ JSON.stringify( $('When Executed by Another Workflow').item.json.query ) }}. ",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an expert travel parser. You need will be given incoming json with country and dates as well as a search query. Return the results in structured JSON similar to the incoming json. include a) full matches (ie: both country and dates match the incoming query) and partial matches (ie: the country matches but the dates do not match the incoming query). DO not return results where the dates match but the countries do not match. "
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1320,
+        0
+      ],
+      "id": "bdf36a21-56cc-4a1a-82fc-de88c289600b",
+      "name": "Basic LLM Chain",
+      "executeOnce": true
     },
     {
       "parameters": {
@@ -271,40 +119,95 @@
         },
         "options": {}
       },
-      "id": "729dd09f-16e2-47fa-8aa8-39ff9f1f5084",
-      "name": "OpenAI Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "position": [
-        -620,
-        760
-      ],
       "typeVersion": 1.2,
+      "position": [
+        1408,
+        220
+      ],
+      "id": "8fa92855-44b4-40d5-be72-305c2d4863c1",
+      "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
           "id": "5GRgzlcJ5Ujkvgcd",
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        0
+      ],
+      "id": "db5303e0-079d-4619-8767-28a7afa5b385",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9175d2a0-9247-4014-9ed2-f29fba7a3509",
+      "name": "When Executed by Another Workflow"
     }
   ],
   "connections": {
-    "Google Drive": {
+    "HTTP Request": {
       "main": [
         [
           {
-            "node": "Pinecone Vector Store",
+            "node": "HTML",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Embeddings OpenAI": {
-      "ai_embedding": [
+    "HTML": {
+      "main": [
         [
           {
-            "node": "Pinecone Vector Store",
-            "type": "ai_embedding",
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
             "index": 0
           }
         ]
@@ -314,84 +217,29 @@
       "ai_languageModel": [
         [
           {
-            "node": "Question & Answer",
+            "node": "Basic LLM Chain",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Embeddings OpenAI1": {
-      "ai_embedding": [
-        [
-          {
-            "node": "Pinecone Vector Store1",
-            "type": "ai_embedding",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Default Data Loader": {
-      "ai_document": [
-        [
-          {
-            "node": "Pinecone Vector Store",
-            "type": "ai_document",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Pinecone Vector Store1": {
-      "ai_tool": [
-        [
-          {
-            "node": "Question & Answer",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Set Google Drive file URL": {
+    "Aggregate": {
       "main": [
         [
           {
-            "node": "Google Drive",
+            "node": "Basic LLM Chain",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "When chat message received": {
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Question & Answer",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Recursive Character Text Splitter": {
-      "ai_textSplitter": [
-        [
-          {
-            "node": "Default Data Loader",
-            "type": "ai_textSplitter",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking 'Test Workflow' button": {
-      "main": [
-        [
-          {
-            "node": "Set Google Drive file URL",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -407,7 +255,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "9928242b-c8d7-4e41-b7bf-9607ead070a4",
+  "versionId": "9eab5532-99b4-4dbd-b5fb-d48eebeae957",
   "triggerCount": 0,
   "tags": []
 }
