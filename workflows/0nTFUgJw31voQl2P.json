@@ -1,137 +1,208 @@
 {
-  "createdAt": "2025-06-06T19:24:30.233Z",
-  "updatedAt": "2025-06-15T02:26:29.000Z",
-  "id": "T4PQ8f64i0VA0KcJ",
-  "name": "Scrape  HNHiring",
+  "createdAt": "2025-06-10T18:48:47.132Z",
+  "updatedAt": "2025-06-15T05:15:33.000Z",
+  "id": "WIyeaKA7U16CMDr0",
+  "name": "Get Next Lead",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "url": "https://hnhiring.com/june-2025",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        220,
-        -20
-      ],
-      "id": "c96116e5-0401-49fa-8aa9-4456443db997",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "operation": "extractHtmlContent",
-        "extractionValues": {
+        "workflowInputs": {
           "values": [
             {
-              "key": "jobs",
-              "cssSelector": "li.job",
-              "returnValue": "html",
-              "returnArray": true
+              "name": "query"
             }
           ]
-        },
-        "options": {
-          "cleanUpText": true
         }
       },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
       "position": [
-        440,
-        -20
+        -600,
+        -80
       ],
-      "id": "4e150009-880d-4631-8ee2-aba232461750",
-      "name": "HTML"
+      "id": "e1aa4e97-d84e-42c3-836f-35c595e5904b",
+      "name": "When Executed by Another Workflow"
     },
     {
       "parameters": {
-        "operation": "extractHtmlContent",
-        "dataPropertyName": "jobs",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "url",
-              "cssSelector": "a",
-              "returnValue": "attribute",
-              "attribute": "href"
-            },
-            {
-              "key": "date",
-              "cssSelector": "span.gray.right.type-info"
-            },
-            {
-              "key": "body",
-              "cssSelector": ".body",
-              "returnArray": "={{ false }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        660,
-        -20
-      ],
-      "id": "60270ac6-aaf0-46e6-9e4b-c84dadbc56ca",
-      "name": "HTML1"
-    },
-    {
-      "parameters": {
-        "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE",
+          "value": "1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4",
           "mode": "list",
-          "cachedResultName": "Job Postings",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit?usp=drivesdk"
+          "cachedResultName": "Local Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
           "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lIXsn_2zLAftSx9QmOHEQXa3Lb0EmL89Jp79ooQDzUE/edit#gid=0"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "called"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -380,
+        -80
+      ],
+      "id": "4ba215a6-b4f8-4769-b3ca-978137f40990",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "\nreturn $input.first();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        -80
+      ],
+      "id": "4a93f4c9-398d-4c50-ad48-f238685668ad",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4",
+          "mode": "list",
+          "cachedResultName": "Local Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AcjeSRbgedK_TTTsHBbEH7biK2wxru5my9im_Fti3c4/edit#gid=0"
         },
         "columns": {
-          "mappingMode": "autoMapInputData",
-          "value": {},
+          "mappingMode": "defineBelow",
+          "value": {
+            "called": "1",
+            "row_number": "={{ $json.row_number }}",
+            "name": "={{ $json.name }}",
+            "site": "={{ $json.site }}",
+            "full_address": "={{ $json.full_address }}",
+            "phone": "={{ $json.phone }}",
+            "category": "={{ $json.category }}",
+            "subtypes": "={{ $json.subtypes }}",
+            "logo": "={{ $json.logo }}",
+            "location_link": "={{ $json.location_link }}"
+          },
           "matchingColumns": [
-            "output"
+            "row_number"
           ],
           "schema": [
             {
-              "id": "date",
-              "displayName": "date",
+              "id": "name",
+              "displayName": "name",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "url",
-              "displayName": "url",
+              "id": "site",
+              "displayName": "site",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "body",
-              "displayName": "body",
+              "id": "full_address",
+              "displayName": "full_address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subtypes",
+              "displayName": "subtypes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "logo",
+              "displayName": "logo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "location_link",
+              "displayName": "location_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "called",
+              "displayName": "called",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true,
+              "readOnly": true,
               "removed": false
             }
           ],
@@ -143,62 +214,21 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        880,
-        -20
+        60,
+        -80
       ],
-      "id": "5f21c8df-67b0-4ddb-9b57-6a18eaacf721",
-      "name": "Google Sheets",
+      "id": "36ceebd4-f976-4fbd-8144-555a65c9bf6a",
+      "name": "Google Sheets1",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "dFntNaEYJAOsYZIZ",
           "name": "adamhaley@gmail Google Sheets"
         }
       }
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "weeks"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        0,
-        -20
-      ],
-      "id": "968612f9-6c90-4918-9d3b-5d8123399b78",
-      "name": "Schedule Trigger"
     }
   ],
   "connections": {
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "HTML",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTML": {
-      "main": [
-        [
-          {
-            "node": "HTML1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTML1": {
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
@@ -209,11 +239,27 @@
         ]
       ]
     },
-    "Schedule Trigger": {
+    "Google Sheets": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
             "type": "main",
             "index": 0
           }
@@ -229,7 +275,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cf8a860a-6b21-423f-8bfd-3040ac39eb76",
+  "versionId": "1548edba-564e-4f22-bac3-d34b1250dad7",
   "triggerCount": 0,
   "tags": []
 }
