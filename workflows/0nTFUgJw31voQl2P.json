@@ -1,39 +1,96 @@
 {
-  "createdAt": "2025-06-24T19:08:22.417Z",
-  "updatedAt": "2025-06-24T19:10:23.000Z",
-  "id": "7ax0RFpVRCn6NeLR",
-  "name": "My workflow",
+  "createdAt": "2025-06-19T23:28:52.276Z",
+  "updatedAt": "2025-06-19T23:32:32.000Z",
+  "id": "8bj9sTeMVEXeW6rj",
+  "name": "Content Drip",
   "active": false,
-  "isArchived": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "workflowInputs": {
-          "values": [
-            {
-              "name": "query"
-            }
+        "rule": {
+          "interval": [
+            {}
           ]
         }
       },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
       "position": [
         0,
         0
       ],
-      "id": "5823ff09-6236-4fac-ab9c-8a64c33934c2",
-      "name": "When Executed by Another Workflow"
+      "id": "fdf911ec-a3dc-459d-96e3-f19f946228f3",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY",
+          "mode": "list",
+          "cachedResultName": "Content Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "dripped_x_threads"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        0
+      ],
+      "id": "c60b6b23-9550-4ddd-aaed-fbb23129e36f",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
     }
   ],
-  "connections": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        []
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "6aa93fee-307c-452c-881d-d73c0bf75b00",
+  "versionId": "c2da41bb-acfe-4072-96a9-a9d5f0c613e1",
   "triggerCount": 0,
   "tags": []
 }
