@@ -1,84 +1,645 @@
 {
-  "createdAt": "2025-06-19T23:28:52.276Z",
-  "updatedAt": "2025-06-19T23:32:32.000Z",
-  "id": "8bj9sTeMVEXeW6rj",
-  "name": "Content Drip",
+  "createdAt": "2025-04-22T17:59:05.709Z",
+  "updatedAt": "2025-06-24T21:16:31.000Z",
+  "id": "G0Vk5kYZGi0nCI12",
+  "name": "BOT CORE",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "rule": {
-          "interval": [
-            {}
-          ]
+        "promptType": "define",
+        "text": "={{ $json.msg }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant. You are friendly and eager to connect. Do not use emoji characters in your output. Your responses should be conversational but concise — a few sentences or one paragraph max.\n\nWhen responding, prefer helpful summaries and direct answers unless more detail is requested. When a task requires a tool, decide if a tool call is necessary and proceed accordingly. Use Los Angeles as the default location if none is specified.\n\nYou have access to the following tools:\n\n1. Record Content Idea\nUse this tool to log a content idea (e.g. a video, blog topic, or social post).\n→ Input: content (string)\n→ Example: \"Call this tool to record an idea: 'How AI is reshaping small business workflows'\"\n\n2. Forecast\nGet the 5-day weather forecast. Use this when someone asks about upcoming weather in a specific city.\n→ Input: City name (default to Los Angeles if not specified)\n→ Output: 5-day forecast in Fahrenheit\n\n3. Weather\nGet current weather conditions for a city.\n→ Input: City name (default to Los Angeles)\n→ Output: current temperature, condition (e.g. sunny, rainy), etc.\n\n4. Journal Entry\nUse this to record a journal-style message or reflection.\n→ Input: content (string)\n→ Example: \"Call this to log a journal entry with the user's reflection or thought.\"\n\n5. Scrape Google Maps\nUse this to scrape Google Maps for places (e.g. \"cafes near Venice Beach\") and automatically save the results to a Google Sheet.\nImportant: Do not show the scraped results unless explicitly asked. Confirm success instead.\n→ Input: parameters (e.g. \"barbershops in downtown LA\")\n→ Example: \"Call this tool to search Google Maps for 'AI conferences near San Francisco'\"\n\n6. Slack\nSend a message to the #ahmedia-rampup Slack channel.\n→ Input: Message text (string)\n→ Example: \"Send this update to Slack: 'The workflow for video automation just finished successfully.'\"\n\n7. Search Google\nUse this tool to perform a Google search using the Custom Search API.\n→ Input: Query string\n→ Output: List of search results\n→ Example: \"Search Google for 'Best AI automation tools 2025'\"\n\n8. Get Next Lead\nRetrieve the next uncontacted lead from the “Local Leads” database.\n→ Input: optional query (e.g., specify lead type or filter, if needed)\n→ Output: lead information\n→ Example: \"Call this tool to get the next lead for outreach.\"\n\n9. Get Next [generic name]\nRetrieve the next resource from [generic name]\n→ Input: query, which is the name of the google sheet this will load data from \n→ Output: record information\n→ Example: \"Call this tool to get the next generic data that has been scraped into a google sheet.\"\n\n"
         }
       },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
       "position": [
-        0,
-        0
+        -28,
+        -260
       ],
-      "id": "fdf911ec-a3dc-459d-96e3-f19f946228f3",
-      "name": "Schedule Trigger"
+      "id": "939c92a6-c15e-4649-abdd-669d3faa6754",
+      "name": "AI Agent"
     },
     {
       "parameters": {
-        "documentId": {
+        "description": "Call this tool to record a \"content idea\" ",
+        "workflowId": {
           "__rl": true,
-          "value": "1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY",
+          "value": "uHh2zhO8z0QbHbow",
           "mode": "list",
-          "cachedResultName": "Content Ideas",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY/edit?usp=drivesdk"
+          "cachedResultName": "Record Content Idea"
         },
-        "sheetName": {
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "content"
+          ],
+          "schema": [
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -140,
+        20
+      ],
+      "id": "fd305077-826a-4545-af15-c95dbb2c47c6",
+      "name": "Record Content Idea"
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "format": "imperial",
+        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        100,
+        80
+      ],
+      "id": "ef3a7dd9-4200-4dd5-9753-f11a67d1709c",
+      "name": "Forecast",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "7DhsapvM6ZDKxoUN",
+          "name": "OPEN WEATHER API KEY"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "journal_entry",
+        "description": "Call this tool to write a journal entry.",
+        "workflowId": {
           "__rl": true,
-          "value": "gid=0",
+          "value": "H0HZQnMr1hgjQMmI",
           "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY/edit#gid=0"
+          "cachedResultName": "Journal Entry"
         },
-        "filtersUI": {
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('content', `This should be the contents of the journal entry sent by the transcribe node`, 'string') }}"
+          },
+          "matchingColumns": [
+            "content"
+          ],
+          "schema": [
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        60
+      ],
+      "id": "1ffc5b75-8a7c-448f-94ce-a9a8e3babf5d",
+      "name": "Journal Entry",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "ah_media_bot"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -260,
+        -20
+      ],
+      "id": "c470ae27-ab74-4406-bf1c-c1e42be858f0",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "PAxrnIdpjZ24fsIc",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        -60
+      ],
+      "id": "d8b5c771-b958-450a-8dfb-36d90be29e43",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
           "values": [
             {
-              "lookupColumn": "dripped_x_threads"
+              "name": "msg"
+            },
+            {
+              "name": "sessionId",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -580,
+        -260
+      ],
+      "id": "2858fbee-f600-4ef4-bee1-76452f1544a6",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape google maps for results. ",
+        "workflowId": {
+          "__rl": true,
+          "value": "26OUjbuI1flCV0fh",
+          "mode": "list",
+          "cachedResultName": "Scrape Google Maps and Store"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "parameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "parameters"
+          ],
+          "schema": [
+            {
+              "id": "parameters",
+              "displayName": "parameters",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        380,
+        20
+      ],
+      "id": "5551efa4-e37f-42cf-91d3-66740516ab05",
+      "name": "Scrape Google Maps"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08NS9Z8JH1",
+          "mode": "list",
+          "cachedResultName": "ahmedia-rampup"
+        },
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_Text', ``, 'string') }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 2.3,
+      "position": [
+        500,
+        -20
+      ],
+      "id": "e7f48dc5-cd84-47fd-9296-c518fc01dd9c",
+      "name": "Slack",
+      "webhookId": "1afa7a03-a11a-4bc7-a6b6-e337bb43de14",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "aku9PHR5ccUxQYCi",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://n8n.ahmedia.ai:8000/google",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
       "position": [
-        220,
-        0
+        640,
+        -80
       ],
-      "id": "c60b6b23-9550-4ddd-aaed-fbb23129e36f",
-      "name": "Google Sheets",
+      "id": "973945d7-fdc6-47e0-b763-ff05380bb8e2",
+      "name": "Search Google"
+    },
+    {
+      "parameters": {
+        "format": "imperial",
+        "cityName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', ``, 'string') }}",
+        "language": "=en"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        60
+      ],
+      "id": "ed29c503-5341-4826-bfe8-6897983a49c3",
+      "name": "Weather",
       "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dFntNaEYJAOsYZIZ",
-          "name": "adamhaley@gmail Google Sheets"
+        "openWeatherMapApi": {
+          "id": "7DhsapvM6ZDKxoUN",
+          "name": "OPEN WEATHER API KEY"
         }
       }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the next lead that has not been called in \"Local Leads\". ",
+        "workflowId": {
+          "__rl": true,
+          "value": "WIyeaKA7U16CMDr0",
+          "mode": "list",
+          "cachedResultName": "Get Next Lead"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -280,
+        140
+      ],
+      "id": "2314abe2-5606-4489-9ea1-b5b8002e287b",
+      "name": "Get Next Lead"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the next lead that has not been called in \"Job Postings\". ",
+        "workflowId": {
+          "__rl": true,
+          "value": "OWb7puyydhH3FZ2M",
+          "mode": "list",
+          "cachedResultName": "Get Next Job"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -140,
+        180
+      ],
+      "id": "9ba482c5-e61d-460f-adff-f59b4671167a",
+      "name": "Get Next Job"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the results of a scrape into google sheets. The input is \"query\" and will be the resource name  and will come from user input.",
+        "workflowId": {
+          "__rl": true,
+          "value": "PEh6LcSsKzGMRlZH",
+          "mode": "list",
+          "cachedResultName": "Get Scrape Results"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        220
+      ],
+      "id": "9c8de023-1366-47bc-a7a1-3f379736714d",
+      "name": "Get Scrape Results"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get next row from a given resource name, which will be sent from user input.",
+        "workflowId": {
+          "__rl": true,
+          "value": "k5q06WQui1IpAp8b",
+          "mode": "list",
+          "cachedResultName": "Get Next"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        180,
+        240
+      ],
+      "id": "745027ad-b698-4500-adce-916de2e08fa5",
+      "name": "Get Next"
     }
   ],
   "connections": {
-    "Schedule Trigger": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Record Content Idea": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Forecast": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Journal Entry": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Google Sheets": {
-      "main": [
-        []
+    "Scrape Google Maps": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Google": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Next Lead": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Next Job": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Scrape Results": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Next": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -90,7 +651,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "c2da41bb-acfe-4072-96a9-a9d5f0c613e1",
-  "triggerCount": 0,
+  "versionId": "252f2bca-e7f8-4c20-bf27-512e560a5ff3",
+  "triggerCount": 1,
   "tags": []
 }
