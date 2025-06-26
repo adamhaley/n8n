@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T21:34:24.632Z",
-  "updatedAt": "2025-06-06T00:43:30.000Z",
+  "updatedAt": "2025-06-25T02:12:32.000Z",
   "id": "DpPS6gsJmukmx0qm",
   "name": "SIRI Chat Agent",
   "active": true,
@@ -86,6 +86,20 @@
       ],
       "id": "3cce3ebe-a16a-467e-a92a-1f0e025746af",
       "name": "BOT CORE"
+    },
+    {
+      "parameters": {
+        "content": "## SIRI AI Agent Wrapper",
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        -240
+      ],
+      "id": "66c71189-b175-4bde-adef-bd39ee085ee4",
+      "name": "Sticky Note"
     }
   ],
   "connections": {
@@ -118,7 +132,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "024be2c3-ce79-4823-a08e-095ad2645531",
+  "versionId": "cfcfd980-6e94-464c-bf16-26b35b1530e4",
   "triggerCount": 1,
   "tags": []
 }
