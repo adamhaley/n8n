@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-01T03:39:11.805Z",
-  "updatedAt": "2025-06-24T22:06:45.000Z",
+  "updatedAt": "2025-06-24T22:13:54.000Z",
   "id": "90aE9VfgouGkDwgi",
   "name": "Backup Workflows To Github (Proper Names)",
   "active": true,
@@ -35,7 +35,7 @@
       "typeVersion": 2.2,
       "position": [
         -660,
-        60
+        160
       ],
       "id": "47e9b7a7-50a8-4c96-b0c6-6665dab721f2",
       "name": "If File Exists"
@@ -49,7 +49,7 @@
       "typeVersion": 1,
       "position": [
         -220,
-        -40
+        60
       ],
       "id": "fcf4b8dc-6b84-42c2-8dc7-037edfd88273",
       "name": "Extract from File"
@@ -66,7 +66,7 @@
       "typeVersion": 1.2,
       "position": [
         -1540,
-        60
+        160
       ],
       "id": "7e7a6f8c-ef3a-45bd-9d8f-e152149e3d3a",
       "name": "Run Daily"
@@ -93,7 +93,7 @@
       "typeVersion": 1,
       "position": [
         -1320,
-        60
+        160
       ],
       "id": "1083b86d-442d-4a30-9ff9-d132ecee33b3",
       "name": "List Workflow Files on Github",
@@ -115,7 +115,7 @@
       "typeVersion": 2,
       "position": [
         -880,
-        60
+        160
       ],
       "id": "48297519-1180-4cd2-8c55-76bfdb367cbc",
       "name": "Proper filename from Workflow",
@@ -144,7 +144,7 @@
       "typeVersion": 1,
       "position": [
         -440,
-        -40
+        60
       ],
       "id": "a02616b2-e821-49ca-9dbf-a1fc6500e0a0",
       "name": "Get The File",
@@ -170,7 +170,7 @@
       "typeVersion": 1,
       "position": [
         -1100,
-        60
+        160
       ],
       "id": "81c6f055-5983-476a-8c0c-00def6ad1075",
       "name": "n8n Get Active Workflows",
@@ -210,7 +210,7 @@
       "typeVersion": 2.2,
       "position": [
         0,
-        -40
+        60
       ],
       "id": "d505afcd-faf8-42a8-9693-b3746dab7c3e",
       "name": "if n8n Workflow has Updates"
@@ -243,7 +243,7 @@
       "typeVersion": 1,
       "position": [
         -440,
-        160
+        260
       ],
       "id": "67644118-0954-45a2-9d5f-f5239e338084",
       "name": "Create File on Github",
@@ -290,6 +290,17 @@
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        220,
+        160
+      ],
+      "id": "22887938-79b4-4dc7-a760-7984e2a2c2db",
+      "name": "No Operation, do nothing"
     }
   ],
   "connections": {
@@ -385,6 +396,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     }
@@ -399,7 +417,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "26d06aa5-a3a5-467b-b735-d909e200791a",
+  "versionId": "d3486a6b-5122-4c08-8e19-c0abbe7cb688",
   "triggerCount": 1,
   "tags": []
 }
