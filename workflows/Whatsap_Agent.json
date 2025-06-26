@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-06T22:44:37.016Z",
-  "updatedAt": "2025-06-10T18:01:32.000Z",
+  "updatedAt": "2025-06-25T02:11:20.000Z",
   "id": "RxtX2VQfcWer8aQM",
   "name": "Whatsap Agent",
   "active": true,
@@ -257,6 +257,21 @@
       ],
       "id": "6879386a-f934-4e46-9db0-7f599523603c",
       "name": "Is Voice or Text?"
+    },
+    {
+      "parameters": {
+        "content": "## Whats App AI Agent Wrapper\n",
+        "width": 320,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        -540
+      ],
+      "id": "279a7307-612f-40b9-a46b-a02d9107f831",
+      "name": "Sticky Note"
     }
   ],
   "connections": {
@@ -353,7 +368,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ab421d8c-ea96-4bc4-981a-db0892fd54cd",
+  "versionId": "cd62c817-b8aa-41e1-868d-8e7635a293f9",
   "triggerCount": 1,
   "tags": []
 }
