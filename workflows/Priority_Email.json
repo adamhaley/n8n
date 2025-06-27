@@ -1,1 +1,310 @@
-{"createdAt":"2025-06-04T21:09:33.208Z","updatedAt":"2025-06-25T02:10:36.000Z","id":"2Ei9KR4iP84Nv4QL","name":"Telegram Chat Agent","active":true,"isArchived":false,"nodes":[{"parameters":{"method":"POST","url":"http://ahmedia.ai:8000/transcribe","sendBody":true,"contentType":"binaryData","inputDataFieldName":"data","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[-900,0],"id":"739d3005-da94-42bb-911a-3da68eca2233","name":"Transcribe Voice"},{"parameters":{"resource":"file","fileId":"={{ $json.message.voice.file_id }}"},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[-1120,0],"id":"c2af79ae-b51a-48a7-8642-52461533c385","name":"Download Message","webhookId":"d6239fda-b394-43c7-87b8-889f340989e6","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"assignments":{"assignments":[{"id":"8743551c-0890-4d1a-9791-dd1d4087849d","name":"msg","value":"={{ $json.msg }}","type":"string"},{"id":"caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9","name":"sessionId","value":"={{ $('Is Voice or Text?').item.json.message.chat.id }}","type":"number"}]},"options":{}},"type":"n8n-nodes-base.set","typeVersion":3.4,"position":[-680,100],"id":"d7295af2-8ee1-4651-a8d5-c442c42e33c4","name":"Add sessionId"},{"parameters":{"keys":{"key":[{"currentKey":"message.text","newKey":"msg"}]},"additionalOptions":{}},"type":"n8n-nodes-base.renameKeys","typeVersion":1,"position":[-900,200],"id":"e178c350-da20-47e5-911f-0a4ddbdc6ee3","name":"Normalize Msg"},{"parameters":{"rules":{"values":[{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"leftValue":"={{ $json.message.voice }}","rightValue":"","operator":{"type":"object","operation":"exists","singleValue":true},"id":"a8116d0d-5bdb-49da-8984-08a077e816ae"}],"combinator":"and"}},{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"id":"cb242f13-0ce2-4645-9a69-6d9816104485","leftValue":"={{ $json.message.text }}","rightValue":"","operator":{"type":"string","operation":"exists","singleValue":true}}],"combinator":"and"}}]},"options":{}},"type":"n8n-nodes-base.switch","typeVersion":3.2,"position":[-1340,100],"id":"008da576-5d75-445c-95db-79727ee8544d","name":"Is Voice or Text?"},{"parameters":{"updates":["message"],"additionalFields":{}},"type":"n8n-nodes-base.telegramTrigger","typeVersion":1.2,"position":[-1560,100],"id":"375c1654-1c28-4bbb-90fd-0b133166ee1e","name":"Receive Message","webhookId":"aac89fdd-865b-4f9b-9875-75909cc27924","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"method":"POST","url":"http://ahmedia.ai:8000/tts","sendBody":true,"contentType":"raw","body":"={{ $json.output }}","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[-240,100],"id":"14a4696d-fb96-4cd6-ac3f-ca6be72dddf4","name":"Cartesia TTS"},{"parameters":{"operation":"sendAudio","chatId":"={{ $('Receive Message').item.json.message.chat.id }}","binaryData":true,"additionalFields":{"fileName":"reply.mp3"}},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[-20,100],"id":"c28c5d6c-4736-455c-b86f-1bdb2d07dd3e","name":"Send Audio Reply","webhookId":"660355ff-7f58-4b7a-b966-21497023ff9d","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"chatId":"={{ $('Receive Message').item.json.message.chat.id }}","text":"={{ $('Call BOT CORE').item.json.output }}","additionalFields":{"appendAttribution":false,"parse_mode":"HTML"}},"type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[200,100],"id":"205d33f0-b5c4-45e4-88b4-674a40940e86","name":"Send Text Reply","webhookId":"531a0f31-0dd2-4cfa-80cc-0ac6e12e595d","credentials":{"telegramApi":{"id":"Up0ePNUE4mWLrzEL","name":"Telegram account"}}},{"parameters":{"workflowId":{"__rl":true,"value":"G0Vk5kYZGi0nCI12","mode":"list","cachedResultName":"BOT CORE"},"workflowInputs":{"mappingMode":"defineBelow","value":{"msg":"={{ $json.msg }}","sessionId":"={{ $json.sessionId }}"},"matchingColumns":[],"schema":[{"id":"msg","displayName":"msg","required":false,"defaultMatch":false,"display":true,"canBeUsedToMatch":true,"type":"string","removed":false},{"id":"sessionId","displayName":"sessionId","required":false,"defaultMatch":false,"display":true,"canBeUsedToMatch":true,"type":"number","removed":false}],"attemptToConvertTypes":false,"convertFieldsToString":true},"options":{}},"type":"n8n-nodes-base.executeWorkflow","typeVersion":1.2,"position":[-460,100],"id":"c2b9053c-3857-4331-ad1d-71b537d31dc2","name":"Call BOT CORE"},{"parameters":{"content":"## Telegram AI Agent Wrapper\n","color":7},"type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-1420,-240],"id":"8d16181c-68f4-414c-825f-0cae45bba4ff","name":"Sticky Note"}],"connections":{"Transcribe Voice":{"main":[[{"node":"Add sessionId","type":"main","index":0}]]},"Download Message":{"main":[[{"node":"Transcribe Voice","type":"main","index":0}]]},"Normalize Msg":{"main":[[{"node":"Add sessionId","type":"main","index":0}]]},"Is Voice or Text?":{"main":[[{"node":"Download Message","type":"main","index":0}],[{"node":"Normalize Msg","type":"main","index":0}]]},"Receive Message":{"main":[[{"node":"Is Voice or Text?","type":"main","index":0}]]},"Cartesia TTS":{"main":[[{"node":"Send Audio Reply","type":"main","index":0}]]},"Send Audio Reply":{"main":[[{"node":"Send Text Reply","type":"main","index":0}]]},"Add sessionId":{"main":[[{"node":"Call BOT CORE","type":"main","index":0}]]},"Call BOT CORE":{"main":[[{"node":"Cartesia TTS","type":"main","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":null,"pinData":{},"versionId":"8eef08c2-4874-413b-838f-ad2a32e939d8","triggerCount":1,"tags":[]}
+{
+  "createdAt": "2025-06-26T00:04:09.488Z",
+  "updatedAt": "2025-06-26T20:24:34.000Z",
+  "id": "R3Gkady4HoyiY8TF",
+  "name": "Priority Email",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Priority Email\n\nThis automation will recognize emails sent from a list of high priority contacts. It will LABEL the email INBOX, IMPORTANT, and UNREAD and trigger a notification through high visibility channels. This should insure I do not miss important emails!\n\n(yes there was an event that inspired this automation)\n",
+        "height": 240,
+        "width": 460,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -260
+      ],
+      "id": "6336e603-7d92-4633-901a-171027184a8e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h9EKXf7_F2mB7ERO2bzK23IDdqP4xyOQ9mZBk3TUzys",
+          "mode": "list",
+          "cachedResultName": "Priority Emails",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h9EKXf7_F2mB7ERO2bzK23IDdqP4xyOQ9mZBk3TUzys/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h9EKXf7_F2mB7ERO2bzK23IDdqP4xyOQ9mZBk3TUzys/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -100,
+        20
+      ],
+      "id": "bd253904-2a9a-43fa-b29a-f385e08b9693",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e90636e6-9c01-4080-a564-fd1f9d7b5e90",
+              "leftValue": "={{ $('Code').item.json.senders }}",
+              "rightValue": "={{$json.From.match(/<(.*?)>/)[1] }}",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        20
+      ],
+      "id": "d4231018-e333-4fa4-84d7-24ac87c39af4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nlet senderArray = $input.all().reduce( (accumulator, currentObject) => {\n  accumulator.push( currentObject.json.sender ); // Extract the 'sender' attribute\n  return accumulator;\n}, []); // Initialize accumulator as an\n\nreturn {\n  senders: senderArray\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        120,
+        20
+      ],
+      "id": "aac351ee-da77-4f71-8f0e-f049cf397f04",
+      "name": "Code"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        780,
+        120
+      ],
+      "id": "f5991012-3a6d-44e7-8538-fe0f0241563e",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "U08FYSN38KT",
+          "mode": "list",
+          "cachedResultName": "adamhaley"
+        },
+        "text": "=Priority Email Received! From: {{$('Gmail').item.json.From  }} Subject: {{ $('Gmail').item.json.Subject }} \nSnippet: {{ $('Gmail').item.json.snippet }}...",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1000,
+        -80
+      ],
+      "id": "30403832-ab88-4da6-be62-674c773bb56f",
+      "name": "Slack",
+      "webhookId": "93323417-79a3-4df2-924a-2a5f1bea97c8",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "aku9PHR5ccUxQYCi",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        20
+      ],
+      "id": "42a070c1-591f-4c05-b839-1f14674ada5c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {
+          "receivedAfter": "={{  $now.minus(1,'hours') }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        340,
+        20
+      ],
+      "id": "7c7df46d-2390-4a8d-90d1-322ab4600851",
+      "name": "Gmail",
+      "webhookId": "c14cea22-4642-46f0-9dbe-5ee238f9871d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "IMPORTANT",
+          "INBOX",
+          "STARRED",
+          "UNREAD"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        780,
+        -80
+      ],
+      "id": "5e5c43df-2ae4-46b2-969c-a30112c4c450",
+      "name": "Gmail1",
+      "webhookId": "84320d27-3945-4f30-b2ff-46c9b18879b3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KbRFiyeEGlFxZvYT",
+          "name": "adamhaley@gmail.com account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack": {
+      "main": [
+        []
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "76bcecb0-4998-4255-b57f-539c4254edc1",
+  "triggerCount": 1,
+  "tags": []
+}
