@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-26T00:04:09.488Z",
-  "updatedAt": "2025-06-26T20:24:34.000Z",
+  "updatedAt": "2025-06-29T19:07:59.000Z",
   "id": "R3Gkady4HoyiY8TF",
   "name": "Priority Email",
   "active": true,
@@ -165,6 +165,9 @@
       "parameters": {
         "operation": "getAll",
         "filters": {
+          "labelIds": [
+            "INBOX"
+          ],
           "receivedAfter": "={{  $now.minus(1,'hours') }}"
         }
       },
@@ -304,7 +307,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "76bcecb0-4998-4255-b57f-539c4254edc1",
+  "versionId": "23cad646-015c-415d-b2bf-200e44d78062",
   "triggerCount": 1,
   "tags": []
 }
