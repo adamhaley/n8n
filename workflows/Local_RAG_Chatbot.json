@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-12T18:16:17.446Z",
-  "updatedAt": "2025-06-24T18:24:21.000Z",
+  "updatedAt": "2025-06-29T18:54:07.000Z",
   "id": "6hVEPWSdWtEgAvFL",
   "name": "Local RAG Chatbot",
   "active": true,
@@ -34,7 +34,8 @@
           "mode": "list",
           "cachedResultName": "ah-media"
         },
-        "includeDocumentMetadata": false,
+        "topK": 20,
+        "useReranker": true,
         "options": {
           "pineconeNamespace": "={{ $json.body.namespace }}"
         }
@@ -51,25 +52,6 @@
         "pineconeApi": {
           "id": "x0bN3Ljld6zAEruh",
           "name": "PineconeApi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "nomic-embed-text:latest"
-      },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
-      "typeVersion": 1,
-      "position": [
-        408,
-        220
-      ],
-      "id": "1753eba5-8407-4d4a-a89e-810ce6937c16",
-      "name": "Embeddings Ollama",
-      "credentials": {
-        "ollamaApi": {
-          "id": "b1Nz8WxwYDKRmecP",
-          "name": "Ollama account"
         }
       }
     },
@@ -148,6 +130,42 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        468,
+        220
+      ],
+      "id": "e1452781-157e-4cfa-b692-f259589b9d43",
+      "name": "Reranker Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "impZvK9hPMrSwWVl",
+          "name": "CohereApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        348,
+        220
+      ],
+      "id": "1753eba5-8407-4d4a-a89e-810ce6937c16",
+      "name": "Embeddings",
+      "credentials": {
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
+        }
+      }
     }
   ],
   "connections": {
@@ -157,17 +175,6 @@
           {
             "node": "AI Agent",
             "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Embeddings Ollama": {
-      "ai_embedding": [
-        [
-          {
-            "node": "Pinecone Vector Store1",
-            "type": "ai_embedding",
             "index": 0
           }
         ]
@@ -216,6 +223,28 @@
           }
         ]
       ]
+    },
+    "Reranker Cohere": {
+      "ai_reranker": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -226,7 +255,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8c2ba10b-9d47-4aa7-97c2-fff10abeb487",
+  "versionId": "487dad75-569f-4aba-aeec-43c57409b929",
   "triggerCount": 1,
   "tags": []
 }
