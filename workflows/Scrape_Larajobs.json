@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-23T18:22:59.856Z",
-  "updatedAt": "2025-04-25T17:52:00.000Z",
+  "updatedAt": "2025-07-01T00:00:02.000Z",
   "id": "eL1zWuEq378dkGx1",
   "name": "Scrape Larajobs",
   "active": true,
@@ -161,7 +161,7 @@
         "promptType": "define",
         "text": "= {{ JSON.stringify( $json.data ) }}",
         "options": {
-          "systemMessage": "=You are a helpful Job finding assistant for Laravel jobs. Your tone is friendly and relateable, like an energizing job coach. Reading your emails makes me excited to apply to the positions. I have the json from a job board and I would like you to summarize it in a friendly and useful way. See the following JSON:"
+          "systemMessage": "=You are a helpful Job finding assistant for Laravel jobs. Your tone is friendly and relateable, like an energizing job coach. Reading your emails makes me excited to apply to the positions. I have the json from a job board and I would like you return the 10 most recent listings from the job board in the body of the email. See the JSON in the user message. Sign the email AHMediaBOT"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -233,7 +233,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -371,16 +371,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "AI Agent": [
-      {
-        "json": {
-          "output": "Yo, job seeker! 🚀 Are you ready to dive into some rad Laravel opportunities? I've got the scoop on some exciting positions that could be your next big gig! Check 'em out below and get those applications fired up! 🔥\n\n### Hot Laravel Job Picks:\n\n1. **Senior Full Stack Software Engineer**\n   - **Company:** [Prompt Therapy Solutions](https://promptemr.com/company/careers/?ashby_jid=e2c99b8e-11cb-45a2-baca-9afe0d204399)\n   - **Terms:** Full Time - $170,000 - $210,000\n   - **Location:** Remote/USA\n   - **Tech Stack:** Fullstack, Laravel, MySQL, SaaS\n\n2. **Senior Full Stack Developer**\n   - **Company:** [Trybe](https://apply.workable.com/trybe-2/j/49B1E593AB/?utm_source=larajobs&utm_medium=web)\n   - **Terms:** Full Time - £70,000 - £90,000\n   - **Location:** London, UK (Hybrid)\n   - **Tech Stack:** Fullstack, Laravel, PHP, React\n\n3. **Laravel / Vue.js Developer**\n   - **Company:** [Troy Web Consulting](https://careers.troyweb.com/laravel-developer-208448/)\n   - **Terms:** Full Time\n   - **Location:** Hybrid - Cohoes, New York\n   - **Tech Stack:** Laravel, PHP, VueJS\n\n4. **Senior Full Stack Developer (Laravel, Angular, etc.)**\n   - **Company:** [Simplicity](https://www.linkedin.com/jobs/view/4207797043/)\n   - **Terms:** Full Time - $100,000 - $140,000\n   - **Location:** In-Person at Summit, NJ\n   - **Tech Stack:** Angular, Laravel, MySQL\n\n5. **Senior Laravel Engineer**\n   - **Company:** [Shelterluv](https://www.shelterluv.com/careers/commerce-engineer/)\n   - **Terms:** Full Time\n   - **Location:** Remote / USA\n   - **Tech Stack:** AWS, Laravel, TailwindCSS, VueJS\n\n6. **Senior Laravel Developer**\n   - **Company:** [Appfront Cloud](https://www.appfront.cloud/post/laravel-senior-develper)\n   - **Terms:** Full Time - $60,000\n   - **Location:** Remote\n\n7. **Lead Back End Engineer**\n   - **Company:** [Musora Media Inc.](https://careers.musora.com/postings/6a549912-239e-469a-92e4-a7c766c7b352?utm_medium=job_board&utm_source=Larajobs)\n   - **Terms:** Full Time - $120,000 - $150,000 (CAD)\n   - **Location:** Abbotsford, BC\n   - **Tech Stack:** AWS, Backend, SaaS\n\n8. **Laravel & React Developer**\n   - **Company:** [GetBamboo](https://getbamboo.com/senior-software-developer)\n   - **Terms:** Full Time - $50,000 - $80,000\n   - **Location:** Remote (USA / North America)\n\n9. **PHP Laravel Developer**\n   - **Company:** [Solar Insure](https://www.solarinsure.com/careers)\n   - **Terms:** Full Time - $80,000 - $95,000 USD\n   - **Location:** Remote\n\n10. **Staff/Lead Software Engineer (PHP/JavaScript)**\n    - **Company:** [Automattic](https://join.a8c.com/cwlj)\n    - **Terms:** Full Time - $70,000 - $170,000 USD\n    - **Location:** Remote\n\n### What's Next? 🤓\nThese are just the highlights, my friend! If any of these got your heart racing, hit those application buttons and show them what you’ve got! Remember, the world of Laravel is vast and full of opportunities—you just gotta grab 'em!\n\nStay rad and good luck out there! 🌟"
-        }
-      }
-    ]
-  },
-  "versionId": "6a7f4f7d-48ac-4846-81fa-1f7e6b2b8f90",
+  "pinData": {},
+  "versionId": "9d6046ba-490b-45e0-8245-5ac5c7f80d71",
   "triggerCount": 1,
   "tags": []
 }
