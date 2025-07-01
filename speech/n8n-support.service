@@ -1,0 +1,13 @@
+
+[Unit]
+Description=n8n Workflow Support Service
+After=network.target
+
+[Service]
+WorkingDirectory=/home/ahmedia/n8n/speech/  
+ExecStart=/home/ahmedia/n8n/speech/venv/bin/python3  /home/ahmedia/n8n/speech/app.py  
+ExecReload=/home/ahmedia/n8n/speech/venv/bin/python3  /home/ahmedia/n8n/speech/app.py   
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
