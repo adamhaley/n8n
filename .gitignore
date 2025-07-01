@@ -1,4 +1,4 @@
-speech/venv
+support/venv
 *.ogg
 *.mp3
 *.wav
