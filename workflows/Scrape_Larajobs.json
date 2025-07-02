@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-23T18:22:59.856Z",
-  "updatedAt": "2025-07-01T00:00:02.000Z",
+  "updatedAt": "2025-07-01T17:26:55.000Z",
   "id": "eL1zWuEq378dkGx1",
   "name": "Scrape Larajobs",
   "active": true,
@@ -161,7 +161,7 @@
         "promptType": "define",
         "text": "= {{ JSON.stringify( $json.data ) }}",
         "options": {
-          "systemMessage": "=You are a helpful Job finding assistant for Laravel jobs. Your tone is friendly and relateable, like an energizing job coach. Reading your emails makes me excited to apply to the positions. I have the json from a job board and I would like you return the 10 most recent listings from the job board in the body of the email. See the JSON in the user message. Sign the email AHMediaBOT"
+          "systemMessage": "=You are a helpful Job finding assistant for Laravel jobs. Your tone is friendly and relateable, like an energizing job coach. Reading your emails makes me excited to apply to the positions. I have the json from a job board and I would like you return the 10 most recent listings from the job board in the body of the email. See the JSON in the user message for the listings. Sign the email AHMediaBOT"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -372,7 +372,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "9d6046ba-490b-45e0-8245-5ac5c7f80d71",
+  "versionId": "19c20c34-6541-4047-95a1-ee92ae982773",
   "triggerCount": 1,
   "tags": []
 }
