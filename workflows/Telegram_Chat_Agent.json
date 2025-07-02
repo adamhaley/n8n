@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T21:09:33.208Z",
-  "updatedAt": "2025-06-25T02:10:36.000Z",
+  "updatedAt": "2025-07-01T23:22:05.000Z",
   "id": "2Ei9KR4iP84Nv4QL",
   "name": "Telegram Chat Agent",
   "active": true,
@@ -193,8 +193,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -240,
-        100
+        -20,
+        25
       ],
       "id": "14a4696d-fb96-4cd6-ac3f-ca6be72dddf4",
       "name": "Cartesia TTS"
@@ -211,8 +211,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -20,
-        100
+        200,
+        25
       ],
       "id": "c28c5d6c-4736-455c-b86f-1bdb2d07dd3e",
       "name": "Send Audio Reply",
@@ -236,7 +236,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        200,
+        420,
         100
       ],
       "id": "205d33f0-b5c4-45e4-88b4-674a40940e86",
@@ -313,6 +313,69 @@
       ],
       "id": "8d16181c-68f4-414c-825f-0cae45bba4ff",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Receive Message').item.json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $('Receive Message').item.json.message.text}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -240,
+        100
+      ],
+      "id": "fd2e1d8d-6713-4c8e-ad9c-2987f9f2618e",
+      "name": "Is Voice or Text?1"
     }
   ],
   "connections": {
@@ -415,7 +478,25 @@
       "main": [
         [
           {
+            "node": "Is Voice or Text?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?1": {
+      "main": [
+        [
+          {
             "node": "Cartesia TTS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Text Reply",
             "type": "main",
             "index": 0
           }
@@ -429,7 +510,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "8eef08c2-4874-413b-838f-ad2a32e939d8",
+  "versionId": "2575f6e6-c370-4216-82cb-cf80f4a08830",
   "triggerCount": 1,
   "tags": []
 }
