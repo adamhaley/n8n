@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-26T00:04:09.488Z",
-  "updatedAt": "2025-06-29T19:07:59.000Z",
+  "updatedAt": "2025-07-21T01:42:47.000Z",
   "id": "R3Gkady4HoyiY8TF",
   "name": "Priority Email",
   "active": true,
@@ -296,7 +296,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "CFxyw7s6FYHGw941"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -307,7 +309,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "23cad646-015c-415d-b2bf-200e44d78062",
+  "versionId": "beab5d59-e40a-48c3-aabf-84a2073775e4",
   "triggerCount": 1,
   "tags": []
 }

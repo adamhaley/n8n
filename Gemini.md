@@ -15,3 +15,8 @@
 *   **Orchestration**: `n8n` acts as the central orchestrator.
 *   **Microservices (implied)**: Custom services suggest a microservices approach.
 *   **Configuration as Code**: Docker and Apache configurations are defined as code.
+
+## Deployment Environments
+
+*   **Local Development:** The application is run manually from the command line using `python3 support/app.py`.
+*   **VPS (Production):** The application is managed as a daemon using the `support/n8n-support.service` systemd service file. The service file is configured for the production environment and should not be used for local development.

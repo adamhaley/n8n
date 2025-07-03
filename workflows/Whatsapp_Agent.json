@@ -1,0 +1,374 @@
+{
+  "createdAt": "2025-06-06T22:44:37.016Z",
+  "updatedAt": "2025-07-06T03:10:34.000Z",
+  "id": "RxtX2VQfcWer8aQM",
+  "name": "Whatsapp Agent",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "all"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        -220
+      ],
+      "id": "813bc5dd-b4a1-496a-8479-52ed2f4be419",
+      "name": "WhatsApp Trigger",
+      "webhookId": "f204f647-34fe-4dcb-bff6-09f9c84597aa",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "eihUSwN8YMwjDKsM",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "G0Vk5kYZGi0nCI12",
+          "mode": "list",
+          "cachedResultName": "BOT CORE"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sessionId": "={{ parseInt( $json.contacts[0].wa_id ) }}",
+            "msg": "={{ $json.messages[0].text.body }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "msg",
+              "displayName": "msg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sessionId",
+              "displayName": "sessionId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        40,
+        -220
+      ],
+      "id": "6e27f370-5c01-4dd3-8597-cab536a6203c",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "692045897321497",
+        "recipientPhoneNumber": "13233843493",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -220
+      ],
+      "id": "e73e74e0-d69e-4b82-87b2-70f3b7452639",
+      "name": "WhatsApp Business Cloud",
+      "webhookId": "94155291-3b5a-42a1-bd21-b4522599cf92",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "AzTkhQmOQUC2wp1H",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://ahmedia.ai:8000/transcribe",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -400,
+        -320
+      ],
+      "id": "56518298-360b-4837-ab48-8853f6ea2129",
+      "name": "Transcribe Voice"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -620,
+        -320
+      ],
+      "id": "a90aba00-3a93-45cc-9f1c-864609c67f75",
+      "name": "Download Message",
+      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "Up0ePNUE4mWLrzEL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
+              "name": "msg",
+              "value": "={{ $json.msg }}",
+              "type": "string"
+            },
+            {
+              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
+              "name": "sessionId",
+              "value": "={{ $('Is Voice or Text?').item.json.message.chat.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -180,
+        -220
+      ],
+      "id": "849793ab-62d6-4fef-9dc9-31d5533c9073",
+      "name": "Add sessionId"
+    },
+    {
+      "parameters": {
+        "keys": {
+          "key": [
+            {
+              "currentKey": "message.text",
+              "newKey": "msg"
+            }
+          ]
+        },
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.renameKeys",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -120
+      ],
+      "id": "0deecb77-077c-4707-b756-d56026750877",
+      "name": "Normalize Msg"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -840,
+        -220
+      ],
+      "id": "6879386a-f934-4e46-9db0-7f599523603c",
+      "name": "Is Voice or Text?"
+    },
+    {
+      "parameters": {
+        "content": "## Whats App AI Agent Wrapper\n",
+        "width": 320,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        -540
+      ],
+      "id": "279a7307-612f-40b9-a46b-a02d9107f831",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Voice": {
+      "main": [
+        [
+          {
+            "node": "Add sessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Message": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Msg": {
+      "main": [
+        [
+          {
+            "node": "Add sessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?": {
+      "main": [
+        [
+          {
+            "node": "Download Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add sessionId": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6d91498a-55e7-4807-acab-f726b588a159",
+  "triggerCount": 1,
+  "tags": []
+}

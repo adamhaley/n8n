@@ -1,8 +1,8 @@
 {
-  "createdAt": "2025-06-23T23:12:21.023Z",
-  "updatedAt": "2025-07-16T23:54:21.000Z",
-  "id": "anO61zABqRyVkFTu",
-  "name": "Summarize GIT Log for Client Email",
+  "createdAt": "2025-05-18T19:59:00.319Z",
+  "updatedAt": "2025-07-17T02:27:28.000Z",
+  "id": "X1V3UPGUPaa2TOki",
+  "name": "AdamHaley.com Summarize GIT Log for Client Email",
   "active": true,
   "isArchived": false,
   "nodes": [
@@ -22,12 +22,12 @@
         0,
         100
       ],
-      "id": "414f297b-64ed-41e4-a724-05754e362079",
+      "id": "b6bc1083-1970-48f8-a317-d5576cd6fbdb",
       "name": "Schedule Trigger"
     },
     {
       "parameters": {
-        "url": "https://api.github.com/repos/adamhaley/amplified-expansion-coaching/commits",
+        "url": "https://api.github.com/repos/adamhaley/adamhaley-com/commits",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -37,7 +37,7 @@
             },
             {
               "name": "sha",
-              "value": "staging"
+              "value": "master"
             }
           ]
         },
@@ -49,7 +49,7 @@
         220,
         100
       ],
-      "id": "e145fbcc-b9a4-4334-8238-4c06715be663",
+      "id": "a25d5cf5-5505-4448-bf23-39e3478e06c8",
       "name": "Get Commit History"
     },
     {
@@ -69,7 +69,7 @@
         660,
         0
       ],
-      "id": "a94ffce4-c430-47a7-bf8a-f5aab4855fd5",
+      "id": "a662ac7c-1b75-4fa0-94c8-6c110ccdbc19",
       "name": "Aggregate"
     },
     {
@@ -87,7 +87,7 @@
         968,
         220
       ],
-      "id": "9b329eaf-4e8e-44ee-9fae-3e2eb3d5e8e9",
+      "id": "8bc8c1e1-b73d-4cf4-a6e4-67e128d5ab2f",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
@@ -127,16 +127,16 @@
         440,
         100
       ],
-      "id": "3ea12de2-ebcb-417b-bbf2-78924de0c5ea",
+      "id": "3882bd17-645f-4a93-b3ca-e3c199e182f4",
       "name": "If"
     },
     {
       "parameters": {
         "fromEmail": "info@ahmedia.ai",
-        "toEmail": "jenacarpenter@gmail.com",
-        "subject": "=Updates to AmplifiedExpansion.com!",
+        "toEmail": "adamhaley@gmail.com",
+        "subject": "=Updates to AdamHaley.com!",
         "emailFormat": "text",
-        "text": "=Hi Jena,\n\nI wanted to keep you in the loop on your latest site updates from your team at AHMedia this week! \n\n{{ $json.response.text }}\n\nAs always, feel free to reach out if you have any questions!\n\nSincerely,\n\nAHMedia BOT",
+        "text": "=Hi Adam,\n\nI wanted to keep you in the loop on your latest site updates from your team at AHMedia this week! \n\n{{ $json.response.text }}\n\nAs always, feel free to reach out if you have any questions!\n\nSincerely,\n\nAHMedia BOT",
         "options": {
           "appendAttribution": false
         }
@@ -144,12 +144,12 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1256,
+        1260,
         0
       ],
-      "id": "c34608b7-5b17-4646-959d-ffd9c9549be2",
+      "id": "83d7693a-7101-415b-aec3-4d5fcac3ea79",
       "name": "Send Email",
-      "webhookId": "1a5dbda7-b198-4880-8367-8d9146dec8bb",
+      "webhookId": "b0531836-b85c-4286-8a07-89b218841bb6",
       "credentials": {
         "smtp": {
           "id": "184zfe9H1Rf34NpO",
@@ -173,7 +173,7 @@
         880,
         0
       ],
-      "id": "c92dd0b8-ff83-4c06-8fd3-f25ed7d7b741",
+      "id": "213fd304-79d0-4c80-a625-8a1e633b4013",
       "name": "Summarize Git Log"
     },
     {
@@ -184,12 +184,12 @@
         660,
         200
       ],
-      "id": "8eb0f08f-f619-4ab0-bb7f-885ce6522fde",
+      "id": "0670114a-d985-4878-b0e7-364e33edb9c0",
       "name": "No Operation, do nothing"
     },
     {
       "parameters": {
-        "content": "# Summarize GIT Commit History for client email\n\nThis workflow looks at the git history of a public github repository. If there are any commits in the last 7 days, commit messages are summarized into a friendly client email and sent to the client.\n",
+        "content": "# AdamHaley.COM Summarize GIT Commit History for client email\n\nThis workflow looks at the git history of a public github repository. If there are any commits in the last 7 days, commit messages are summarized into a friendly client email and sent to the client.\n",
         "height": 240,
         "width": 420,
         "color": 4
@@ -200,7 +200,7 @@
         -40,
         -460
       ],
-      "id": "5e2c3c7d-7ff6-42d4-85a6-5572ede67fcf",
+      "id": "5d97926c-6dff-48bd-a98f-b9c41a3645d5",
       "name": "Sticky Note"
     },
     {
@@ -215,7 +215,7 @@
         -40,
         -120
       ],
-      "id": "0119e0ca-0652-4390-8556-1638e6b8d9a7",
+      "id": "0c3e2e67-1d27-4d39-a567-5342499fadcd",
       "name": "Sticky Note1"
     },
     {
@@ -231,7 +231,7 @@
         400,
         -120
       ],
-      "id": "07ff9b21-7d56-4cb9-a3cf-3e4720371045",
+      "id": "4b1b6236-a246-4019-baf8-c5a1381e13c5",
       "name": "Sticky Note2"
     },
     {
@@ -247,7 +247,7 @@
         860,
         -120
       ],
-      "id": "4adea005-f88d-44d1-b1af-0a5950c153f1",
+      "id": "01d15945-1f7d-4e2a-84e6-032dbe18bf69",
       "name": "Sticky Note3"
     },
     {
@@ -262,7 +262,7 @@
         1220,
         -120
       ],
-      "id": "dd7a128e-8f89-4fd5-bebb-d9a7a648949e",
+      "id": "be2ac454-f0e8-41bd-ad17-b0544a05c5f8",
       "name": "Sticky Note4"
     }
   ],
@@ -347,7 +347,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        173
+        201
       ]
     }
   },
@@ -355,7 +355,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "74499278-5835-430b-895b-24fe94825072",
+  "versionId": "c357a1cb-b444-40eb-a850-564697e493cc",
   "triggerCount": 1,
   "tags": []
 }

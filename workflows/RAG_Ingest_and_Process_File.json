@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-18T20:03:03.830Z",
-  "updatedAt": "2025-06-23T22:55:17.000Z",
+  "updatedAt": "2025-07-23T18:35:01.000Z",
   "id": "GmeUFdXNPBAPvpmO",
   "name": "RAG Ingest and Process File",
   "active": true,
@@ -22,7 +22,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.1,
       "position": [
-        -1164,
+        -1168,
         -400
       ],
       "id": "1469e45b-bdac-42d9-811e-5f255bf04301",
@@ -43,8 +43,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        -1180,
-        -180
+        -1184,
+        -176
       ],
       "id": "ebe7b232-0d4e-4f96-a26d-59e8458d997b",
       "name": "Embeddings Ollama",
@@ -65,8 +65,8 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1,
       "position": [
-        -1060,
-        -177.5
+        -1056,
+        -176
       ],
       "id": "6a64dc07-9255-42dd-a61e-db0bfa32f430",
       "name": "Default Data Loader"
@@ -80,8 +80,8 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        -972,
-        20
+        -976,
+        32
       ],
       "id": "898f2b2a-f7ad-4d96-b3c8-63d1cb80a8d0",
       "name": "Character Text Splitter"
@@ -99,7 +99,7 @@
       "typeVersion": 2,
       "position": [
         -2720,
-        -300
+        -304
       ],
       "id": "7bd02bd1-311e-4913-b35f-a1a2d6d6609a",
       "name": "Webhook",
@@ -114,7 +114,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        -244,
+        -240,
         -400
       ],
       "id": "d5b825fc-4238-45ad-81d2-d5db89402ca1",
@@ -128,7 +128,7 @@
       "typeVersion": 2,
       "position": [
         -1840,
-        -220
+        -224
       ],
       "id": "458e2f0e-2033-4120-bfbf-c5cec482a2fc",
       "name": "Generate Namespace"
@@ -145,7 +145,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -684,
+        -688,
         -400
       ],
       "id": "d4768517-9f2d-48cf-b5e1-48218203001b",
@@ -164,7 +164,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -1400,
+        -1408,
         -400
       ],
       "id": "10aee22b-dfa0-4506-842e-ac82cd523cef",
@@ -193,7 +193,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1620,
+        -1616,
         -400
       ],
       "id": "24965868-cdf5-4252-95cb-225f7d4e88e9",
@@ -227,8 +227,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -2060,
-        -300
+        -2064,
+        -304
       ],
       "id": "496e814b-5bc5-4434-afd6-cd1e253bedc1",
       "name": "If Namespace with Request"
@@ -251,8 +251,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -2500,
-        -300
+        -2496,
+        -304
       ],
       "id": "0e628de4-969e-4246-ae7e-de5790cd2ec9",
       "name": "Upload to Google Drive",
@@ -273,8 +273,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -2280,
-        -300
+        -2288,
+        -304
       ],
       "id": "c4b1a714-7235-46e6-9a7f-84c04384c4ae",
       "name": "Get File Info",
@@ -318,7 +318,7 @@
       "typeVersion": 1,
       "position": [
         -2800,
-        -540
+        -544
       ],
       "id": "5b16aa16-ec7f-4959-8820-c9fb4cc1e312",
       "name": "Sticky Note"
@@ -333,8 +333,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2120,
-        -540
+        -2128,
+        -544
       ],
       "id": "54a514b3-7823-4f9a-a113-0a703907f2eb",
       "name": "Sticky Note1"
@@ -350,7 +350,7 @@
       "typeVersion": 1,
       "position": [
         -1440,
-        -540
+        -544
       ],
       "id": "e5c085b4-c9cf-4247-b68b-1e6e2dfa703c",
       "name": "Sticky Note2"
@@ -366,7 +366,7 @@
       "typeVersion": 1,
       "position": [
         -720,
-        -540
+        -544
       ],
       "id": "ac06c135-20b7-4e73-9496-97f389c73405",
       "name": "Sticky Note3"
@@ -382,7 +382,7 @@
       "typeVersion": 1,
       "position": [
         -2800,
-        -900
+        -896
       ],
       "id": "9a1980b3-309a-4dc7-9b2f-1bb575bc316e",
       "name": "Sticky Note4"
@@ -552,7 +552,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "dd4fd000-92fc-4c15-8a41-e11dbb4df864",
+  "versionId": "4a84e182-9802-4292-9f06-2452bd36e876",
   "triggerCount": 1,
   "tags": []
 }

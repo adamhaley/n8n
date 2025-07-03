@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T21:09:33.208Z",
-  "updatedAt": "2025-07-01T23:22:05.000Z",
+  "updatedAt": "2025-07-12T00:04:20.000Z",
   "id": "2Ei9KR4iP84Nv4QL",
   "name": "Telegram Chat Agent",
   "active": true,
@@ -505,12 +505,14 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "CFxyw7s6FYHGw941"
   },
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "2575f6e6-c370-4216-82cb-cf80f4a08830",
+  "versionId": "709a4225-e904-4100-8b74-3a357d31d206",
   "triggerCount": 1,
   "tags": []
 }
