@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-11T19:56:26.120Z",
-  "updatedAt": "2025-06-01T05:03:26.000Z",
+  "updatedAt": "2025-07-02T22:55:21.000Z",
   "id": "7eVo932Tjecd6d6Q",
   "name": "Clean Up Gmail Inbox",
   "active": true,
@@ -59,7 +59,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        956,
+        940,
         1600
       ],
       "id": "283c9881-9d5f-4d47-945d-850ac2db1643",
@@ -83,7 +83,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        956,
+        940,
         1200
       ],
       "id": "b72925a3-349a-434a-bdcb-5cb70ca1882b",
@@ -107,7 +107,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        956,
+        940,
         1400
       ],
       "id": "40301988-ac39-42d2-b7a9-4693310a94e3",
@@ -131,7 +131,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        956,
+        940,
         800
       ],
       "id": "fc91c033-3dd7-4380-940e-23c9e2f1fb8c",
@@ -155,7 +155,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        956,
+        940,
         600
       ],
       "id": "ac885c9b-6dcb-43b6-97d1-0f1b429df7a0",
@@ -179,7 +179,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        956,
+        940,
         1000
       ],
       "id": "64e58cfd-ade3-4d29-a46c-db9bcd31ad94",
@@ -238,8 +238,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmOllama",
       "typeVersion": 1,
       "position": [
-        668,
-        1320
+        660,
+        1440
       ],
       "id": "49597222-99eb-4355-b27c-e23ac76c02a4",
       "name": "Ollama Model",
@@ -1799,7 +1799,7 @@
       }
     ]
   },
-  "versionId": "92f79cb5-e1d9-434b-9bd7-d37af34b2329",
+  "versionId": "b13e61f8-6e25-431b-8682-f1b81228f099",
   "triggerCount": 1,
   "tags": []
 }
