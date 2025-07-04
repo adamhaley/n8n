@@ -23,5 +23,5 @@ def index():
     return 'n8n Workflow Support Server is running.'
 
 if __name__ == '__main__':
-    ssl_context = ('path/to/your/fullchain.pem', 'path/to/your/privkey.pem')
+    ssl_context = ('/etc/letsencrypt/live/ahservers.net/fullchain.pem', '/etc/letsencrypt/live/ahservers.net/privkey.pem')
     app.run(host='0.0.0.0', port=5001, ssl_context=ssl_context)
