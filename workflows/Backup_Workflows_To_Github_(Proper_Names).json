@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-01T03:39:11.805Z",
-  "updatedAt": "2025-06-26T20:23:49.000Z",
+  "updatedAt": "2025-07-12T00:07:05.000Z",
   "id": "90aE9VfgouGkDwgi",
   "name": "Backup Workflows To Github (Proper Names)",
   "active": true,
@@ -408,7 +408,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "CFxyw7s6FYHGw941"
   },
   "staticData": {
     "node:Run Daily": {
@@ -417,7 +419,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "e530876e-a0d6-4284-8fec-ff7bf171d74d",
+  "versionId": "ad8c16e6-14bb-4bbd-9af8-aed4e82997d3",
   "triggerCount": 1,
   "tags": []
 }
