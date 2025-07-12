@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-11T19:56:26.120Z",
-  "updatedAt": "2025-07-02T22:55:21.000Z",
+  "updatedAt": "2025-07-12T00:07:24.000Z",
   "id": "7eVo932Tjecd6d6Q",
   "name": "Clean Up Gmail Inbox",
   "active": true,
@@ -333,7 +333,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "CFxyw7s6FYHGw941"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -1799,7 +1801,7 @@
       }
     ]
   },
-  "versionId": "b13e61f8-6e25-431b-8682-f1b81228f099",
+  "versionId": "16e1a924-43b7-41b0-b980-45feb88cd811",
   "triggerCount": 1,
   "tags": []
 }
