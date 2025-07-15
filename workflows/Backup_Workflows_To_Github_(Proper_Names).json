@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-01T03:39:11.805Z",
-  "updatedAt": "2025-07-12T00:07:05.000Z",
+  "updatedAt": "2025-07-14T22:02:13.000Z",
   "id": "90aE9VfgouGkDwgi",
   "name": "Backup Workflows To Github (Proper Names)",
   "active": true,
@@ -230,8 +230,8 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://github.com/adamhaley/n8n"
         },
-        "filePath": "=workflows/{{ $('Proper filename from Workflow').item.json.name, null, 2 }}",
-        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').first().json ) }}",
+        "filePath": "=workflows/{{$json.name  }}",
+        "fileContent": "={{ JSON.stringify( $('n8n Get Active Workflows').first().json, null, 2 ) }}",
         "commitMessage": "=creating backup file for workflow \"{{ $('n8n Get Active Workflows').first().json.name }}\"\"",
         "additionalParameters": {
           "branch": {
@@ -419,7 +419,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "ad8c16e6-14bb-4bbd-9af8-aed4e82997d3",
+  "versionId": "c336ae26-ff28-4431-a76e-eb315c9858ac",
   "triggerCount": 1,
   "tags": []
 }
