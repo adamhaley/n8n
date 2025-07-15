@@ -1,502 +1,653 @@
 {
-  "createdAt": "2025-06-04T21:09:33.208Z",
-  "updatedAt": "2025-07-12T00:04:20.000Z",
-  "id": "2Ei9KR4iP84Nv4QL",
-  "name": "Telegram Chat Agent",
+  "createdAt": "2025-06-25T00:35:09.004Z",
+  "updatedAt": "2025-07-12T00:08:27.000Z",
+  "id": "sRopekWrDVAscP1m",
+  "name": "Scrape  HNH Jobs",
   "active": true,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://ahmedia.ai:8000/transcribe",
-        "sendBody": true,
-        "contentType": "binaryData",
-        "inputDataFieldName": "data",
-        "options": {}
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 7
+            }
+          ]
+        }
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -900,
-        0
-      ],
-      "id": "739d3005-da94-42bb-911a-3da68eca2233",
-      "name": "Transcribe Voice"
-    },
-    {
-      "parameters": {
-        "resource": "file",
-        "fileId": "={{ $json.message.voice.file_id }}"
-      },
-      "type": "n8n-nodes-base.telegram",
+      "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1120,
-        0
+        -540,
+        -141.25
       ],
-      "id": "c2af79ae-b51a-48a7-8642-52461533c385",
-      "name": "Download Message",
-      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
+      "id": "e0af10a6-0063-47c2-8202-75a05bbe49be",
+      "name": "Schedule Trigger"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
-              "name": "msg",
-              "value": "={{ $json.msg }}",
-              "type": "string"
-            },
-            {
-              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
-              "name": "sessionId",
-              "value": "={{ $('Is Voice or Text?').item.json.message.chat.id }}",
-              "type": "number"
-            }
-          ]
-        },
+        "promptType": "define",
+        "text": "=Write an email that will contain job listings, write the subject, opening text, then include all the job listings, and conclusion / signature. Do not summarize the job listings, pass them through unaltered. these are the job listings: {{ $json.output }}",
+        "options": {
+          "systemMessage": "= You are a helpful Job finding assistant for Remote developer jobs. Your tone is friendly and relateable, like an energizing job coach. Reading your emails makes me excited to apply to the positions.. Sign the email AHMediaBOT"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2140,
+        -440
+      ],
+      "id": "1cab2c1f-a53a-462e-8f6e-ad5234728959",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -680,
-        100
-      ],
-      "id": "d7295af2-8ee1-4651-a8d5-c442c42e33c4",
-      "name": "Add sessionId"
-    },
-    {
-      "parameters": {
-        "keys": {
-          "key": [
-            {
-              "currentKey": "message.text",
-              "newKey": "msg"
-            }
-          ]
-        },
-        "additionalOptions": {}
-      },
-      "type": "n8n-nodes-base.renameKeys",
+      "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -900,
-        200
+        1700,
+        -440
       ],
-      "id": "e178c350-da20-47e5-911f-0a4ddbdc6ee3",
-      "name": "Normalize Msg"
+      "id": "6faf258c-d8a7-4022-989e-83f424eab603",
+      "name": "Aggregate"
     },
     {
       "parameters": {
-        "rules": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
           "values": [
             {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.message.voice }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "object",
-                      "operation": "exists",
-                      "singleValue": true
-                    },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
-                  }
-                ],
-                "combinator": "and"
-              }
+              "key": "jobs",
+              "cssSelector": "li.job",
+              "returnValue": "html",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -100,
+        -141.25
+      ],
+      "id": "5b987b6b-2db5-45a4-bc8b-2cf59cfdf220",
+      "name": "HTML2"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "jobs",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "url",
+              "cssSelector": "a",
+              "returnValue": "attribute",
+              "attribute": "href"
             },
             {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $json.message.text }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
+              "key": "date",
+              "cssSelector": "span.gray.right.type-info"
+            },
+            {
+              "key": "body",
+              "cssSelector": ".body",
+              "returnArray": "={{ false }}"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        -1340,
-        100
-      ],
-      "id": "008da576-5d75-445c-95db-79727ee8544d",
-      "name": "Is Voice or Text?"
-    },
-    {
-      "parameters": {
-        "updates": [
-          "message"
-        ],
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegramTrigger",
+      "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        -1560,
-        100
+        120,
+        -141.25
       ],
-      "id": "375c1654-1c28-4bbb-90fd-0b133166ee1e",
-      "name": "Receive Message",
-      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
+      "id": "0db8e172-d00a-44d2-a66e-f056885d599f",
+      "name": "HTML3"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://ahmedia.ai:8000/tts",
-        "sendBody": true,
-        "contentType": "raw",
-        "body": "={{ $json.output }}",
+        "url": "https://hnhiring.com/june-2025",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -20,
-        25
+        -320,
+        -141.25
       ],
-      "id": "14a4696d-fb96-4cd6-ac3f-ca6be72dddf4",
-      "name": "Cartesia TTS"
+      "id": "1952ed24-3277-4e3a-a8b7-429e5fa5f76e",
+      "name": "Scrape HNHiring"
     },
     {
       "parameters": {
-        "operation": "sendAudio",
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "binaryData": true,
-        "additionalFields": {
-          "fileName": "reply.mp3"
-        }
+        "fromEmail": "info@ahmedia.ai",
+        "toEmail": "adamhaley@gmail.com",
+        "subject": "HNHiring  Jobs!",
+        "emailFormat": "text",
+        "text": "={{ $json.output }}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
       "position": [
-        200,
-        25
+        2500,
+        -440
       ],
-      "id": "c28c5d6c-4736-455c-b86f-1bdb2d07dd3e",
-      "name": "Send Audio Reply",
-      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
+      "id": "ab666063-f121-44bf-810c-9d644837fce8",
+      "name": "Send Email",
+      "webhookId": "3183cf9b-7b61-4a0f-9d2e-aa7fbefd14aa",
       "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
+        "smtp": {
+          "id": "184zfe9H1Rf34NpO",
+          "name": "AHMedia SMTP account"
         }
       }
     },
     {
       "parameters": {
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "text": "={{ $('Call BOT CORE').item.json.output }}",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
+        "model": "nomic-embed-text:latest"
       },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
       "position": [
-        420,
-        100
+        980,
+        672.5
       ],
-      "id": "205d33f0-b5c4-45e4-88b4-674a40940e86",
-      "name": "Send Text Reply",
-      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
+      "id": "6af6b167-ee11-41de-a476-b1b0fb024873",
+      "name": "Embeddings Ollama",
       "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
         }
       }
     },
     {
       "parameters": {
-        "workflowId": {
+        "model": {
           "__rl": true,
-          "value": "G0Vk5kYZGi0nCI12",
+          "value": "gpt-4.1-mini",
           "mode": "list",
-          "cachedResultName": "BOT CORE"
+          "cachedResultName": "gpt-4.1-mini"
         },
-        "workflowInputs": {
+        "options": {
+          "timeout": 600004
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        780,
+        277.5
+      ],
+      "id": "58a5358f-2aa2-4220-9926-97883d2ca70d",
+      "name": "OpenAI l",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 20,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        560,
+        -141.25
+      ],
+      "id": "90e59fac-9553-4416-b6ec-7b5e51e2c949",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "45337c67-f6af-483c-b46a-85a23a9c52ac",
+              "leftValue": "={{ $('Question and Answer Chain').item.json.response.parseJson().match }}",
+              "rightValue": "=true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        910,
+        -440
+      ],
+      "id": "0a28c275-eba7-4bfc-98af-f67295568bc2",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a job posting filtering assistant.\nDecide if the job posting is a fit for my experience based on the resume data in the Pinecone Vector Store. Leave the body of the job posting intact including any instructions for how to apply.add a \"match\" attribute to the output json. this will be a boolean value of \"true\" or \"false\" based on if the job posting is a good match based on my resume. Here is the job postings list:  {{ JSON.stringify( $json )  }}",
+        "options": {
+          "batching": {
+            "batchSize": 20,
+            "delayBetweenBatches": 1000
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.6,
+      "position": [
+        800,
+        57.5
+      ],
+      "id": "88c72d79-bbf2-4843-809e-f4a5dcf6e66f",
+      "name": "Question and Answer Chain"
+    },
+    {
+      "parameters": {
+        "topK": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        900,
+        280
+      ],
+      "id": "c9f10a09-8480-4420-a77b-2e113a0d8ec1",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ah-media",
+          "mode": "list",
+          "cachedResultName": "ah-media"
+        },
+        "options": {
+          "pineconeNamespace": "shiny-river-7309"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        900,
+        477.5
+      ],
+      "id": "98db9a8e-81c9-44e6-8a04-920ed62b3fca",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "x0bN3Ljld6zAEruh",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return JSON.parse($json.response)"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        -440
+      ],
+      "id": "f90715f4-97cc-4e2d-a56c-3332040f79b1",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "maxItems": 60
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        340,
+        -141.25
+      ],
+      "id": "2e24a98a-5ef2-41f8-97e7-7d818af94fab",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2220,
+        -220
+      ],
+      "id": "709bea08-298a-420b-82a1-47c18e240a46",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let output = '';\n\n$input.first().json.data.forEach( ( $item, $i ) => {\n  output += $item.date + \"\\n\\n\";\n  output += $item.body + \"\\n\\n\";\n  output += $item.url;\n  \n});\n\nreturn { output: output };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        -440
+      ],
+      "id": "e95811d8-642d-488c-9fea-248c2f47f16a",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1VBiQWYAzxkFHB-B65OqI2-sXho3KB8tILsDh2agibm8",
+          "mode": "list",
+          "cachedResultName": "HNHiring Job Postings ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VBiQWYAzxkFHB-B65OqI2-sXho3KB8tILsDh2agibm8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VBiQWYAzxkFHB-B65OqI2-sXho3KB8tILsDh2agibm8/edit#gid=0"
+        },
+        "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "msg": "={{ $json.msg }}",
-            "sessionId": "={{ $json.sessionId }}"
+            "url": "={{ $json.url }}",
+            "date": "={{ $json.date }}",
+            "body": "={{ $json.body }}"
           },
           "matchingColumns": [],
           "schema": [
             {
-              "id": "msg",
-              "displayName": "msg",
+              "id": "date",
+              "displayName": "date",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "canBeUsedToMatch": true,
               "type": "string",
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "sessionId",
-              "displayName": "sessionId",
+              "id": "url",
+              "displayName": "url",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             }
           ],
           "attemptToConvertTypes": false,
-          "convertFieldsToString": true
+          "convertFieldsToString": false
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
       "position": [
-        -460,
-        100
+        1480,
+        -440
       ],
-      "id": "c2b9053c-3857-4331-ad1d-71b537d31dc2",
-      "name": "Call BOT CORE"
-    },
-    {
-      "parameters": {
-        "content": "## Telegram AI Agent Wrapper\n",
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -1420,
-        -240
-      ],
-      "id": "8d16181c-68f4-414c-825f-0cae45bba4ff",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('Receive Message').item.json.message.voice }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "object",
-                      "operation": "exists",
-                      "singleValue": true
-                    },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $('Receive Message').item.json.message.text}}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        -240,
-        100
-      ],
-      "id": "fd2e1d8d-6713-4c8e-ad9c-2987f9f2618e",
-      "name": "Is Voice or Text?1"
+      "id": "01570ac2-46b5-42ad-a33a-395d09ff2c1d",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
     }
   ],
   "connections": {
-    "Transcribe Voice": {
+    "Schedule Trigger": {
       "main": [
         [
           {
-            "node": "Add sessionId",
+            "node": "Scrape HNHiring",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Download Message": {
+    "Aggregate": {
       "main": [
         [
           {
-            "node": "Transcribe Voice",
+            "node": "Code1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Normalize Msg": {
+    "AI Agent": {
       "main": [
         [
           {
-            "node": "Add sessionId",
+            "node": "Send Email",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Is Voice or Text?": {
+    "HTML2": {
       "main": [
         [
           {
-            "node": "Download Message",
+            "node": "HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML3": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape HNHiring": {
+      "main": [
+        [
+          {
+            "node": "HTML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI l": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Filter",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Normalize Msg",
+            "node": "Question and Answer Chain",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Receive Message": {
+    "Filter": {
       "main": [
         [
           {
-            "node": "Is Voice or Text?",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Cartesia TTS": {
+    "Question and Answer Chain": {
       "main": [
         [
           {
-            "node": "Send Audio Reply",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Send Audio Reply": {
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
       "main": [
         [
           {
-            "node": "Send Text Reply",
+            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Add sessionId": {
+    "Limit": {
       "main": [
         [
           {
-            "node": "Call BOT CORE",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Call BOT CORE": {
+    "OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
       "main": [
         [
           {
-            "node": "Is Voice or Text?1",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Is Voice or Text?1": {
+    "Append row in sheet": {
       "main": [
         [
           {
-            "node": "Cartesia TTS",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Text Reply",
+            "node": "Aggregate",
             "type": "main",
             "index": 0
           }
@@ -509,10 +660,259 @@
     "callerPolicy": "workflowsFromSameOwner",
     "errorWorkflow": "CFxyw7s6FYHGw941"
   },
-  "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "709a4225-e904-4100-8b74-3a357d31d206",
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": [
+        193
+      ]
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Aggregate": [
+      {
+        "json": {
+          "data": [
+            {
+              "url": "https://news.ycombinator.com/user?id=tom_stager",
+              "date": "2025-06-16",
+              "body": "Stager | Full-Stack Developer | On-Site (Rotterdam, NL) | Full Time\n\nWe’re building the most comprehensive event tech platform on the planet. Our\nsystem helps event organizers plan, promote, and sell tickets for their events.\nWe're looking for a Full-stack Developer who can contribute across the entire\nstack, help modernize our architecture, and build reliable, user-friendly\nfeatures that scale.\n\nIf you want to apply, please find the vacancy on our website stager.co/jobs.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=ginebs",
+              "date": "2025-06-15",
+              "body": "Synapse Social | Founding Engineer | New York City | Full time\n\nSynapse is a funded startup backed by a Fortune 100 CEO with the goal of making\nacademic research and news more accessible. With our mobile app, users will be\nable to see the latest research papers and news in their fields of choice in a\ncurated feed based on the topics, journals, and authors they follow. Our mission\nis to connect the right researchers to the right papers. Right now, we’re\nbuilding ways to streamline how scientists discover and share research but\nultimately we will become the definitive global hub for scientific discourse.\n\nWe’re looking for a founding software engineer with Python and React experience\nto work on our web and mobile apps.\n\nExperience with React Native and mobile development in general, is a big plus.\n\nExperience with MongoDB and Flask are also nice to have.\n\n*Tech Stack*\n\n- database: MongoDB- mobile app: Typescript, React Native- api: Python, Flask-\ninfra: AWS Beanstalk\n\n*Salary and Benefits*\n\n90-100k starting annual salary( plus equity). This range is highly subject to\nchange after we raise again in November\n\nPlease email ginebra@synapsesocial.com with your resume !",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=gentubeteam",
+              "date": "2025-06-14",
+              "body": "Location: Toronto, Canada, OnsiteAI Startup - GentubeMember of Technical Staff\n-> Full Stack Engineer\n\nWe're looking for engineers obsessed with craft, speed, and ownership. If you're\nnot ready to grind and grow, skip this post.Push the limits of AI in real-world\nconsumer appsShip fast, iterate faster—quality is non-negotiableBuild systems\nthat scale without flinching under loadExplore the frontier of entertainment\nthrough rapid iteration\n\nLearn more here: https://www.linkedin.com/jobs/view/4239709007\n[https://www.linkedin.com/jobs/view/4239709007]Email CV: shania@1851labs.com",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=sonarmd-dev",
+              "date": "2025-06-13",
+              "body": "SonarMD | Senior Data Engineer | Remote (US only, East/Central) | Full-time |\n$140k–160k + Benefits\n\nSonarMD is a healthcare startup using data to help people with chronic GI\nconditions maintain a better quality of life. We work directly with care teams\nto identify early signs of deterioration—so we can intervene before painful\nflare-ups or ER visits happen.\n\nWe’re hiring a senior data/backend engineer to help me (staff engineer) build\nour data platform from the ground up.\n\nYou’ll be the first dedicated data engineer on a small, mission-driven team.\nThere’s no legacy stack—you’ll help architect and implement the systems that\nturn messy healthcare data (claims, EHR, wearables, patient surveys) into\nsomething actionable. The work you do will drive everything from reporting to\npredictive insights, and shape the foundation for future AI/ML capabilities.\n\nWe’re looking for someone who:\n\n\n\n- Has built and owned production ingestion pipelines and backend systems - Can\ndesign systems and write clean, reliable code in Node/Python - Has experience\nwith AWS (Glue, RDS, Lambda, Step Functions) - Knows data modeling, SQL, and IaC\n(Ansible/Terraform/CDK) - Likes to collaborate, solve real problems, and make\nsmart tradeoffs in ambiguous situationsOur stack: Node.js, Typescript, Express,\nPython, PostgreSQL, MongoDB, AWS (Glue, RDS, Lambda, EC2, CDK), Ansible,\nCircleCI\n\nIf you want to build meaningful systems that improve lives—and you like working\nwith autonomy alongside another senior engineer—email me:\navespoli@sonarmd.comSend a resume, GitHub, portfolio, blog—whatever shows how\nyou think and what you’ve built. No cover letter needed.Full JD:\nhttps://sonarmd.com/join-our-team/ [https://sonarmd.com/join-our-team/]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=jeswin",
+              "date": "2025-06-13",
+              "body": "CredCore | Engineering | Full-time | US/India | www.credcore.com\n\nCredCore helps companies analyze Credit Agreements using AI. We are looking to\nhire an Engineering Lead with 10+ years of experience. You should be familiar\nwith design patterns and software architecture, infra/kubernetes, and\nTypeScript/Python. If you’re interested, please reach out to me at\njeswin@credcore.com.\n\nA cover letter is not necessary. But please share your resume and links to your\nGitHub/GitLab/StackOverflow/other profile, or blog/papers, or other portfolio we\ncan review before setting up the interviews.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=cloudtrucks",
+              "date": "2025-06-12",
+              "body": "CloudTrucks (https://www.cloudtrucks.com/ [https://www.cloudtrucks.com/]) |\nFull-time roles | Hybrid (in SF) | Competitive salary + benefits\n\n1. Sr. SWE, Marketplace -\nhttps://jobs.ashbyhq.com/cloudtrucks/03a04ae9-07f8-4afe-aafd...\n[https://jobs.ashbyhq.com/cloudtrucks/03a04ae9-07f8-4afe-aafd-428af68c14f6]\n\n2. SWE, Business Platform -\nhttps://jobs.ashbyhq.com/cloudtrucks/f0343129-4cb4-4615-98ac...\n[https://jobs.ashbyhq.com/cloudtrucks/f0343129-4cb4-4615-98ac-f037bc1813f9]\n\n3. Sr. PM - https://jobs.ashbyhq.com/cloudtrucks/44bfdf6d-e186-4859-abcc...\n[https://jobs.ashbyhq.com/cloudtrucks/44bfdf6d-e186-4859-abcc-25dde0872ea9]\n\n...and more urgent roles open. Please look at our careers page\n(https://www.cloudtrucks.com/careers#open-roles\n[https://www.cloudtrucks.com/careers#open-roles]) and apply directly. All\nrespective roles are being actively vetted by the hiring managers so don't\nhesitate and hit apply.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=jupiterhealth",
+              "date": "2025-06-11",
+              "body": "Jupiter Health | Engineering Roles | New York preferred | Full-time & Part-time\n\nJupiter is rewiring healthcare supply and demand, enabling patients to save\ntheir healthcare dollars rather than paying them to an insurer, and easily find\nhigh-value, high-quality direct pay care.\n\nWe have built the largest database of direct pay pricing data in the US, are\nusing AI to make it easily searchable, and are launching innovative insurance\nplans in the coming weeks.\n\nWe are hiring for multiple engineering roles:\n\n- Engineering Lead / Head of Engineering to lead overall technical build-out of\nproduct\n\n- Front-End Engineer (must be highly competent with React)\n\n- Back-End Engineer (built mostly in Postgres today)\n\n- AI Engineer to update/improve chatbot (current chatbot is built on GPT-4o)\n\nWe value intelligence, competence, teamwork, and energy for the mission. Our\nteam are highly accomplished across disciplines, and have worked in industry and\nin leadership roles at multiple successful start-ups previously.\n\nIf you are interested in any of these roles, we'd love to hear from you! Please\nreach out at hello@jupiterplans.com",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=shawm",
+              "date": "2025-06-11",
+              "body": "getbixby.com | Software Engineer (Backend/Fullstack) | SF only | Full-time\n\nWe're building products to help general contractors get work done. To start,\nwe're focusing on the arduous, highly-manual, error-ridden submittal review\nprocess. Reach out to careers@getbixby to learn more.\n\nCheck out the JD here:\nhttps://www.notion.so/Bixby-Software-Engineer-Founding-Team-...\n[https://www.notion.so/Bixby-Software-Engineer-Founding-Team-1fcd7493701e803ea38dc922046a2cd0]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=jaspax",
+              "date": "2025-06-10",
+              "body": "Clearview AI | Fully Remote | Full-stack Software Engineer\n\nhttps://app.trinethire.com/companies/92223-clearview-ai-inc/...\n[https://app.trinethire.com/companies/92223-clearview-ai-inc/jobs/108891-full-stack-engineer]\n\nClearview AI is the leading provider of facial recognition technologies to US\nlaw enforcement, state, and federal agencies. Our mission is to help our users\nsolve crimes and prevent financial fraud with the responsible use of our facial\nrecognition software. Our company is a high-octane, fast growing startup looking\nto hire enthusiastic and intelligent team members to join our team. To learn\nmore about us, please visit www.clearview.ai and our revolutionary facial\nrecognition technology.\n\nWe're seeking an experienced Full-Stack Engineer to join our team and help\nevolve our customer-facing web application. You'll work at the intersection of\ncutting-edge AI facial recognition technology and user experience, building\nfeatures that make our facial recognition capabilities accessible and valuable\nto our government and law enforcement clients.\n\nPlease apply with the link above.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=equinox23",
+              "date": "2025-06-10",
+              "body": "Stealth | Full-Stack Software Engineer | SF / Sydney (ONSITE) | Full-Time |\n$200k+ Base (+ Equity)\n\nWe’re building the future of consumer entertainment using cutting-edge\nmultimodal AI. In just six months post-launch, we’ve scaled to millions of users\nand an 8-figure revenue run rate.\n\nWe’re a small, technical team who like to move quickly and build ambitiously. If\nyou’re excited by high ownership, solving hard problems, and shipping real\nproducts, this might be for you.\n\nWe work in the adult entertainment space, so please apply only if you’re\ncomfortable with this domain.\n\nInterested? Send your resume to hi@coreflow.dev with either a snippet of code\nyou’re proud of, or a short explanation of an interesting technical problem\nyou’ve tackled.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=alliejanoch",
+              "date": "2025-06-10",
+              "body": "Mapistry | Berkeley, CA | Full Time | On-site | Full-stack Software Engineer\n\nhttps://bit.ly/4n1fTVK [https://bit.ly/4n1fTVK]\n\nMapistry is looking for an experienced engineer to join our small team, building\nthe environmental compliance command center used by hundreds of manufacturing\nfacilities. If you have always wanted to work on a product that has a meaningful\nimpact on the world and love working at startups, Mapistry could be the place\nfor you.\n\nPlease apply with the link above.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=camperegrine",
+              "date": "2025-06-10",
+              "body": "Peregrine Technologies | Senior Software Engineers | SF / NYC / DC - Hybrid |\nFull-time | $130,000 - $250,000\n\nJoin our founding engineering team. Peregrine helps critical institutions make\nbetter decisions and improve operations by unlocking the value of their data.\n\n[Leadership] Engineering Manager, Appshttps://grnh.se/el92v4z85us\n[https://grnh.se/el92v4z85us]\n\n[Leadership] Engineering Manager, AIhttps://grnh.se/0w7ot24o5us\n[https://grnh.se/0w7ot24o5us]\n\nSenior Software Engineer, AIhttps://grnh.se/yl9kuqrg5us\n[https://grnh.se/yl9kuqrg5us]\n\nSenior Software Engineer, Identityhttps://grnh.se/50d3qvci5us\n[https://grnh.se/50d3qvci5us]\n\nSenior Software Engineer, Foundationshttps://grnh.se/abt7s7um5us\n[https://grnh.se/abt7s7um5us]\n\nSenior Software Engineer, Appshttps://grnh.se/entmfov95us\n[https://grnh.se/entmfov95us]\n\nSenior Software Engineer, Datahttps://grnh.se/mdw790k95us\n[https://grnh.se/mdw790k95us]\n\nSenior Infrastructure Engineerhttps://grnh.se/vvkanme45us\n[https://grnh.se/vvkanme45us]\n\nSenior Network Engineerhttps://grnh.se/xln6w1hc5us [https://grnh.se/xln6w1hc5us]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=sbehrman",
+              "date": "2025-06-10",
+              "body": "SpotCo | Onsite at least twice a week | New York, NY | https://spotnyc.com/\n[https://spotnyc.com/]\n\nJOB RESPONSIBILITIES\n\n• Translate design concepts, prototypes and designs into launch-ready website\n\n• Collaborate with account managers, designers, and copywriters to ensure design\nvision and branding are maintained and all deliverables are completed on time\n\n• Provide timeline/budget estimates for all website projects\n\n• Handle multiple project requirements and make appropriate technical decisions\nas needed\n\n• Website maintenance, including but not limited to: content updates, bug fixes,\ntroubleshooting, and QA testing\n\n• Be aware of show milestones and other important dates and make appropriate\nwebsite updates\n\n• Set up Google Tag Manager / Google Analytics accounts and event tracking for\nall websites\n\n• Act as point of contact for Google Analytics related questions / data requests\n\n• Graphics manipulation, editing, and optimization\n\n• Explore new technologies/industry trends and technical innovation\n\nREQUIREMENTS\n\n• 5+ years of web design/development experience in a full service, high energy,\nagency environment\n\n• Background in arts and entertainment is preferred\n\n• For additional requirements, please go to our Careers Page:\nhttps://spotnyc.com/careers [https://spotnyc.com/careers] for the full job\nposting\n\nSALARY: $85,000 - $95,000/year\n\nTO APPLY: send your resume to resumes@spotnyc.com with a portfolio of your web\ndevelopment work",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=kyeb",
+              "date": "2025-06-09",
+              "body": "Falconer | Founding team (AI, infrastructure, full-stack, designer) | Bay area,\nhybrid/onsite | $150-200k\n\nFalconer is building AI-powered knowledge tools for engineers. Knowledge\nmanagement is a $30b industry, and we intend to build the tools that leverage AI\nto power the next generation of engineering knowledge. Our vision is to empower\nevery engineer to write as well as the best technical writers, and enable every\norganization to have internal docs as great as the best external docs are.\n\nWe're currently a team of 4 from Stripe and Meta, prototyping the product with\ndesign partners, and hiring a few more engineers to round out the founding team.\nWe've raised a $5m seed round and have several customers lined up, we just need\nto build it!\n\nApply at https://falconer.ai/careers [https://falconer.ai/careers], or drop your\nresume and a sentence or two about what AI knowledge workflows you would be\nexcited to build to jobs@falconer.ai!",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=mmsidekick",
+              "date": "2025-06-09",
+              "body": "Sidekick is hiring a Founding Engineer to join the core team.\n\nThe real estate industry is undergoing a massive shift, and AI is about to\nreshape how millions of agents operate daily. Sidekick is first to market with a\nverticalized solution, has strong early traction, and is backed by leaders\nwho’ve built and sold category-defining products.\n\nWe’re building the AI-powered operating system for residential real estate\nagents to streamline workflows, boost productivity, and unlock new growth\nopportunities. Sidekick combines advanced large language models with deeply\nintegrated domain-specific tools to handle the complexity of real estate—from\ndata to transaction management and daily operations. We’ve hit product-market\nfit and are growing rapidly. Here’s why now is a great time to join Sidekick:\n\nAccelerating Product Market FitWe’re solving urgent, high-value problems for\nreal estate professionals and have seen rapid adoption from top agents,\nbrokerages and MLSs across the U.S.\n\nIndustry-Defining PartnershipsWe’re working hand-in-hand with some of the most\nforward-thinking brokerages and real estate leaders to shape the future of AI in\nthe industry.\n\nElite, Cross-Functional TeamOur team includes seasoned operators, engineers,\ndesigners, with deep industry experience.\n\nGenerative AI, Purpose-BuiltAt Sidekick, engineers work directly with foundation\nmodel APIs and our own proprietary data pipelines to build AI-native workflows\nthat reimagine how agents operate—from lead to close.\n\nCompensation & OwnershipWe offer competitive salary, generous equity, and the\nopportunity to make a foundational impact at an early-stage company with\nbreakout momentum.\n\nThis is a high impact role that requires both strategic thinking and hands-on\nexecution, reporting directly to the CTO.\n\nApply here! : https://www.linkedin.com/jobs/view/4241641813\n[https://www.linkedin.com/jobs/view/4241641813]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=mleva",
+              "date": "2025-06-09",
+              "body": "VIAM -- NYC (Hybrid)| Senior/Staff Software Engineer, Infrastructure Engineering\n| Full-Time | Base + Options + Benefits\n\nViam helps companies unlock the power of AI, data, and automation in the\nphysical world. We provide a single platform for engineers of all disciplines to\nsolve problems together and build solutions across robotics, climate tech,\nmarine, industrial manufacturing, Food & Beverage, and more. Founded in 2020 by\nformer MongoDB co-founder and CTO Eliot Horowitz.\n\nAs a key member of our Infrastructure team, you will contribute to developer\ntooling used both internally and by external users, support the reliability and\nperformance of our systems across multiple platforms, and play a key role in\nunblocking our engineers and our customers to ship quickly and confidently.\n\nAny interest? Please apply at https://grnh.se/p2mzkspt4us\n[https://grnh.se/p2mzkspt4us]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=trunksuzieross",
+              "date": "2025-06-09",
+              "body": "Trunk | https://trunk.io [https://trunk.io] | DevRel Engineer / Full Stack\nSoftware Engineer II| Senior Platform Engineer Full-Time | Hybrid SF or Remote\nUS or Canada\n\nTrunk is an a16z funded dev tools startup, redefining software development at\nscale. We aim to solve problems that developers hate by bringing the tools\nusually built in-house at the best engineering orgs to every development team.\nWe've built 4 products so far and have plans for more:\n\n\n\n* Code Quality: a universal linter/formatter, available as a CLI, VSCode\nextension, and CI check; * Merge Queue: a merge queue, to ensure that PRs are\ntested in order before they're merged; and * CI Analytics: detects, quarantines,\nand eliminates flaky tests from your code base. Prevents flakey tests from\nproducing noise and blocking CI. *Flaky Tests: Detect and eliminate Flaky\nTests.In 2022, we raised a $25M Series A led by Initialized Capital (Garry Tan)\nand a16z (Peter Levine)\n\nOur tech stack:\n\n\n\n* Frontend: Typescript, React, Redux, Next.js * Backend: Typescript, Node, AWS,\nCDK, k8s, gRPC * Observability: Prometheus, Grafana, Kiali, Jaeger * CLI: C++20,\nBazel * VSCode Extension: Typescript * CI/CD: GitHub Actions * General: GitHub,\nSlack, Linear, SliteUnlimited PTO (and we all actually take PTO), competitive\nsalary and equity packages! Please apply here: https://trunk.io/jobs\n[https://trunk.io/jobs]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=Estuary",
+              "date": "2025-06-09",
+              "body": "Estuary | US Based / Remote | Full-time – https://estuary.dev/\n[https://estuary.dev/]\n\nEstuary is a VC-backed startup building the next generation of real-time data\ninfrastructure. Our platform, Estuary Flow, combines change data capture (CDC),\nstream processing, and declarative configuration to unify real-time and batch\ndata movement.\n\nWe’re open-source, developer-first, and focused on making data engineering\nradically simpler.\n\nWe’re a small, high-trust team with deep experience in distributed systems,\nstream processing, and data tooling — and we’re growing.\n\nWe’re hiring for:\n\nSenior Backend Engineer (Integrations) – 5+ years of backend engineering\nexperience. Own and scale high-impact systems that power real-time data\npipelines. You’ll work on complex integrations with external APIs and databases,\nimprove our internal connector frameworks, and tackle deep challenges in\nperformance, reliability, and developer experience.\n\nBackend Engineer (Integrations) – 2–4 years of backend experience. Help expand\nand maintain our catalog of real-time data connectors using Python. You’ll work\nclosely with experienced engineers to build and optimize integrations with\nthird-party systems, while deepening your skills in infrastructure and stream\nprocessing.\n\nWhat we’re looking for:\n\nWe’re looking for engineers who care about building reliable, maintainable\nsystems and enjoy working with complex APIs and data flows. We value curiosity,\nclear communication, and a willingness to learn.\n\nBonus points for experience with CDC tools, open source contributions, or\nfast-paced startups.\n\nTo apply: Email your resume to careers@estuary.dev",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=ageospatial",
+              "date": "2025-06-09",
+              "body": "Ageospatial (www.ageospatial.com) | EXCEPTIONAL FOUNDING VIBE CODER /\nEXCEPTIONAL FOUNDING AI ENGINEER | REMOTE\n\nWe are building the world’s most advanced Geospatial AI platform to help public\norganizations (local, national, intergovernmental) make decisions with real-time\nlocation data using AI Agents. Some of the world’s largest organizations are\nalready on our waitlist, and you'll be iterating on their feedback\n\n- This will be the most challenging (but rewarding) build of your life. You’ll\nbe joining a team that delivers at the highest level\n\n- Agentic AI, MCP/A2A/ACP, ACE, Prompt caching, TPM limits, Parallel processing,\nMemory management, Autoscaling\n\n- Python, SQL, LangChain, AWS, Kubernetes, DuckDB, Next.js, React, WASM, DeckGL\n\n- You think like an architect, execute like a builder and code like AI\n\n- You ship fast, high standards, low ego\n\n- You’re not here for the early startup paycheck, you know the pay is low at the\nstart, instead, you’re in for the long game and care about building the most\nmeaningful product of your career\n\n- We are looking for killers, this will be fun and you’ll be fairly rewarded\n\n(!) If at any point this sounds too intense or competitive, this is not for you\n\nProcess: - 10m call --> 30m system design test --> 10m team feeling call- $500\ntrial week, then $2000/month as a contractor for 3 months. Money scales fast\nbased on how much you help us convert our 80+ solid leads into paying customers\nby shipping features fast.- After 3 months, you will transition to a Founding\nEngineer / CTO / Senior Dev role with equity depending on your goals.\n\n--> contact@ageospatial.com (subject: “FOUNDING ENGINEER - FIRSTNAME LASTNAME)\nwith CV/LinkedIn & GitHub/portfolio/something you’ve built before that ideally\ngenerated revenue--> And common guys don't use AI to write me an long email,\njust be straightforward",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=samuelklam",
+              "date": "2025-06-06",
+              "body": "PermitFlow (YC W22) | Staff, Fullstack & Frontend Software Engineers | New York,\nNY | ONSITE | Full-time | https://permitflow.com [https://permitflow.com]\n\nPermitFlow’s mission is to streamline and simplify construction permitting in\nthe $1.6 trillion United States construction market. Our software reduces time\nto permit, supporting permitting end-to-end including permit research,\napplication preparation, submission, and monitoring.\n\nWe’ve raised a $31m Series A led by Kleiner Perkins with participation from\nInitialized Capital, Y Combinator, Felicis Ventures, Altos Ventures, and the\nfounders and executives from Zillow, PlanGrid, Thumbtack, Bluebeam, Uber,\nProcore, and more.\n\nPermitting is a challenging yet interesting problem; thousands of municipalities\nacross the United States have their own processes and requirements - many which\nare continually updating. Software, AI, and LLMs provide an exciting opportunity\nfor us to reason at scale and distill a nuanced and localized permitting process\ninto a standard and streamlined experience for our customers.\n\nWe're looking for customer-obsessed, ambitious, and hard-working teammates who\nare excited about solving a real-world problem with technology at its helm.\n\nNYC Onsite Roles | apply at:\nhttps://jobs.ashbyhq.com/permitflow?departmentId=d33195eb-89...\n[https://jobs.ashbyhq.com/permitflow?departmentId=d33195eb-8978-4439-abc6-5a8a072de808]\n\n1. Staff Software Engineer - $200K-275K + equity\n\n2. Fullstack Software Engineer - $125-240K + equity\n\n3. Senior Frontend Engineer - $125K-240K + equity\n\nhttps://permitflow.com/hiring [https://permitflow.com/hiring]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=dtip",
+              "date": "2025-06-06",
+              "body": "Oxidian | https://www.oxidian.com [https://www.oxidian.com] | Remote\n(UK/Ireland/EU)\n\nWe make sure public money is well invested by building software for governments.\nWe're doing to government software services what challenger banks did to\nbanking.\n\nOur clients are mainly governmental research institutions - we're building tools\nfor scientists to process & visualise data, HPC data processing libraries, web\napps to make people's working lives easier, and DevOps pipelines.\n\nCurrently hiring a senior react + typescript dev (EU only) and a senior python\ndev.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=jakehop",
+              "date": "2025-06-06",
+              "body": "AbbVie | AI/Software Engineer | Remote, UK/EU | Full-time\n\nAre you a great coder (Python/Typescript, but great skills are transferrable),\nwho enjoys close collaboration with end-users in solving their hard problems?\n\nDo you have a solid foundation in the AI/LLM-world - or are you a great at the\nabove and willing to learn?\n\nAre you well versed in data engineering concepts, and excited to work with the\nlatest GenAI models and bring these solutions into production? Then I'd love to\nhear from you!\n\nWe are a small team who care deeply about our work as well as each other. We\niterate fast, and err on the side of showing a quick prototype of an idea,\nrather than spending hours in meetings talking about it.\n\nOur vision for this project is extremely ambitious, and you will be a crucial\npart of making this a reality. We've been expanding the team, and are currently\nlooking to fill a few extra roles in the UK/EU.\n\nIf you fit the above description, hit me up at jakob.hoppermann@abbvie.com with\nyour resume + a little bit about yourself!",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=devinbhushan",
+              "date": "2025-06-06",
+              "body": "Squint | Onsite, San Francisco | Squint is a mobile app that uses AI and AR to\nautomate data entry, generate custom procedures, and make every operator an\nexpert.\n\nSquint is the leading manufacturing intelligence platform. We unlock agentic\nmanufacturing by giving frontline operators the knowledge they need, exactly\nwhen they need it.\n\nWe build consumer-grade software that delivers enterprise-grade impact — on the\ndevices people already know and trust: phones and tablets. By combining\ncutting-edge tech with thoughtful customer insight we’re transforming how the\nphysical world works.\n\nHigh Priority Open Roles:- Senior Software Engineer, Full Stack\n\n- Staff Software Engineer, Full Stack\n\n- Senior Software Engineer, Backend\n\n- Staff Software Engineer, Backend\n\n- IT & Security Operations Manager\n\n- Executive Assistant (GTM)\n\n- Workplace Experience Manager\n\n- Director of Product\n\n- Product Designer\n\n- Strategic Enterprise Account Executive\n\n- Account Director, Large Enterprise\n\n- Sales Development Representative\n\n- Go-To-Market Engineer\n\n- Implementation Leader\n\n- Customer Strategy Partner\n\nView full list of roles and apply here:\nhttps://jobs.ashbyhq.com/squint.ai?utm_source=Hackernews\n[https://jobs.ashbyhq.com/squint.ai?utm_source=Hackernews]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=tatersolid",
+              "date": "2025-06-06",
+              "body": "ProSight Financial Association | REMOTE (US) | Full Time\n\nAdvanced Software Engineer\n\nDirect link to position:\nhttps://rma.applytojob.com/apply/24mDhLExjw/Advanced-Softwar...\n[https://rma.applytojob.com/apply/24mDhLExjw/Advanced-Software-Engineer?referrer=20250530145405VJW28SLQJ911D3L9]",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=timbooksy",
+              "date": "2025-06-06",
+              "body": "Booksy | Multiple | Remote | Full-Time | www.booksy.com\n\nAt Booksy, we're more than just the #1 booking app for beauty and wellness —\nwe’re on a mission to empower small business owners around the world.\n\nEvery day, millions of customers rely on Booksy to book services and manage\ntheir routines — and thousands of service providers count on us to grow their\nbusinesses. As an engineer here, your work directly impacts real people: helping\nbarbers, estheticians, nail techs, and stylists thrive in their craft.\n\nRight now we're hiring for:\n\nMid-Level Engineer (Python/JS) - Remote (UK/Poland/Spain)Senior Python Engineer\n- Remote (UK/Poland/Spain)Staff Engineer - Remote (UK/Poland/Spain)\n\nIf interested please reach out to Tim.McAllister[at]booksy.com",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=eggie5",
+              "date": "2025-06-06",
+              "body": "Adyen | Founding Research Engineer, AI | ONSITE (San Francisco) | Full-time\n\nAdyen is a global fintech platform powering payments, data, and financial\nservices for companies like Meta, Uber, Spotify, and Nike. We’re profitable,\npublicly traded (AMS: ADYEN), and currently building a new AI research hub in\nSan Francisco.\n\nWe’re hiring a Founding Research Engineer (AI) to help launch this team. You'll\nwork directly with our SVP of Engineering and be the first AI research hire in\nSF, helping define our strategy and ship applied AI systems—focused on areas\nlike foundational models, agentic workflows around identity and risk.\n\nThis is a hands-on role for someone with deep technical skill, strong product\nintuition, and a drive to build.\n\nMore info: https://careers.adyen.com/vacancies/6685352-founding-researc...\n[https://careers.adyen.com/vacancies/6685352-founding-research-engineer-ai?locale=en]\n\nQuestions? Reach out: matt.rum@adyen.com",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=kmb5vs",
+              "date": "2025-06-06",
+              "body": "Title: Full-Stack Engineer | Contract | Remote (US-based)\n\nCompany: Audio-First Test Prep Platform\n\nDuration: ~10–12 weeks for MVP\n\nCompensation: Paid contract – competitive rate (no equity)\n\nExperience Level: Mid to Senior preferred (3 years +)\n\nFunding: Final stages of mobilizing resources to begin the MVP build. The\nproject timeline reflects this progression.\n\nWe’re building an adaptive, audio-driven test prep platform designed for nurses,\npre-med students, law students, and other high-intensity learners balancing\nwork, family, and study. Think voice-based Duolingo meets real-time spaced\nrepetition.\n\nWe’ve already built the front-end and now need a self-directed,\nback-end/full-stack engineer to help us finish the MVP by late summer, early\nfall.\n\nIdeal Stack (flexible):\n\n* Node.js / Python / Firebase / Postgres / Supabase\n\n* Open to suggestions if justified and lightweight\n\nYou might be a fit if:\n\n* You’ve built and launched real tools or platforms before (not just internal\ndashboards)\n\n* You like fast execution but also appreciate mission-driven projects\n\n* You value clarity, minimal meetings, and aligned momentum\n\n* You have the capacity for solo execution but are open to scaling\n\n* We’re not offering equity or co-founder status. This is paid contract work\nwith possibility for long-term relationship once MVP proves value.\n\nMore info + how to apply:\n(https://hail-peridot-e09.notion.site/Hiring-Full-Stack-Softw...\n[https://hail-peridot-e09.notion.site/Hiring-Full-Stack-Software-Engineer-Contract-209360a2255f80f5ad9cdc644c2b1867?pvs=143])\n\n*This is a time-sensitive build that requires steady focus. Please only apply if\nyou're able to be fully present during this phase.*",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=joshuamarch",
+              "date": "2025-06-05",
+              "body": "Veritus Agent | Founding AI Engineer | San Francisco (Onsite) |\nFull-timehttps://veritusagent.ai [https://veritusagent.ai]\n\nVeritus Agent is building fully compliant AI agents for regulated\nindustries—starting with financial services. We’re applying voice and language\nmodels to deeply human problems, with real-time agent orchestration, adaptive\nworkflows, and strict compliance guardrails built in from day one.\n\nWe’re an early-stage startup led by a repeat founder (prev: $15M ARR SaaS exit)\nand moving fast. Our first use case is collections—but the infrastructure we’re\nbuilding has much broader applications in servicing, fintech, and beyond.\n\nWe’re hiring a founding full-stack AI engineer to:\n\n• Build multi-channel AI agents (voice + messaging) on top of LLMs and voice AI\n\n• Develop guardrails, compliance filters, and eval systems\n\n• Help shape our internal orchestration + CRM platform\n\n• Integrate with real-world systems like payments and loan management APIs\n\nYou should be:\n\n• An AI-native builder with deep experience using APIs like OpenAI, Claude,\nWhisper, etc.\n\n• Comfortable working autonomously and quickly in high-ambiguity, zero-to-one\nenvironments\n\n• Excited about joining a small team with a high-performance culture\n\n• Bonus: Background in enterprise software or fintech\n\nWe’re based in SF and the roll will be onsite or hybrid.\n\nEmail me directly: josh [at] veritusagent [dot] ai",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=Mayokia",
+              "date": "2025-06-05",
+              "body": "Concourse (NYC, Onsite) — Founding AI-Native Engineer — Full-timeWe’re building\nConcourse: a VC-backed startup creating a marketplace for governments to\ndiscover and purchase tech solutions. We’re hiring a founding engineer to work\nonsite with our small team in Flatiron, NYC. Must be experienced building with\nAI tools such as Cursor, Claude, etc.Stack: Python, Next.js, Tailwind FastAPINo\nvisa sponsorship available.Apply: https://wellfound.com/l/2Bn3P4\n[https://wellfound.com/l/2Bn3P4]DM me or email mayokia@concoursetech.com for\nmore.",
+              "match": true
+            },
+            {
+              "url": "https://news.ycombinator.com/user?id=grimre4p",
+              "date": "2025-06-05",
+              "body": "ApplianSys | Senior Software Developer | Coventry, UK | Onsite | 40,000 - 70,000\nGBP / year | Full-Time\n\nTech used: GitHub, Linux, Network, Nginx, Python, Embedded, Hardware, HTTP\n\nWe seek individuals eager to elevate their careers. Our standards are high, and\nthe work is intellectually challenging. These positions offer the opportunity to\nmake a personal impact, develop your skills, and achieve substantial\nprofessional and financial rewards.\n\nMore details and option to apply:\nhttps://devitjobs.uk/jobs/ApplianSys-Senior-Software-Develop...\n[https://devitjobs.uk/jobs/ApplianSys-Senior-Software-Developer]",
+              "match": true
+            }
+          ]
+        }
+      }
+    ],
+    "Filter": [
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=tom_stager\",\n  \"date\": \"2025-06-16\",\n  \"body\": \"Stager | Full-Stack Developer | On-Site (Rotterdam, NL) | Full Time\\n\\nWe’re building the most comprehensive event tech platform on the planet. Our\\nsystem helps event organizers plan, promote, and sell tickets for their events.\\nWe're looking for a Full-stack Developer who can contribute across the entire\\nstack, help modernize our architecture, and build reliable, user-friendly\\nfeatures that scale.\\n\\nIf you want to apply, please find the vacancy on our website stager.co/jobs.\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=ginebs\",\n  \"date\": \"2025-06-15\",\n  \"body\": \"Synapse Social | Founding Engineer | New York City | Full time\\n\\nSynapse is a funded startup backed by a Fortune 100 CEO with the goal of making\\nacademic research and news more accessible. With our mobile app, users will be\\nable to see the latest research papers and news in their fields of choice in a\\ncurated feed based on the topics, journals, and authors they follow. Our mission\\nis to connect the right researchers to the right papers. Right now, we’re\\nbuilding ways to streamline how scientists discover and share research but\\nultimately we will become the definitive global hub for scientific discourse.\\n\\nWe’re looking for a founding software engineer with Python and React experience\\nto work on our web and mobile apps.\\n\\nExperience with React Native and mobile development in general, is a big plus.\\n\\nExperience with MongoDB and Flask are also nice to have.\\n\\n*Tech Stack*\\n\\n- database: MongoDB- mobile app: Typescript, React Native- api: Python, Flask-\\ninfra: AWS Beanstalk\\n\\n*Salary and Benefits*\\n\\n90-100k starting annual salary( plus equity). This range is highly subject to\\nchange after we raise again in November\\n\\nPlease email ginebra@synapsesocial.com with your resume !\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=gentubeteam\",\n  \"date\": \"2025-06-14\",\n  \"body\": \"Location: Toronto, Canada, OnsiteAI Startup - GentubeMember of Technical Staff\\n-> Full Stack Engineer\\n\\nWe're looking for engineers obsessed with craft, speed, and ownership. If you're\\nnot ready to grind and grow, skip this post.Push the limits of AI in real-world\\nconsumer appsShip fast, iterate faster—quality is non-negotiableBuild systems\\nthat scale without flinching under loadExplore the frontier of entertainment\\nthrough rapid iteration\\n\\nLearn more here: https://www.linkedin.com/jobs/view/4239709007\\n[https://www.linkedin.com/jobs/view/4239709007]Email CV: shania@1851labs.com\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=sonarmd-dev\",\n  \"date\": \"2025-06-13\",\n  \"body\": \"SonarMD | Senior Data Engineer | Remote (US only, East/Central) | Full-time |\\n$140k–160k + Benefits\\n\\nSonarMD is a healthcare startup using data to help people with chronic GI\\nconditions maintain a better quality of life. We work directly with care teams\\nto identify early signs of deterioration—so we can intervene before painful\\nflare-ups or ER visits happen.\\n\\nWe’re hiring a senior data/backend engineer to help me (staff engineer) build\\nour data platform from the ground up.\\n\\nYou’ll be the first dedicated data engineer on a small, mission-driven team.\\nThere’s no legacy stack—you’ll help architect and implement the systems that\\nturn messy healthcare data (claims, EHR, wearables, patient surveys) into\\nsomething actionable. The work you do will drive everything from reporting to\\npredictive insights, and shape the foundation for future AI/ML capabilities.\\n\\nWe’re looking for someone who:\\n\\n\\n\\n- Has built and owned production ingestion pipelines and backend systems - Can\\ndesign systems and write clean, reliable code in Node/Python - Has experience\\nwith AWS (Glue, RDS, Lambda, Step Functions) - Knows data modeling, SQL, and IaC\\n(Ansible/Terraform/CDK) - Likes to collaborate, solve real problems, and make\\nsmart tradeoffs in ambiguous situationsOur stack: Node.js, Typescript, Express,\\nPython, PostgreSQL, MongoDB, AWS (Glue, RDS, Lambda, EC2, CDK), Ansible,\\nCircleCI\\n\\nIf you want to build meaningful systems that improve lives—and you like working\\nwith autonomy alongside another senior engineer—email me:\\navespoli@sonarmd.comSend a resume, GitHub, portfolio, blog—whatever shows how\\nyou think and what you’ve built. No cover letter needed.Full JD:\\nhttps://sonarmd.com/join-our-team/ [https://sonarmd.com/join-our-team/]\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=jeswin\",\n  \"date\": \"2025-06-13\",\n  \"body\": \"CredCore | Engineering | Full-time | US/India | www.credcore.com\\n\\nCredCore helps companies analyze Credit Agreements using AI. We are looking to\\nhire an Engineering Lead with 10+ years of experience. You should be familiar\\nwith design patterns and software architecture, infra/kubernetes, and\\nTypeScript/Python. If you’re interested, please reach out to me at\\njeswin@credcore.com.\\n\\nA cover letter is not necessary. But please share your resume and links to your\\nGitHub/GitLab/StackOverflow/other profile, or blog/papers, or other portfolio we\\ncan review before setting up the interviews.\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=cloudtrucks\",\n  \"date\": \"2025-06-12\",\n  \"body\": \"CloudTrucks (https://www.cloudtrucks.com/ [https://www.cloudtrucks.com/]) |\\nFull-time roles | Hybrid (in SF) | Competitive salary + benefits\\n\\n1. Sr. SWE, Marketplace -\\nhttps://jobs.ashbyhq.com/cloudtrucks/03a04ae9-07f8-4afe-aafd...\\n[https://jobs.ashbyhq.com/cloudtrucks/03a04ae9-07f8-4afe-aafd-428af68c14f6]\\n\\n2. SWE, Business Platform -\\nhttps://jobs.ashbyhq.com/cloudtrucks/f0343129-4cb4-4615-98ac...\\n[https://jobs.ashbyhq.com/cloudtrucks/f0343129-4cb4-4615-98ac-f037bc1813f9]\\n\\n3. Sr. PM - https://jobs.ashbyhq.com/cloudtrucks/44bfdf6d-e186-4859-abcc...\\n[https://jobs.ashbyhq.com/cloudtrucks/44bfdf6d-e186-4859-abcc-25dde0872ea9]\\n\\n...and more urgent roles open. Please look at our careers page\\n(https://www.cloudtrucks.com/careers#open-roles\\n[https://www.cloudtrucks.com/careers#open-roles]) and apply directly. All\\nrespective roles are being actively vetted by the hiring managers so don't\\nhesitate and hit apply.\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=jupiterhealth\",\n  \"date\": \"2025-06-11\",\n  \"body\": \"Jupiter Health | Engineering Roles | New York preferred | Full-time & Part-time\\n\\nJupiter is rewiring healthcare supply and demand, enabling patients to save\\ntheir healthcare dollars rather than paying them to an insurer, and easily find\\nhigh-value, high-quality direct pay care.\\n\\nWe have built the largest database of direct pay pricing data in the US, are\\nusing AI to make it easily searchable, and are launching innovative insurance\\nplans in the coming weeks.\\n\\nWe are hiring for multiple engineering roles:\\n\\n- Engineering Lead / Head of Engineering to lead overall technical build-out of\\nproduct\\n\\n- Front-End Engineer (must be highly competent with React)\\n\\n- Back-End Engineer (built mostly in Postgres today)\\n\\n- AI Engineer to update/improve chatbot (current chatbot is built on GPT-4o)\\n\\nWe value intelligence, competence, teamwork, and energy for the mission. Our\\nteam are highly accomplished across disciplines, and have worked in industry and\\nin leadership roles at multiple successful start-ups previously.\\n\\nIf you are interested in any of these roles, we'd love to hear from you! Please\\nreach out at hello@jupiterplans.com\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=shawm\",\n  \"date\": \"2025-06-11\",\n  \"body\": \"getbixby.com | Software Engineer (Backend/Fullstack) | SF only | Full-time\\n\\nWe're building products to help general contractors get work done. To start,\\nwe're focusing on the arduous, highly-manual, error-ridden submittal review\\nprocess. Reach out to careers@getbixby to learn more.\\n\\nCheck out the JD here:\\nhttps://www.notion.so/Bixby-Software-Engineer-Founding-Team-...\\n[https://www.notion.so/Bixby-Software-Engineer-Founding-Team-1fcd7493701e803ea38dc922046a2cd0]\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=jaspax\",\n  \"date\": \"2025-06-10\",\n  \"body\": \"Clearview AI | Fully Remote | Full-stack Software Engineer\\n\\nhttps://app.trinethire.com/companies/92223-clearview-ai-inc/...\\n[https://app.trinethire.com/companies/92223-clearview-ai-inc/jobs/108891-full-stack-engineer]\\n\\nClearview AI is the leading provider of facial recognition technologies to US\\nlaw enforcement, state, and federal agencies. Our mission is to help our users\\nsolve crimes and prevent financial fraud with the responsible use of our facial\\nrecognition software. Our company is a high-octane, fast growing startup looking\\nto hire enthusiastic and intelligent team members to join our team. To learn\\nmore about us, please visit www.clearview.ai and our revolutionary facial\\nrecognition technology.\\n\\nWe're seeking an experienced Full-Stack Engineer to join our team and help\\nevolve our customer-facing web application. You'll work at the intersection of\\ncutting-edge AI facial recognition technology and user experience, building\\nfeatures that make our facial recognition capabilities accessible and valuable\\nto our government and law enforcement clients.\\n\\nPlease apply with the link above.\",\n  \"match\": true\n}"
+        }
+      },
+      {
+        "json": {
+          "response": "{\n  \"url\": \"https://news.ycombinator.com/user?id=equinox23\",\n  \"date\": \"2025-06-10\",\n  \"body\": \"Stealth | Full-Stack Software Engineer | SF / Sydney (ONSITE) | Full-Time |\\n$200k+ Base (+ Equity)\\n\\nWe’re building the future of consumer entertainment using cutting-edge\\nmultimodal AI. In just six months post-launch, we’ve scaled to millions of users\\nand an 8-figure revenue run rate.\\n\\nWe’re a small, technical team who like to move quickly and build ambitiously. If\\nyou’re excited by high ownership, solving hard problems, and shipping real\\nproducts, this might be for you.\\n\\nWe work in the adult entertainment space, so please apply only if you’re\\ncomfortable with this domain.\\n\\nInterested? Send your resume to hi@coreflow.dev with either a snippet of code\\nyou’re proud of, or a short explanation of an interesting technical problem\\nyou’ve tackled.\",\n  \"match\": true\n}"
+        }
+      }
+    ]
+  },
+  "versionId": "d42178d7-0855-43e8-b178-cd896ba5d3ac",
   "triggerCount": 1,
   "tags": []
 }
