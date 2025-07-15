@@ -1,11 +1,111 @@
 {
-  "createdAt": "2025-06-04T21:09:33.208Z",
-  "updatedAt": "2025-07-12T00:04:20.000Z",
-  "id": "2Ei9KR4iP84Nv4QL",
-  "name": "Telegram Chat Agent",
+  "createdAt": "2025-06-06T22:44:37.016Z",
+  "updatedAt": "2025-07-06T03:10:34.000Z",
+  "id": "RxtX2VQfcWer8aQM",
+  "name": "Whatsapp Agent",
   "active": true,
   "isArchived": false,
   "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "all"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        -220
+      ],
+      "id": "813bc5dd-b4a1-496a-8479-52ed2f4be419",
+      "name": "WhatsApp Trigger",
+      "webhookId": "f204f647-34fe-4dcb-bff6-09f9c84597aa",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "eihUSwN8YMwjDKsM",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "G0Vk5kYZGi0nCI12",
+          "mode": "list",
+          "cachedResultName": "BOT CORE"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sessionId": "={{ parseInt( $json.contacts[0].wa_id ) }}",
+            "msg": "={{ $json.messages[0].text.body }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "msg",
+              "displayName": "msg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sessionId",
+              "displayName": "sessionId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        40,
+        -220
+      ],
+      "id": "6e27f370-5c01-4dd3-8597-cab536a6203c",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "692045897321497",
+        "recipientPhoneNumber": "13233843493",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -220
+      ],
+      "id": "e73e74e0-d69e-4b82-87b2-70f3b7452639",
+      "name": "WhatsApp Business Cloud",
+      "webhookId": "94155291-3b5a-42a1-bd21-b4522599cf92",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "AzTkhQmOQUC2wp1H",
+          "name": "WhatsApp account"
+        }
+      }
+    },
     {
       "parameters": {
         "method": "POST",
@@ -18,10 +118,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -900,
-        0
+        -400,
+        -320
       ],
-      "id": "739d3005-da94-42bb-911a-3da68eca2233",
+      "id": "56518298-360b-4837-ab48-8853f6ea2129",
       "name": "Transcribe Voice"
     },
     {
@@ -32,10 +132,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -1120,
-        0
+        -620,
+        -320
       ],
-      "id": "c2af79ae-b51a-48a7-8642-52461533c385",
+      "id": "a90aba00-3a93-45cc-9f1c-864609c67f75",
       "name": "Download Message",
       "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
       "credentials": {
@@ -68,10 +168,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -680,
-        100
+        -180,
+        -220
       ],
-      "id": "d7295af2-8ee1-4651-a8d5-c442c42e33c4",
+      "id": "849793ab-62d6-4fef-9dc9-31d5533c9073",
       "name": "Add sessionId"
     },
     {
@@ -89,10 +189,10 @@
       "type": "n8n-nodes-base.renameKeys",
       "typeVersion": 1,
       "position": [
-        -900,
-        200
+        -400,
+        -120
       ],
-      "id": "e178c350-da20-47e5-911f-0a4ddbdc6ee3",
+      "id": "0deecb77-077c-4707-b756-d56026750877",
       "name": "Normalize Msg"
     },
     {
@@ -152,233 +252,51 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -1340,
-        100
+        -840,
+        -220
       ],
-      "id": "008da576-5d75-445c-95db-79727ee8544d",
+      "id": "6879386a-f934-4e46-9db0-7f599523603c",
       "name": "Is Voice or Text?"
     },
     {
       "parameters": {
-        "updates": [
-          "message"
-        ],
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegramTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -1560,
-        100
-      ],
-      "id": "375c1654-1c28-4bbb-90fd-0b133166ee1e",
-      "name": "Receive Message",
-      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "http://ahmedia.ai:8000/tts",
-        "sendBody": true,
-        "contentType": "raw",
-        "body": "={{ $json.output }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -20,
-        25
-      ],
-      "id": "14a4696d-fb96-4cd6-ac3f-ca6be72dddf4",
-      "name": "Cartesia TTS"
-    },
-    {
-      "parameters": {
-        "operation": "sendAudio",
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "binaryData": true,
-        "additionalFields": {
-          "fileName": "reply.mp3"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        200,
-        25
-      ],
-      "id": "c28c5d6c-4736-455c-b86f-1bdb2d07dd3e",
-      "name": "Send Audio Reply",
-      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "text": "={{ $('Call BOT CORE').item.json.output }}",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        420,
-        100
-      ],
-      "id": "205d33f0-b5c4-45e4-88b4-674a40940e86",
-      "name": "Send Text Reply",
-      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "G0Vk5kYZGi0nCI12",
-          "mode": "list",
-          "cachedResultName": "BOT CORE"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "msg": "={{ $json.msg }}",
-            "sessionId": "={{ $json.sessionId }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "msg",
-              "displayName": "msg",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sessionId",
-              "displayName": "sessionId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        -460,
-        100
-      ],
-      "id": "c2b9053c-3857-4331-ad1d-71b537d31dc2",
-      "name": "Call BOT CORE"
-    },
-    {
-      "parameters": {
-        "content": "## Telegram AI Agent Wrapper\n",
+        "content": "## Whats App AI Agent Wrapper\n",
+        "width": 320,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1420,
-        -240
+        -1040,
+        -540
       ],
-      "id": "8d16181c-68f4-414c-825f-0cae45bba4ff",
+      "id": "279a7307-612f-40b9-a46b-a02d9107f831",
       "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('Receive Message').item.json.message.voice }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "object",
-                      "operation": "exists",
-                      "singleValue": true
-                    },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $('Receive Message').item.json.message.text}}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        -240,
-        100
-      ],
-      "id": "fd2e1d8d-6713-4c8e-ad9c-2987f9f2618e",
-      "name": "Is Voice or Text?1"
     }
   ],
   "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Transcribe Voice": {
       "main": [
         [
@@ -430,73 +348,11 @@
         ]
       ]
     },
-    "Receive Message": {
-      "main": [
-        [
-          {
-            "node": "Is Voice or Text?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cartesia TTS": {
-      "main": [
-        [
-          {
-            "node": "Send Audio Reply",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Audio Reply": {
-      "main": [
-        [
-          {
-            "node": "Send Text Reply",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Add sessionId": {
       "main": [
         [
           {
-            "node": "Call BOT CORE",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call BOT CORE": {
-      "main": [
-        [
-          {
-            "node": "Is Voice or Text?1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Is Voice or Text?1": {
-      "main": [
-        [
-          {
-            "node": "Cartesia TTS",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Text Reply",
+            "node": "Execute Workflow",
             "type": "main",
             "index": 0
           }
@@ -505,14 +361,14 @@
     }
   },
   "settings": {
-    "executionOrder": "v1",
-    "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "CFxyw7s6FYHGw941"
+    "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "709a4225-e904-4100-8b74-3a357d31d206",
+  "versionId": "6d91498a-55e7-4807-acab-f726b588a159",
   "triggerCount": 1,
   "tags": []
 }
