@@ -1,502 +1,339 @@
 {
-  "createdAt": "2025-06-04T21:09:33.208Z",
-  "updatedAt": "2025-07-12T00:04:20.000Z",
-  "id": "2Ei9KR4iP84Nv4QL",
-  "name": "Telegram Chat Agent",
+  "createdAt": "2025-05-18T19:59:00.319Z",
+  "updatedAt": "2025-07-17T02:27:28.000Z",
+  "id": "X1V3UPGUPaa2TOki",
+  "name": "AdamHaley.com Summarize GIT Log for Client Email",
   "active": true,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://ahmedia.ai:8000/transcribe",
-        "sendBody": true,
-        "contentType": "binaryData",
-        "inputDataFieldName": "data",
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        100
+      ],
+      "id": "b6bc1083-1970-48f8-a317-d5576cd6fbdb",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/adamhaley/adamhaley-com/commits",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=since",
+              "value": "={{ $now.minus(7,'days') }}"
+            },
+            {
+              "name": "sha",
+              "value": "master"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -900,
-        0
+        220,
+        100
       ],
-      "id": "739d3005-da94-42bb-911a-3da68eca2233",
-      "name": "Transcribe Voice"
+      "id": "a25d5cf5-5505-4448-bf23-39e3478e06c8",
+      "name": "Get Commit History"
     },
     {
       "parameters": {
-        "resource": "file",
-        "fileId": "={{ $json.message.voice.file_id }}"
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        -1120,
-        0
-      ],
-      "id": "c2af79ae-b51a-48a7-8642-52461533c385",
-      "name": "Download Message",
-      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
             {
-              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
-              "name": "msg",
-              "value": "={{ $json.msg }}",
-              "type": "string"
-            },
-            {
-              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
-              "name": "sessionId",
-              "value": "={{ $('Is Voice or Text?').item.json.message.chat.id }}",
-              "type": "number"
+              "fieldToAggregate": "commit.message"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -680,
-        100
-      ],
-      "id": "d7295af2-8ee1-4651-a8d5-c442c42e33c4",
-      "name": "Add sessionId"
-    },
-    {
-      "parameters": {
-        "keys": {
-          "key": [
-            {
-              "currentKey": "message.text",
-              "newKey": "msg"
-            }
-          ]
-        },
-        "additionalOptions": {}
-      },
-      "type": "n8n-nodes-base.renameKeys",
+      "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -900,
-        200
+        660,
+        0
       ],
-      "id": "e178c350-da20-47e5-911f-0a4ddbdc6ee3",
-      "name": "Normalize Msg"
+      "id": "a662ac7c-1b75-4fa0-94c8-6c110ccdbc19",
+      "name": "Aggregate"
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.message.voice }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "object",
-                      "operation": "exists",
-                      "singleValue": true
-                    },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $json.message.text }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        -1340,
-        100
-      ],
-      "id": "008da576-5d75-445c-95db-79727ee8544d",
-      "name": "Is Voice or Text?"
-    },
-    {
-      "parameters": {
-        "updates": [
-          "message"
-        ],
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegramTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -1560,
-        100
-      ],
-      "id": "375c1654-1c28-4bbb-90fd-0b133166ee1e",
-      "name": "Receive Message",
-      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "http://ahmedia.ai:8000/tts",
-        "sendBody": true,
-        "contentType": "raw",
-        "body": "={{ $json.output }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -20,
-        25
-      ],
-      "id": "14a4696d-fb96-4cd6-ac3f-ca6be72dddf4",
-      "name": "Cartesia TTS"
-    },
-    {
-      "parameters": {
-        "operation": "sendAudio",
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "binaryData": true,
-        "additionalFields": {
-          "fileName": "reply.mp3"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        200,
-        25
-      ],
-      "id": "c28c5d6c-4736-455c-b86f-1bdb2d07dd3e",
-      "name": "Send Audio Reply",
-      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "text": "={{ $('Call BOT CORE').item.json.output }}",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        420,
-        100
-      ],
-      "id": "205d33f0-b5c4-45e4-88b4-674a40940e86",
-      "name": "Send Text Reply",
-      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "workflowId": {
+        "model": {
           "__rl": true,
-          "value": "G0Vk5kYZGi0nCI12",
           "mode": "list",
-          "cachedResultName": "BOT CORE"
+          "value": "gpt-4o-mini"
         },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "msg": "={{ $json.msg }}",
-            "sessionId": "={{ $json.sessionId }}"
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        968,
+        220
+      ],
+      "id": "8bc8c1e1-b73d-4cf4-a6e4-67e128d5ab2f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
           },
-          "matchingColumns": [],
-          "schema": [
+          "conditions": [
             {
-              "id": "msg",
-              "displayName": "msg",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sessionId",
-              "displayName": "sessionId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
+              "id": "ddecfe50-8886-41a2-8f46-f5028e678f7c",
+              "leftValue": "={{ $json.commit }}",
+              "rightValue": "=exists",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
             }
           ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
+          "combinator": "and"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
       "position": [
-        -460,
+        440,
         100
       ],
-      "id": "c2b9053c-3857-4331-ad1d-71b537d31dc2",
-      "name": "Call BOT CORE"
+      "id": "3882bd17-645f-4a93-b3ca-e3c199e182f4",
+      "name": "If"
     },
     {
       "parameters": {
-        "content": "## Telegram AI Agent Wrapper\n",
+        "fromEmail": "info@ahmedia.ai",
+        "toEmail": "adamhaley@gmail.com",
+        "subject": "=Updates to AdamHaley.com!",
+        "emailFormat": "text",
+        "text": "=Hi Adam,\n\nI wanted to keep you in the loop on your latest site updates from your team at AHMedia this week! \n\n{{ $json.response.text }}\n\nAs always, feel free to reach out if you have any questions!\n\nSincerely,\n\nAHMedia BOT",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1260,
+        0
+      ],
+      "id": "83d7693a-7101-415b-aec3-4d5fcac3ea79",
+      "name": "Send Email",
+      "webhookId": "b0531836-b85c-4286-8a07-89b218841bb6",
+      "credentials": {
+        "smtp": {
+          "id": "184zfe9H1Rf34NpO",
+          "name": "AHMedia SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "combineMapPrompt": "Your summary will start with \"Updates include\"\nWrite a concise summary of the following:\n\n\n\"{text}\"\n\n\nCONCISE SUMMARY:"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "213fd304-79d0-4c80-a625-8a1e633b4013",
+      "name": "Summarize Git Log"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        660,
+        200
+      ],
+      "id": "0670114a-d985-4878-b0e7-364e33edb9c0",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "# AdamHaley.COM Summarize GIT Commit History for client email\n\nThis workflow looks at the git history of a public github repository. If there are any commits in the last 7 days, commit messages are summarized into a friendly client email and sent to the client.\n",
+        "height": 240,
+        "width": 420,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -460
+      ],
+      "id": "5d97926c-6dff-48bd-a98f-b9c41a3645d5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Every Week, load the past weeks commit history ",
+        "height": 540,
+        "width": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -120
+      ],
+      "id": "0c3e2e67-1d27-4d39-a567-5342499fadcd",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## If there are commits, aggregate for AI processing\n",
+        "height": 540,
+        "width": 440,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        400,
+        -120
+      ],
+      "id": "4b1b6236-a246-4019-baf8-c5a1381e13c5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Summarize commit history messages into friendly client email\n",
+        "height": 540,
+        "width": 340,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        -120
+      ],
+      "id": "01d15945-1f7d-4e2a-84e6-032dbe18bf69",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Send client email",
+        "height": 540,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1420,
-        -240
+        1220,
+        -120
       ],
-      "id": "8d16181c-68f4-414c-825f-0cae45bba4ff",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('Receive Message').item.json.message.voice }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "object",
-                      "operation": "exists",
-                      "singleValue": true
-                    },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $('Receive Message').item.json.message.text}}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        -240,
-        100
-      ],
-      "id": "fd2e1d8d-6713-4c8e-ad9c-2987f9f2618e",
-      "name": "Is Voice or Text?1"
+      "id": "be2ac454-f0e8-41bd-ad17-b0544a05c5f8",
+      "name": "Sticky Note4"
     }
   ],
   "connections": {
-    "Transcribe Voice": {
+    "Schedule Trigger": {
       "main": [
         [
           {
-            "node": "Add sessionId",
+            "node": "Get Commit History",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Download Message": {
+    "Get Commit History": {
       "main": [
         [
           {
-            "node": "Transcribe Voice",
+            "node": "If",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Normalize Msg": {
+    "Aggregate": {
       "main": [
         [
           {
-            "node": "Add sessionId",
+            "node": "Summarize Git Log",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Is Voice or Text?": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Git Log",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
       "main": [
         [
           {
-            "node": "Download Message",
+            "node": "Aggregate",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Normalize Msg",
+            "node": "No Operation, do nothing",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Receive Message": {
+    "Summarize Git Log": {
       "main": [
         [
           {
-            "node": "Is Voice or Text?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cartesia TTS": {
-      "main": [
-        [
-          {
-            "node": "Send Audio Reply",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Audio Reply": {
-      "main": [
-        [
-          {
-            "node": "Send Text Reply",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Add sessionId": {
-      "main": [
-        [
-          {
-            "node": "Call BOT CORE",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call BOT CORE": {
-      "main": [
-        [
-          {
-            "node": "Is Voice or Text?1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Is Voice or Text?1": {
-      "main": [
-        [
-          {
-            "node": "Cartesia TTS",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Text Reply",
+            "node": "Send Email",
             "type": "main",
             "index": 0
           }
@@ -505,14 +342,20 @@
     }
   },
   "settings": {
-    "executionOrder": "v1",
-    "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "CFxyw7s6FYHGw941"
+    "executionOrder": "v1"
   },
-  "staticData": null,
-  "meta": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": [
+        194
+      ]
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "709a4225-e904-4100-8b74-3a357d31d206",
+  "versionId": "c357a1cb-b444-40eb-a850-564697e493cc",
   "triggerCount": 1,
   "tags": []
 }
