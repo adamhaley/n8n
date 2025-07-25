@@ -24,4 +24,4 @@ def index():
 
 if __name__ == '__main__':
     ssl_context = ('/etc/letsencrypt/live/ahservers.net/fullchain.pem', '/etc/letsencrypt/live/ahservers.net/privkey.pem')
-    app.run(host='0.0.0.0', port=5001, ssl_context=ssl_context)
+    app.run(host='0.0.0.0', port=8000, ssl_context=ssl_context)
