@@ -1,0 +1,483 @@
+{
+  "name": "GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
+          "mode": "list",
+          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1696979597,
+          "mode": "list",
+          "cachedResultName": "export (1)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Datum": "={{ $now.format('y-MM-d') }}",
+            "Produkt": "Buch extern (zB Amazon)",
+            "Zeit": "={{ $now.format('HH:mm') }}",
+            "Nachname": "={{ $json.data.last_name }}",
+            "Vorname": "={{ $json.data.first_name }}",
+            "E-Mail": "={{ $json.data.email }}",
+            "Telefonnr.": "={{ $('Webhook').item.json.body[0].phone }}",
+            "Land": "={{ $('Webhook').item.json.body[0].ba_country }}",
+            "Adresse": "={{ $('Webhook').item.json.body[0].ba_street }} {{ $('Webhook').item.json.body[0].ba_city }} {{ $('Webhook').item.json.body[0].ba_state }} {{ $('Webhook').item.json.body[0].ba_postal_code }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Datum",
+              "displayName": "Datum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Produkt",
+              "displayName": "Produkt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Anrede",
+              "displayName": "Anrede",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nachname",
+              "displayName": "Nachname",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Vorname",
+              "displayName": "Vorname",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-Mail",
+              "displayName": "E-Mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefonnr.",
+              "displayName": "Telefonnr.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Land",
+              "displayName": "Land",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Katrin Anmerkung",
+              "displayName": "Katrin Anmerkung",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Adresse",
+              "displayName": "Adresse",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "4,95",
+              "displayName": "4,95",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "6,95",
+              "displayName": "6,95",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        464,
+        -32
+      ],
+      "id": "bbbdce16-020f-48dd-9984-c577000bb74f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $json.Vorname }} {{ $json.Nachname }} {{ $json.Adresse }}{{ $json.Land }} {{ $json.Datum }}",
+        "additionalFields": {
+          "email": [
+            "={{ $json[\"E-Mail\"] }} "
+          ],
+          "phone": [
+            "={{ $json[\"Telefonnr.\"] }} "
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        688,
+        -32
+      ],
+      "id": "0bffbdbe-5afc-4415-8526-ddd80c5714e1",
+      "name": "Create a person",
+      "credentials": {
+        "pipedriveApi": {
+          "id": "ytXvRBFzuENwlmQN",
+          "name": "Pipedrive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        912,
+        -32
+      ],
+      "id": "2fc26427-b7bb-4774-b283-2b1eeb54cb2c",
+      "name": "Post to Quentn1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "test@test.com"
+            },
+            {
+              "name": "first_name",
+              "value": "test"
+            },
+            {
+              "name": "last_name",
+              "value": "test"
+            },
+            {
+              "name": "memberships",
+              "value": "1"
+            },
+            {
+              "name": "notify",
+              "value": "1"
+            },
+            {
+              "name": "opm_api_key",
+              "value": "2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        -32
+      ],
+      "id": "8ebb9a4b-02c2-4d22-804c-431989d23050",
+      "name": "POST To MarkusDan.com Members"
+    },
+    {
+      "parameters": {
+        "content": "## Receive Webhook POST from Quentn\n\n[Unbenanntes Element (DEH Buchfunnel)]",
+        "height": 416,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -176
+      ],
+      "id": "40dc25ca-44e3-49c0-8218-022051d66d60",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "12d976d8-c8fa-4acc-86f4-d6766f86c644",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        16,
+        -32
+      ],
+      "id": "0267bf6c-b3c3-4ce0-bfc2-f8ae52d608a4",
+      "name": "Webhook",
+      "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
+    },
+    {
+      "parameters": {
+        "content": "## POST to MarkusDan.com endpoint",
+        "height": 416,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        176,
+        -176
+      ],
+      "id": "86fdcda9-0829-4350-8741-8a2879ca549a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Append to Katrin Google Sheet\n",
+        "height": 416,
+        "width": 208,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -176
+      ],
+      "id": "2b08096f-a452-45eb-8b69-caf6715b035f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Add Person to Pipedrive\n",
+        "height": 416,
+        "width": 208,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        640,
+        -176
+      ],
+      "id": "1b1318ce-c1b7-40fc-8b20-baf7b6fb6452",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## POST Add contact to Quentn",
+        "height": 416,
+        "width": 224,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        864,
+        -176
+      ],
+      "id": "be32d585-2910-42e8-8177-078e5d1228e7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+        "width": 736,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -400
+      ],
+      "id": "d67f71ae-4192-427e-ae0d-532729687dde",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.megyk.com",
+            "user-agent": "Drupal (+http://drupal.org/)",
+            "content-length": "230",
+            "content-type": "application/json",
+            "via": "1.0 Caddy",
+            "x-forwarded-for": "176.9.50.181",
+            "x-forwarded-host": "n8n.megyk.com",
+            "x-forwarded-proto": "https",
+            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": [
+            {
+              "title": "",
+              "first_name": "TEST 2",
+              "family_name": "TEST 2",
+              "company": "",
+              "job_title": "",
+              "mail": "test@adamhaley.com",
+              "website": "",
+              "phone": "",
+              "ba_street": "",
+              "ba_city": "",
+              "ba_postal_code": "",
+              "ba_state": "",
+              "ba_country": "",
+              "id": "62535"
+            }
+          ],
+          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create a person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a person": {
+      "main": [
+        [
+          {
+            "node": "Post to Quentn1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST To MarkusDan.com Members": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "POST To MarkusDan.com Members",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5f9af2f9-2925-46cb-9b22-7e034b46f892",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
+  },
+  "id": "5ppqxqQw8LKEQ1Df",
+  "tags": []
+}

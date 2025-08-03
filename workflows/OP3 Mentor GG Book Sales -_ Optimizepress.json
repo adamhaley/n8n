@@ -1,0 +1,141 @@
+{
+  "name": "OP3 Mentor GG Book Sales -> Optimizepress",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"opm_api_key\": \"2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32\",\n\"email\": \"{{ $json.body.email }}\",\n\"first_name\": \"{{ $json.body.first_name }}\",\n\"last_name\": \"{{ $json.body.last_name }}\",\n\"memberships\": 1,\n\"notify\": 1\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        848,
+        112
+      ],
+      "id": "3b00120c-ad00-4b1d-bb81-f3ab28bb4884",
+      "name": "Post to MarkusDan.com Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1392fe7f-dedf-415b-9a7f-e3fc83fd14c0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        624,
+        112
+      ],
+      "id": "40a602b0-3f06-467e-9201-5ba74a5a95dc",
+      "name": "Digistore On Order",
+      "webhookId": "1392fe7f-dedf-415b-9a7f-e3fc83fd14c0"
+    },
+    {
+      "parameters": {
+        "content": "## OP3 Mentor GG Book Sales -> Optimizepress\n- Listens for new Digistore orders via webhook\n- Posts order info (email, name, membership ID) to markusdan.com's OptiPress API endpoint\n- Designed for handling digital product sales and ensuring access is granted automatically",
+        "height": 208,
+        "width": 464,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -224
+      ],
+      "id": "a2107dd2-ddba-4969-adb3-9073febf36e6",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {
+    "Digistore On Order": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.megyk.com",
+            "user-agent": "DigiStore-API/1.0 (Linux; en-US; rv:1.0.0.0) php/20130430 curl/20130430",
+            "content-length": "357",
+            "accept": "*/*",
+            "accept-charset": "utf-8",
+            "accept-encoding": "deflate, gzip, br, zstd",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=utf-8",
+            "traceparent": "00-0997afa3375125fab95c893bcd643c26-222ab91eeb192e83-01",
+            "tracestate": "es=s:1",
+            "via": "2.0 Caddy",
+            "x-forwarded-for": "34.95.42.191",
+            "x-forwarded-host": "n8n.megyk.com",
+            "x-forwarded-proto": "https"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "email": "",
+            "first_name": "",
+            "last_name": "",
+            "title": "",
+            "salutation": "",
+            "company": "",
+            "street": "",
+            "city": "",
+            "zipcode": "",
+            "state": "",
+            "country_code": "",
+            "country_name": "",
+            "phone_no": "",
+            "order_id": "",
+            "transaction_id": "",
+            "product_name": "",
+            "product_name_intern": "",
+            "product_id": "",
+            "quantity": "",
+            "receipt_url": "",
+            "invoice_url": "",
+            "eticket_url": "",
+            "custom": "",
+            "tags": "",
+            "event": "",
+            "amount_brutto": "",
+            "amount_netto": "",
+            "amount_vendor": "",
+            "amount_affiliate": "",
+            "currency": "",
+            "is_gdpr_country": ""
+          },
+          "webhookUrl": "https://n8n.megyk.com/webhook-test/1392fe7f-dedf-415b-9a7f-e3fc83fd14c0",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Digistore On Order": {
+      "main": [
+        [
+          {
+            "node": "Post to MarkusDan.com Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "WbISMAIlclQfzorG"
+  },
+  "versionId": "7fea0d78-8e42-49b0-89de-1e397bb49214",
+  "meta": {
+    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
+  },
+  "id": "BFkLqWhDRcMnrzje",
+  "tags": []
+}

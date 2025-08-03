@@ -1,0 +1,859 @@
+{
+  "name": "Q4-Vermögensschutz Schnellcheck SCHRITT 1 - WUFOO",
+  "nodes": [
+    {
+      "parameters": {
+        "form": "r1ktp8om0ykx345"
+      },
+      "type": "n8n-nodes-base.wufooTrigger",
+      "typeVersion": 1,
+      "position": [
+        64,
+        368
+      ],
+      "id": "3572b201-f893-4d08-9a99-e489e266be26",
+      "name": "Wufoo Trigger",
+      "webhookId": "602021a6-36dc-40ac-a071-2a49afd03ad0",
+      "credentials": {
+        "wufooApi": {
+          "id": "nzwnrnDAwqISMmIx",
+          "name": "Wufoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KxtAEY0Ch2jv9aVKQU3xnjU8vMTsHcRbkXwg83JRJg8",
+          "mode": "list",
+          "cachedResultName": "Q4-Vermögensschutz Anfragen",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxtAEY0Ch2jv9aVKQU3xnjU8vMTsHcRbkXwg83JRJg8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Tabellenblatt1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxtAEY0Ch2jv9aVKQU3xnjU8vMTsHcRbkXwg83JRJg8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Wufoo Trigger').item.json['Name:'].Vorname}} {{ $('Wufoo Trigger').item.json['Name:'].Nachname }}",
+            "Email": "={{ $('Wufoo Trigger').item.json['E-Mail-Adresse'] }}",
+            "Telefon": "={{ $('Wufoo Trigger').item.json.Telefonnummer }}",
+            "Immo": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Immobilien'][0] }}",
+            "Immo - Wie viel ": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in Immobilien investiert?'].first() }}",
+            "Wertpapiere": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Wertpapiere?'].first() }}",
+            "Wertpapiere - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)'].first() }}",
+            "Edelmetalle": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Edelmetalle?'].first() }}",
+            "Edelmetalle -  Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)'].first() }}",
+            "Datum": "={{ $now.format('y-MM-d H:m:ss') }}",
+            "LV": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?'].first() }}",
+            "LV - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?'].first() }}",
+            "Bank": "={{ $('Wufoo Trigger').item.json['Haben Sie Geld auf der Bank?'].first() }}",
+            "Bank - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)'].first()}}",
+            "Alternative": "={{ $('Wufoo Trigger').item.json['Haben Sie alternative (Sach-)Werte?'].first()}}",
+            "Alternative - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)'].first() }}",
+            "Anmerkungen": "={{ $('Wufoo Trigger').item.json['Anmerkungen, Feedback?'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefon",
+              "displayName": "Telefon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Immo",
+              "displayName": "Immo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Immo - Wie viel ",
+              "displayName": "Immo - Wie viel ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Wertpapiere",
+              "displayName": "Wertpapiere",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Wertpapiere - Wie viel",
+              "displayName": "Wertpapiere - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Edelmetalle",
+              "displayName": "Edelmetalle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Edelmetalle -  Wie viel",
+              "displayName": "Edelmetalle -  Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LV",
+              "displayName": "LV",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LV - Wie viel",
+              "displayName": "LV - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bank",
+              "displayName": "Bank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bank - Wie viel",
+              "displayName": "Bank - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Alternative",
+              "displayName": "Alternative",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Alternative - Wie viel",
+              "displayName": "Alternative - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Anmerkungen",
+              "displayName": "Anmerkungen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Datum",
+              "displayName": "Datum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Datum in schön",
+              "displayName": "Datum in schön",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "VERSCHICKT",
+              "displayName": "VERSCHICKT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Gefädungspotential",
+              "displayName": "Gefädungspotential",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "erreicht nach einer Woche?",
+              "displayName": "erreicht nach einer Woche?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "GFA gekauft?",
+              "displayName": "GFA gekauft?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "verkauf durch",
+              "displayName": "verkauf durch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        736,
+        368
+      ],
+      "id": "9dcb374e-03ec-485f-965e-b4ab99831358",
+      "name": "Append row in sheet",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Wufoo Form - Collect Data",
+        "height": 544,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        128
+      ],
+      "id": "1698f872-906d-44ba-b30a-2ebd25265e83",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Create Doc from Template\nCopy new doc from template and update values",
+        "height": 544,
+        "width": 416,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        128
+      ],
+      "id": "46542d3d-87e7-4b5c-99ae-67d20b869496",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Append row to Google Sheet",
+        "height": 544,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        128
+      ],
+      "id": "2da9f59f-f1f3-47ef-a428-fd6530abdcf8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Add Quentn Contact\n",
+        "height": 544,
+        "width": 768,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        912,
+        128
+      ],
+      "id": "889bd9de-4929-47c4-9479-19e4e96d85c3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Q4-Vermögensschutz Schnellcheck SCHRITT 1 - WUFOO\n\n- Triggers on a new Wufoo form submission\nGenerates a personalized Google Doc based on the respondent's name\n- Appends form data (name, email, phone, real estate holdings, etc.) to a central Google Sheet for internal tracking\n- Sends contact info to Quentn CRM via API to update or create a contact record\n",
+        "height": 224,
+        "width": 1104,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -112
+      ],
+      "id": "4ac70baa-3b19-4197-8744-5c1f4890c726",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1-DivBvHLX_vV_dtBE9L8VdX5xBK8yRDSLw4_lccuH00",
+          "mode": "list",
+          "cachedResultName": "Vermögensschutz-Schnell-Check Markus Dan",
+          "cachedResultUrl": "https://docs.google.com/document/d/1-DivBvHLX_vV_dtBE9L8VdX5xBK8yRDSLw4_lccuH00/edit?usp=drivesdk"
+        },
+        "name": "=n8n-Vermögens-Schnell-Check_{{ $json['Name:'].Vorname }} {{ $json['Name:'].Nachname }}",
+        "sameFolder": false,
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tB-f7Nqhhi36ClWDcwUJp4l1mroBWWMk",
+          "mode": "list",
+          "cachedResultName": "Q4-Vermögensschutz-Schnell-Check",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1tB-f7Nqhhi36ClWDcwUJp4l1mroBWWMk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        288,
+        368
+      ],
+      "id": "ed72f055-e385-4178-87c8-7a863d0fc9ea",
+      "name": "Copy file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "BbCFaKmXdJMnNCm2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": " {{Name}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Name:\"].Vorname }} {{ $('Wufoo Trigger').item.json[\"Name:\"].Nachname }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Email}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"E-Mail-Adresse\"] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Telefonnummer}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json.Telefonnummer }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Immobilien}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Immobilien\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Immobilien}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in Immobilien investiert?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Wertpapiere}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Wertpapiere?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Wertpapiere}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Edelmetalle}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Edelmetalle?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Edelmetalle}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Lebensversicherung}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Lebensversicherung}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Bankguthaben}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Alternative_Werte}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Haben Sie alternative (Sach-)Werte?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Alternative_Werte}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Haben Sie alternative (Sach-)Werte?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Bankguthaben}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)\"].first() }}",
+              "matchCase": true
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        512,
+        368
+      ],
+      "id": "919541a2-d7d3-45d3-9e17-1e8d7e0606ec",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "qVRiWRvOhvPAHWEY",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://qk7fee.eu-4.quentn.com/public/api/v1/contact/{{ $('Create Quentn Contact').item.json.id }}/terms  ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "body": "=[120]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        272
+      ],
+      "id": "c36b9713-6fb0-44d6-b24f-362a7e7bc9aa",
+      "name": "Add Tag to Quentn"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $('Wufoo Trigger').item.json['Name:'].Vorname }}\",\n      \"family_name\" : \"{{ $('Wufoo Trigger').item.json['Name:'].Nachname }}\",\n      \"mail\" : \"{{ $('Wufoo Trigger').item.json['E-Mail-Adresse'] }}\",\t\n      \"request_ip\" : \"{{ $json.ip }}\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        368
+      ],
+      "id": "04e13e38-400a-47d8-9789-b1f27cef3734",
+      "name": "Create Quentn Contact",
+      "onError": "continueErrorOutput",
+      "notes": "sending to error output on fail and if it is \"Flood protection\" error, wait 1 minute and retry"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate a random IPv4 address\nfunction getRandomIP() {\n  return Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');\n}\n\nreturn {\n  ip: getRandomIP()\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        368
+      ],
+      "id": "594afcc6-0e2e-44f1-9987-57ff8b0a522c",
+      "name": "Generate Random IP"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1uJgVKic8z9oLtmvS1wTPAZBY611BjVaIG4td4JrZBwQ",
+          "mode": "list",
+          "cachedResultName": "n8n Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uJgVKic8z9oLtmvS1wTPAZBY611BjVaIG4td4JrZBwQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Tabellenblatt1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uJgVKic8z9oLtmvS1wTPAZBY611BjVaIG4td4JrZBwQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $now.format('y-mm-dd')}}",
+            "time": "={{ $now.format('HH:mm')}}",
+            "stacktrace": "={{ $json.error.stack }}",
+            "message": "={{ $json.error.message }}",
+            "workflow name": "={{ $workflow.name }}",
+            "workflow id": "={{$workflow.id }}",
+            "execution": "={{ $execution.id }}",
+            "node": "=Post To Quentn"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow name",
+              "displayName": "workflow name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow id",
+              "displayName": "workflow id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution",
+              "displayName": "execution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stacktrace",
+              "displayName": "stacktrace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "node",
+              "displayName": "node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1408,
+        464
+      ],
+      "id": "5bd1bd48-698f-49c5-a181-bd5491da3ab9",
+      "name": "log debug info",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Wufoo Trigger": [
+      {
+        "json": {
+          "Name:": {
+            "Vorname": "Hanne ",
+            "Nachname": "Bernardy "
+          },
+          "E-Mail-Adresse": "hanneb1967@t-online.se",
+          "Telefonnummer": "004915773757666",
+          "Besitzen Sie Immobilien": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in Immobilien investiert?": [
+            "€500.000 - €1.000.000"
+          ],
+          "Besitzen Sie Wertpapiere?": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)": [
+            "€50.000 - €100.000"
+          ],
+          "Besitzen Sie Edelmetalle?": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)": [
+            "mehr als €100.000"
+          ],
+          "Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?": [
+            "Nein"
+          ],
+          "Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?": [],
+          "Haben Sie Geld auf der Bank?": [
+            "Ja"
+          ],
+          "Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)": [
+            "mehr als €100.000"
+          ],
+          "Haben Sie alternative (Sach-)Werte?": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)": [
+            "€10.000 - €50.000"
+          ],
+          "Anmerkungen, Feedback?": ""
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Wufoo Trigger": {
+      "main": [
+        [
+          {
+            "node": "Copy file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Generate Random IP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy file": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Quentn Contact": {
+      "main": [
+        [
+          {
+            "node": "Add Tag to Quentn",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "log debug info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Random IP": {
+      "main": [
+        [
+          {
+            "node": "Create Quentn Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "WbISMAIlclQfzorG"
+  },
+  "versionId": "9c53ecbf-4fd3-4d43-8509-ead9d534d3bd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
+  },
+  "id": "JMthBLb0QjUIuNUI",
+  "tags": []
+}
