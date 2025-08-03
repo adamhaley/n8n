@@ -159,15 +159,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        464,
-        -32
+        560,
+        368
       ],
-      "id": "bbbdce16-020f-48dd-9984-c577000bb74f",
+      "id": "4c0f1c2f-51f3-4346-94ef-75511f32e556",
       "name": "Append row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "qJ5ck4AVx9Jx37Fr",
-          "name": "Google Sheets account"
+          "id": "aIDyvQUuR4iZRmoo",
+          "name": "Markus Longdragon Google Acct"
         }
       }
     },
@@ -187,14 +187,14 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        688,
-        -32
+        784,
+        368
       ],
-      "id": "0bffbdbe-5afc-4415-8526-ddd80c5714e1",
+      "id": "5f529997-f503-4cda-8339-65e23d60add4",
       "name": "Create a person",
       "credentials": {
         "pipedriveApi": {
-          "id": "ytXvRBFzuENwlmQN",
+          "id": "sqk78yrjAXyJsVVw",
           "name": "Pipedrive account"
         }
       }
@@ -203,13 +203,12 @@
       "parameters": {
         "method": "POST",
         "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
-            }
+            {}
           ]
         },
         "sendBody": true,
@@ -220,16 +219,24 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        912,
-        -32
+        1008,
+        368
       ],
-      "id": "2fc26427-b7bb-4774-b283-2b1eeb54cb2c",
-      "name": "Post to Quentn1"
+      "id": "a220dde3-94ad-4a8b-99db-27fd7b20160a",
+      "name": "Post to Quentn1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "gBPFMcYMVNcGZUkz",
+          "name": "Quentn Bearer Auth"
+        }
+      }
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://markusdan.com/wp-json/opm-api/v1/members",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -264,11 +271,17 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        240,
-        -32
+        336,
+        368
       ],
-      "id": "8ebb9a4b-02c2-4d22-804c-431989d23050",
-      "name": "POST To MarkusDan.com Members"
+      "id": "76d56700-16ce-46c1-811e-8dd3dd9a24ff",
+      "name": "POST To MarkusDan.com Members",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "ISBD5w0SgPqx0Sfz",
+          "name": "MarkusDan.com Auth"
+        }
+      }
     },
     {
       "parameters": {
@@ -280,10 +293,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -96,
-        -176
+        0,
+        224
       ],
-      "id": "40dc25ca-44e3-49c0-8218-022051d66d60",
+      "id": "bae6397c-7bbc-4ecb-b37b-81b7bbebec17",
       "name": "Sticky Note"
     },
     {
@@ -295,10 +308,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        16,
-        -32
+        112,
+        368
       ],
-      "id": "0267bf6c-b3c3-4ce0-bfc2-f8ae52d608a4",
+      "id": "07df2488-c076-478e-b694-65fad61821ad",
       "name": "Webhook",
       "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
     },
@@ -311,10 +324,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        176,
-        -176
+        272,
+        224
       ],
-      "id": "86fdcda9-0829-4350-8741-8a2879ca549a",
+      "id": "5080f62c-10eb-46e3-a276-974f974af6e6",
       "name": "Sticky Note1"
     },
     {
@@ -327,10 +340,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        416,
-        -176
+        512,
+        224
       ],
-      "id": "2b08096f-a452-45eb-8b69-caf6715b035f",
+      "id": "b09deede-97c5-40bc-897d-0b17db7c56e8",
       "name": "Sticky Note2"
     },
     {
@@ -343,10 +356,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        640,
-        -176
+        736,
+        224
       ],
-      "id": "1b1318ce-c1b7-40fc-8b20-baf7b6fb6452",
+      "id": "6c10cfe7-1508-4113-9494-82cb503ded64",
       "name": "Sticky Note3"
     },
     {
@@ -359,10 +372,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        864,
-        -176
+        960,
+        224
       ],
-      "id": "be32d585-2910-42e8-8177-078e5d1228e7",
+      "id": "ded7344d-4d92-4fc4-934b-0c183a2cc819",
       "name": "Sticky Note4"
     },
     {
@@ -374,10 +387,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -96,
-        -400
+        0,
+        0
       ],
-      "id": "d67f71ae-4192-427e-ae0d-532729687dde",
+      "id": "b9f9893b-01d0-41ec-a9c4-385679e3ea22",
       "name": "Sticky Note5"
     }
   ],
@@ -469,15 +482,15 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "5f9af2f9-2925-46cb-9b22-7e034b46f892",
+  "versionId": "9247dd1d-cde7-42de-877a-ba813d9a7a84",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
   },
-  "id": "5ppqxqQw8LKEQ1Df",
+  "id": "0mupmIyBMc9Mic8o",
   "tags": []
 }

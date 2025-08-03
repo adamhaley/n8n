@@ -1,0 +1,169 @@
+{
+  "name": "Digistore 24 -> MarkusDan",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "4bc1401c-29df-48a8-9a53-824d29fa21d7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        96,
+        208
+      ],
+      "id": "63a2393b-e2ae-442d-b0cd-b0dc2b0d5b5b",
+      "name": "Digistore On Order",
+      "webhookId": "4bc1401c-29df-48a8-9a53-824d29fa21d7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.body.email || 'test@test.com' }}"
+            },
+            {
+              "name": "first_name",
+              "value": "={{ $json.body.first_name || 'Test'}}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $json.body.last_name || 'Test'}}"
+            },
+            {
+              "name": "memberships",
+              "value": "1"
+            },
+            {
+              "name": "notify",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        208
+      ],
+      "id": "d472af94-a87d-4756-80dd-124356b9ab9a",
+      "name": "POST To MarkusDan.com Members",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "ISBD5w0SgPqx0Sfz",
+          "name": "MarkusDan.com Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Digistore24 On Order\nThis is triggered by orders to the following products:\n- (HÖRBUCH) Die größten Gefahren für Ihr Vermögen\n- (HÖRBUCH) Upsell",
+        "height": 432,
+        "width": 544,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4b666f01-95fc-403e-b83c-368702eb1885",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "Digistore On Order": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.megyk.com",
+            "user-agent": "DigiStore-API/1.0 (Linux; en-US; rv:1.0.0.0) php/20130430 curl/20130430",
+            "content-length": "357",
+            "accept": "*/*",
+            "accept-charset": "utf-8",
+            "accept-encoding": "deflate, gzip, br, zstd",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=utf-8",
+            "traceparent": "00-dcd2c330fe429beb4ac4e4ad4b1b1006-f4d68bf90ad8f4f5-01",
+            "tracestate": "es=s:1",
+            "via": "2.0 Caddy",
+            "x-forwarded-for": "35.203.70.73",
+            "x-forwarded-host": "n8n.megyk.com",
+            "x-forwarded-proto": "https"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "email": "",
+            "first_name": "",
+            "last_name": "",
+            "title": "",
+            "salutation": "",
+            "company": "",
+            "street": "",
+            "city": "",
+            "zipcode": "",
+            "state": "",
+            "country_code": "",
+            "country_name": "",
+            "phone_no": "",
+            "order_id": "",
+            "transaction_id": "",
+            "product_name": "",
+            "product_name_intern": "",
+            "product_id": "",
+            "quantity": "",
+            "receipt_url": "",
+            "invoice_url": "",
+            "eticket_url": "",
+            "custom": "",
+            "tags": "",
+            "event": "",
+            "amount_brutto": "",
+            "amount_netto": "",
+            "amount_vendor": "",
+            "amount_affiliate": "",
+            "currency": "",
+            "is_gdpr_country": ""
+          },
+          "webhookUrl": "https://n8n.megyk.com/webhook-test/4bc1401c-29df-48a8-9a53-824d29fa21d7",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Digistore On Order": {
+      "main": [
+        [
+          {
+            "node": "POST To MarkusDan.com Members",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ef297f08-e2cf-4904-a3bd-8ea9eca78055",
+  "meta": {
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "f1rraRIHupz87nhm",
+  "tags": []
+}

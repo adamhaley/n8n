@@ -160,17 +160,11 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        272,
-        672
+        304,
+        400
       ],
-      "id": "1e0b6dd4-5b2a-41dc-936a-41addeea0b9e",
-      "name": "Add Row to Google Sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "qJ5ck4AVx9Jx37Fr",
-          "name": "Google Sheets account"
-        }
-      }
+      "id": "5a504cd2-5f10-4286-9ed6-5466252689ab",
+      "name": "Add Row to Google Sheet"
     },
     {
       "parameters": {
@@ -188,17 +182,11 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        720,
-        672
+        752,
+        400
       ],
-      "id": "4da67e90-d5b6-42e9-b32a-cf4c0cae2b25",
-      "name": "Create a person",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "ytXvRBFzuENwlmQN",
-          "name": "Pipedrive account"
-        }
-      }
+      "id": "0d3ccda4-841c-4dbe-9286-c75c7011d405",
+      "name": "Create a person"
     },
     {
       "parameters": {
@@ -211,17 +199,11 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1168,
-        672
+        1200,
+        400
       ],
-      "id": "9c29cb0b-d0cf-4c38-9d68-4806340810e2",
-      "name": "Create a note",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "ytXvRBFzuENwlmQN",
-          "name": "Pipedrive account"
-        }
-      }
+      "id": "390e7c90-d5e0-47d8-b5d3-b95c979f46c0",
+      "name": "Create a note"
     },
     {
       "parameters": {
@@ -232,10 +214,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        48,
-        672
+        80,
+        400
       ],
-      "id": "55bd1191-c9bd-42b1-891d-5b2b3d874e03",
+      "id": "aeab77ba-9d1b-4218-b62b-c004fcb5de89",
       "name": "Digistore On Order",
       "webhookId": "4bc1401c-29df-48a8-9a53-824d29fa21d7"
     },
@@ -249,17 +231,11 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        944,
-        672
+        976,
+        400
       ],
-      "id": "25fca0db-d792-4717-ac66-af80111e9dfe",
-      "name": "Search a person",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "ytXvRBFzuENwlmQN",
-          "name": "Pipedrive account"
-        }
-      }
+      "id": "daebea36-a5dd-4de0-aafe-cc04785f9876",
+      "name": "Search a person"
     },
     {
       "parameters": {
@@ -270,10 +246,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        672,
-        560
+        704,
+        288
       ],
-      "id": "50cc86d5-b061-4c83-87c9-6c8c4c80b9f8",
+      "id": "cd410e57-858f-4264-9e38-783543112283",
       "name": "Sticky Note"
     },
     {
@@ -285,10 +261,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -32,
-        560
+        0,
+        288
       ],
-      "id": "fa14e79e-d731-48c2-9c9f-fb87fcd10cf0",
+      "id": "9872f697-d522-4ecd-aa97-50d61044970f",
       "name": "Sticky Note1"
     },
     {
@@ -301,10 +277,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        224,
-        560
+        256,
+        288
       ],
-      "id": "40606dab-319e-481b-89bd-c0b8b8c4a0d6",
+      "id": "552aadb6-81de-4c4d-9a53-23e5f0494c0f",
       "name": "Sticky Note2"
     },
     {
@@ -317,10 +293,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -32,
-        272
+        0,
+        0
       ],
-      "id": "9de6021f-c465-4952-bf96-a2c13f4f0084",
+      "id": "689028c9-bd19-410a-a3b6-3912a71b71c1",
       "name": "Sticky Note3"
     },
     {
@@ -330,10 +306,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        496,
-        672
+        528,
+        400
       ],
-      "id": "d59f0ce4-6ce3-4595-9321-6bdcc82b9ac0",
+      "id": "61ccccc3-a4a9-4b03-844b-5d514444e143",
       "name": "Code"
     },
     {
@@ -346,10 +322,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        448,
-        560
+        480,
+        288
       ],
-      "id": "7f12a6fd-1486-43a1-9f25-b198258a7bba",
+      "id": "9320c7c3-ca32-4811-8d9f-7228df360431",
       "name": "Sticky Note4"
     }
   ],
@@ -471,17 +447,14 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
-    "executionOrder": "v1",
-    "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "WbISMAIlclQfzorG"
+    "executionOrder": "v1"
   },
-  "versionId": "6af9525b-b63c-488b-9908-b1ab1bf745d2",
+  "versionId": "b4d18cf2-f240-476f-9da2-ccfa3d0cafa0",
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
   },
-  "id": "hif0lubhZ1LbCVDX",
+  "id": "iYGNG8kyyQUNs8uH",
   "tags": []
 }

@@ -9,17 +9,11 @@
       "typeVersion": 1,
       "position": [
         64,
-        368
+        480
       ],
-      "id": "3572b201-f893-4d08-9a99-e489e266be26",
+      "id": "d427f329-335c-4666-9037-581890e429d3",
       "name": "Wufoo Trigger",
-      "webhookId": "602021a6-36dc-40ac-a071-2a49afd03ad0",
-      "credentials": {
-        "wufooApi": {
-          "id": "nzwnrnDAwqISMmIx",
-          "name": "Wufoo account"
-        }
-      }
+      "webhookId": "602021a6-36dc-40ac-a071-2a49afd03ad0"
     },
     {
       "parameters": {
@@ -278,17 +272,11 @@
       "typeVersion": 4.6,
       "position": [
         736,
-        368
+        480
       ],
-      "id": "9dcb374e-03ec-485f-965e-b4ab99831358",
+      "id": "771a8cab-e219-490e-bb46-c2899f43fdb3",
       "name": "Append row in sheet",
-      "retryOnFail": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "qJ5ck4AVx9Jx37Fr",
-          "name": "Google Sheets account"
-        }
-      }
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -300,9 +288,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        128
+        240
       ],
-      "id": "1698f872-906d-44ba-b30a-2ebd25265e83",
+      "id": "37646545-ac03-471a-9c34-ad2f1f88b119",
       "name": "Sticky Note"
     },
     {
@@ -316,9 +304,9 @@
       "typeVersion": 1,
       "position": [
         240,
-        128
+        240
       ],
-      "id": "46542d3d-87e7-4b5c-99ae-67d20b869496",
+      "id": "e35480f4-67db-42b6-b7cb-91ba70c69e01",
       "name": "Sticky Note1"
     },
     {
@@ -332,9 +320,9 @@
       "typeVersion": 1,
       "position": [
         672,
-        128
+        240
       ],
-      "id": "2da9f59f-f1f3-47ef-a428-fd6530abdcf8",
+      "id": "9a46d660-ff02-4506-81bd-20b8c68b1516",
       "name": "Sticky Note2"
     },
     {
@@ -348,9 +336,9 @@
       "typeVersion": 1,
       "position": [
         912,
-        128
+        240
       ],
-      "id": "889bd9de-4929-47c4-9479-19e4e96d85c3",
+      "id": "46f364e7-dc86-48ff-8ab6-556478ec6b30",
       "name": "Sticky Note3"
     },
     {
@@ -364,9 +352,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        -112
+        0
       ],
-      "id": "4ac70baa-3b19-4197-8744-5c1f4890c726",
+      "id": "f9eb6bf4-e83c-494b-8fe8-5f3b1fbbf8b3",
       "name": "Sticky Note4"
     },
     {
@@ -399,13 +387,13 @@
       "typeVersion": 3,
       "position": [
         288,
-        368
+        480
       ],
-      "id": "ed72f055-e385-4178-87c8-7a863d0fc9ea",
+      "id": "b1b0f34c-19d3-48f8-ad2c-760cc998aa53",
       "name": "Copy file",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "BbCFaKmXdJMnNCm2",
+          "id": "reZwBdwR7JImRDL0",
           "name": "Google Drive account"
         }
       }
@@ -514,28 +502,21 @@
       "typeVersion": 2,
       "position": [
         512,
-        368
+        480
       ],
-      "id": "919541a2-d7d3-45d3-9e17-1e8d7e0606ec",
-      "name": "Update a document",
-      "credentials": {
-        "googleDocsOAuth2Api": {
-          "id": "qVRiWRvOhvPAHWEY",
-          "name": "Google Docs account"
-        }
-      }
+      "id": "6f493298-c0bd-4aa7-9adc-72b8a8fc9494",
+      "name": "Update a document"
     },
     {
       "parameters": {
         "method": "PUT",
         "url": "=https://qk7fee.eu-4.quentn.com/public/api/v1/contact/{{ $('Create Quentn Contact').item.json.id }}/terms  ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
-            }
+            {}
           ]
         },
         "sendBody": true,
@@ -547,15 +528,23 @@
       "typeVersion": 4.2,
       "position": [
         1408,
-        272
+        384
       ],
-      "id": "c36b9713-6fb0-44d6-b24f-362a7e7bc9aa",
-      "name": "Add Tag to Quentn"
+      "id": "200c5023-ed94-43e6-bd50-e09002dba94d",
+      "name": "Add Tag to Quentn",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "gBPFMcYMVNcGZUkz",
+          "name": "Quentn Bearer Auth"
+        }
+      }
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -574,10 +563,16 @@
       "typeVersion": 4.2,
       "position": [
         1184,
-        368
+        480
       ],
-      "id": "04e13e38-400a-47d8-9789-b1f27cef3734",
+      "id": "e0fc2f84-3fda-4339-ac96-5191bbae0adc",
       "name": "Create Quentn Contact",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "gBPFMcYMVNcGZUkz",
+          "name": "Quentn Bearer Auth"
+        }
+      },
       "onError": "continueErrorOutput",
       "notes": "sending to error output on fail and if it is \"Flood protection\" error, wait 1 minute and retry"
     },
@@ -589,9 +584,9 @@
       "typeVersion": 2,
       "position": [
         960,
-        368
+        480
       ],
-      "id": "594afcc6-0e2e-44f1-9987-57ff8b0a522c",
+      "id": "dfd9c0dc-12f3-43fe-a8ff-a5f0eea52cdd",
       "name": "Generate Random IP"
     },
     {
@@ -707,16 +702,10 @@
       "typeVersion": 4.6,
       "position": [
         1408,
-        464
+        576
       ],
-      "id": "5bd1bd48-698f-49c5-a181-bd5491da3ab9",
-      "name": "log debug info",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "qJ5ck4AVx9Jx37Fr",
-          "name": "Google Sheets account"
-        }
-      }
+      "id": "7d676c64-e2d1-4c10-aa9c-fe512bfd5913",
+      "name": "log debug info"
     }
   ],
   "pinData": {
@@ -843,17 +832,14 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
-    "executionOrder": "v1",
-    "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "WbISMAIlclQfzorG"
+    "executionOrder": "v1"
   },
-  "versionId": "9c53ecbf-4fd3-4d43-8509-ead9d534d3bd",
+  "versionId": "2bfae70f-d757-401e-9e9a-eda383950326",
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
   },
-  "id": "JMthBLb0QjUIuNUI",
+  "id": "kHKFhVPITCrOrnVp",
   "tags": []
 }
