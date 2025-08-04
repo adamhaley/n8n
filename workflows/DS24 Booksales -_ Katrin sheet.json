@@ -28,8 +28,8 @@
             "Nachname": "={{ $json.body.last_name }}",
             "Vorname": "={{ $json.body.first_name }}",
             "E-Mail": "={{ $json.body.email }}",
-            "Telefonnr.": "='+{{ $json.body.phone_no }}",
-            "Land": "={{ $json.body.country_name }}",
+            "Telefonnr.": "='{{ $json.body.phone_no }}",
+            "Land": "={{ $json.body.country_code }}",
             "Adresse": "={{ $json.body.street }}{{ $json.body.city }},{{ $json.body.state }}{{ $json.body.zipcode }}"
           },
           "matchingColumns": [],
@@ -160,11 +160,17 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        304,
-        400
+        384,
+        560
       ],
-      "id": "5a504cd2-5f10-4286-9ed6-5466252689ab",
-      "name": "Add Row to Google Sheet"
+      "id": "1e0b6dd4-5b2a-41dc-936a-41addeea0b9e",
+      "name": "Add Row to Google Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -182,16 +188,22 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        752,
-        400
+        784,
+        560
       ],
-      "id": "0d3ccda4-841c-4dbe-9286-c75c7011d405",
-      "name": "Create a person"
+      "id": "4da67e90-d5b6-42e9-b32a-cf4c0cae2b25",
+      "name": "Create a person",
+      "credentials": {
+        "pipedriveApi": {
+          "id": "ytXvRBFzuENwlmQN",
+          "name": "Pipedrive account"
+        }
+      }
     },
     {
       "parameters": {
         "resource": "note",
-        "content": "={{ $json.name }} {{ $json.phones }} {{ $json.emails }} {{ $('Code').item.json.Adresse  }}{{ $('Code').item.json.Land }}",
+        "content": "={{ $json.name }} {{ $json.phone.first().value }} {{ $json.email.first().value }} {{ $('Code').item.json.Adresse  }}{{ $('Code').item.json.Land }}",
         "additionalFields": {
           "person_id": "={{ $json.id }}"
         }
@@ -199,11 +211,17 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1200,
-        400
+        1168,
+        560
       ],
-      "id": "390e7c90-d5e0-47d8-b5d3-b95c979f46c0",
-      "name": "Create a note"
+      "id": "9c29cb0b-d0cf-4c38-9d68-4806340810e2",
+      "name": "Create a note",
+      "credentials": {
+        "pipedriveApi": {
+          "id": "ytXvRBFzuENwlmQN",
+          "name": "Pipedrive account"
+        }
+      }
     },
     {
       "parameters": {
@@ -214,89 +232,74 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        80,
-        400
+        -208,
+        576
       ],
-      "id": "aeab77ba-9d1b-4218-b62b-c004fcb5de89",
+      "id": "55bd1191-c9bd-42b1-891d-5b2b3d874e03",
       "name": "Digistore On Order",
       "webhookId": "4bc1401c-29df-48a8-9a53-824d29fa21d7"
     },
     {
       "parameters": {
-        "resource": "person",
-        "operation": "search",
-        "term": "={{ $json.email[0].value }}",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        976,
-        400
-      ],
-      "id": "daebea36-a5dd-4de0-aafe-cc04785f9876",
-      "name": "Search a person"
-    },
-    {
-      "parameters": {
         "content": "## Pipedrive - add person and create note",
-        "height": 336,
-        "width": 640
+        "height": 400,
+        "width": 560
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        704,
-        288
+        736,
+        448
       ],
-      "id": "cd410e57-858f-4264-9e38-783543112283",
+      "id": "50cc86d5-b061-4c83-87c9-6c8c4c80b9f8",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "content": "## Digistore - order received\n",
-        "height": 336,
+        "height": 400,
+        "width": 368,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        288
+        -256,
+        448
       ],
-      "id": "9872f697-d522-4ecd-aa97-50d61044970f",
+      "id": "fa14e79e-d731-48c2-9c9f-fb87fcd10cf0",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
         "content": "## Append Row in Google Sheet",
-        "height": 336,
-        "width": 208,
+        "height": 400,
+        "width": 368,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        256,
-        288
+        128,
+        448
       ],
-      "id": "552aadb6-81de-4c4d-9a53-23e5f0494c0f",
+      "id": "40606dab-319e-481b-89bd-c0b8b8c4a0d6",
       "name": "Sticky Note2"
     },
     {
       "parameters": {
         "content": "## DS24 Booksales -> Katrin sheet\n- Triggers on a Digistore sale\n- Logs order details (name, email, phone, address, etc.) to a Google Sheet used by the team\n- Creates a person in Pipedrive, and attaches a custom note to their profile with full contact info",
         "height": 272,
-        "width": 1344,
+        "width": 1552,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -256,
+        -176
       ],
-      "id": "689028c9-bd19-410a-a3b6-3912a71b71c1",
+      "id": "9de6021f-c465-4952-bf96-a2c13f4f0084",
       "name": "Sticky Note3"
     },
     {
@@ -306,27 +309,311 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
-        400
+        608,
+        560
       ],
-      "id": "61ccccc3-a4a9-4b03-844b-5d514444e143",
+      "id": "d59f0ce4-6ce3-4595-9321-6bdcc82b9ac0",
       "name": "Code"
     },
     {
       "parameters": {
         "content": "## Pre-process\nMake sure data values aren't empty",
-        "height": 336,
+        "height": 400,
         "width": 208,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        480,
-        288
+        512,
+        448
       ],
-      "id": "9320c7c3-ca32-4811-8d9f-7228df360431",
+      "id": "7f12a6fd-1486-43a1-9f25-b198258a7bba",
       "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -192,
+        208
+      ],
+      "id": "74751ab3-e7f8-42ca-bef7-c9ff78209ada",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.purchase_list",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        256,
+        208
+      ],
+      "id": "ac0244ca-1b18-4adc-b9ea-b5bdcecb5f98",
+      "name": "Split Out",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "853c0ad4-7be0-4611-b40d-d26060e52471",
+              "leftValue": "={{ $json.main_product_name }}",
+              "rightValue": "(GRATIS BUCH) Die größten Gefahren für Ihr Vermögen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "3c216885-e310-41d8-99a2-334fd5f57463",
+              "leftValue": "={{ $json.main_product_name }}",
+              "rightValue": "(HÖRBUCH UPSELL) Die größten Gefahren für Ihr Vermögen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "4271f59d-7b0b-48ad-9a5b-54d8c76148ce",
+              "leftValue": "={{ $json.main_product_name }}",
+              "rightValue": "(HÖRBUCH) Die größten Gefahren für Ihr Vermögen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "719d8ae8-e68b-4b26-856f-498d21e4b258",
+              "leftValue": "={{ $json.main_product_name }}",
+              "rightValue": "BUCH (€19,90): Die größten Gefahren für Ihr Vermögen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "a6f2e684-c928-463c-809d-cee009afc0fc",
+              "leftValue": "={{ $json.main_product_name }}",
+              "rightValue": "BUCH (€3,99): Die größten Gefahren für Ihr Vermögen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "683d392d-1f7d-4a74-b890-b680588fb084",
+              "leftValue": "={{ $json.main_product_name }}",
+              "rightValue": "Insider-Interview Stiftungen (Upsell)",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        208
+      ],
+      "id": "95f05ba8-ac53-44a2-939f-93fa51d400ea",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.digistore24.com/api/call/getBuyer?buyer_id={{ $json.buyer_id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        688,
+        272
+      ],
+      "id": "97a5cf75-46ab-4d5b-97b0-29a351d2b5ea",
+      "name": "Get Buyer Data",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "iye8Q4wTT5P3zqAN",
+          "name": "Digistore Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "buyer.id",
+              "field2": "data.buyer.id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        896,
+        224
+      ],
+      "id": "5f44772a-5ebb-4678-8dfc-43ff9f225a94",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://www.digistore24.com/api/call/listPurchases?from=-1h&to=now",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        32,
+        208
+      ],
+      "id": "f4f4238d-d07a-4415-89fc-9321735ccb74",
+      "name": "Get DS24 Orders",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "iye8Q4wTT5P3zqAN",
+          "name": "Digistore Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Load DS24 Orders from API\nPoll every hour for all orders from -1h ago to now. Filter only those products in Buchfunnel group, get buyer data, format same as Digistore IPN fields",
+        "height": 320,
+        "width": 1552
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        112
+      ],
+      "id": "242f79b8-7be3-4daa-aa6b-e60caa8c254e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "904810ee-30ac-422f-a516-5fe604036fff",
+              "leftValue": "={{ $prevNode.name }}",
+              "rightValue": "Digistore On Order",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        576
+      ],
+      "id": "ffd1aa0f-f31b-4185-87b1-b896032e716a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n    \"body\":{{ $json.toJsonString() }} \n\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        672
+      ],
+      "id": "2b0c4e0a-9159-4d38-b763-42dc02d99662",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {\nemail: $json.buyer.email,\nfirst_name: $json.buyer.first_name,\nlast_name: $json.buyer.last_name,\ntitle: $json.data.buyer.title,\nsalutation: $json.data.buyer.salutation,\ncompany: $json.data.buyer.company,\nstreet: $json.data.buyer.street,\ncity: '',\nzipcode: $json.data.buyer.zipcode,\nstate: $json.data.buyer.state,\ncountry_code: $json.data.buyer.country,\ncountry_name: '',\nphone_no: $json.data.buyer.phone_no,\nbuyer_id: $json.buyer_id,\norder_id: $json.id,\ntransaction_id: \"\",\nproduct_name: $json.main_product_name,\nproduct_name_intern: $json.items[0].product_name_intern,\nproduct_id: $json.main_product_id,\nquantity: $json.items[0].quantity,\nreceipt_url: $json.receipt_url,\ninvoice_url: $json.invoice_url,\neticket_url: \"\",\ncustom: \"\",\ntags: \"\",\nevent: \"\",\namount_brutto: $json.amount,\namount_netto: $json.amount,\namount_vendor: $json.amount,\namount_affiliate: $json.affiliate_amount,\ncurrency: $json.currency,\nis_gdpr_country: \"\"\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        224
+      ],
+      "id": "e339e06a-bbfa-4fac-962c-17dd473c78c4",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "get",
+        "personId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        976,
+        560
+      ],
+      "id": "25fca0db-d792-4717-ac66-af80111e9dfe",
+      "name": "Get a person",
+      "credentials": {
+        "pipedriveApi": {
+          "id": "ytXvRBFzuENwlmQN",
+          "name": "Pipedrive account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -336,56 +623,56 @@
           "headers": {
             "host": "n8n.megyk.com",
             "user-agent": "DigiStore-API/1.0 (Linux; en-US; rv:1.0.0.0) php/20130430 curl/20130430",
-            "content-length": "357",
+            "content-length": "847",
             "accept": "*/*",
             "accept-charset": "utf-8",
             "accept-encoding": "deflate, gzip, br, zstd",
             "cache-control": "no-cache",
             "content-type": "application/x-www-form-urlencoded; charset=utf-8",
-            "traceparent": "00-ccfa4ec6c86b14a86eb7ce2816d1443a-deddfd67343fac93-01",
+            "traceparent": "00-56a39b001607ad78c89aca33e346e76d-8ff7968b93bf2625-01",
             "tracestate": "es=s:1",
             "via": "2.0 Caddy",
-            "x-forwarded-for": "35.203.70.73",
+            "x-forwarded-for": "34.95.42.191",
             "x-forwarded-host": "n8n.megyk.com",
             "x-forwarded-proto": "https"
           },
           "params": {},
           "query": {},
           "body": {
-            "email": "test@test.com",
-            "first_name": "TEST",
-            "last_name": "TEST",
+            "email": "Maria.Neubrand@gmx.de",
+            "first_name": "Maria",
+            "last_name": "Neubrand",
             "title": "",
-            "salutation": "",
+            "salutation": "Mr.",
             "company": "",
-            "street": "12345 ANywhere Ln.",
-            "city": "Los Angeles",
-            "zipcode": "91602",
-            "state": "CA",
-            "country_code": "USA",
-            "country_name": "",
-            "phone_no": "(323)384-3493",
-            "order_id": "",
-            "transaction_id": "",
-            "product_name": "",
-            "product_name_intern": "",
-            "product_id": "",
-            "quantity": "",
-            "receipt_url": "",
-            "invoice_url": "",
+            "street": "Ehingerstr. 2",
+            "city": "Uttenweiler",
+            "zipcode": "88524",
+            "state": "",
+            "country_code": "DE",
+            "country_name": "Deutschland",
+            "phone_no": "+4915118676978",
+            "order_id": "7DQVUSH7",
+            "transaction_id": "98750877",
+            "product_name": "BUCH: Die größten Gefahren für Ihr Vermögen (Aktion €3,99)",
+            "product_name_intern": "BUCH (€3,99): Die größten Gefahren für Ihr Vermögen",
+            "product_id": "568935",
+            "quantity": "1",
+            "receipt_url": "https://www.digistore24.com/receipt/568935/7DQVUSH7/4UXY2EHL",
+            "invoice_url": "https://www.digistore24.com/invoice/7DQVUSH7/98750877/KMP392ME.pdf",
             "eticket_url": "",
             "custom": "",
-            "tags": "",
-            "event": "",
-            "amount_brutto": "",
-            "amount_netto": "",
-            "amount_vendor": "",
-            "amount_affiliate": "",
-            "currency": "",
-            "is_gdpr_country": ""
+            "tags": "deh-buch",
+            "event": "payment",
+            "amount_brutto": "3.99",
+            "amount_netto": "3.73",
+            "amount_vendor": "0.00",
+            "amount_affiliate": "2.81",
+            "currency": "EUR",
+            "is_gdpr_country": "Y"
           },
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/4bc1401c-29df-48a8-9a53-824d29fa21d7",
-          "executionMode": "test"
+          "webhookUrl": "https://n8n.megyk.com/webhook/4bc1401c-29df-48a8-9a53-824d29fa21d7",
+          "executionMode": "production"
         }
       }
     ]
@@ -406,7 +693,7 @@
       "main": [
         [
           {
-            "node": "Search a person",
+            "node": "Get a person",
             "type": "main",
             "index": 0
           }
@@ -417,18 +704,7 @@
       "main": [
         [
           {
-            "node": "Add Row to Google Sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Search a person": {
-      "main": [
-        [
-          {
-            "node": "Create a note",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -445,16 +721,141 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get DS24 Orders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Get Buyer Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Buyer Data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get DS24 Orders": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Add Row to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Add Row to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a person": {
+      "main": [
+        [
+          {
+            "node": "Create a note",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "WbISMAIlclQfzorG"
   },
-  "versionId": "b4d18cf2-f240-476f-9da2-ccfa3d0cafa0",
+  "versionId": "22bc7475-9783-49bb-8228-c7374cc714c0",
   "meta": {
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
   },
-  "id": "iYGNG8kyyQUNs8uH",
+  "id": "hif0lubhZ1LbCVDX",
   "tags": []
 }
