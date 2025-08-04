@@ -160,7 +160,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        384,
+        1120,
         560
       ],
       "id": "1e0b6dd4-5b2a-41dc-936a-41addeea0b9e",
@@ -188,8 +188,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        784,
-        560
+        512,
+        976
       ],
       "id": "4da67e90-d5b6-42e9-b32a-cf4c0cae2b25",
       "name": "Create a person",
@@ -211,8 +211,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1168,
-        560
+        1120,
+        976
       ],
       "id": "9c29cb0b-d0cf-4c38-9d68-4806340810e2",
       "name": "Create a note",
@@ -242,14 +242,14 @@
     {
       "parameters": {
         "content": "## Pipedrive - add person and create note",
-        "height": 400,
-        "width": 560
+        "height": 368,
+        "width": 1232
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        736,
-        448
+        64,
+        848
       ],
       "id": "50cc86d5-b061-4c83-87c9-6c8c4c80b9f8",
       "name": "Sticky Note"
@@ -257,7 +257,7 @@
     {
       "parameters": {
         "content": "## Digistore - order received\n",
-        "height": 400,
+        "height": 384,
         "width": 368,
         "color": 5
       },
@@ -272,9 +272,9 @@
     },
     {
       "parameters": {
-        "content": "## Append Row in Google Sheet",
-        "height": 400,
-        "width": 368,
+        "content": "## Append Row in Google Sheet If not exists\n\nCheck google sheet for match on email address, product , and todays date",
+        "height": 384,
+        "width": 1168,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -309,8 +309,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        608,
-        560
+        -160,
+        976
       ],
       "id": "d59f0ce4-6ce3-4595-9321-6bdcc82b9ac0",
       "name": "Code"
@@ -318,15 +318,15 @@
     {
       "parameters": {
         "content": "## Pre-process\nMake sure data values aren't empty",
-        "height": 400,
-        "width": 208,
+        "height": 368,
+        "width": 304,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        512,
-        448
+        -256,
+        848
       ],
       "id": "7f12a6fd-1486-43a1-9f25-b198258a7bba",
       "name": "Sticky Note4"
@@ -603,8 +603,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        976,
-        560
+        816,
+        976
       ],
       "id": "25fca0db-d792-4717-ac66-af80111e9dfe",
       "name": "Get a person",
@@ -614,6 +614,90 @@
           "name": "Pipedrive account"
         }
       }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
+          "mode": "list",
+          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1696979597,
+          "mode": "list",
+          "cachedResultName": "export (1)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "=E-Mail",
+              "lookupValue": "={{ $json.body.email }}"
+            },
+            {
+              "lookupColumn": "Produkt",
+              "lookupValue": "={{ $json.body.product_name }}"
+            },
+            {
+              "lookupColumn": "Datum",
+              "lookupValue": "={{ $now.format('y-MM-dd')}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        512,
+        672
+      ],
+      "id": "433c5c66-7935-4bc4-8290-bb72ff9b70ca",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2bca5c6f-92a6-41d0-8dbe-c2b3af748aa4",
+              "leftValue": "={{  $input }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        672
+      ],
+      "id": "95ed04c2-bf0d-4618-8fc4-d1f7724a332a",
+      "name": "If1"
     }
   ],
   "pinData": {
@@ -673,6 +757,23 @@
           },
           "webhookUrl": "https://n8n.megyk.com/webhook/4bc1401c-29df-48a8-9a53-824d29fa21d7",
           "executionMode": "production"
+        }
+      }
+    ],
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-08-04T18:00:58.011+02:00",
+          "Readable date": "August 4th 2025, 6:00:58 pm",
+          "Readable time": "6:00:58 pm",
+          "Day of week": "Monday",
+          "Year": "2025",
+          "Month": "August",
+          "Day of month": "04",
+          "Hour": "18",
+          "Minute": "00",
+          "Second": "58",
+          "Timezone": "Europe/Berlin (UTC+02:00)"
         }
       }
     ]
@@ -815,7 +916,7 @@
       "main": [
         [
           {
-            "node": "Add Row to Google Sheet",
+            "node": "Get row(s) in sheet",
             "type": "main",
             "index": 0
           }
@@ -843,6 +944,29 @@
           }
         ]
       ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Add Row to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
     }
   },
   "active": true,
@@ -851,7 +975,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "errorWorkflow": "WbISMAIlclQfzorG"
   },
-  "versionId": "22bc7475-9783-49bb-8228-c7374cc714c0",
+  "versionId": "a499ab2b-e515-40ce-a006-d472fac43d38",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
