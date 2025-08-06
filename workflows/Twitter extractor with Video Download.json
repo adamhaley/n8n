@@ -1,0 +1,1007 @@
+{
+  "name": "Twitter extractor with Video Download",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1488,
+        560
+      ],
+      "id": "de0b09c9-c521-47dc-abe6-e0aef22085ad",
+      "name": "Merge first tweet and others"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        800
+      ],
+      "id": "5a2c935d-2ec8-45e5-b510-7402e83f1c84",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## Extract first tweet\n",
+        "height": 500,
+        "width": 440,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        400
+      ],
+      "id": "4b106192-eb3d-4c70-8e4d-1f69d3e82914",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Extract thread tweets\n",
+        "height": 500,
+        "width": 840
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        464,
+        400
+      ],
+      "id": "64152f65-9f3b-44e8-9064-b52e1e31e565",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Merge all tweets with order\n",
+        "height": 500,
+        "width": 316,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        400
+      ],
+      "id": "1b21197a-9b95-48c1-b526-26cb744d442b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -512,
+        560
+      ],
+      "id": "c0e1d457-5b60-4fbe-9ebe-045f8b139c18",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "content": "## Extract first tweet\n- Extracts first tweet of the thread from input tweet link",
+        "height": 360,
+        "width": 440,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "dc231386-29ee-4a7d-b3a9-0325537c745c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Extract thread tweets\n- Iterates over each reply to first tweet\n- Checks if reply is related to first tweet or not\n- If reply is continuation of first tweet, saves it into an array",
+        "height": 360,
+        "width": 840
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "467e3ac9-fb35-4bd8-83d2-ab33295cab20",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Merge all tweets with order\n- Merge first tweet and other tweets in thread\n- Sometimes there is an empty array after merging all tweets, so filter it",
+        "height": 360,
+        "width": 312,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1328,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "3e32e8bf-dab1-4fd7-a379-288516efc580",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Input\n- You can trigger this workflow from another workspace\n- You can set manual trigger to test how it works\n- Suggestion: \nCreate another workflow, which gets input from twitter, notion, spreadsheet etc\nThen calls this workflow to fetch threads\n\nThis workflow will return all fetched tweets end of the pipeline",
+        "height": 360,
+        "width": 440,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -480,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "e9b5e1c7-107e-4bc0-9425-e8fb6c599c91",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "functionCode": "const url = $json.tweet_url;\nconst match = url.match(/x\\.com\\/([^\\/]+)\\/status\\/(\\d+)/) || url.match(/twitter\\.com\\/([^\\/]+)\\/status\\/(\\d+)/);\nif (!match) throw new Error('Invalid tweet URL');\nreturn {\n  tweet_id: match[2],\n  username: match[1]\n};"
+      },
+      "name": "Extract Tweet ID and Username",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        64,
+        688
+      ],
+      "id": "ed87a24c-45cd-41a8-a72f-9e66108d79e4"
+    },
+    {
+      "parameters": {
+        "url": "https://api.twitterapi.io/twitter/tweets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "tweet_ids",
+              "value": "={{ $json.tweet_id }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        464
+      ],
+      "id": "3c02a610-c40d-4630-8b9d-a9390140acfc",
+      "name": "Get first tweet",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "lVKFxR2s5cquKAeb",
+          "name": "TWITTERAPI.IO HEADER AUTH"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "const tweetsData = $json.tweets[0];\nreturn {\n  conversationId: tweetsData.conversationId,\n  author_id: tweetsData.author.id,\n  nextCursor: null,\n  all_replies: []\n};"
+      },
+      "name": "Extract Conversation and Author ID",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        512,
+        560
+      ],
+      "id": "cc93d429-8add-4171-a9dd-d5f982d7658a"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        720,
+        688
+      ],
+      "id": "1af4bdee-7049-407d-9802-ff3bb305e0e6",
+      "name": "Merge all tweet infos"
+    },
+    {
+      "parameters": {
+        "url": "https://api.twitterapi.io/twitter/tweet/replies",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "tweetId",
+              "value": "={{ $json.tweet_id }}"
+            },
+            {
+              "name": "author_id",
+              "value": "={{ $json.author_id }}"
+            },
+            {
+              "name": "cursor",
+              "value": "={{ $json.nextCursor }}"
+            },
+            {
+              "name": "untilTime",
+              "value": "={{ Math.floor(Date.parse($('Get first tweet').item.json.tweets[0].createdAt) / 1000) + 3600 }}\n"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "parameters": {
+                "parameters": [
+                  {
+                    "name": "cursor",
+                    "value": "={{ $response.body.next_cursor }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ $response.body.has_next_page === false }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        944,
+        688
+      ],
+      "id": "b92bc339-d6f0-48c6-a0a5-2568dc5f57ff",
+      "name": "Get Tweet Replies",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "lVKFxR2s5cquKAeb",
+          "name": "TWITTERAPI.IO HEADER AUTH"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const originalAuthorId = $('Get first tweet').first().json.tweets[0].author.id; \n\nlet tweets = [];\n\n// Iterate over all input items (each item has a 'tweets' array)\nfor (const item of items) {\n  if (item.json && Array.isArray(item.json.tweets)) {\n    for (const tweet of item.json.tweets) {\n      if (tweet.author && tweet.author.id === originalAuthorId) {\n        tweets.push(tweet);\n      }\n    }\n  }\n}\n\n// Reverse tweets to chronological order\ntweets = tweets.reverse();\n\n// Build the required output object\nreturn [\n  {\n    json: {\n      tweets: tweets,\n      status: \"success\",\n      msg: \"success\",\n      code: 0\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        688
+      ],
+      "id": "172d64f7-087c-41b3-aff8-f2a7f439f80f",
+      "name": "Fetch tweets which are connected to first tweet"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fc162a77-9a9d-4799-9dbf-88757ac4fc34",
+              "leftValue": "={{ $json.tweets }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1712,
+        560
+      ],
+      "id": "201645e4-d4b7-4b9f-ada5-96271ed80723",
+      "name": "Filter empty ones"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1vb4g8FQSpXkiFD9XA32RdCgrv7EsfgxubmD4REu0Pns",
+          "mode": "list",
+          "cachedResultName": "Tweets Metadata",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vb4g8FQSpXkiFD9XA32RdCgrv7EsfgxubmD4REu0Pns/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vb4g8FQSpXkiFD9XA32RdCgrv7EsfgxubmD4REu0Pns/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Video Path": "={{ $json.webViewLink }}",
+            "Top Level Tweet": "={{ $('Get first tweet').item.json.tweets.first().text }}",
+            "Author": "={{  $('Get first tweet').item.json.tweets.first().author.userName }}",
+            "Tweet Thread": "={{ $('Get first tweet').item.json.tweets.first().url}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Top Level Tweet",
+              "displayName": "Top Level Tweet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tweet Thread",
+              "displayName": "Tweet Thread",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Path",
+              "displayName": "Video Path",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2624,
+        560
+      ],
+      "id": "62e22bf4-0292-49c0-827d-21b3fcf46e7a",
+      "name": "Store Tweet Meta-Data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.videoUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        560
+      ],
+      "id": "91c877bb-745c-4c3c-999f-3477a395335e",
+      "name": "Get Video FIles from APIFY"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('APIFY Video Download Actor').item.json.id }}.mp4",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2368,
+        560
+      ],
+      "id": "876122dd-994d-4630-a95e-230c7a23d2df",
+      "name": "Upload Files to Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "reZwBdwR7JImRDL0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/bytepulselabs~x-video-downloader/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"proxy\": {\n        \"useApifyProxy\": false\n    },\n    \"urls\": [\n        {\n            \"url\": \"{{ $json.tweets[0].url }}\",\n            \"method\": \"GET\"\n        }\n    ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1936,
+        560
+      ],
+      "id": "74435d3d-88ab-4055-ac01-c5f1f127f785",
+      "name": "APIFY Video Download Actor",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "hKGMxu03FDu9kFXi",
+          "name": "APIfy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Download Video and Add Metadata to Sheet",
+        "height": 496,
+        "width": 1152,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        400
+      ],
+      "id": "4537f2c8-c096-4c85-8490-b4d5f4e06ada",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Download Video and add to Sheet\n- This uses the Apify Actor \"X (Twitter) Video Downloader\" \n( https://console.apify.com/actors/JOgEdu6j61eqvVsRC/input )\n- At this time (08-04-2025) This actor runs at $.06 / video download\n- After download, Video will be moved to google drive with the filename [tweet id].mp4\n- The following Tweet metadata and path to video file are stored to google sheet:\n  Top Level Tweet\n  Author\n  Tweet Thread\n  Video Path",
+        "height": 352,
+        "width": 1136,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        0
+      ],
+      "id": "4aec0dee-f29e-45b5-8541-c06278afb85e",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg",
+          "mode": "list",
+          "cachedResultName": "Tweets To Scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1177738232,
+          "mode": "list",
+          "cachedResultName": "tweets-to-scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg/edit#gid=1177738232"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -144,
+        688
+      ],
+      "id": "df2b936a-9fb4-4198-82ba-c1cc077676bf",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "tweet_url": ""
+        }
+      }
+    ],
+    "Upload Files to Google Drive": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1BVcq78Qc9wYLtLhkcYk931cScmlEM9Lu",
+          "name": "1949484925260017770.mp4",
+          "mimeType": "video/mp4",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "0AOIsbVpaBNybUk9PVA"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "4",
+          "webContentLink": "https://drive.google.com/uc?id=1BVcq78Qc9wYLtLhkcYk931cScmlEM9Lu&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1BVcq78Qc9wYLtLhkcYk931cScmlEM9Lu/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/video/mp4",
+          "hasThumbnail": false,
+          "thumbnailVersion": "0",
+          "viewedByMe": false,
+          "createdTime": "2025-07-31T16:31:53.479Z",
+          "modifiedTime": "2025-07-31T16:31:54.060Z",
+          "modifiedByMeTime": "2025-07-31T16:31:54.060Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+              "me": true,
+              "permissionId": "00502410147390681063",
+              "emailAddress": "adamhaley@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+            "me": true,
+            "permissionId": "00502410147390681063",
+            "emailAddress": "adamhaley@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "owner",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "mp4",
+          "fileExtension": "mp4",
+          "md5Checksum": "b356e993e58195a0187d18a3151cf100",
+          "sha1Checksum": "99262a6cd68b3fbba702b6b27a027df571099364",
+          "sha256Checksum": "8f6fa65f356b21c7d9dbf8791627807157c795fee3b02e10aabc35cddc179e29",
+          "size": "4738597",
+          "quotaBytesUsed": "4738597",
+          "headRevisionId": "0B-IsbVpaBNybTUJoNjFUNStodm9qeURremYvd091UnFSVU5rPQ",
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      },
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1gFmxlr2qGDcj1B6kl1teQjdaqEd5TuOi",
+          "name": "1914210744163336235.mp4",
+          "mimeType": "video/mp4",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "0AOIsbVpaBNybUk9PVA"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "4",
+          "webContentLink": "https://drive.google.com/uc?id=1gFmxlr2qGDcj1B6kl1teQjdaqEd5TuOi&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1gFmxlr2qGDcj1B6kl1teQjdaqEd5TuOi/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/video/mp4",
+          "hasThumbnail": false,
+          "thumbnailVersion": "0",
+          "viewedByMe": false,
+          "createdTime": "2025-07-31T16:31:57.868Z",
+          "modifiedTime": "2025-07-31T16:31:58.735Z",
+          "modifiedByMeTime": "2025-07-31T16:31:58.735Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+              "me": true,
+              "permissionId": "00502410147390681063",
+              "emailAddress": "adamhaley@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+            "me": true,
+            "permissionId": "00502410147390681063",
+            "emailAddress": "adamhaley@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "owner",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "mp4",
+          "fileExtension": "mp4",
+          "md5Checksum": "5cd6d4390a838990c8ae478025f2905f",
+          "sha1Checksum": "e872774cfad732bd3fd90ad975acd413eab17c98",
+          "sha256Checksum": "d2fbb79d580db0ae8f34e553d8cbde7d89cd1a55ba13006c72f68ae947ac594a",
+          "size": "4264228",
+          "quotaBytesUsed": "4264228",
+          "headRevisionId": "0B-IsbVpaBNybMVk5MWVrWlE4ZHoySmI2ZG94dG5qeFpONG1jPQ",
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Merge first tweet and others": {
+      "main": [
+        [
+          {
+            "node": "Filter empty ones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Tweet ID and Username": {
+      "main": [
+        [
+          {
+            "node": "Get first tweet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge all tweet infos",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get first tweet": {
+      "main": [
+        [
+          {
+            "node": "Extract Conversation and Author ID",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge first tweet and others",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Conversation and Author ID": {
+      "main": [
+        [
+          {
+            "node": "Merge all tweet infos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge all tweet infos": {
+      "main": [
+        [
+          {
+            "node": "Get Tweet Replies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Tweet Replies": {
+      "main": [
+        [
+          {
+            "node": "Fetch tweets which are connected to first tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch tweets which are connected to first tweet": {
+      "main": [
+        [
+          {
+            "node": "Merge first tweet and others",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Filter empty ones": {
+      "main": [
+        [
+          {
+            "node": "APIFY Video Download Actor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video FIles from APIFY": {
+      "main": [
+        [
+          {
+            "node": "Upload Files to Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Files to Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Store Tweet Meta-Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY Video Download Actor": {
+      "main": [
+        [
+          {
+            "node": "Get Video FIles from APIFY",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Extract Tweet ID and Username",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "afc379a9-b616-459b-bf25-778e239d4c3b",
+  "meta": {
+    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+  },
+  "id": "0pOnipWtAgVcVBzC",
+  "tags": []
+}
