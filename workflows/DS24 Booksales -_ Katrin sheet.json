@@ -23,14 +23,14 @@
           "value": {
             "Datum": "={{ $now.format('yyyy-MM-dd') }}",
             "Zeit": "={{ $now.format('HH:mm') }}",
-            "Produkt": "={{ $json.body.product_name }}",
-            "Anrede": "={{ $json.body.salutation }}",
-            "Nachname": "={{ $json.body.last_name }}",
-            "Vorname": "={{ $json.body.first_name }}",
-            "E-Mail": "={{ $json.body.email }}",
-            "Telefonnr.": "='{{ $json.body.phone_no }}",
-            "Land": "={{ $json.body.country_code }}",
-            "Adresse": "={{ $json.body.street }}{{ $json.body.city }},{{ $json.body.state }}{{ $json.body.zipcode }}"
+            "Produkt": "={{$json.product_name  }}",
+            "Anrede": "={{  $json.salutation}}",
+            "Nachname": "={{ $json.last_name }}",
+            "Vorname": "={{ $json.first_name }}",
+            "E-Mail": "={{ $json.email }}",
+            "Telefonnr.": "='{{ $json.phone_no }}",
+            "Land": "={{ $json.country_code }}",
+            "Adresse": "={{ $json.street }}{{ $json.city }},{{ $json.state }}{{ $json.zipcode }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -160,7 +160,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        1120,
+        1136,
         560
       ],
       "id": "1e0b6dd4-5b2a-41dc-936a-41addeea0b9e",
@@ -188,7 +188,7 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        512,
+        176,
         976
       ],
       "id": "4da67e90-d5b6-42e9-b32a-cf4c0cae2b25",
@@ -211,7 +211,7 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1120,
+        1136,
         976
       ],
       "id": "9c29cb0b-d0cf-4c38-9d68-4806340810e2",
@@ -304,7 +304,8 @@
     },
     {
       "parameters": {
-        "jsCode": "const inputData = items[0].json;\n\nconst cleanedData = Object.fromEntries(\n  Object.entries(inputData).map(([key, value]) => {\n    const cleanedValue = typeof value === 'string' && value.trim().replace(/,/g, '') === '' \n      ? 'N/A' \n      : value;\n    return [key, cleanedValue];\n  })\n);\n\nreturn [{ json: cleanedData }];\n"
+        "mode": "runOnceForEachItem",
+        "jsCode": "return  $input.item;\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -533,55 +534,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "904810ee-30ac-422f-a516-5fe604036fff",
-              "leftValue": "={{ $prevNode.name }}",
-              "rightValue": "Digistore On Order",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        0,
-        576
-      ],
-      "id": "ffd1aa0f-f31b-4185-87b1-b896032e716a",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n    \"body\":{{ $json.toJsonString() }} \n\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        208,
-        672
-      ],
-      "id": "2b0c4e0a-9159-4d38-b763-42dc02d99662",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "return {\nemail: $json.buyer.email,\nfirst_name: $json.buyer.first_name,\nlast_name: $json.buyer.last_name,\ntitle: $json.data.buyer.title,\nsalutation: $json.data.buyer.salutation,\ncompany: $json.data.buyer.company,\nstreet: $json.data.buyer.street,\ncity: '',\nzipcode: $json.data.buyer.zipcode,\nstate: $json.data.buyer.state,\ncountry_code: $json.data.buyer.country,\ncountry_name: '',\nphone_no: $json.data.buyer.phone_no,\nbuyer_id: $json.buyer_id,\norder_id: $json.id,\ntransaction_id: \"\",\nproduct_name: $json.main_product_name,\nproduct_name_intern: $json.items[0].product_name_intern,\nproduct_id: $json.main_product_id,\nquantity: $json.items[0].quantity,\nreceipt_url: $json.receipt_url,\ninvoice_url: $json.invoice_url,\neticket_url: \"\",\ncustom: \"\",\ntags: \"\",\nevent: \"\",\namount_brutto: $json.amount,\namount_netto: $json.amount,\namount_vendor: $json.amount,\namount_affiliate: $json.affiliate_amount,\ncurrency: $json.currency,\nis_gdpr_country: \"\"\n}"
       },
@@ -603,7 +555,7 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        816,
+        624,
         976
       ],
       "id": "25fca0db-d792-4717-ac66-af80111e9dfe",
@@ -652,8 +604,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        512,
-        672
+        400,
+        576
       ],
       "id": "433c5c66-7935-4bc4-8290-bb72ff9b70ca",
       "name": "Get row(s) in sheet",
@@ -667,83 +619,124 @@
     },
     {
       "parameters": {
+        "jsCode": "if( $input.first().json.body ){\n  return $input.first().json.body;\n}else{\n  return $('Digistore On Order').first().json.body\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        496
+      ],
+      "id": "9c7edc12-f87c-4f83-9a3d-778a8a0575f0",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict",
+            "typeValidation": "loose",
             "version": 2
           },
           "conditions": [
             {
               "id": "2bca5c6f-92a6-41d0-8dbe-c2b3af748aa4",
-              "leftValue": "={{  $input }}",
-              "rightValue": "",
+              "leftValue": "={{  $json }}",
+              "rightValue": 0,
               "operator": {
                 "type": "object",
-                "operation": "notEmpty",
+                "operation": "empty",
                 "singleValue": true
               }
             }
           ],
           "combinator": "and"
         },
+        "looseTypeValidation": true,
         "options": {}
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        816,
-        672
+        624,
+        576
       ],
       "id": "95ed04c2-bf0d-4618-8fc4-d1f7724a332a",
-      "name": "If1"
+      "name": "If No Result",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        896,
+        672
+      ],
+      "id": "f6b99e1b-e021-4e15-a5d4-6fcc3c897b7c",
+      "name": "No Operation, do nothing"
     }
   ],
   "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-08-05T11:00:03.012+02:00",
+          "Readable date": "August 5th 2025, 11:00:03 am",
+          "Readable time": "11:00:03 am",
+          "Day of week": "Tuesday",
+          "Year": "2025",
+          "Month": "August",
+          "Day of month": "05",
+          "Hour": "11",
+          "Minute": "00",
+          "Second": "03",
+          "Timezone": "Europe/Berlin (UTC+02:00)"
+        }
+      }
+    ],
     "Digistore On Order": [
       {
         "json": {
           "headers": {
             "host": "n8n.megyk.com",
             "user-agent": "DigiStore-API/1.0 (Linux; en-US; rv:1.0.0.0) php/20130430 curl/20130430",
-            "content-length": "847",
+            "content-length": "843",
             "accept": "*/*",
             "accept-charset": "utf-8",
             "accept-encoding": "deflate, gzip, br, zstd",
             "cache-control": "no-cache",
             "content-type": "application/x-www-form-urlencoded; charset=utf-8",
-            "traceparent": "00-56a39b001607ad78c89aca33e346e76d-8ff7968b93bf2625-01",
-            "tracestate": "es=s:1",
             "via": "2.0 Caddy",
-            "x-forwarded-for": "34.95.42.191",
+            "x-forwarded-for": "35.203.70.73",
             "x-forwarded-host": "n8n.megyk.com",
             "x-forwarded-proto": "https"
           },
           "params": {},
           "query": {},
           "body": {
-            "email": "Maria.Neubrand@gmx.de",
-            "first_name": "Maria",
-            "last_name": "Neubrand",
+            "email": "alfred@weinert.me",
+            "first_name": "Alfred",
+            "last_name": "Weinert",
             "title": "",
             "salutation": "Mr.",
             "company": "",
-            "street": "Ehingerstr. 2",
-            "city": "Uttenweiler",
-            "zipcode": "88524",
+            "street": "Flurstraße 7",
+            "city": "Trebgast",
+            "zipcode": "95367",
             "state": "",
             "country_code": "DE",
             "country_name": "Deutschland",
-            "phone_no": "+4915118676978",
-            "order_id": "7DQVUSH7",
-            "transaction_id": "98750877",
+            "phone_no": "+491703803912",
+            "order_id": "T9CYVYUM",
+            "transaction_id": "98977818",
             "product_name": "BUCH: Die größten Gefahren für Ihr Vermögen (Aktion €3,99)",
             "product_name_intern": "BUCH (€3,99): Die größten Gefahren für Ihr Vermögen",
             "product_id": "568935",
             "quantity": "1",
-            "receipt_url": "https://www.digistore24.com/receipt/568935/7DQVUSH7/4UXY2EHL",
-            "invoice_url": "https://www.digistore24.com/invoice/7DQVUSH7/98750877/KMP392ME.pdf",
+            "receipt_url": "https://www.digistore24.com/receipt/568935/T9CYVYUM/RDEYH3UT",
+            "invoice_url": "https://www.digistore24.com/invoice/T9CYVYUM/98977818/W7Q47UDF.pdf",
             "eticket_url": "",
             "custom": "",
             "tags": "deh-buch",
@@ -757,23 +750,6 @@
           },
           "webhookUrl": "https://n8n.megyk.com/webhook/4bc1401c-29df-48a8-9a53-824d29fa21d7",
           "executionMode": "production"
-        }
-      }
-    ],
-    "Schedule Trigger": [
-      {
-        "json": {
-          "timestamp": "2025-08-04T18:00:58.011+02:00",
-          "Readable date": "August 4th 2025, 6:00:58 pm",
-          "Readable time": "6:00:58 pm",
-          "Day of week": "Monday",
-          "Year": "2025",
-          "Month": "August",
-          "Day of month": "04",
-          "Hour": "18",
-          "Minute": "00",
-          "Second": "58",
-          "Timezone": "Europe/Berlin (UTC+02:00)"
         }
       }
     ]
@@ -805,7 +781,7 @@
       "main": [
         [
           {
-            "node": "If",
+            "node": "Get row(s) in sheet",
             "type": "main",
             "index": 0
           }
@@ -894,44 +870,9 @@
         ]
       ]
     },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Add Row to Google Sheet",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Get row(s) in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Code1": {
       "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Get a person": {
@@ -949,14 +890,14 @@
       "main": [
         [
           {
-            "node": "If1",
+            "node": "If No Result",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If1": {
+    "Code2": {
       "main": [
         [
           {
@@ -964,8 +905,25 @@
             "type": "main",
             "index": 0
           }
+        ]
+      ]
+    },
+    "If No Result": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
         ],
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -975,7 +933,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "errorWorkflow": "WbISMAIlclQfzorG"
   },
-  "versionId": "a499ab2b-e515-40ce-a006-d472fac43d38",
+  "versionId": "2ed270d0-c5d3-44c9-9cf2-56a0dccf2ab0",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
