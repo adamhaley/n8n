@@ -9,11 +9,17 @@
       "typeVersion": 1,
       "position": [
         64,
-        480
+        368
       ],
-      "id": "d427f329-335c-4666-9037-581890e429d3",
+      "id": "3572b201-f893-4d08-9a99-e489e266be26",
       "name": "Wufoo Trigger",
-      "webhookId": "602021a6-36dc-40ac-a071-2a49afd03ad0"
+      "webhookId": "602021a6-36dc-40ac-a071-2a49afd03ad0",
+      "credentials": {
+        "wufooApi": {
+          "id": "nzwnrnDAwqISMmIx",
+          "name": "Wufoo account"
+        }
+      }
     },
     {
       "parameters": {
@@ -35,7 +41,6 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Name": "={{ $('Wufoo Trigger').item.json['Name:'].Vorname}} {{ $('Wufoo Trigger').item.json['Name:'].Nachname }}",
             "Email": "={{ $('Wufoo Trigger').item.json['E-Mail-Adresse'] }}",
             "Telefon": "={{ $('Wufoo Trigger').item.json.Telefonnummer }}",
             "Immo": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Immobilien'][0] }}",
@@ -55,15 +60,6 @@
           },
           "matchingColumns": [],
           "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
             {
               "id": "Email",
               "displayName": "Email",
@@ -261,6 +257,16 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "Resend (MAKE.COM)",
+              "displayName": "Resend (MAKE.COM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -272,11 +278,17 @@
       "typeVersion": 4.6,
       "position": [
         736,
-        480
+        368
       ],
-      "id": "771a8cab-e219-490e-bb46-c2899f43fdb3",
+      "id": "9dcb374e-03ec-485f-965e-b4ab99831358",
       "name": "Append row in sheet",
-      "retryOnFail": true
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -288,9 +300,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        240
+        128
       ],
-      "id": "37646545-ac03-471a-9c34-ad2f1f88b119",
+      "id": "1698f872-906d-44ba-b30a-2ebd25265e83",
       "name": "Sticky Note"
     },
     {
@@ -304,9 +316,9 @@
       "typeVersion": 1,
       "position": [
         240,
-        240
+        128
       ],
-      "id": "e35480f4-67db-42b6-b7cb-91ba70c69e01",
+      "id": "46542d3d-87e7-4b5c-99ae-67d20b869496",
       "name": "Sticky Note1"
     },
     {
@@ -320,9 +332,9 @@
       "typeVersion": 1,
       "position": [
         672,
-        240
+        128
       ],
-      "id": "9a46d660-ff02-4506-81bd-20b8c68b1516",
+      "id": "2da9f59f-f1f3-47ef-a428-fd6530abdcf8",
       "name": "Sticky Note2"
     },
     {
@@ -336,9 +348,9 @@
       "typeVersion": 1,
       "position": [
         912,
-        240
+        128
       ],
-      "id": "46f364e7-dc86-48ff-8ab6-556478ec6b30",
+      "id": "889bd9de-4929-47c4-9479-19e4e96d85c3",
       "name": "Sticky Note3"
     },
     {
@@ -352,9 +364,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        0
+        -112
       ],
-      "id": "f9eb6bf4-e83c-494b-8fe8-5f3b1fbbf8b3",
+      "id": "4ac70baa-3b19-4197-8744-5c1f4890c726",
       "name": "Sticky Note4"
     },
     {
@@ -387,13 +399,13 @@
       "typeVersion": 3,
       "position": [
         288,
-        480
+        368
       ],
-      "id": "b1b0f34c-19d3-48f8-ad2c-760cc998aa53",
+      "id": "ed72f055-e385-4178-87c8-7a863d0fc9ea",
       "name": "Copy file",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "reZwBdwR7JImRDL0",
+          "id": "BbCFaKmXdJMnNCm2",
           "name": "Google Drive account"
         }
       }
@@ -502,10 +514,16 @@
       "typeVersion": 2,
       "position": [
         512,
-        480
+        368
       ],
-      "id": "6f493298-c0bd-4aa7-9adc-72b8a8fc9494",
-      "name": "Update a document"
+      "id": "919541a2-d7d3-45d3-9e17-1e8d7e0606ec",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "qVRiWRvOhvPAHWEY",
+          "name": "Google Docs account"
+        }
+      }
     },
     {
       "parameters": {
@@ -513,12 +531,6 @@
         "url": "=https://qk7fee.eu-4.quentn.com/public/api/v1/contact/{{ $('Create Quentn Contact').item.json.id }}/terms  ",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {}
-          ]
-        },
         "sendBody": true,
         "contentType": "raw",
         "body": "=[120]",
@@ -528,13 +540,13 @@
       "typeVersion": 4.2,
       "position": [
         1408,
-        384
+        272
       ],
-      "id": "200c5023-ed94-43e6-bd50-e09002dba94d",
+      "id": "c36b9713-6fb0-44d6-b24f-362a7e7bc9aa",
       "name": "Add Tag to Quentn",
       "credentials": {
         "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
+          "id": "TJRzr6Az2grEDjk7",
           "name": "Quentn Bearer Auth"
         }
       }
@@ -545,15 +557,6 @@
         "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
-            }
-          ]
-        },
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $('Wufoo Trigger').item.json['Name:'].Vorname }}\",\n      \"family_name\" : \"{{ $('Wufoo Trigger').item.json['Name:'].Nachname }}\",\n      \"mail\" : \"{{ $('Wufoo Trigger').item.json['E-Mail-Adresse'] }}\",\t\n      \"request_ip\" : \"{{ $json.ip }}\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
@@ -563,13 +566,13 @@
       "typeVersion": 4.2,
       "position": [
         1184,
-        480
+        368
       ],
-      "id": "e0fc2f84-3fda-4339-ac96-5191bbae0adc",
+      "id": "04e13e38-400a-47d8-9789-b1f27cef3734",
       "name": "Create Quentn Contact",
       "credentials": {
         "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
+          "id": "TJRzr6Az2grEDjk7",
           "name": "Quentn Bearer Auth"
         }
       },
@@ -584,9 +587,9 @@
       "typeVersion": 2,
       "position": [
         960,
-        480
+        368
       ],
-      "id": "dfd9c0dc-12f3-43fe-a8ff-a5f0eea52cdd",
+      "id": "594afcc6-0e2e-44f1-9987-57ff8b0a522c",
       "name": "Generate Random IP"
     },
     {
@@ -702,10 +705,16 @@
       "typeVersion": 4.6,
       "position": [
         1408,
-        576
+        464
       ],
-      "id": "7d676c64-e2d1-4c10-aa9c-fe512bfd5913",
-      "name": "log debug info"
+      "id": "5bd1bd48-698f-49c5-a181-bd5491da3ab9",
+      "name": "Log Error",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qJ5ck4AVx9Jx37Fr",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -713,45 +722,45 @@
       {
         "json": {
           "Name:": {
-            "Vorname": "Hanne ",
-            "Nachname": "Bernardy "
+            "Vorname": "Karolina ",
+            "Nachname": "Klocker "
           },
-          "E-Mail-Adresse": "hanneb1967@t-online.se",
-          "Telefonnummer": "004915773757666",
+          "E-Mail-Adresse": "klocker.bacher@yahoo.com",
+          "Telefonnummer": "00436645320434",
           "Besitzen Sie Immobilien": [
-            "Ja"
+            "Nein"
           ],
           "Optional: Wie viel haben Sie in Immobilien investiert?": [
-            "€500.000 - €1.000.000"
+            "weniger als €100.000 "
           ],
           "Besitzen Sie Wertpapiere?": [
-            "Ja"
+            "Nein"
           ],
           "Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)": [
-            "€50.000 - €100.000"
+            "weniger als €10.000 "
           ],
           "Besitzen Sie Edelmetalle?": [
-            "Ja"
+            "Nein"
           ],
           "Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)": [
-            "mehr als €100.000"
+            "weniger als €10.000 "
           ],
           "Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?": [
             "Nein"
           ],
-          "Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?": [],
+          "Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?": [
+            "€100 - €200"
+          ],
           "Haben Sie Geld auf der Bank?": [
             "Ja"
           ],
           "Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)": [
-            "mehr als €100.000"
+            "weniger als €10.000 "
           ],
           "Haben Sie alternative (Sach-)Werte?": [
-            "Ja"
+            "Nein"
           ],
-          "Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)": [
-            "€10.000 - €50.000"
-          ],
+          "Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)": [],
           "Anmerkungen, Feedback?": ""
         }
       }
@@ -813,7 +822,7 @@
         ],
         [
           {
-            "node": "log debug info",
+            "node": "Log Error",
             "type": "main",
             "index": 0
           }
@@ -832,14 +841,17 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "WbISMAIlclQfzorG"
   },
-  "versionId": "2bfae70f-d757-401e-9e9a-eda383950326",
+  "versionId": "e84863ef-bc03-4499-887a-3c55f798536c",
   "meta": {
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
   },
-  "id": "kHKFhVPITCrOrnVp",
+  "id": "JMthBLb0QjUIuNUI",
   "tags": []
 }
