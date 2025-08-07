@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-23T18:22:59.856Z",
-  "updatedAt": "2025-07-01T17:26:55.000Z",
+  "updatedAt": "2025-08-06T18:53:36.000Z",
   "id": "eL1zWuEq378dkGx1",
   "name": "Scrape Larajobs",
   "active": true,
@@ -17,8 +17,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -420,
-        -210
+        -416,
+        -208
       ],
       "id": "536cd28e-f7da-43f8-9c9d-8810ae236285",
       "name": "Schedule Trigger"
@@ -48,8 +48,8 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        20,
-        -210
+        32,
+        -208
       ],
       "id": "25ecff53-fc08-416b-a429-6887d6df52a4",
       "name": "HTML"
@@ -86,7 +86,7 @@
       "typeVersion": 1.2,
       "position": [
         240,
-        -210
+        -208
       ],
       "id": "e38375a7-2c99-4bd5-85b5-cf023c941d76",
       "name": "HTML1"
@@ -100,8 +100,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        460,
-        -210
+        464,
+        -208
       ],
       "id": "f684a321-1cb3-4c5a-b0b0-7884a28e9792",
       "name": "Loop Over Items"
@@ -150,7 +150,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        680,
+        688,
         -160
       ],
       "id": "6dd70292-c439-4975-8c94-394e769b19da",
@@ -167,8 +167,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        900,
-        -360
+        1120,
+        -368
       ],
       "id": "fb337d0a-ce7d-4a02-9999-40551a7f964d",
       "name": "AI Agent"
@@ -181,8 +181,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        680,
-        -360
+        688,
+        -368
       ],
       "id": "c0fa76d8-4014-467d-993d-3444e6ccca28",
       "name": "Aggregate"
@@ -201,8 +201,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        940,
-        -140
+        1152,
+        -144
       ],
       "id": "cb98c953-9bde-4273-9022-4e4d91bf1652",
       "name": "OpenAI Chat Model",
@@ -215,41 +215,42 @@
     },
     {
       "parameters": {
-        "sendTo": "adamhaley@gmail.com",
-        "subject": "=Fresh Laravel Jobs! ({{ $now.format('M-dd-yyyy')}})",
-        "emailType": "text",
-        "message": "={{ $json.output }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.1,
-      "position": [
-        1260,
-        -360
-      ],
-      "id": "964d91df-6baa-42b4-ae2a-b23088cb50ca",
-      "name": "Gmail",
-      "webhookId": "9e9f07fa-e50c-4d36-a645-0735cbd5cb36",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "p2hZcd01ehWmDyQ7",
-          "name": "adam@adamhaley.com Gmail"
-        }
-      }
-    },
-    {
-      "parameters": {
         "url": "https://larajobs.com/",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -200,
-        -200
+        -208,
+        -208
       ],
       "id": "d2667a10-00d2-4bfe-afd1-1d4a8bc9f6e3",
       "name": "Scrape LaraJobs"
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@ahmedia.ai",
+        "toEmail": "adamhaley@gmail.com",
+        "subject": "=Fresh Laravel Jobs! ({{ $now.format('M-dd-yyyy')}})",
+        "emailFormat": "text",
+        "text": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1600,
+        -368
+      ],
+      "id": "7504d5d7-3e3d-4871-8fd3-47c892c46a53",
+      "name": "Send email",
+      "webhookId": "712e8330-29a9-407e-9880-95a80c10088a",
+      "credentials": {
+        "smtp": {
+          "id": "184zfe9H1Rf34NpO",
+          "name": "AHMedia SMTP account"
+        }
+      }
     }
   ],
   "connections": {
@@ -341,7 +342,7 @@
       "main": [
         [
           {
-            "node": "Gmail",
+            "node": "Send email",
             "type": "main",
             "index": 0
           }
@@ -372,7 +373,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "19c20c34-6541-4047-95a1-ee92ae982773",
+  "versionId": "57204d4f-f1bc-4483-b3e4-7ba8ffd10a4b",
   "triggerCount": 1,
   "tags": []
 }
