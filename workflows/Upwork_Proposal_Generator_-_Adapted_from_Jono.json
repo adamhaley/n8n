@@ -1,0 +1,1160 @@
+{
+  "createdAt": "2025-08-07T16:53:44.915Z",
+  "updatedAt": "2025-08-07T22:37:15.000Z",
+  "id": "00wsR5yptstpL0b4",
+  "name": "Upwork Proposal Generator - Adapted from Jono",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "06c42f39-6c48-4bf4-b927-0dd3b2815026",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "Datasets",
+        "datasetId": "={{ $json.defaultDatasetId }}",
+        "offset": {}
+      },
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "7cf84893-63c7-4428-9546-18c396dea011",
+      "name": "Get dataset items",
+      "alwaysOutputData": true,
+      "credentials": {
+        "apifyApi": {
+          "id": "dh2WW5qry105DFGj",
+          "name": "Apify account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bbbec168-0593-4aba-b471-e4bc5442e030",
+              "name": "interests",
+              "value": "=I'm interested in helping automate business tasks using n8n, as well as integrating AI with python, langchain and advanced scripting.  I'm only interested in jobs that have a score of over 2/5",
+              "type": "string"
+            },
+            {
+              "id": "1bec785b-a53f-417e-9f5b-49d42e8b8cdb",
+              "name": "=score",
+              "value": "I'm looking for a job that pays a fixed rate over $1000, or is at least $50 USD/hour. Scoring is out of 5 and here's how points are awarded:\n-2 points if it's super related to n8n, Make.com or Go High Level, or 1 point if it's somewhat related to one of them\n-1 point if it's over $50 USD/hour or a fixed rate over $1,000\n-1 point if the contracts is looking for more than 3 months\n-1 point if it's a service based business",
+              "type": "string"
+            },
+            {
+              "id": "a4480a66-424a-4330-ab80-ce420739c160",
+              "name": "tools",
+              "value": "n8n, Make.com, python, LLMs",
+              "type": "string"
+            },
+            {
+              "id": "354a8a80-ccd5-4c0d-a4fc-fb6d626d66ee",
+              "name": "company_link",
+              "value": "https://ahmedia.ai",
+              "type": "string"
+            },
+            {
+              "id": "8c744d67-52fc-4aeb-aee2-503795930370",
+              "name": "calendar",
+              "value": "https://automatable.co/calendar",
+              "type": "string"
+            },
+            {
+              "id": "637c9e2e-d599-4f63-ba84-5a086906f6aa",
+              "name": "proposal",
+              "value": "Hi!  My name is Adam Haley, I am based out of Los Angeles and I would love to take on your project and knock it out of the park! I have plenty of AI Automation experience in n8n and also python and langchain. Please see my attached Loom vid introduction. I look forward to chatting further and taking on this project should you see me as a good fit!  Best, Adam Haley",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        0
+      ],
+      "id": "aac66c97-7a47-492d-a067-60a9077b64dd",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "50159445-9480-4e51-bbf6-2222b1423146",
+              "leftValue": "={{ $json.message.content.score }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        0
+      ],
+      "id": "5b7ea9a1-e17c-44ba-80dc-59600a361df4",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You're a helpful Upwork job analyzing assistant that is great at grabbing certain details off of an Upwork job post, such as: payment type, duration, experience_level, salary, location, and project_type. ",
+              "role": "system"
+            },
+            {
+              "content": "=Title: {{ $json.Title }}\n\nJob Description:\n{{ $json.Description}}\n\nContract Type: {{$json[\"Project Type\"] }}\nFixed Price Budget: {{ $json.Salary}}\n"
+            },
+            {
+              "content": "The output must be JSON, structure like this:\n{\n\"payment_type\": \"string\",\n\"duration\": \"string\",\n\"\"experience_level\": \"string\",\n\"salary\": \"string\",\n\"location\": \"string\",\n\"project_type\": \"string\",\n}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        496,
+        384
+      ],
+      "id": "e6d45b31-d84a-4cb9-979b-6a949407f82b",
+      "name": "Job Details",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You're an intelligent Upowrk assistant that is great at analyzing job listings and finding the best matches for me:\n1. Scoring them on a 1-5 point basis based on the follow guildelines below, while also taking into consideration my interests and what I'm looking for\n\nHere is the scoring guideline:\n{{ $json.score }}",
+              "role": "system"
+            },
+            {
+              "content": "=Title: {{ $('Get dataset items').item.json.title }}\nDescription: {{ $('Get dataset items').item.json.description }}\nHere's my expertise and interests:\n{{ $json.interests }}"
+            },
+            {
+              "content": "Please output the following data in JSON format with the following structure:\n{\n\"score\": 0 //1-5 points here\n}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        864,
+        0
+      ],
+      "id": "73f2a7c9-d763-4a10-8b84-b674b0824703",
+      "name": "Scoring & Filtering",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a highly intelligent assistant that writes Upwork proposals that make clients feel excited — and even foolish — not to work with me.\nYour job is to:\n\nTake the example proposal below and mirror its tone, structure, and style.\n\nSlightly modify it based on the new job description, but keep 90% of the wording the same unless necessary for relevance.\n\nAlways stick to the structure:\n1. Intro\n2. Goal\n3. Portfolio link\n4. Examples of why I'm the perfect candidate\n5. Skills\n6. Conclusion\n\nFormatting Rules:\n1. Never under any circumstances use placeholder variables like [Client Name] or [Job Title] or [your link here].\n2. Do not use Markdown or HTML for formatting (e.g., no **bold**, ##, etc.)\n3. Use only plain text.\n4. Lists must be numbered like 1), 2), 3).\n5. Do not invent personal stories or projects that weren’t mentioned.\n6. Sell clients on why I’m the best choice — it should feel like a no-brainer to get on a call.\n7. Always sign off with my name",
+              "role": "system"
+            },
+            {
+              "content": "=Job Description:\n{{$('Get row(s) in sheet').item.json.Description }}"
+            },
+            {
+              "content": "=Proposal: {{ $json.prompt }}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1088,
+        384
+      ],
+      "id": "656a6e45-b707-4b92-a087-02580b970920",
+      "name": "Job Details1",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "maxItems": 50
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        0
+      ],
+      "id": "dfed5737-3807-428f-a54b-78c6a479a9d0",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ",
+          "mode": "list",
+          "cachedResultName": "n8n Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $now.format('y-MM-dd') }}",
+            "time": "={{ $now.format('HH:mm') }}",
+            "workflow name": "={{ $workflow.name }}",
+            "workflow id": "={{ $workflow.id }}",
+            "message": "={{ $input }}",
+            "execution": "={{ $execution.id }}",
+            "stacktrace": "="
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow name",
+              "displayName": "workflow name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow id",
+              "displayName": "workflow id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution",
+              "displayName": "execution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stacktrace",
+              "displayName": "stacktrace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "node",
+              "displayName": "node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1536,
+        496
+      ],
+      "id": "44de89b5-3d62-4049-ac6d-23f563f68d02",
+      "name": "Log Error",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Automate Upwork Proposals\n\n- Daily schedule trigger\n- runs Apify Upwork Extractor Actor to get latest 50 job postings by search term\n- Scores results by given parameters, limit 10",
+        "height": 448,
+        "width": 1952,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        -208
+      ],
+      "id": "24863dfe-0b6a-421b-827e-8de79f8c40f4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Filter and AI\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n- Generate proposal on the best matches (score of 2 or higher) \n- save to Google Sheet\n\n\n",
+        "height": 384,
+        "width": 1952,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        256
+      ],
+      "id": "cd74d6a3-0143-4c50-a1e4-d2a50556763f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8",
+          "mode": "list",
+          "cachedResultName": "Upwork Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Description": "={{ $('Get dataset items').item.json.description }}",
+            "Title": "={{ $('Get dataset items').item.json.title }}",
+            "URL": "={{ $('Get dataset items').item.json.url }}",
+            "Status": "={{ $('Get dataset items').item.json.status }}",
+            "Payment Type": "={{ $('Get dataset items').item.json.type }}",
+            "Location": "={{ $('Get dataset items').item.json.buyer.location.city }}, {{ $('Get dataset items').item.json.buyer.location.country }}",
+            "Timezone": "={{ $('Get dataset items').item.json.buyer.location.countryTimezone }}",
+            "Date": "={{ $('Get dataset items').item.json.ts_publish }}",
+            "Duration": "={{ $('Get dataset items').item.json.hourly.duration.label }}",
+            "Experience": "={{ $('Get dataset items').item.json.contractorTier }}",
+            "Date Scraped": "={{ $now.format('y-MM-dd') }}",
+            "Score": "={{ $json.message.content.score }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date Scraped",
+              "displayName": "Date Scraped",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Payment Type",
+              "displayName": "Payment Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Duration",
+              "displayName": "Duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Salary",
+              "displayName": "Salary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Timezone",
+              "displayName": "Timezone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Type",
+              "displayName": "Project Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Found",
+              "displayName": "Found",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Applied",
+              "displayName": "Applied",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1664,
+        0
+      ],
+      "id": "e61c792b-991f-4947-bbd3-9f42200f20b6",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8",
+          "mode": "list",
+          "cachedResultName": "Upwork Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "URL": "={{ $('Get row(s) in sheet').item.json.URL }}",
+            "Salary": "={{ $('Edit Fields1').item.json.job_details.message.content.salary }}",
+            "Message": "={{ $json.message.content.proposal }}"
+          },
+          "matchingColumns": [
+            "URL"
+          ],
+          "schema": [
+            {
+              "id": "Date Scraped",
+              "displayName": "Date Scraped",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Payment Type",
+              "displayName": "Payment Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Duration",
+              "displayName": "Duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Salary",
+              "displayName": "Salary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Timezone",
+              "displayName": "Timezone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Project Type",
+              "displayName": "Project Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Found",
+              "displayName": "Found",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Applied",
+              "displayName": "Applied",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1536,
+        320
+      ],
+      "id": "ba46ba49-67f2-4079-82bf-47c4cfaa8693",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XEt20yHVtBArkULc",
+          "name": "adamhaley@gmail.com Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8",
+          "mode": "list",
+          "cachedResultName": "Upwork Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hS3VupCpUMDYSHluyBjJY7wcCy4GG5yhjb-Aef11qP8/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Date Scraped",
+              "lookupValue": "={{$now.format('y-MM-dd') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        256,
+        384
+      ],
+      "id": "2ac60d76-7012-4fe5-b518-f37c88d20700",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XEt20yHVtBArkULc",
+          "name": "adamhaley@gmail.com Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "567c5e70-41f7-44fb-b12d-79ec24959aca",
+              "name": "prompt",
+              "value": "Hi!  My name is Adam Haley, I am based out of Los Angeles and I would love to take on your project and knock it out of the park! I have plenty of AI Automation experience in n8n and also python and langchain. Please see my attached Loom vid introduction. I look forward to chatting further and taking on this project should you see me as a good fit!  Best, Adam Haley",
+              "type": "string"
+            },
+            {
+              "id": "224f4779-4c5c-46d7-9e16-a8142c0ed09b",
+              "name": "job_details",
+              "value": "={{$json}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        384
+      ],
+      "id": "8c1d599d-cc0c-4f75-b2d3-891a6972f0c4",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtMinute": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        384
+      ],
+      "id": "9c6b9744-61f4-47be-8b02-af6d3b2c0360",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "actorId": {
+          "__rl": true,
+          "value": "gLI248Zq7Fja9xoMo",
+          "mode": "list",
+          "cachedResultName": "Upwork Extractor (jupri/upwork)",
+          "cachedResultUrl": "https://console.apify.com/actors/gLI248Zq7Fja9xoMo/input"
+        },
+        "customBody": "{\n    \"contract_to_hire\": false,\n    \"dev_dataset_clear\": false,\n    \"dev_no_strip\": false,\n    \"fixed\": false,\n    \"hourly\": false,\n    \"includes.attachments\": false,\n    \"includes.history\": false,\n    \"limit\": 50,\n    \"no_hires\": false,\n    \"payment_verified\": false,\n    \"previous_clients\": false,\n    \"query\": \"n8n\"\n}"
+      },
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ce8119cf-14c4-46ba-92cd-7d71a1e47c38",
+      "name": "Run an Actor",
+      "credentials": {
+        "apifyApi": {
+          "id": "LRj7L1ncToiBihkA",
+          "name": "AHMedia APIFY"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Run an Actor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get dataset items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Scoring & Filtering",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Details": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scoring & Filtering": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Details1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Job Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Job Details1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run an Actor": {
+      "main": [
+        [
+          {
+            "node": "Get dataset items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "CFxyw7s6FYHGw941"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-08-07T10:53:35.757-07:00",
+          "Readable date": "August 7th 2025, 10:53:35 am",
+          "Readable time": "10:53:35 am",
+          "Day of week": "Thursday",
+          "Year": "2025",
+          "Month": "August",
+          "Day of month": "07",
+          "Hour": "10",
+          "Minute": "53",
+          "Second": "35",
+          "Timezone": "America/Los_Angeles (UTC-07:00)"
+        }
+      }
+    ]
+  },
+  "versionId": "2bbae884-fdcb-474b-9cf3-5d590501bfa3",
+  "triggerCount": 2,
+  "tags": []
+}
