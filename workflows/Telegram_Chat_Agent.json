@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T21:09:33.208Z",
-  "updatedAt": "2025-07-12T00:04:20.000Z",
+  "updatedAt": "2025-08-07T19:27:19.000Z",
   "id": "2Ei9KR4iP84Nv4QL",
   "name": "Telegram Chat Agent",
   "active": true,
@@ -18,7 +18,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -900,
+        -896,
         0
       ],
       "id": "739d3005-da94-42bb-911a-3da68eca2233",
@@ -27,7 +27,8 @@
     {
       "parameters": {
         "resource": "file",
-        "fileId": "={{ $json.message.voice.file_id }}"
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
@@ -68,8 +69,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -680,
-        100
+        -688,
+        112
       ],
       "id": "d7295af2-8ee1-4651-a8d5-c442c42e33c4",
       "name": "Add sessionId"
@@ -89,8 +90,8 @@
       "type": "n8n-nodes-base.renameKeys",
       "typeVersion": 1,
       "position": [
-        -900,
-        200
+        -896,
+        208
       ],
       "id": "e178c350-da20-47e5-911f-0a4ddbdc6ee3",
       "name": "Normalize Msg"
@@ -152,8 +153,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -1340,
-        100
+        -1344,
+        112
       ],
       "id": "008da576-5d75-445c-95db-79727ee8544d",
       "name": "Is Voice or Text?"
@@ -168,8 +169,8 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1560,
-        100
+        -1568,
+        112
       ],
       "id": "375c1654-1c28-4bbb-90fd-0b133166ee1e",
       "name": "Receive Message",
@@ -193,8 +194,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -20,
-        25
+        -16,
+        32
       ],
       "id": "14a4696d-fb96-4cd6-ac3f-ca6be72dddf4",
       "name": "Cartesia TTS"
@@ -211,8 +212,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        200,
-        25
+        208,
+        32
       ],
       "id": "c28c5d6c-4736-455c-b86f-1bdb2d07dd3e",
       "name": "Send Audio Reply",
@@ -236,8 +237,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        420,
-        100
+        432,
+        112
       ],
       "id": "205d33f0-b5c4-45e4-88b4-674a40940e86",
       "name": "Send Text Reply",
@@ -294,8 +295,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -460,
-        100
+        -464,
+        112
       ],
       "id": "c2b9053c-3857-4331-ad1d-71b537d31dc2",
       "name": "Call BOT CORE"
@@ -303,13 +304,15 @@
     {
       "parameters": {
         "content": "## Telegram AI Agent Wrapper\n",
+        "height": 224,
+        "width": 448,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1420,
-        -240
+        -1568,
+        -256
       ],
       "id": "8d16181c-68f4-414c-825f-0cae45bba4ff",
       "name": "Sticky Note"
@@ -372,7 +375,7 @@
       "typeVersion": 3.2,
       "position": [
         -240,
-        100
+        112
       ],
       "id": "fd2e1d8d-6713-4c8e-ad9c-2987f9f2618e",
       "name": "Is Voice or Text?1"
@@ -512,7 +515,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "709a4225-e904-4100-8b74-3a357d31d206",
+  "versionId": "1296faa4-675b-445c-8d05-637978b2fd88",
   "triggerCount": 1,
   "tags": []
 }
