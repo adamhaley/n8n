@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-01T03:39:11.805Z",
-  "updatedAt": "2025-07-14T22:02:13.000Z",
+  "updatedAt": "2025-08-10T18:17:36.000Z",
   "id": "90aE9VfgouGkDwgi",
   "name": "Backup Workflows To Github (Proper Names)",
   "active": true,
@@ -34,7 +34,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -660,
+        -656,
         160
       ],
       "id": "47e9b7a7-50a8-4c96-b0c6-6665dab721f2",
@@ -48,8 +48,8 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        -220,
-        60
+        -224,
+        64
       ],
       "id": "fcf4b8dc-6b84-42c2-8dc7-037edfd88273",
       "name": "Extract from File"
@@ -65,7 +65,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1540,
+        -1536,
         160
       ],
       "id": "7e7a6f8c-ef3a-45bd-9d8f-e152149e3d3a",
@@ -92,7 +92,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -1320,
+        -1328,
         160
       ],
       "id": "1083b86d-442d-4a30-9ff9-d132ecee33b3",
@@ -143,8 +143,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -440,
-        60
+        -448,
+        64
       ],
       "id": "a02616b2-e821-49ca-9dbf-a1fc6500e0a0",
       "name": "Get The File",
@@ -169,7 +169,7 @@
       "type": "n8n-nodes-base.n8n",
       "typeVersion": 1,
       "position": [
-        -1100,
+        -1104,
         160
       ],
       "id": "81c6f055-5983-476a-8c0c-00def6ad1075",
@@ -210,7 +210,7 @@
       "typeVersion": 2.2,
       "position": [
         0,
-        60
+        64
       ],
       "id": "d505afcd-faf8-42a8-9693-b3746dab7c3e",
       "name": "if n8n Workflow has Updates"
@@ -242,8 +242,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -440,
-        260
+        -448,
+        272
       ],
       "id": "67644118-0954-45a2-9d5f-f5239e338084",
       "name": "Create File on Github",
@@ -278,8 +278,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        220,
-        -40
+        224,
+        -48
       ],
       "id": "985273cf-0d79-424e-bfd1-d0c91020cc58",
       "name": "Update File on GIthub",
@@ -289,18 +289,140 @@
           "id": "Jvt1VN8GL1z1M8pS",
           "name": "GitHub account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {},
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        220,
+        224,
         160
       ],
       "id": "22887938-79b4-4dc7-a760-7984e2a2c2db",
       "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ",
+          "mode": "list",
+          "cachedResultName": "n8n Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $now.format('y-MM-dd') }}",
+            "time": "={{ $now.format('HH:mm a') }}",
+            "workflow name": "={{ $json.data.name }}",
+            "workflow id": "={{ $json.data.id }}",
+            "message": "={{ $json.error }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow name",
+              "displayName": "workflow name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow id",
+              "displayName": "workflow id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution",
+              "displayName": "execution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stacktrace",
+              "displayName": "stacktrace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "node",
+              "displayName": "node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        448,
+        64
+      ],
+      "id": "a27b8d42-be16-499c-9279-f3e722ef8051",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
     }
   ],
   "connections": {
@@ -405,6 +527,18 @@
           }
         ]
       ]
+    },
+    "Update File on GIthub": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -417,9 +551,29 @@
       "recurrenceRules": []
     }
   },
-  "meta": null,
-  "pinData": {},
-  "versionId": "c336ae26-ff28-4431-a76e-eb315c9858ac",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Run Daily": [
+      {
+        "json": {
+          "timestamp": "2025-08-10T00:00:41.015-07:00",
+          "Readable date": "August 10th 2025, 12:00:41 am",
+          "Readable time": "12:00:41 am",
+          "Day of week": "Sunday",
+          "Year": "2025",
+          "Month": "August",
+          "Day of month": "10",
+          "Hour": "00",
+          "Minute": "00",
+          "Second": "41",
+          "Timezone": "America/Los_Angeles (UTC-07:00)"
+        }
+      }
+    ]
+  },
+  "versionId": "2b5bd0d7-e47e-433a-9630-3f66e20ad2aa",
   "triggerCount": 1,
   "tags": []
 }
