@@ -159,7 +159,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        464,
+        672,
         -32
       ],
       "id": "bbbdce16-020f-48dd-9984-c577000bb74f",
@@ -187,7 +187,7 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        688,
+        896,
         -32
       ],
       "id": "0bffbdbe-5afc-4415-8526-ddd80c5714e1",
@@ -207,13 +207,19 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
-        "options": {}
+        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"{{ Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.') }}\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          }
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        912,
+        1120,
         -32
       ],
       "id": "2fc26427-b7bb-4774-b283-2b1eeb54cb2c",
@@ -236,15 +242,15 @@
           "parameters": [
             {
               "name": "email",
-              "value": "={{ $json.body[0].mail }}"
+              "value": "={{ $json.mail }}"
             },
             {
               "name": "=first_name",
-              "value": "={{ $json.body[0].first_name }}"
+              "value": "={{ $json.first_name }}"
             },
             {
               "name": "last_name",
-              "value": "={{ $json.body[0].family_name }}"
+              "value": "={{ $json.family_name }}"
             },
             {
               "name": "memberships",
@@ -261,7 +267,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        240,
+        448,
         -32
       ],
       "id": "8ebb9a4b-02c2-4d22-804c-431989d23050",
@@ -309,7 +315,7 @@
       "parameters": {
         "content": "## POST to MarkusDan.com endpoint",
         "height": 416,
-        "width": 224
+        "width": 416
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -330,7 +336,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        416,
+        608,
         -176
       ],
       "id": "2b08096f-a452-45eb-8b69-caf6715b035f",
@@ -346,7 +352,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        640,
+        832,
         -176
       ],
       "id": "1b1318ce-c1b7-40fc-8b20-baf7b6fb6452",
@@ -362,7 +368,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        864,
+        1056,
         -176
       ],
       "id": "be32d585-2910-42e8-8177-078e5d1228e7",
@@ -382,6 +388,20 @@
       ],
       "id": "d67f71ae-4192-427e-ae0d-532729687dde",
       "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        224,
+        -32
+      ],
+      "id": "8a379b7b-c7cb-445b-aec7-3e1a77c2aad9",
+      "name": "Split Out"
     }
   ],
   "pinData": {
@@ -391,25 +411,57 @@
           "headers": {
             "host": "n8n.megyk.com",
             "user-agent": "Drupal (+http://drupal.org/)",
-            "content-length": "230",
+            "content-length": "1283",
             "content-type": "application/json",
             "via": "1.0 Caddy",
             "x-forwarded-for": "176.9.50.181",
             "x-forwarded-host": "n8n.megyk.com",
             "x-forwarded-proto": "https",
-            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
+            "x-quentn-hmac-sha256": "0La/CxGAHmzfod8ONvPcqBxCB9DvmuzwURZ37p8Rc+o=",
             "accept-encoding": "gzip"
           },
           "params": {},
           "query": {},
           "body": [
             {
-              "title": "",
-              "first_name": "TEST 2",
-              "family_name": "TEST 2",
+              "title": "m",
+              "first_name": "Frank",
+              "family_name": "Heinrich",
               "company": "",
               "job_title": "",
-              "mail": "test@adamhaley.com",
+              "mail": "frank@wertvolleratgeber.info",
+              "website": "",
+              "phone": "03303504569",
+              "ba_street": "Karl-Liebknecht-Straße 6",
+              "ba_city": "Hohen Neuendorf",
+              "ba_postal_code": "16540",
+              "ba_state": "",
+              "ba_country": "DE",
+              "id": "9793"
+            },
+            {
+              "title": "",
+              "first_name": "Adam Testing",
+              "family_name": "Haley Testing",
+              "company": "",
+              "job_title": "",
+              "mail": "adamhaley@gmail.com",
+              "website": "",
+              "phone": "(555)5555555",
+              "ba_street": "",
+              "ba_city": "",
+              "ba_postal_code": "",
+              "ba_state": "",
+              "ba_country": "",
+              "id": "62763"
+            },
+            {
+              "title": "",
+              "first_name": "Florian ",
+              "family_name": "Eichinger",
+              "company": "",
+              "job_title": "",
+              "mail": "florian.e@gmx.net",
               "website": "",
               "phone": "",
               "ba_street": "",
@@ -417,11 +469,43 @@
               "ba_postal_code": "",
               "ba_state": "",
               "ba_country": "",
-              "id": "62535"
+              "id": "62842"
+            },
+            {
+              "title": "",
+              "first_name": "Frank",
+              "family_name": "Heinrich",
+              "company": "",
+              "job_title": "",
+              "mail": "hnoranienburg@aol.com",
+              "website": "",
+              "phone": "03303504569",
+              "ba_street": "",
+              "ba_city": "",
+              "ba_postal_code": "",
+              "ba_state": "",
+              "ba_country": "",
+              "id": "62935"
+            },
+            {
+              "title": "",
+              "first_name": "Florian",
+              "family_name": "Martini",
+              "company": "",
+              "job_title": "",
+              "mail": "music@florianmartini.com",
+              "website": "",
+              "phone": "06506666902",
+              "ba_street": "",
+              "ba_city": "",
+              "ba_postal_code": "",
+              "ba_state": "",
+              "ba_country": "",
+              "id": "62940"
             }
           ],
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
-          "executionMode": "test"
+          "webhookUrl": "https://n8n.megyk.com/webhook/12d976d8-c8fa-4acc-86f4-d6766f86c644",
+          "executionMode": "production"
         }
       }
     ]
@@ -464,6 +548,17 @@
       "main": [
         [
           {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
             "node": "POST To MarkusDan.com Members",
             "type": "main",
             "index": 0
@@ -478,7 +573,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "errorWorkflow": "WbISMAIlclQfzorG"
   },
-  "versionId": "b8a398cb-7912-4a6f-b534-970a8fd57194",
+  "versionId": "e77086e0-82ca-449f-b71b-2bc1590b7c2f",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "0a1535091d9aa08924749a816438820dbcd60489c6352757a3e5df80f2b6e736"
