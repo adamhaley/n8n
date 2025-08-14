@@ -1,0 +1,2185 @@
+{
+  "name": "Create Invoice For RonnieAdamowicz.com",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 10
+            }
+          ]
+        }
+      },
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -2800,
+        288
+      ],
+      "id": "ed75ca83-ee90-4fc3-92ca-9aeebe0ddc61"
+    },
+    {
+      "parameters": {
+        "functionCode": "const discounts = {\n  \"Marc Torrisi\": 30,\n  \"Qualin Critch\": 50\n};\n\nreturn items.map(item => {\n  const fullName = `${item.json.firstName} ${item.json.lastName}`;\n  const basePrice = item.json.booking_price ?? item.json.service_price ?? 0;\n  const discount = discounts[fullName] || 0;\n  const finalPrice = Math.max(basePrice - discount, 0);\n\n  item.json.finalPrice = finalPrice;\n  item.json.discount = discount;\n  return item;\n});"
+      },
+      "name": "Apply Discounts & Final Price",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1680,
+        288
+      ],
+      "id": "5c42f92b-576e-45b7-86ec-d48f6f319ac9"
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.map(item => {\n  const priceInCents = Math.round(item.json.finalPrice * 100);\n  return {\n    json: {\n      ...item.json,\n      invoiceLines: [\n        {\n          price_data: {\n            currency: 'aud',\n            product_data: {\n              name: item.json.service_name,\n              description: `Booking on ${item.json.bookingStart}`\n            },\n            unit_amount: \n          },\n          quantity: 1\n        }\n      ]\n    }\n  }\n});"
+      },
+      "name": "Prepare Invoice Lines",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1856,
+        1024
+      ],
+      "id": "78c56f21-08ef-4972-87e1-ef06eb1a2013"
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.map(item => {\n  if (item.json.hasPaymentMethod) {\n    item.json.finalizeInvoice = true;\n  } else {\n    item.json.finalizeInvoice = false;\n  }\n  return item;\n});"
+      },
+      "name": "Finalize or Request Payment",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -2128,
+        624
+      ],
+      "id": "0f281cc3-27e3-42c7-99e9-d0637df72208",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "invoice"
+      },
+      "name": "Finalize Invoice",
+      "type": "n8n-nodes-base.stripe",
+      "typeVersion": 1,
+      "position": [
+        -1680,
+        608
+      ],
+      "id": "ba8a6129-0038-4ed3-86bb-33de8eefbdfe",
+      "credentials": {
+        "stripeApi": {
+          "id": "MYGl7glbxfmWzYcc",
+          "name": "Stripe account"
+        }
+      },
+      "disabled": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"finalizeInvoice\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "IF Finalize Invoice?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1904,
+        624
+      ],
+      "id": "65867342-d2f1-48ea-95ef-0172222f518e",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fromEmail": "your-email@example.com",
+        "toEmail": "your-email@example.com",
+        "subject": "Daily Amelia Invoice Summary",
+        "text": "Invoices generated today:\n\n{{$json.map(i => `${i.firstName} ${i.lastName} - Invoice ID: ${i.id} - Amount: $${(i.finalPrice || 0).toFixed(2)} - Finalized: ${i.finalizeInvoice}`).join('\\n')}}",
+        "options": {}
+      },
+      "name": "Send Summary Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [
+        -1232,
+        608
+      ],
+      "id": "d7228e7e-4e58-4e76-984a-6e33e2589842",
+      "credentials": {
+        "smtp": {
+          "id": null,
+          "name": "Your SMTP Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.stripe.com/v1/customers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=email",
+              "value": "={{ $json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2800,
+        640
+      ],
+      "id": "a56d3545-3f24-498b-9b0a-9f1d3823b0b1",
+      "name": "Get Stripe Customer",
+      "executeOnce": false,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "U8fq6tIf3iL5jUUD",
+          "name": "WP Amelia Basic Auth"
+        },
+        "httpHeaderAuth": {
+          "id": "SjkelfdI6yrpdaNO",
+          "name": "Header Auth Stripe API"
+        },
+        "httpBearerAuth": {
+          "id": "3GVkVoB6durMxexf",
+          "name": "Bearer Auth Stripe API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "89de3963-97ca-4de4-adc1-3243167e99fa"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stripe_record_exists"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2b7e418d-5972-4af3-9da3-0dadffb6de6e",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stripe_record_does_not_exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -2576,
+        640
+      ],
+      "id": "4ba55288-7a7c-4309-b588-be2e1c2ca520",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "customer",
+        "operation": "create",
+        "name": "={{ $('add searchName').item.json.firstName }} {{ $('add searchName').item.json.lastName }}",
+        "additionalFields": {
+          "email": "={{ $('add searchName').item.json.email }}"
+        }
+      },
+      "type": "n8n-nodes-base.stripe",
+      "typeVersion": 1,
+      "position": [
+        -2816,
+        992
+      ],
+      "id": "34b0fdcf-e2a7-4a91-a455-a57a3c685c37",
+      "name": "Create a customer",
+      "executeOnce": false,
+      "credentials": {
+        "stripeApi": {
+          "id": "MYGl7glbxfmWzYcc",
+          "name": "Stripe account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://ronnieadamowicz.com/wp-admin/admin-ajax.php?action=wpamelia_api&call=/api/v1/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dates",
+              "value": "={{ $now.format('y-MM-dd') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2576,
+        288
+      ],
+      "id": "4f8c04a8-351c-4010-a16a-14cde10dc347",
+      "name": "Get Todays Bookings",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "3lWuuVkaxZMIqCyJ",
+          "name": "Header Auth Amelia API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return JSON.parse( $input.first().json.data );"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2352,
+        288
+      ],
+      "id": "690491f7-e4b9-49cc-8706-e5d053a95d07",
+      "name": "Parse"
+    },
+    {
+      "parameters": {
+        "jsCode": "const root = $input.first().json.data;\nconst apptsObj = root?.appointments;\n\n\nif (!apptsObj || !Object.keys(apptsObj).length) return [];\n\nconst firstDateKey = Object.keys(apptsObj).sort()[0];\nconst day = apptsObj[firstDateKey];\nconst appointments = Array.isArray(day?.appointments) ? day.appointments : [];\n\n\nreturn appointments.map(a => ({ json: a }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2128,
+        288
+      ],
+      "id": "e955cb9e-cea1-442d-b62b-efcef9591167",
+      "name": "Flattern"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8bb3a713-18bc-462f-94ab-3a5ac8259809",
+              "name": "booking_id",
+              "value": "={{ $json.bookings[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "b2dba125-a90a-4ac3-bc4b-dc8b65b59508",
+              "name": "customerId",
+              "value": "={{ $json.bookings[0].customer.id }}",
+              "type": "string"
+            },
+            {
+              "id": "c093a6ca-1445-47ea-a65d-dacd280c0076",
+              "name": "email",
+              "value": "={{ $json.bookings[0].customer.email }}",
+              "type": "string"
+            },
+            {
+              "id": "e9c03b8a-c84d-4b3f-8306-4a734962fdfc",
+              "name": "firstName",
+              "value": "={{ $json.bookings[0].customer.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "008cf26b-41dd-483c-85b9-48ec991b2afd",
+              "name": "lastName",
+              "value": "={{ $json.bookings[0].customer.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "82ebf150-b1f7-469e-873a-3984f07b6d9b",
+              "name": "bookingStart",
+              "value": "={{ $json.bookings[0].payments[0].dateTime }}",
+              "type": "string"
+            },
+            {
+              "id": "6a6e9500-6026-42f6-a2c5-53a257414981",
+              "name": "service_id",
+              "value": "={{ $json.serviceId }}",
+              "type": "string"
+            },
+            {
+              "id": "9c5b47ee-8e2c-4434-8ca0-49f04b2627ff",
+              "name": "service_name",
+              "value": "={{ $json.service.name }}",
+              "type": "string"
+            },
+            {
+              "id": "20829e43-b5e7-405c-ba10-d860c1b6751d",
+              "name": "service_price",
+              "value": "={{ $json.service.price }}",
+              "type": "string"
+            },
+            {
+              "id": "1e7e2cd2-238e-4638-a28d-c6e511fc3dad",
+              "name": "booking_price",
+              "value": "={{ $json.service.price }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1904,
+        288
+      ],
+      "id": "ac35c866-d7a6-41a5-b097-d38469882eb3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "## Get Todays Bookings\n-9:00am schedule trigger\n-Get all of today's bookings",
+        "height": 240,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2880,
+        0
+      ],
+      "id": "d7d81ab4-390b-4a78-9501-b15db78d17f7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Format customer Booking Data\n\n- parse JSON\n- Flatten array\n- [Set]-extract customer object\n- Apply Discounts\n- add searchName\n- Filter out service_id=2",
+        "height": 544,
+        "width": 1360,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2400,
+        0
+      ],
+      "id": "03a8c1cc-b1e2-4887-88d0-d0d1a8df1f5e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "$input.item.json.searchName = ($input.item.json.firstName + ' ' + $input.item.json.lastName).toLowerCase();\n\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1456,
+        288
+      ],
+      "id": "790be800-38e7-4e6f-9d30-18d7eb7c9514",
+      "name": "add searchName"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f4ebe7e7-a0e0-40dc-b663-615a9c776284",
+              "leftValue": "={{ $json.service_id }}",
+              "rightValue": "2",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        288
+      ],
+      "id": "ebf897ef-2b66-4f33-91d0-8ae78767bcd5",
+      "name": "Filter Service_id = 2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -2352,
+        832
+      ],
+      "id": "9e73fb59-c63d-4da4-acd6-e67e08316f04",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.stripe.com/v1/invoices",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "customer",
+              "value": "={{ $json.data[0].id }}"
+            },
+            {
+              "name": "description"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2352,
+        624
+      ],
+      "id": "9e002c2e-61b6-47d7-9508-57becb272a86",
+      "name": "Create Stripe Invoice",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SjkelfdI6yrpdaNO",
+          "name": "Header Auth Stripe API"
+        },
+        "httpBearerAuth": {
+          "id": "3GVkVoB6durMxexf",
+          "name": "Bearer Auth Stripe API Auth"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Flattern": [
+      {
+        "json": {
+          "id": 7594,
+          "bookings": [
+            {
+              "id": 7670,
+              "customerId": 1047,
+              "customer": {
+                "id": 1047,
+                "firstName": "Sean",
+                "lastName": "Haufler",
+                "birthday": null,
+                "email": "seanhaufler@gmail.com",
+                "phone": "+19257080021",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7594,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7670,
+                  "customerBookingId": 7670,
+                  "packageCustomerId": null,
+                  "parentId": null,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 01:00:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-08-07 03:56:06",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-08-07 13:56:06",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": null,
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": null,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "g8qvfo730unfpg5lm1qtib28u0",
+          "googleMeetUrl": "https://meet.google.com/rhe-jort-usj",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 74199900158,
+            "startUrl": "https://us04web.zoom.us/s/74199900158?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMiIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3NDE5OTkwMDE1OCIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6ImRlMDA0YjEzZmY4MDRjM2Q5NzdlYzIzMmMxYTUzMzA5Iiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxLCJ3Y2QiOiJ1czA0IiwiZXhwIjoxNzU0NTQ2MTY3LCJpYXQiOjE3NTQ1Mzg5NjcsImFpZCI6InZzN0NORkhMUjZpQmgtdVNpRVpVQ2ciLCJjaWQiOiIifQ.pN97eXnCM3dGGc0ddjv7nKOCe1HEXYn_YNF81dv1kMc",
+            "joinUrl": "https://us04web.zoom.us/j/74199900158?pwd=gR6kadNPj4jB79sHmem4Usw74wUITL.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 01:00:00",
+          "bookingEnd": "2025-08-14 01:50:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": true,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 7602,
+          "bookings": [
+            {
+              "id": 7678,
+              "customerId": 1059,
+              "customer": {
+                "id": 1059,
+                "firstName": "Samuel",
+                "lastName": "Vengrinovich",
+                "birthday": null,
+                "email": "samuel.vengrinovich@gmail.com",
+                "phone": "+972526697028",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7602,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7678,
+                  "customerBookingId": 7678,
+                  "packageCustomerId": null,
+                  "parentId": null,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 02:00:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-08-10 19:05:15",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-08-11 05:05:15",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": null,
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": null,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "uenm8ks4sqikpr5ufdksf49soc",
+          "googleMeetUrl": "https://meet.google.com/ucz-qurh-ovg",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 77626099286,
+            "startUrl": "https://us04web.zoom.us/s/77626099286?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMiIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3NzYyNjA5OTI4NiIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6IjE0ODU0ZTczYWQ0NTQ2ZjZhZTYwZDYyOTUyYzNiN2VmIiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxLCJ3Y2QiOiJ1czA0IiwiZXhwIjoxNzU0ODU5OTE3LCJpYXQiOjE3NTQ4NTI3MTcsImFpZCI6InZzN0NORkhMUjZpQmgtdVNpRVpVQ2ciLCJjaWQiOiIifQ.6y2N3rSjZdF0-T_Uje-avWI6pRqxDKJ-MsPkuRMALrc",
+            "joinUrl": "https://us04web.zoom.us/j/77626099286?pwd=BngBiVUxDut7gJFSiQiNPxKbApxvVS.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 02:00:00",
+          "bookingEnd": "2025-08-14 02:50:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": true,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 7059,
+          "bookings": [
+            {
+              "id": 7123,
+              "customerId": 534,
+              "customer": {
+                "id": 534,
+                "firstName": "Coreena",
+                "lastName": "Long",
+                "birthday": null,
+                "email": "crippie@bigpond.com",
+                "phone": "+61438075927",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7059,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7123,
+                  "customerBookingId": 7123,
+                  "packageCustomerId": null,
+                  "parentId": 7106,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 15:00:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-04-06 05:28:55",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-04-06 15:28:55",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": "{\"firstName\":\"Coreena\",\"lastName\":\"Long\",\"phone\":null,\"locale\":null,\"timeZone\":\"Australia\\/Melbourne\",\"urlParams\":null}",
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": 7042,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "f7dg23n481cmh7a073nufhciuk",
+          "googleMeetUrl": "https://meet.google.com/emt-kqna-xne",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 73792524726,
+            "startUrl": "https://us04web.zoom.us/s/73792524726?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3Mzc5MjUyNDcyNiIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6ImY4MzA1ZTU4YjMzZDQ2NDM4N2YwY2ViMWM1NWE1YjU2Iiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxMDAsIndjZCI6InVzMDQiLCJleHAiOjE3NDM5MjQ1NjQsImlhdCI6MTc0MzkxNzM2NCwiYWlkIjoidnM3Q05GSExSNmlCaC11U2lFWlVDZyIsImNpZCI6IiJ9.xwRifEtR1p6aaCqKezI_iFmdo1-YUNuvNBZfqG4jS00",
+            "joinUrl": "https://us04web.zoom.us/j/73792524726?pwd=8jm061KdNjp9IJJEEraLfTLO3UVEc5.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 15:00:00",
+          "bookingEnd": "2025-08-14 15:50:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": false,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 7420,
+          "bookings": [
+            {
+              "id": 7493,
+              "customerId": 1055,
+              "customer": {
+                "id": 1055,
+                "firstName": "Wayne",
+                "lastName": "Kington",
+                "birthday": null,
+                "email": "waynekington@gmail.com",
+                "phone": "+61488922604",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7420,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7493,
+                  "customerBookingId": 7493,
+                  "packageCustomerId": null,
+                  "parentId": 7490,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 16:00:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-07-17 10:17:24",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-07-17 20:17:24",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": null,
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": 7417,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "vsl989ds3ih1slkprltuld8dsc",
+          "googleMeetUrl": "https://meet.google.com/qmp-rbws-rpe",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 71973042490,
+            "startUrl": "https://us04web.zoom.us/s/71973042490?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMiIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3MTk3MzA0MjQ5MCIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6IjFjODZjNzg4NGNjYzRiNGY5MjVmNTViMTVmOWJlNzA3Iiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxLCJ3Y2QiOiJ1czA0IiwiZXhwIjoxNzUyNzU0NjUxLCJpYXQiOjE3NTI3NDc0NTEsImFpZCI6InZzN0NORkhMUjZpQmgtdVNpRVpVQ2ciLCJjaWQiOiIifQ.1O2XfMbsnYnSdsE-RktvUBOnIqUVwz41QlyAML7PbgI",
+            "joinUrl": "https://us04web.zoom.us/j/71973042490?pwd=inKfHta03BCY7CBFsRsEsSkXjs8CJo.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 16:00:00",
+          "bookingEnd": "2025-08-14 16:50:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": false,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 6818,
+          "bookings": [
+            {
+              "id": 6877,
+              "customerId": 418,
+              "customer": {
+                "id": 418,
+                "firstName": "Jo",
+                "lastName": "Sharpe",
+                "birthday": null,
+                "email": "joanne.sharpe@ozemail.com.au",
+                "phone": "+61419560343",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 6818,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 6877,
+                  "customerBookingId": 6877,
+                  "packageCustomerId": null,
+                  "parentId": 6852,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 17:00:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-02-13 06:55:31",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-02-13 17:55:31",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": null,
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": 6793,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "upul6sn2t64p57qnlnj65a6ns8",
+          "googleMeetUrl": "https://meet.google.com/gqe-firf-wao",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 71410028122,
+            "startUrl": "https://us04web.zoom.us/s/71410028122?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3MTQxMDAyODEyMiIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6Ijk5NDI1ODNjYzBjMDQyNGM4NzE2YjFlMTNkOGY2NGE0Iiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxMDAsIndjZCI6InVzMDQiLCJleHAiOjE3Mzk0MzY5NzQsImlhdCI6MTczOTQyOTc3NCwiYWlkIjoidnM3Q05GSExSNmlCaC11U2lFWlVDZyIsImNpZCI6IiJ9.3t9nXHJgPdSxYWzzg9NzfY9zgvCTE32Rvq8FBuqPhJI",
+            "joinUrl": "https://us04web.zoom.us/j/71410028122?pwd=uESGNK8W8VRFM7qkMhmNZP7y8f5VaW.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 17:00:00",
+          "bookingEnd": "2025-08-14 17:50:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": false,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 7600,
+          "bookings": [
+            {
+              "id": 7676,
+              "customerId": 1076,
+              "customer": {
+                "id": 1076,
+                "firstName": "Felipe",
+                "lastName": "Canineo",
+                "birthday": null,
+                "email": "schmidtcanineo@hotmail.com",
+                "phone": "+61468637624",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 0,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7600,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7676,
+                  "customerBookingId": 7676,
+                  "packageCustomerId": null,
+                  "parentId": null,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 18:00:00",
+                  "status": "paid",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-08-09 23:41:29",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 1200,
+              "created": "2025-08-10 09:41:29",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "{\"34\":{\"label\":\"What would you like to work on and what would you like to accomplish out of your time in therapy\",\"value\":\"I would like some help with my anxiety and also would like to work on myself.\",\"type\":\"text-area\"}}",
+              "info": "{\"firstName\":\"Felipe\",\"lastName\":\"Canineo\",\"phone\":\"+61468637624\",\"locale\":\"en_AU\",\"timeZone\":\"Australia\\/Melbourne\",\"urlParams\":null}",
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 2,
+          "parentId": null,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 2,
+            "name": "20 min FREE consult",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">This free 20-minute discovery call is designed for new clients to explore whether working together feels like a good fit. It's a chance to ask questions, share your goals, and see if my approach aligns with what you're looking for—no commitment required.</span></p><p><br></p><p><br></p>",
+            "color": "#1788FB",
+            "price": 0,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"onSite\":true,\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":0,\"minimumTimeRequirementPriorToBooking\":10800,\"minimumTimeRequirementPriorToRescheduling\":600,\"numberOfDaysAvailableForBooking\":54},\"activation\":{\"version\":\"8.4\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true},\"microsoftTeams\":{\"enabled\":false}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 1200,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "1gjg3s5ackhlf82qhc75rbknfc",
+          "googleMeetUrl": "https://meet.google.com/qjh-utby-jqt",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 78443499906,
+            "startUrl": "https://us04web.zoom.us/s/78443499906?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMiIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3ODQ0MzQ5OTkwNiIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6ImJkNmM5OGE1ZDlhNTQ4MjBhZDAyYjhlNmQ5YWJjMWJiIiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxLCJ3Y2QiOiJ1czA0IiwiZXhwIjoxNzU0NzkwMDkyLCJpYXQiOjE3NTQ3ODI4OTIsImFpZCI6InZzN0NORkhMUjZpQmgtdVNpRVpVQ2ciLCJjaWQiOiIifQ.8iHSHmlXvH01ZSE5D2q6EI7ShUOOJ_K6qBcsBU_Ay9Q",
+            "joinUrl": "https://us04web.zoom.us/j/78443499906?pwd=ebJb93wsqtCoJ9WcyoKkEgQt160tIk.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 18:00:00",
+          "bookingEnd": "2025-08-14 18:20:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": true,
+          "reschedulable": true,
+          "past": false,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 7582,
+          "bookings": [
+            {
+              "id": 7658,
+              "customerId": 1043,
+              "customer": {
+                "id": 1043,
+                "firstName": "Penny",
+                "lastName": "Canning-Menon",
+                "birthday": null,
+                "email": "canningp2w@gmail.com",
+                "phone": "+61401760623",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7582,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7658,
+                  "customerBookingId": 7658,
+                  "packageCustomerId": null,
+                  "parentId": null,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 18:30:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-07-31 10:03:48",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-07-31 20:03:48",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": null,
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": null,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "eq6d8k9pk6e0pn9cgsqe6mlbfs",
+          "googleMeetUrl": "https://meet.google.com/kbz-jwjj-kxs",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 75772006951,
+            "startUrl": "https://us04web.zoom.us/s/75772006951?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMiIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3NTc3MjAwNjk1MSIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6Ijc0N2U0ZTMxMmE0YTRkOTVhZWVhMjNhNWYwZWE1ZWEwIiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxLCJ3Y2QiOiJ1czA0IiwiZXhwIjoxNzUzOTYzNDMxLCJpYXQiOjE3NTM5NTYyMzEsImFpZCI6InZzN0NORkhMUjZpQmgtdVNpRVpVQ2ciLCJjaWQiOiIifQ.O86M3xTLG0V-9mznAUwR7LIMMWxmMpMowshcTfirwO0",
+            "joinUrl": "https://us04web.zoom.us/j/75772006951?pwd=uuTMGb3TgLs0blXqTGSQFBuR5eRrcF.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 18:30:00",
+          "bookingEnd": "2025-08-14 19:20:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": false,
+          "isGroup": false
+        }
+      },
+      {
+        "json": {
+          "id": 7635,
+          "bookings": [
+            {
+              "id": 7711,
+              "customerId": 1072,
+              "customer": {
+                "id": 1072,
+                "firstName": "Aron",
+                "lastName": "Douek",
+                "birthday": null,
+                "email": "arondouek@gmail.com",
+                "phone": "+61430338753",
+                "type": "customer",
+                "status": "visible",
+                "note": null,
+                "zoomUserId": null,
+                "countryPhoneIso": null,
+                "externalId": null,
+                "pictureFullPath": null,
+                "pictureThumbPath": null,
+                "translations": null,
+                "customFields": null,
+                "appleCalendarId": null,
+                "gender": null,
+                "stripeConnect": null
+              },
+              "status": "approved",
+              "couponId": null,
+              "price": 220,
+              "coupon": null,
+              "tax": null,
+              "appointmentId": 7635,
+              "extras": [],
+              "persons": 1,
+              "token": null,
+              "payments": [
+                {
+                  "id": 7711,
+                  "customerBookingId": 7711,
+                  "packageCustomerId": null,
+                  "parentId": null,
+                  "amount": 0,
+                  "gateway": "onSite",
+                  "gatewayTitle": "",
+                  "dateTime": "2025-08-14 20:00:00",
+                  "status": "pending",
+                  "data": "",
+                  "entity": null,
+                  "created": "2025-08-11 11:36:02",
+                  "actionsCompleted": null,
+                  "triggeredActions": null,
+                  "wcOrderId": null,
+                  "wcOrderItemId": null,
+                  "wcOrderUrl": null,
+                  "wcItemCouponValue": null,
+                  "wcItemTaxValue": null,
+                  "transactionId": null,
+                  "transfers": null,
+                  "invoiceNumber": null,
+                  "paymentLinks": null
+                }
+              ],
+              "utcOffset": null,
+              "aggregatedPrice": true,
+              "isChangedStatus": null,
+              "isLastBooking": null,
+              "packageCustomerService": null,
+              "ticketsData": [],
+              "duration": 3000,
+              "created": "2025-08-11 21:36:02",
+              "actionsCompleted": null,
+              "isNew": null,
+              "isUpdated": null,
+              "customFields": "[]",
+              "info": null,
+              "icsFiles": null
+            }
+          ],
+          "notifyParticipants": 1,
+          "internalNotes": "",
+          "status": "approved",
+          "serviceId": 1,
+          "parentId": null,
+          "providerId": 1,
+          "locationId": 1,
+          "provider": {
+            "id": 1,
+            "firstName": "Ronnie",
+            "lastName": "Adamowicz",
+            "birthday": null,
+            "email": "ronniead@gmail.com",
+            "phone": "+61488857688",
+            "type": "provider",
+            "status": null,
+            "note": null,
+            "zoomUserId": null,
+            "countryPhoneIso": null,
+            "externalId": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "translations": null,
+            "customFields": null,
+            "appleCalendarId": null,
+            "weekDayList": [],
+            "serviceList": [],
+            "dayOffList": [],
+            "specialDayList": [],
+            "locationId": null,
+            "googleCalendar": null,
+            "outlookCalendar": null,
+            "timeZone": null,
+            "description": null,
+            "badgeId": null,
+            "stripeConnect": null,
+            "employeeAppleCalendar": null
+          },
+          "service": {
+            "id": 1,
+            "name": "(50min) Session",
+            "description": "<!-- Content --><p><span class=\"ql-size-large\">These sessions are designed to offer you a judgement free space to explore and process feelings, gain insight, process and let go of trauma, and develop skills and understanding, to meet the challenges faced.</span></p>",
+            "color": "#1788FB",
+            "price": 220,
+            "deposit": null,
+            "depositPayment": null,
+            "depositPerPerson": null,
+            "pictureFullPath": null,
+            "pictureThumbPath": null,
+            "extras": [],
+            "coupons": [],
+            "position": null,
+            "settings": "{\"payments\":{\"stripe\":{\"enabled\":true},\"wc\":{\"productId\":51309},\"paymentLinks\":{\"enabled\":false,\"changeBookingStatus\":false,\"redirectUrl\":null}},\"zoom\":{\"enabled\":true},\"general\":{\"minimumTimeRequirementPriorToCanceling\":null,\"minimumTimeRequirementPriorToBooking\":21600,\"minimumTimeRequirementPriorToRescheduling\":86400,\"numberOfDaysAvailableForBooking\":364},\"activation\":{\"version\":\"7.6.2\"},\"lessonSpace\":{\"enabled\":true},\"googleMeet\":{\"enabled\":true}}",
+            "fullPayment": null,
+            "minCapacity": 1,
+            "maxCapacity": 1,
+            "duration": 3000,
+            "timeBefore": null,
+            "timeAfter": 600,
+            "bringingAnyone": null,
+            "show": null,
+            "aggregatedPrice": null,
+            "status": "visible",
+            "categoryId": 1,
+            "category": null,
+            "priority": [],
+            "gallery": [],
+            "recurringCycle": null,
+            "recurringSub": null,
+            "recurringPayment": 0,
+            "translations": null,
+            "minSelectedExtras": null,
+            "mandatoryExtra": null,
+            "customPricing": null,
+            "maxExtraPeople": null,
+            "limitPerCustomer": null
+          },
+          "location": null,
+          "googleCalendarEventId": "qpj10jjlarf0he0l8t3he4846c",
+          "googleMeetUrl": "https://meet.google.com/zwf-drtj-zyf",
+          "outlookCalendarEventId": null,
+          "microsoftTeamsUrl": null,
+          "appleCalendarEventId": null,
+          "zoomMeeting": {
+            "id": 73217782426,
+            "startUrl": "https://us04web.zoom.us/s/73217782426?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMiIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI3MzIxNzc4MjQyNiIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiQ3BqaC1nN1NUVW1iRjVza3ZtNHRrdyIsInppZCI6IjQwNTBlM2ZkODVkOTQ4YjA4OTBlMjNjZGMwZGEwMjM1Iiwic2siOiIxMzY1MDg2NTg3MzQyNDc4NzI5Iiwic3R5IjoxLCJ3Y2QiOiJ1czA0IiwiZXhwIjoxNzU0OTE5MzYzLCJpYXQiOjE3NTQ5MTIxNjMsImFpZCI6InZzN0NORkhMUjZpQmgtdVNpRVpVQ2ciLCJjaWQiOiIifQ.dC5sgsMXVkIYUnFKn-ZGFWMboEQ4tR2U6RsTgwEKH34",
+            "joinUrl": "https://us04web.zoom.us/j/73217782426?pwd=TTxyLS2OaQzOfY8XzzWPCLHWYSjKkv.1"
+          },
+          "lessonSpace": null,
+          "bookingStart": "2025-08-14 20:00:00",
+          "bookingEnd": "2025-08-14 20:50:00",
+          "type": "appointment",
+          "isRescheduled": null,
+          "isChangedStatus": null,
+          "isFull": null,
+          "resources": [],
+          "initialAppointmentDateTime": null,
+          "createPaymentLinks": null,
+          "cancelable": false,
+          "reschedulable": false,
+          "past": false,
+          "isGroup": false
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Todays Bookings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Discounts & Final Price": {
+      "main": [
+        [
+          {
+            "node": "add searchName",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Invoice Lines": {
+      "main": [
+        []
+      ]
+    },
+    "Finalize or Request Payment": {
+      "main": [
+        [
+          {
+            "node": "IF Finalize Invoice?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Finalize Invoice?": {
+      "main": [
+        [
+          {
+            "node": "Finalize Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalize Invoice": {
+      "main": [
+        [
+          {
+            "node": "Send Summary Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Stripe Customer": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Create Stripe Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Todays Bookings": {
+      "main": [
+        [
+          {
+            "node": "Parse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse": {
+      "main": [
+        [
+          {
+            "node": "Flattern",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flattern": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Apply Discounts & Final Price",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add searchName": {
+      "main": [
+        [
+          {
+            "node": "Filter Service_id = 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Service_id = 2": {
+      "main": [
+        [
+          {
+            "node": "Get Stripe Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Stripe Invoice": {
+      "main": [
+        [
+          {
+            "node": "Finalize or Request Payment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bc856871-dade-48c1-8671-067dd82a8c2e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "573c9b4765088426ec02300020b44228e2ae1e75177bd73e7f7ebc50e1674b7a"
+  },
+  "id": "TInNs7gyNixZtR7M",
+  "tags": []
+}
