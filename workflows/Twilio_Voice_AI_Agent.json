@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-02T23:27:17.794Z",
-  "updatedAt": "2025-06-04T02:52:10.000Z",
+  "updatedAt": "2025-07-03T00:01:15.000Z",
   "id": "rMBtqVrvcdEqRF61",
   "name": "Twilio Voice AI Agent",
   "active": false,
@@ -26,38 +26,13 @@
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "claude-3-7-sonnet-20250219",
-          "cachedResultName": "Claude 3.7 Sonnet"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.3,
-      "position": [
-        -1712,
-        -60
-      ],
-      "id": "dbd0dbdc-01c4-430b-a604-4dad2088e9d7",
-      "name": "Anthropic Chat Model",
-      "credentials": {
-        "anthropicApi": {
-          "id": "RpSgqhlCVqkttICM",
-          "name": "Anthropic account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "ah_media_bot"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -1592,
+        -1600,
         -60
       ],
       "id": "b812518d-4b62-4338-bd0f-12f086902b23",
@@ -79,7 +54,7 @@
       "type": "n8n-nodes-base.twilio",
       "typeVersion": 1,
       "position": [
-        -1364,
+        -1380,
         -280
       ],
       "id": "2e1ff95a-f19f-4048-93c3-b94f6140b5aa",
@@ -112,6 +87,31 @@
           "name": "Twilio account"
         }
       }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -1720,
+        -60
+      ],
+      "id": "dbd0dbdc-01c4-430b-a604-4dad2088e9d7",
+      "name": "Anthropic",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RpSgqhlCVqkttICM",
+          "name": "Anthropic account"
+        }
+      }
     }
   ],
   "connections": {
@@ -121,17 +121,6 @@
           {
             "node": "Twilio",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Anthropic Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -158,6 +147,17 @@
           }
         ]
       ]
+    },
+    "Anthropic": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -173,7 +173,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "9aca6809-ed1e-4618-aa05-d132a39ffcae",
+  "versionId": "71f21831-810c-43ee-a05f-9bc3b139cd59",
   "triggerCount": 1,
   "tags": []
 }
