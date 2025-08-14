@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-04-14T18:11:20.285Z",
-  "updatedAt": "2025-04-25T18:54:51.000Z",
+  "updatedAt": "2025-07-11T19:56:09.000Z",
   "id": "MIuTunGx5TlJ2JNI",
   "name": "Capture Email AHMedia",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -193,7 +193,7 @@
       }
     ]
   },
-  "versionId": "e25beb6a-136e-4f82-b8a2-dbe89f808e28",
+  "versionId": "77c1ed97-049d-4265-8364-a9a5bc12afb4",
   "triggerCount": 1,
   "tags": []
 }
