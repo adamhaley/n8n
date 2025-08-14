@@ -1,0 +1,681 @@
+{
+  "name": "4 day - Next Booking Reminder Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Calculate date 4 days ago\nconst fourDaysAgo = new Date();\nfourDaysAgo.setDate(fourDaysAgo.getDate() - 4);\n\n// Format for Amelia API (YYYY-MM-DD)\nconst targetDate = fourDaysAgo.toISOString().split('T')[0];\nconst startDateTime = targetDate + ' 00:00:00';\nconst endDateTime = targetDate + ' 23:59:59';\n\nconsole.log(`Looking for bookings from: ${targetDate}`);\n\nreturn [{\n  targetDate: targetDate,\n  startDateTime: startDateTime,\n  endDateTime: endDateTime,\n  timestamp: new Date().toISOString()\n}];"
+      },
+      "id": "3916d2a9-dcfb-4948-8229-2492446aa1a2",
+      "name": "Calculate Target Date",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -608
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://ronnieadamowicz.com/wp-admin/admin-ajax.php?action=wpamelia_api&call=/api/v1/appointments",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dates",
+              "value": "={{ $json.targetDate }},{{ $json.targetDate }}"
+            },
+            {
+              "name": "skipServices",
+              "value": "0"
+            },
+            {
+              "name": "skipProviders",
+              "value": "1"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Amelia",
+              "value": "NfNO/tfDXeO3KVBkpkz/QvI/GwxZVdDfD9AmBXnjKaao"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "4cbdca40-2bca-4511-8025-9d275494d108",
+      "name": "Get Bookings 4 Days Ago",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -368,
+        -608
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://ronnieadamowicz.com/wp-json/fluent-crm/v2/subscribers/0",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "get_by_email",
+              "value": "={{ $('Set Extracted Fields1').item.json.email}}\n"
+            },
+            {
+              "name": "per_page",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0e617f68-116c-4ca1-b67d-915df8073af3",
+      "name": "Find FluentCRM Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -608,
+        -288
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "U8fq6tIf3iL5jUUD",
+          "name": "WP Amelia Basic Auth"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://ronnieadamowicz.com/wp-json/fluent-crm/v2/subscribers/{{  $('Find FluentCRM Contact').item.json.subscriber.id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"subscriber\": {\n    \"tags\": [{{ $json.id }}]\n\n  }\n}",
+        "options": {}
+      },
+      "id": "57bd57a4-a945-435a-b932-e78f1fea91d1",
+      "name": "Add FluentCRM Tag",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        -304
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "U8fq6tIf3iL5jUUD",
+          "name": "WP Amelia Basic Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log(`🎉 Successfully added 'no-future-bookings' tag to:`, $input.all());\n\nreturn $input.all().map(item => {\n  return {\n    json: {\n      ...item.json,\n      success: true\n    }\n  };\n});\n"
+      },
+      "id": "84639efd-8714-4984-a3a9-07238d6ea01d",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the incoming JSON (adjust if your incoming variable is different)\nconst data = $input.first().json.data.appointments;\n\nconst customers = Object.values(data)\n    .flatMap(day => day.appointments)\n    .flatMap(appt => appt.bookings)\n    .map(booking => booking.customer);\n\n// Deduplicate by customer ID\nconst customerData = Object.values(\n    customers.reduce((acc, customer) => {\n        acc[customer.id] = customer;\n        return acc;\n    }, {})\n);\n\n// Output just one item per unique customer\n//return uniqueCustomers.map(cust => ({ json: cust }));\n\n\nreturn [{\n  success: false,\n  customerId: customerData[0].id,\n  email: customerData[0].email,\n  firstName: customerData[0].firstName,\n  lastName: customerData[0].lastName,\n  contactId: null,\n  tagAdded: false,\n  reason: 'Contact not found in FluentCRM',\n  timestamp: new Date().toISOString()\n}];\n\n"
+      },
+      "id": "87e127a9-d582-481a-9d7a-e61a99dd8544",
+      "name": "Log Contact Not Found",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Summary of the workflow execution\nconst allInputs = $input.all();\nconst successful = allInputs.filter(item => item.json.success === true).length;\nconst failed = allInputs.filter(item => item.json.success === false).length;\nconst targetDate = $('Calculate Target Date').item.json.targetDate;\n\nconsole.log('\\n📊 WORKFLOW EXECUTION SUMMARY');\nconsole.log('================================');\nconsole.log(`Target Date: ${targetDate}`);\nconsole.log(`Tags Successfully Added: ${successful}`);\nconsole.log(`Contacts Not Found: ${failed}`);\nconsole.log(`Total Processed: ${successful + failed}`);\nconsole.log('================================\\n');\n\nreturn [{\n  workflowSummary: {\n    targetDate: targetDate,\n    tagsAdded: successful,\n    contactsNotFound: failed,\n    totalProcessed: successful + failed,\n    executionTime: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "be367a12-967c-41ff-891b-717d0f61dbb5",
+      "name": "Workflow Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        -240
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "45ab8ca9-bc08-4481-87d2-44edbab7829d",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        -608
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{$json.bookings && $json.bookings.length > 0 ? $json.bookings[0].customer.firstName + ' ' + $json.bookings[0].customer.lastName : ''}}"
+            },
+            {
+              "name": "service",
+              "value": "={{$json.service ? $json.service.name : ''}}"
+            },
+            {
+              "name": "email",
+              "value": "={{$json.bookings && $json.bookings.length > 0 ? $json.bookings[0].customer.email : ''}}"
+            },
+            {
+              "name": "user_id",
+              "value": "={{$json.bookings && $json.bookings.length > 0 ? $json.bookings[0].customer.id.toString() : ''}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set Extracted Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -608
+      ],
+      "id": "0cc4da07-42fc-43a3-870f-bcdccca6ed66"
+    },
+    {
+      "parameters": {
+        "url": "=https://ronnieadamowicz.com/wp-admin/admin-ajax.php?action=wpamelia_api&call=/api/v1/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dates",
+              "value": "={{ $now }}"
+            },
+            {
+              "name": "customerId",
+              "value": "={{ $json.user_id }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        -608
+      ],
+      "id": "eb92eac8-04aa-4a05-aa0d-d903d2caf4d5",
+      "name": "Check Future bookings",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "U8fq6tIf3iL5jUUD",
+          "name": "WP Amelia Basic Auth"
+        },
+        "httpHeaderAuth": {
+          "id": "3lWuuVkaxZMIqCyJ",
+          "name": "Header Auth Amelia API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const root = $input.first().json;\nconst apptsObj = root?.data?.appointments;\n\nif (!apptsObj || !Object.keys(apptsObj).length) return [];\n\nconst firstDateKey = Object.keys(apptsObj).sort()[0];\nconst day = apptsObj[firstDateKey];\nconst appointments = Array.isArray(day?.appointments) ? day.appointments : [];\n\nreturn appointments.map(a => ({ json: a }));\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        -608
+      ],
+      "id": "67c29c27-db2d-40f3-a004-06916d11e259",
+      "name": "Flatten"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return JSON.parse($input.item.json.data)"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        -608
+      ],
+      "id": "07c123fa-7c9c-4d29-bbd4-f7086035c547",
+      "name": "Parse Return JSON"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4f74fc56-47cb-4280-932f-b904897dd09d",
+              "leftValue": "={{ $json.data.appointments[Object.keys($json.data.appointments)[0]].appointments }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        -160
+      ],
+      "id": "3b51d8f9-497b-44c8-8c7b-f58f48008e04",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        -16
+      ],
+      "id": "6ca17c11-353c-437b-b17f-6e6cd0f8ca52",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "url": "https://ronnieadamowicz.com/wp-json/fluent-crm/v2/tags",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "per_page",
+              "value": "50"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -368,
+        -304
+      ],
+      "id": "701ae7c4-0d99-4da5-8a14-50798d4c0d2f",
+      "name": "GET Tags",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "U8fq6tIf3iL5jUUD",
+          "name": "WP Amelia Basic Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tags.data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        -304
+      ],
+      "id": "a9cbd207-b9de-4846-a2ff-ebdd47ba34ea",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a2828040-0bcd-4853-9d75-0782a3781c9a",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "follow-up-4days",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        -304
+      ],
+      "id": "490c6cb6-4dd6-4950-a987-30a9d63f8ffb",
+      "name": "Extract Follow Up 4days Tag"
+    },
+    {
+      "parameters": {
+        "content": "## Get Bookings 4 Days Ago ",
+        "height": 384,
+        "width": 1136,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        -784
+      ],
+      "id": "478af285-34df-4b62-b5ca-87ee77d1649c",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Get Future Bookings",
+        "height": 384,
+        "width": 528,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        224,
+        -784
+      ],
+      "id": "3a8e2740-9f37-4f8c-afc6-4071292e3e47",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## If no future bookings\n",
+        "height": 512,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        -384
+      ],
+      "id": "04d21f48-d57e-4cf5-9e16-6da9c0f1a3e2",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Add Tag to Fluent CRM Contact",
+        "height": 512,
+        "width": 864,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        -384
+      ],
+      "id": "e8468118-508a-4d28-a427-6c02b8a2e355",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Calculate Target Date": {
+      "main": [
+        [
+          {
+            "node": "Get Bookings 4 Days Ago",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Bookings 4 Days Ago": {
+      "main": [
+        [
+          {
+            "node": "Flatten",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find FluentCRM Contact": {
+      "main": [
+        [
+          {
+            "node": "GET Tags",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Contact Not Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add FluentCRM Tag": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Workflow Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Contact Not Found": {
+      "main": [
+        [
+          {
+            "node": "Workflow Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Calculate Target Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Extracted Fields1": {
+      "main": [
+        [
+          {
+            "node": "Check Future bookings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten": {
+      "main": [
+        [
+          {
+            "node": "Set Extracted Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Future bookings": {
+      "main": [
+        [
+          {
+            "node": "Parse Return JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Return JSON": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Find FluentCRM Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Tags": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Extract Follow Up 4days Tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Follow Up 4days Tag": {
+      "main": [
+        [
+          {
+            "node": "Add FluentCRM Tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "095854e0-2a86-40e1-a104-98b2ec4caf47",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "573c9b4765088426ec02300020b44228e2ae1e75177bd73e7f7ebc50e1674b7a"
+  },
+  "id": "Fjmlr9LgqIp9QXsm",
+  "tags": []
+}
