@@ -1,10 +1,14 @@
 {
+  "createdAt": "2025-08-01T23:40:46.152Z",
+  "updatedAt": "2025-08-02T00:45:51.000Z",
+  "id": "2pP2gLfQYbUqlftH",
   "name": "Luis",
+  "active": false,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ $json }}",
+        "respondWith": "allIncomingItems",
         "options": {
           "responseCode": 200,
           "responseHeaders": {
@@ -20,11 +24,26 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        1248,
-        992
+        272,
+        240
       ],
-      "id": "2988024e-9daa-4144-a14a-c019a6cad3da",
-      "name": "Respond to Webhook3"
+      "id": "aa136cc2-c990-473c-806f-75112b40e6fb",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n\t\"id\": \"{{ $json.tables_record_id }}\",\n    \"success\": true,\n    \"message\": \"Task created (mock)\"\n  } ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        592
+      ],
+      "id": "d1dccb87-69d0-4f0e-8561-0b77f5ebc670",
+      "name": "Edit Fields2"
     },
     {
       "parameters": {
@@ -45,10 +64,90 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        1248,
-        800
+        480,
+        592
       ],
-      "id": "931be60d-f1b8-4292-b4ce-37de6fa81861",
+      "id": "c1312a5f-b180-41e4-95ef-af53f6205488",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n\t\"id\": \"TASK-001\",\n    \"success\": true,\n    \"message\": \"Task status Done\"\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        1024
+      ],
+      "id": "96866b9f-833e-4fc8-bb1e-a020202a3cca",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        1024
+      ],
+      "id": "3b3f59ff-7cae-403f-97a3-e18e08243302",
+      "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n\t\"id\": \"TASK-001\",\n    \"success\": true,\n    \"message\": \"Task assignee Linux\"\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        832
+      ],
+      "id": "530c86d2-aecb-46dc-8e58-0eba5289379d",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        832
+      ],
+      "id": "135d05ac-f65f-45a4-82eb-300b0d46210e",
       "name": "Respond to Webhook4"
     },
     {
@@ -57,33 +156,33 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        208,
-        544
+        -464,
+        576
       ],
       "typeVersion": 1,
-      "id": "3b3176b6-33e5-4732-9917-4451d93e2de2",
+      "id": "bdcdd4ba-4d87-4863-8998-4353078600cb",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "content": "## /Tasks endpoints\n",
-        "height": 816,
-        "width": 1040,
+        "height": 656,
+        "width": 912,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        528,
-        -112
+        -208,
+        -80
       ],
       "typeVersion": 1,
-      "id": "e7e6a5c1-7756-4224-9c5a-cb0e48653300",
+      "id": "a62c9145-9d83-4d3b-a072-8e8f49951fbd",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ $json.toJsonString() }}",
+        "responseBody": "={{ $json.data }}",
         "options": {
           "responseCode": 200,
           "responseHeaders": {
@@ -99,11 +198,26 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2336,
-        208
+        1360,
+        240
       ],
-      "id": "44b4901a-9aa8-4d2d-8b86-41762b67c197",
+      "id": "24e4f950-662d-4486-9f68-99598fc1f6a6",
       "name": "Respond to Webhook5"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n\t\"content\": \"## Team Capability Matrix\\n\\n- Adam: Lead Developer\\n- Stacy: Advisor\\n- David: Virtual Assistant\\n- Santiago: Repairs\\n- Linux: Bookkeeping\"\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1152,
+        416
+      ],
+      "id": "c3acd58b-c8d2-44b9-b060-5faa943ff7ef",
+      "name": "Edit Fields6"
     },
     {
       "parameters": {
@@ -124,26 +238,26 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2336,
-        384
+        1360,
+        416
       ],
-      "id": "b4fb741f-c2ac-4957-aa01-5026b8dc7c98",
+      "id": "15d600dc-199f-4416-a898-cb9bd07649fa",
       "name": "Respond to Webhook6"
     },
     {
       "parameters": {
         "content": "## /References endpoints\n",
         "height": 656,
-        "width": 1184,
+        "width": 688,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1600,
-        -112
+        880,
+        -80
       ],
       "typeVersion": 1,
-      "id": "682ed060-1121-4cec-849b-3062571311f5",
+      "id": "cf61d26c-a426-453e-9edf-d4ad051db2b3",
       "name": "Sticky Note2"
     },
     {
@@ -151,22 +265,21 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo",
+          "value": "1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM",
           "mode": "list",
           "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit#gid=0"
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit#gid=0"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "tables_record_id": "={{ $json.body.id }}",
             "Task Name": "={{ $json.body.task_name }}",
             "Description": "={{ $json.body.description }}",
             "Assignee": "={{ $json.body.assignee }}",
@@ -174,7 +287,9 @@
             "Priority": "={{ $json.body.priority }}",
             "Status": "={{ $json.body.status }}",
             "Definition of Done": "={{ $json.body.definition_of_done }}",
-            "tables_created_at": "={{ $now.toString() }}"
+            "tables_record_id": "={{ $json.body.id }}",
+            "tables_updated_at": "=",
+            "tables_created_at": "={{ $now.format('y-MM-dd') }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -185,7 +300,8 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
               "id": "tables_created_at",
@@ -194,7 +310,8 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
               "id": "tables_updated_at",
@@ -203,7 +320,8 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
               "id": "Task Name",
@@ -267,15 +385,6 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true
-            },
-            {
-              "id": "Tags",
-              "displayName": "Tags",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -286,254 +395,216 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        816,
-        384
+        64,
+        416
       ],
-      "id": "fe6b71cc-8040-4098-8c13-6563e7f2cadf",
+      "id": "811bc637-0675-4556-ba66-28004ac346e7",
       "name": "Append row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
-        "path": "/Tasks",
-        "authentication": "headerAuth",
+        "path": "/tasks",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        608,
-        208
+        -144,
+        240
       ],
-      "id": "cc4f0ab9-aef3-4c23-ac5e-e370c9653782",
+      "id": "f3a64edf-b5cb-4b17-8672-627a11e0529b",
       "name": "Get Tasks",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "GET /Tasks"
     },
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "/Tasks",
-        "authentication": "headerAuth",
+        "path": "/create-task",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        608,
-        384
+        -144,
+        416
       ],
-      "id": "1dfac126-bc32-49b0-8fdc-e24d2f1cdbbc",
+      "id": "ee64b4a5-484f-49d1-b754-c541ebb8e949",
       "name": "Create Task",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "POST /Tasks"
     },
     {
       "parameters": {
         "httpMethod": "PATCH",
-        "path": "/Tasks/:id",
-        "authentication": "headerAuth",
+        "path": "/tasks/:id",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        608,
-        560
+        -144,
+        592
       ],
-      "id": "bc0fe3c2-44b7-4cd8-9db4-dba5b647f90c",
+      "id": "0a50c7e6-d81f-4101-a4f3-febfc8d57421",
       "name": "Update Tasks",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "PATCH /Tasks/:id"
     },
     {
       "parameters": {
         "httpMethod": "PATCH",
-        "path": "/Tasks/:id/assignee",
-        "authentication": "headerAuth",
+        "path": "/tasks/:id/assignee",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        592,
-        800
+        -160,
+        832
       ],
-      "id": "0527509f-89fe-4354-b0fd-516ddef5b064",
+      "id": "622193fb-778a-4a18-bda4-75f1fe271246",
       "name": "Update Task Assignee",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "PATCH /Tasks/:id/assignee"
     },
     {
       "parameters": {
         "httpMethod": "PATCH",
-        "path": "/Tasks/:id/status",
-        "authentication": "headerAuth",
+        "path": "/tasks/:id/status",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        592,
-        992
+        -160,
+        1024
       ],
-      "id": "4fc20722-f336-44d6-b382-896267dbd668",
+      "id": "3d12afad-c84b-400c-807a-e135fe3cf714",
       "name": "Update Task Status",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "PATCH /Tasks/:id/status"
     },
     {
       "parameters": {
-        "path": "/References",
-        "authentication": "headerAuth",
+        "path": "/references",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        1696,
-        208
+        944,
+        240
       ],
-      "id": "583df13c-e6b5-42b0-829b-4ca8468f06ea",
+      "id": "6daf2fab-28b9-4dae-8e52-6bf123265330",
       "name": "Get References",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "GET /References"
     },
     {
       "parameters": {
-        "path": "/References/:id",
-        "authentication": "headerAuth",
+        "path": "/references/:id",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        1696,
-        384
+        944,
+        416
       ],
-      "id": "e3e01907-ae1d-48b2-8af3-7d2e651b87c9",
+      "id": "499a5908-1e81-4ae0-8066-95c27b02fb52",
       "name": "Get Reference",
       "webhookId": "0d1f048d-b57f-403d-ac82-bc78fd0d5e8c",
       "notesInFlow": true,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "9dn0arGWjiQcsDv3",
-          "name": "Bearer Token"
-        }
-      },
       "notes": "GET /References/:id"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        272,
+        416
+      ],
+      "id": "96a4d381-0f51-4f8c-8911-a29a5093ef8e",
+      "name": "Respond to Webhook1"
     },
     {
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo",
+          "value": "1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM",
           "mode": "list",
           "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit#gid=0"
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit#gid=0"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        816,
-        208
+        64,
+        240
       ],
-      "id": "4ec4d1a6-7da3-4d08-beaa-aa3b936a6f54",
+      "id": "d9c1020e-c659-4c5c-a8a6-36b0ffa17314",
       "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo",
+          "value": "1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM",
           "mode": "list",
           "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit#gid=0"
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit#gid=0"
         },
         "columns": {
-          "mappingMode": "autoMapInputData",
+          "mappingMode": "defineBelow",
           "value": {
-            "tables_record_id": "={{ $json.params.id }}",
-            "tables_updated_at": "={{ $now.toString() }}",
+            "tables_record_id": "={{ $json.body.id }}",
+            "tables_updated_at": "={{ $now.format('y-MM-dd') }}",
             "Task Name": "={{ $json.body.task_name }}",
             "Description": "={{ $json.body.description }}",
             "Assignee": "={{ $json.body.assignee }}",
@@ -638,75 +709,6 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Tags",
-              "displayName": "Tags",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "params",
-              "displayName": "params",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "query",
-              "displayName": "query",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "webhookUrl",
-              "displayName": "webhookUrl",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "executionMode",
-              "displayName": "executionMode",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
               "id": "row_number",
               "displayName": "row_number",
               "required": false,
@@ -726,16 +728,16 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        816,
-        560
+        64,
+        592
       ],
-      "id": "cbfc9b61-97d4-43d0-8fcb-8b1bef696906",
+      "id": "a94eb696-b7be-4c59-b05b-8a0400c7c4bc",
       "name": "Update row in sheet",
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
         }
       },
       "onError": "continueRegularOutput"
@@ -745,1011 +747,390 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo",
+          "value": "1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM",
           "mode": "list",
           "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "tables_record_id": "={{ $json.params.id }}",
-            "tables_updated_at": "={{ $now }}",
-            "Assignee": "={{ $json.body.assignee }}"
-          },
-          "matchingColumns": [
-            "tables_record_id"
-          ],
-          "schema": [
-            {
-              "id": "tables_record_id",
-              "displayName": "tables_record_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "tables_created_at",
-              "displayName": "tables_created_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "tables_updated_at",
-              "displayName": "tables_updated_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Task Name",
-              "displayName": "Task Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Description",
-              "displayName": "Description",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Assignee",
-              "displayName": "Assignee",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Due Date",
-              "displayName": "Due Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Priority",
-              "displayName": "Priority",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Status",
-              "displayName": "Status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Definition of Done",
-              "displayName": "Definition of Done",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Tags",
-              "displayName": "Tags",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "params",
-              "displayName": "params",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "query",
-              "displayName": "query",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "webhookUrl",
-              "displayName": "webhookUrl",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "executionMode",
-              "displayName": "executionMode",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        816,
-        800
-      ],
-      "id": "388b45db-775f-448c-89fa-dcc4ca64468a",
-      "name": "Update row in sheet1",
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo",
-          "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "tables_updated_at": "={{ $now }}",
-            "tables_record_id": "={{ $json.params.id }}",
-            "Status": "={{ $json.body.status }}"
-          },
-          "matchingColumns": [
-            "tables_record_id"
-          ],
-          "schema": [
-            {
-              "id": "tables_record_id",
-              "displayName": "tables_record_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "tables_created_at",
-              "displayName": "tables_created_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "tables_updated_at",
-              "displayName": "tables_updated_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Task Name",
-              "displayName": "Task Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Description",
-              "displayName": "Description",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Assignee",
-              "displayName": "Assignee",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Due Date",
-              "displayName": "Due Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Priority",
-              "displayName": "Priority",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Status",
-              "displayName": "Status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Definition of Done",
-              "displayName": "Definition of Done",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        816,
-        992
-      ],
-      "id": "4e3131da-059a-4abf-8fdf-afb6952381b7",
-      "name": "Update row in sheet2",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1acBmiaWCisv7q0dVUMw-feFIJlJfrLuJOvfCSDY02bs",
-          "mode": "list",
-          "cachedResultName": "ReferenceIndex",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1acBmiaWCisv7q0dVUMw-feFIJlJfrLuJOvfCSDY02bs/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
           "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1acBmiaWCisv7q0dVUMw-feFIJlJfrLuJOvfCSDY02bs/edit#gid=0"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "tables_record_id"
+          ],
+          "schema": [
+            {
+              "id": "tables_record_id",
+              "displayName": "tables_record_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tables_created_at",
+              "displayName": "tables_created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tables_updated_at",
+              "displayName": "tables_updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task Name",
+              "displayName": "Task Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Due Date",
+              "displayName": "Due Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Definition of Done",
+              "displayName": "Definition of Done",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        1904,
-        208
+        64,
+        832
       ],
-      "id": "3069d0a7-8db6-4d87-bb62-c132b7fc0968",
+      "id": "2d52fc4f-6c79-4706-aa62-13b7fa52853e",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM",
+          "mode": "list",
+          "cachedResultName": "Tasks",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GU4ncABiJjMyUcZsuh2YzZZ-T8jYNUQRcNAP1WxdRPM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "tables_record_id"
+          ],
+          "schema": [
+            {
+              "id": "tables_record_id",
+              "displayName": "tables_record_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tables_created_at",
+              "displayName": "tables_created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tables_updated_at",
+              "displayName": "tables_updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task Name",
+              "displayName": "Task Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Due Date",
+              "displayName": "Due Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Definition of Done",
+              "displayName": "Definition of Done",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        64,
+        1024
+      ],
+      "id": "f9fedad9-cbe7-4ea4-aaa7-84d127c11fd6",
+      "name": "Update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1RBcxhCq1ibSpfFy14BxLheFc5PGlzC96RHuwJf5qV7w",
+          "mode": "list",
+          "cachedResultName": "References",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RBcxhCq1ibSpfFy14BxLheFc5PGlzC96RHuwJf5qV7w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RBcxhCq1ibSpfFy14BxLheFc5PGlzC96RHuwJf5qV7w/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1152,
+        240
+      ],
+      "id": "cb2a87d2-93b0-4e3c-9178-7f3521931a2e",
       "name": "Get row(s) in sheet1",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
         "content": "## Related Entities",
         "height": 480,
-        "width": 1040,
+        "width": 928,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        528,
-        720
+        -224,
+        752
       ],
-      "id": "9100f89e-6f62-45f7-bf64-d8b46018441d",
+      "id": "04672f5b-f24a-4f52-9303-904240ce77b2",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    id: $input.first().json.tables_record_id,\n    success: false,\n    message: $input.first().json.error\n  }\n}else{\n  return {\n    id: $input.first().json.tables_record_id,\n    message: 'Task ' + $input.first().json.tables_record_id + ' Updated!',\n    success:true\n  }\n}\n\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1232,
-        560
-      ],
-      "id": "8b7876bc-915b-433c-b96e-f55fcca5a8ed",
-      "name": "Error Handling"
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n\n    success: false,\n    message: $input.first().json.error\n  }\n}else{\n  return {\n    id: $input.first().json.tables_record_id,\n    message: 'Task Created!',\n    success:true\n  }\n}\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1024,
-        384
-      ],
-      "id": "6751c82f-5387-4418-b1f1-6b8ae07f51fa",
-      "name": "Error Handling1"
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1024,
-        208
-      ],
-      "id": "655e918a-caef-4835-b61e-90ab2ad82d36",
-      "name": "Error Handling2"
-    },
-    {
-      "parameters": {
-        "options": {
-          "responseCode": 200,
-          "responseHeaders": {
-            "entries": [
-              {
-                "name": "Content-Type",
-                "value": "application/json"
-              }
-            ]
-          }
-        }
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.4,
-      "position": [
-        1424,
-        560
-      ],
-      "id": "9d42e0e2-018f-4161-bbab-f1d90c4e193a",
-      "name": "Update Tasks Response"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.4,
-      "position": [
-        1232,
-        384
-      ],
-      "id": "0a49a47c-8104-444b-aa88-86d2312e8eec",
-      "name": "Create Task Response"
-    },
-    {
-      "parameters": {
-        "respondWith": "allIncomingItems",
-        "options": {
-          "responseCode": 200,
-          "responseHeaders": {
-            "entries": [
-              {
-                "name": "Content-Type",
-                "value": "application/json"
-              }
-            ]
-          }
-        }
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.4,
-      "position": [
-        1232,
-        208
-      ],
-      "id": "791ec61c-369a-42b0-ae1a-23945a92d153",
-      "name": "Get Tasks Response"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo",
-          "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Tasks",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lWrGDsBIte5VhvRzACczkA1BlMxMo6lXVFGRfpa_LSo/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "tables_record_id": "={{ $json.params.id }}",
-            "tables_updated_at": "={{ $now }}"
-          },
-          "matchingColumns": [
-            "tables_record_id"
-          ],
-          "schema": [
-            {
-              "id": "tables_record_id",
-              "displayName": "tables_record_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "tables_created_at",
-              "displayName": "tables_created_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "tables_updated_at",
-              "displayName": "tables_updated_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Task Name",
-              "displayName": "Task Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Description",
-              "displayName": "Description",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Assignee",
-              "displayName": "Assignee",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Due Date",
-              "displayName": "Due Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Priority",
-              "displayName": "Priority",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Status",
-              "displayName": "Status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Definition of Done",
-              "displayName": "Definition of Done",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Tags",
-              "displayName": "Tags",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "params",
-              "displayName": "params",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "query",
-              "displayName": "query",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "webhookUrl",
-              "displayName": "webhookUrl",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "executionMode",
-              "displayName": "executionMode",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        1024,
-        560
-      ],
-      "id": "27bf8742-e506-462b-a282-98ac6cfa669d",
-      "name": "Update [tables_updated_at] column",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    id: $('Update Task Assignee').first().json.params.id,\n    success: false,\n    message: $input.first().json.error\n  }\n}else{\n  return {\n    id: $('Update Task Assignee').first().json.params.id,\n    message: 'Task Assignee Updated!',\n    success:true\n  }\n}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1024,
-        800
-      ],
-      "id": "a1326fd0-e731-4f73-b780-1e5b22bd558e",
-      "name": "Error Handling3"
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    id: $('Update Task Status').first().json.params.id,\n    success: false,\n    message: $input.first().json.error\n  }\n}else{\n  return {\n    id:$('Update Task Status').first().json.params.id,\n    message: 'Task Updated!',\n    success:true\n  }\n}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1024,
-        992
-      ],
-      "id": "e9194c53-042d-4a2d-8425-3c8f79ea8717",
-      "name": "Error Handling4"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1acBmiaWCisv7q0dVUMw-feFIJlJfrLuJOvfCSDY02bs",
-          "mode": "list",
-          "cachedResultName": "ReferenceIndex",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1acBmiaWCisv7q0dVUMw-feFIJlJfrLuJOvfCSDY02bs/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1acBmiaWCisv7q0dVUMw-feFIJlJfrLuJOvfCSDY02bs/edit#gid=0"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "id",
-              "lookupValue": "={{ $json.params.id }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        1904,
-        384
-      ],
-      "id": "4f212ef9-18c4-4cbf-b0ae-f3736a909a60",
-      "name": "Get row(s) in sheet2",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "AnSbuaN4bDeXeAZn",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2112,
-        208
-      ],
-      "id": "37a6b572-974a-476c-9872-0d79e3b80bc8",
-      "name": "Error Handling5"
-    },
-    {
-      "parameters": {
-        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2112,
-        384
-      ],
-      "id": "cdab3a93-f7ad-46ac-8e05-eb9f3a45fc14",
-      "name": "Code"
     }
   ],
-  "pinData": {
-    "Create Task": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-dev-td3g.onrender.com",
-            "user-agent": "PostmanRuntime/7.45.0",
-            "content-length": "288",
-            "accept": "*/*",
-            "accept-encoding": "gzip, br",
-            "cache-control": "no-cache",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "209.160.254.18",
-            "cf-ipcountry": "US",
-            "cf-ray": "96a01a3e4ec8f7d9-PDX",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "content-type": "application/json",
-            "postman-token": "e9a254fd-bad1-4431-a235-2cc10f2b57de",
-            "render-proxy-ttl": "4",
-            "rndr-id": "58fee94b-ca83-43c0",
-            "true-client-ip": "209.160.254.18",
-            "x-forwarded-for": "209.160.254.18, 104.23.160.70",
-            "x-forwarded-proto": "https",
-            "x-request-start": "1754331980611502"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "id": "TASK-TEST-001",
-            "task_name": "Follow up with vendor",
-            "description": "Call vendor and confirm delivery time",
-            "assignee": "David",
-            "due_date": "2025-08-05",
-            "priority": "High",
-            "status": "Open",
-            "definition_of_done": "Vendor has confirmed ETA by phone or email"
-          },
-          "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook-test/Tasks",
-          "executionMode": "test"
-        }
-      }
-    ],
-    "Update Tasks": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-dev-td3g.onrender.com",
-            "user-agent": "PostmanRuntime/7.45.0",
-            "content-length": "55",
-            "accept": "*/*",
-            "accept-encoding": "gzip, br",
-            "cache-control": "no-cache",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "209.160.254.18",
-            "cf-ipcountry": "US",
-            "cf-ray": "96a0381f6c822283-PDX",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "content-type": "application/json",
-            "postman-token": "cd261af1-b9f1-4d68-a7f9-a8c85588ac26",
-            "render-proxy-ttl": "4",
-            "rndr-id": "069a8d56-7ea0-4543",
-            "true-client-ip": "209.160.254.18",
-            "x-forwarded-for": "209.160.254.18, 104.23.160.49",
-            "x-forwarded-proto": "https",
-            "x-request-start": "1754333204442256"
-          },
-          "params": {
-            "id": "TASK-TEST-001"
-          },
-          "query": {},
-          "body": {
-            "priority": "Critical",
-            "status": "In Progress"
-          },
-          "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook-test/0d1f048d-b57f-403d-ac82-bc78fd0d5e8c/Tasks/:id",
-          "executionMode": "test"
-        }
-      }
-    ],
-    "Get Reference": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-dev-td3g.onrender.com",
-            "user-agent": "PostmanRuntime/7.45.0",
-            "accept": "*/*",
-            "accept-encoding": "gzip, br",
-            "cache-control": "no-cache",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "209.160.254.18",
-            "cf-ipcountry": "US",
-            "cf-ray": "96a145c3ed3008a6-LAX",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "postman-token": "33e55f6f-42e9-47d6-8fcb-3ae5a9fc4600",
-            "render-proxy-ttl": "4",
-            "rndr-id": "aca42ea6-615e-4717",
-            "true-client-ip": "209.160.254.18",
-            "x-forwarded-for": "209.160.254.18, 172.70.207.118",
-            "x-forwarded-proto": "https",
-            "x-request-start": "1754344249057198"
-          },
-          "params": {
-            "id": "team"
-          },
-          "query": {},
-          "body": {},
-          "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook-test/0d1f048d-b57f-403d-ac82-bc78fd0d5e8c/References/:id",
-          "executionMode": "test"
-        }
-      }
-    ],
-    "Update Task Assignee": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-dev-td3g.onrender.com",
-            "user-agent": "PostmanRuntime/7.45.0",
-            "content-length": "25",
-            "accept": "*/*",
-            "accept-encoding": "gzip, br",
-            "authorization": "Bearer f05c6d5245373f4a81f3eacddbfeb2602bb5e66add8cdd30a836432e313a1965",
-            "cache-control": "no-cache",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "54.86.50.139",
-            "cf-ipcountry": "US",
-            "cf-ray": "96aa0db3eaebb135-IAD",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "content-type": "application/json",
-            "postman-token": "c01a12ef-32dd-48be-89e7-97ab4e4ec8f1",
-            "render-proxy-ttl": "4",
-            "rndr-id": "883fda82-4b58-4ff3",
-            "true-client-ip": "54.86.50.139",
-            "x-forwarded-for": "54.86.50.139, 104.23.211.145",
-            "x-forwarded-proto": "https",
-            "x-request-start": "1754436324732279"
-          },
-          "params": {
-            "id": "TASK-TEST-001"
-          },
-          "query": {},
-          "body": {
-            "assignee": "Stacy"
-          },
-          "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook-test/0d1f048d-b57f-403d-ac82-bc78fd0d5e8c/Tasks/:id/assignee",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
   "connections": {
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Get Tasks": {
       "main": [
         [
@@ -1820,7 +1201,7 @@
       "main": [
         [
           {
-            "node": "Get row(s) in sheet2",
+            "node": "Edit Fields6",
             "type": "main",
             "index": 0
           }
@@ -1831,7 +1212,7 @@
       "main": [
         [
           {
-            "node": "Error Handling1",
+            "node": "Respond to Webhook1",
             "type": "main",
             "index": 0
           }
@@ -1842,7 +1223,7 @@
       "main": [
         [
           {
-            "node": "Error Handling2",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -1853,7 +1234,7 @@
       "main": [
         [
           {
-            "node": "Update [tables_updated_at] column",
+            "node": "Edit Fields2",
             "type": "main",
             "index": 0
           }
@@ -1864,7 +1245,7 @@
       "main": [
         [
           {
-            "node": "Error Handling3",
+            "node": "Edit Fields4",
             "type": "main",
             "index": 0
           }
@@ -1875,7 +1256,7 @@
       "main": [
         [
           {
-            "node": "Error Handling4",
+            "node": "Edit Fields3",
             "type": "main",
             "index": 0
           }
@@ -1886,106 +1267,7 @@
       "main": [
         [
           {
-            "node": "Error Handling5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Handling": {
-      "main": [
-        [
-          {
-            "node": "Update Tasks Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Handling1": {
-      "main": [
-        [
-          {
-            "node": "Create Task Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Handling2": {
-      "main": [
-        [
-          {
-            "node": "Get Tasks Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update [tables_updated_at] column": {
-      "main": [
-        [
-          {
-            "node": "Error Handling",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Handling3": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Handling4": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet2": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Handling5": {
-      "main": [
-        [
-          {
             "node": "Respond to Webhook5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook6",
             "type": "main",
             "index": 0
           }
@@ -1993,15 +1275,48 @@
       ]
     }
   },
-  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c4a2c244-d506-4a0b-aa63-2888eaaf4a89",
+  "staticData": null,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "e36638038ba027540464f5c7ca2a9e38142242a60ad22d34895c7e9597f46493"
+    "templateCredsSetupCompleted": true
   },
-  "id": "GwuVsLnWP7fGSv15",
+  "pinData": {
+    "Create Task": [
+      {
+        "json": {
+          "body": {
+            "id": "1",
+            "task_name": "Test Task",
+            "description": "Lorem ipsum dolor samet",
+            "assignee": "Test",
+            "due_date": "2025-11-01",
+            "priority": "1",
+            "status": "1",
+            "definition_of_done": "Lorem ipsum dolor samet"
+          }
+        }
+      }
+    ],
+    "Update Tasks": [
+      {
+        "json": {
+          "body": {
+            "id": "7",
+            "task_name": "An Updated Test Task",
+            "description": "Lorem ipsum dolor samet hello test test ",
+            "assignee": "Hello",
+            "due_date": "2025-11-01",
+            "priority": "1",
+            "status": "1",
+            "definition_of_done": "Lorem ipsum dolor samet"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "08ffecdd-d2d2-4a44-b8b6-79ceec1c2900",
+  "triggerCount": 0,
   "tags": []
 }
