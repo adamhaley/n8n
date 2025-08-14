@@ -1,1 +1,109 @@
-{"createdAt":"2025-04-21T18:58:10.843Z","updatedAt":"2025-05-16T18:43:02.000Z","id":"0nTFUgJw31voQl2P","name":"Upload FIle to Google Drive for RAG","active":false,"isArchived":false,"nodes":[{"parameters":{"httpMethod":"POST","path":"fded596d-4a61-4fd2-90a4-006df43136bf","responseMode":"responseNode","options":{"binaryPropertyName":"data"}},"type":"n8n-nodes-base.webhook","typeVersion":2,"position":[-220,0],"id":"0ab3c7cc-96cc-46ca-a1f6-7d8d864eada3","name":"Webhook","webhookId":"fded596d-4a61-4fd2-90a4-006df43136bf"},{"parameters":{"inputDataFieldName":"data0","driveId":{"__rl":true,"mode":"list","value":"My Drive"},"folderId":{"__rl":true,"value":"1zaQwxyD3xd090fwyWq8lSxWVcb1Dmf1Y","mode":"id"},"options":{}},"type":"n8n-nodes-base.googleDrive","typeVersion":3,"position":[0,-100],"id":"2bfc817c-7125-4cce-9b52-5971d3b54fce","name":"Google Drive","credentials":{"googleDriveOAuth2Api":{"id":"fA1w6gMdQ2aJNFpG","name":"Google Drive account"}}},{"parameters":{"url":"http://ahmedia.ai:8000/generate-name","options":{}},"type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[0,100],"id":"c42364ca-2389-471b-bd8b-55bfe2858ce4","name":"HTTP Request"},{"parameters":{"options":{}},"type":"n8n-nodes-base.respondToWebhook","typeVersion":1.1,"position":[220,100],"id":"0f540489-2ee7-453f-b4ab-03364693199e","name":"Respond to Webhook"}],"connections":{"Webhook":{"main":[[{"node":"Google Drive","type":"main","index":0},{"node":"HTTP Request","type":"main","index":0}]]},"Google Drive":{"main":[[]]},"HTTP Request":{"main":[[{"node":"Respond to Webhook","type":"main","index":0}]]}},"settings":{"executionOrder":"v1"},"staticData":null,"meta":null,"pinData":{},"versionId":"bb5bbbd6-2626-4265-9c03-468f358086d5","triggerCount":1,"tags":[{"createdAt":"2025-04-21T19:07:16.984Z","updatedAt":"2025-04-21T19:07:16.984Z","id":"8Bm30fL0KHwW334K","name":"ahmedia"},{"createdAt":"2025-04-21T19:07:26.761Z","updatedAt":"2025-04-21T19:07:26.761Z","id":"Or52YJQ2PjEuu9AU","name":"chatbots"},{"createdAt":"2025-04-21T19:07:13.297Z","updatedAt":"2025-04-21T19:07:13.297Z","id":"nJjC20pVwfCRhy4V","name":"rag"}]}
+{
+  "createdAt": "2025-06-01T20:44:20.426Z",
+  "updatedAt": "2025-07-12T00:05:05.000Z",
+  "id": "uHh2zhO8z0QbHbow",
+  "name": "Record Content Idea",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "content"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "28464432-a873-46ac-b47a-5e353f0456db",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hLBdy5lDbK4tFzr909ntf1n0a_65FdI8nZ4MhmW4GCY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "content"
+          ],
+          "schema": [
+            {
+              "id": "content",
+              "displayName": "content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        0
+      ],
+      "id": "009c6b64-3ba8-4940-bdf0-249ad890e0af",
+      "name": "Append row in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "CFxyw7s6FYHGw941"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e870c51c-9dfe-4ad1-9f3b-1afbe3ab88a5",
+  "triggerCount": 0,
+  "tags": []
+}
