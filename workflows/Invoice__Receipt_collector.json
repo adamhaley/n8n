@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-04-02T18:38:13.147Z",
-  "updatedAt": "2025-05-11T22:22:03.000Z",
+  "updatedAt": "2025-07-11T19:56:25.000Z",
   "id": "Ey0bE1Ie1l6NfsfG",
   "name": "Invoice / Receipt collector",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -23,14 +23,14 @@
       "typeVersion": 1.2,
       "position": [
         -480,
-        -80
+        20
       ],
       "id": "af888bfb-7b2b-420b-8139-13d7ae123dfc",
       "name": "Gmail Trigger",
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -45,7 +45,7 @@
       "typeVersion": 2.1,
       "position": [
         -260,
-        -80
+        20
       ],
       "id": "e5bed9ba-faa0-4e84-b963-7956ca287965",
       "name": "Gmail",
@@ -53,7 +53,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -62,14 +62,14 @@
         "promptType": "define",
         "text": "=EMAIL SUBJECT:  {{ $json.subject }}\n\nSENDER: {{ $('Gmail Trigger').item.json.From }}\n\nBODY:{{ $json.text }}",
         "options": {
-          "systemMessage": "Your task is to identify whether this email is a receipt/invoice, or not.\n\nIf it IS a receipt or invoice, output the word \"YES\", otherwise output \"NO\"."
+          "systemMessage": "Your task is to identify whether this email is a receipt/invoice, or not.\n\nIf it IS a receipt or invoice, output the word \"YES\", otherwise output \"NO\". DO not include anything else with your reply."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        -40,
-        -80
+        -400,
+        460
       ],
       "id": "fcd63bae-8f2b-4f5d-bfd0-633d9fa57ca3",
       "name": "AI Agent"
@@ -107,8 +107,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        336,
-        -80
+        320,
+        20
       ],
       "id": "2a5beb71-a133-4014-91cb-77e016180508",
       "name": "Switch"
@@ -125,8 +125,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        556,
-        -80
+        540,
+        20
       ],
       "id": "a9aeb51f-2fca-4492-a6d2-0dcc17a11a5b",
       "name": "Gmail1",
@@ -134,7 +134,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "p2hZcd01ehWmDyQ7",
-          "name": "Gmail account"
+          "name": "adam@adamhaley.com Gmail"
         }
       }
     },
@@ -158,7 +158,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        776,
+        980,
         -80
       ],
       "id": "88a785bd-6f2a-4b96-8145-eb40fca17c1a",
@@ -166,29 +166,93 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "fA1w6gMdQ2aJNFpG",
-          "name": "Google Drive account"
+          "name": "adam@adamhaley.com Google Drive"
         }
       }
     },
     {
       "parameters": {
-        "model": "gemma3:1b",
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ff37d78f-bc50-411b-b99c-1dccab6532e6",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        760,
+        20
+      ],
+      "id": "fb21fd74-6ca4-49e1-8b49-c8e327dbff51",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        48,
-        140
+        980,
+        120
       ],
-      "id": "845744a8-bb69-4482-9b09-61c461bf5ad9",
-      "name": "Ollama Chat Model",
+      "id": "3e0e6c23-a8dc-46fb-a543-fdef5606a171",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        600
+      ],
+      "id": "268e9e64-ae4b-4fa9-b18c-240133ed1230",
+      "name": "Anthropic Chat Model",
       "credentials": {
-        "ollamaApi": {
-          "id": "b1Nz8WxwYDKRmecP",
-          "name": "Ollama account"
+        "anthropicApi": {
+          "id": "RpSgqhlCVqkttICM",
+          "name": "Anthropic account"
         }
       }
+    },
+    {
+      "parameters": {
+        "inputText": "=",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -40,
+        20
+      ],
+      "id": "2479461e-7db2-4739-8f2b-3ace0751d0bd",
+      "name": "Text Classifier"
     }
   ],
   "connections": {
@@ -207,7 +271,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Text Classifier",
             "type": "main",
             "index": 0
           }
@@ -216,13 +280,7 @@
     },
     "AI Agent": {
       "main": [
-        [
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Switch": {
@@ -240,14 +298,32 @@
       "main": [
         [
           {
-            "node": "Google Drive",
+            "node": "If",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Ollama Chat Model": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
       "ai_languageModel": [
         [
           {
@@ -265,15 +341,12 @@
   "staticData": {
     "node:Gmail Trigger": {
       "Gmail Trigger": {
-        "lastTimeChecked": 1751811304,
+        "lastTimeChecked": 1751909931,
         "possibleDuplicates": [
-          "197e0172e1d987f6",
-          "197e00eee1ba2df1",
-          "197df9bfd2e1153e",
-          "197df926519f37d7",
-          "197de89bc5e926a1",
-          "197dd36a6170aa95",
-          "197dbdf77b3d9486"
+          "197e5f81b00bd326",
+          "197e5f5f349b3267",
+          "197e5f43b8e99e0a",
+          "197e5a24ef41580d"
         ]
       }
     }
@@ -282,7 +355,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "11cf847e-cbe5-48a5-8692-cd54305973be",
+  "versionId": "005a1fde-13a5-4754-9373-5a9c3a9664c9",
   "triggerCount": 1,
   "tags": [
     {
