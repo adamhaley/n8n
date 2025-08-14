@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-25T21:48:02.748Z",
-  "updatedAt": "2025-04-25T22:22:53.000Z",
+  "updatedAt": "2025-08-10T19:21:04.000Z",
   "id": "I4kf43NNTQsmBdQL",
   "name": "Extract Resume to AirTable",
   "active": false,
@@ -25,7 +25,7 @@
       "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 2,
       "position": [
-        -420,
+        -416,
         -80
       ],
       "id": "00701202-3eba-457c-8b34-22b2e009f8b5",
@@ -48,35 +48,11 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        -200,
+        -144,
         -80
       ],
       "id": "fdab57e0-a979-4441-b441-e4f91df79c63",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        -260,
-        160
-      ],
-      "id": "7b49379f-e8cf-4db8-8fdd-b3bf078f35e8",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "5GRgzlcJ5Ujkvgcd",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {
@@ -176,8 +152,8 @@
       "type": "n8n-nodes-base.airtableTool",
       "typeVersion": 2.1,
       "position": [
-        40,
-        200
+        64,
+        144
       ],
       "id": "7ae9d09d-39be-4108-9216-b4b36c324c54",
       "name": "Airtable",
@@ -195,11 +171,35 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        -120,
-        140
+        -64,
+        144
       ],
       "id": "e3518c9a-8a09-4138-9157-ef8fa7edf0f1",
       "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -192,
+        144
+      ],
+      "id": "7b49379f-e8cf-4db8-8fdd-b3bf078f35e8",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
     }
   ],
   "connections": {
@@ -220,17 +220,6 @@
           {
             "node": "AI Agent",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -257,6 +246,17 @@
           }
         ]
       ]
+    },
+    "OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -267,7 +267,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6ade8cb4-8294-46cc-ae8d-6871f0bacd2a",
+  "versionId": "faa379d4-b875-4ef1-8c9e-d7687edc4750",
   "triggerCount": 0,
   "tags": []
 }
