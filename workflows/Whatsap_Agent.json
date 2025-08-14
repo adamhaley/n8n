@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-06-06T22:44:37.016Z",
-  "updatedAt": "2025-06-25T02:11:20.000Z",
-  "id": "RxtX2VQfcWer8aQM",
+  "createdAt": "2025-06-25T02:11:30.915Z",
+  "updatedAt": "2025-07-11T19:55:14.000Z",
+  "id": "z7T0HHSpQE90hcLD",
   "name": "Whatsap Agent",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -368,7 +368,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cd62c817-b8aa-41e1-868d-8e7635a293f9",
-  "triggerCount": 1,
+  "versionId": "61807033-8c47-4170-bd51-a1f645718d82",
+  "triggerCount": 0,
   "tags": []
 }
