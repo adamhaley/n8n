@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-08-03T00:12:38.233Z",
-  "updatedAt": "2025-08-03T00:28:45.000Z",
-  "id": "0mupmIyBMc9Mic8o",
-  "name": "GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+  "createdAt": "2025-07-21T01:05:57.801Z",
+  "updatedAt": "2025-08-03T00:10:23.000Z",
+  "id": "3x211AYx7OOXT2A9",
+  "name": "DS24 Booksales to Katrin Sheet",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -26,15 +26,16 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Datum": "={{ $now.format('y-MM-d') }}",
-            "Produkt": "Buch extern (zB Amazon)",
+            "Datum": "={{ $now.format('yyyy-MM-dd') }}",
             "Zeit": "={{ $now.format('HH:mm') }}",
-            "Nachname": "={{ $json.data.last_name }}",
-            "Vorname": "={{ $json.data.first_name }}",
-            "E-Mail": "={{ $json.data.email }}",
-            "Telefonnr.": "={{ $('Webhook').item.json.body[0].phone }}",
-            "Land": "={{ $('Webhook').item.json.body[0].ba_country }}",
-            "Adresse": "={{ $('Webhook').item.json.body[0].ba_street }} {{ $('Webhook').item.json.body[0].ba_city }} {{ $('Webhook').item.json.body[0].ba_state }} {{ $('Webhook').item.json.body[0].ba_postal_code }}"
+            "Produkt": "={{ $json.body.product_name }}",
+            "Anrede": "={{ $json.body.salutation }}",
+            "Nachname": "={{ $json.body.last_name }}",
+            "Vorname": "={{ $json.body.first_name }}",
+            "E-Mail": "={{ $json.body.email }}",
+            "Telefonnr.": "='+{{ $json.body.phone_no }}",
+            "Land": "={{ $json.body.country_name }}",
+            "Adresse": "={{ $json.body.street }}{{ $json.body.city }},{{ $json.body.state }}{{ $json.body.zipcode }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -164,17 +165,11 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        560,
-        368
+        128,
+        -16
       ],
-      "id": "4c0f1c2f-51f3-4346-94ef-75511f32e556",
-      "name": "Append row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "aIDyvQUuR4iZRmoo",
-          "name": "Markus Longdragon Google Acct"
-        }
-      }
+      "id": "bd749da2-2e7a-4860-be8d-0d804462d4c5",
+      "name": "Add Row to Google Sheet"
     },
     {
       "parameters": {
@@ -192,214 +187,159 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        784,
-        368
+        576,
+        -16
       ],
-      "id": "5f529997-f503-4cda-8339-65e23d60add4",
-      "name": "Create a person",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "sqk78yrjAXyJsVVw",
-          "name": "Pipedrive account"
-        }
-      }
+      "id": "f512d0e1-8ec3-4715-8514-92f096fd91eb",
+      "name": "Create a person"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1008,
-        368
-      ],
-      "id": "a220dde3-94ad-4a8b-99db-27fd7b20160a",
-      "name": "Post to Quentn1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
-          "name": "Bearer Auth account 2"
+        "resource": "note",
+        "content": "={{ $json.name }} {{ $json.phones }} {{ $json.emails }} {{ $('Code').item.json.Adresse  }}{{ $('Code').item.json.Land }}",
+        "additionalFields": {
+          "person_id": "={{ $json.id }}"
         }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpQueryAuth",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "email",
-              "value": "test@test.com"
-            },
-            {
-              "name": "first_name",
-              "value": "test"
-            },
-            {
-              "name": "last_name",
-              "value": "test"
-            },
-            {
-              "name": "memberships",
-              "value": "1"
-            },
-            {
-              "name": "notify",
-              "value": "1"
-            },
-            {
-              "name": "opm_api_key",
-              "value": "2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32"
-            }
-          ]
-        },
-        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        336,
-        368
-      ],
-      "id": "76d56700-16ce-46c1-811e-8dd3dd9a24ff",
-      "name": "POST To MarkusDan.com Members",
-      "credentials": {
-        "httpQueryAuth": {
-          "id": "ISBD5w0SgPqx0Sfz",
-          "name": "MarkusDan.com Auth"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "content": "## Receive Webhook POST from Quentn\n\n[Unbenanntes Element (DEH Buchfunnel)]",
-        "height": 416,
-        "width": 256,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
+      "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        0,
-        224
+        1024,
+        -16
       ],
-      "id": "bae6397c-7bbc-4ecb-b37b-81b7bbebec17",
-      "name": "Sticky Note"
+      "id": "96dc3af0-be24-4479-8b9e-a84ffc016036",
+      "name": "Create a note"
     },
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "12d976d8-c8fa-4acc-86f4-d6766f86c644",
+        "path": "4bc1401c-29df-48a8-9a53-824d29fa21d7",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        112,
-        368
+        -96,
+        -16
       ],
-      "id": "07df2488-c076-478e-b694-65fad61821ad",
-      "name": "Webhook",
-      "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
+      "id": "9c450838-d9fd-4728-ac03-e8160102f3b4",
+      "name": "Digistore On Order",
+      "webhookId": "4bc1401c-29df-48a8-9a53-824d29fa21d7"
     },
     {
       "parameters": {
-        "content": "## POST to MarkusDan.com endpoint",
-        "height": 416,
-        "width": 224
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $json.email[0].value }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        800,
+        -16
+      ],
+      "id": "2f449aa7-d308-43ba-b127-9fb856524820",
+      "name": "Search a person"
+    },
+    {
+      "parameters": {
+        "content": "## DS24 Booksales -> Katrin sheet\n- Triggers on a Digistore sale\n- Logs order details (name, email, phone, address, etc.) to a Google Sheet used by the team\n- Creates a person in Pipedrive, and attaches a custom note to their profile with full contact info",
+        "height": 272,
+        "width": 1344,
+        "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        272,
-        224
+        -176,
+        -416
       ],
-      "id": "5080f62c-10eb-46e3-a276-974f974af6e6",
-      "name": "Sticky Note1"
+      "id": "ce8108dc-c047-4e3a-a159-32f16983e99c",
+      "name": "Sticky Note3"
     },
     {
       "parameters": {
-        "content": "## Append to Katrin Google Sheet\n",
-        "height": 416,
+        "jsCode": "const inputData = items[0].json;\n\nconst cleanedData = Object.fromEntries(\n  Object.entries(inputData).map(([key, value]) => {\n    const cleanedValue = typeof value === 'string' && value.trim().replace(/,/g, '') === '' \n      ? 'N/A' \n      : value;\n    return [key, cleanedValue];\n  })\n);\n\nreturn [{ json: cleanedData }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "48d69f21-45a2-4ec7-945a-91b133ea1ac1",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "content": "## Pre-process\nMake sure data values aren't empty",
+        "height": 336,
         "width": 208,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        512,
-        224
+        304,
+        -128
       ],
-      "id": "b09deede-97c5-40bc-897d-0b17db7c56e8",
-      "name": "Sticky Note2"
+      "id": "2cef4a45-f6c6-45b5-83a1-262b847f61d0",
+      "name": "Sticky Note4"
     },
     {
       "parameters": {
-        "content": "## Add Person to Pipedrive\n",
-        "height": 416,
-        "width": 208,
+        "content": "## Pipedrive - add person and create note",
+        "height": 336,
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        528,
+        -128
+      ],
+      "id": "f16f1bca-4ae5-4119-8d58-4e4568c6fc51",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Digistore - order received\n",
+        "height": 336,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        736,
-        224
+        -176,
+        -128
       ],
-      "id": "6c10cfe7-1508-4113-9494-82cb503ded64",
-      "name": "Sticky Note3"
+      "id": "f0e4d808-cc2b-443f-bc4e-57610a628825",
+      "name": "Sticky Note6"
     },
     {
       "parameters": {
-        "content": "## POST Add contact to Quentn",
-        "height": 416,
-        "width": 224,
-        "color": 7
+        "content": "## Append Row in Google Sheet",
+        "height": 336,
+        "width": 208,
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        960,
-        224
+        80,
+        -128
       ],
-      "id": "ded7344d-4d92-4fc4-934b-0c183a2cc819",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "## GOOKGG Amazon -> Katrin Sheet + Pipedrive",
-        "width": 736,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "b9f9893b-01d0-41ec-a9c4-385679e3ea22",
-      "name": "Sticky Note5"
+      "id": "a517cc96-72b8-49f3-9303-43de5f32cb59",
+      "name": "Sticky Note7"
     }
   ],
   "connections": {
-    "Append row in sheet": {
+    "Add Row to Google Sheet": {
       "main": [
         [
           {
-            "node": "Create a person",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
@@ -410,29 +350,40 @@
       "main": [
         [
           {
-            "node": "Post to Quentn1",
+            "node": "Search a person",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "POST To MarkusDan.com Members": {
+    "Digistore On Order": {
       "main": [
         [
           {
-            "node": "Append row in sheet",
+            "node": "Add Row to Google Sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Webhook": {
+    "Search a person": {
       "main": [
         [
           {
-            "node": "POST To MarkusDan.com Members",
+            "node": "Create a note",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Create a person",
             "type": "main",
             "index": 0
           }
@@ -441,55 +392,76 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "gWILjCr3MnTftlFz"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {
-    "Webhook": [
+    "Digistore On Order": [
       {
         "json": {
           "headers": {
             "host": "n8n.megyk.com",
-            "user-agent": "Drupal (+http://drupal.org/)",
-            "content-length": "230",
-            "content-type": "application/json",
-            "via": "1.0 Caddy",
-            "x-forwarded-for": "176.9.50.181",
+            "user-agent": "DigiStore-API/1.0 (Linux; en-US; rv:1.0.0.0) php/20130430 curl/20130430",
+            "content-length": "357",
+            "accept": "*/*",
+            "accept-charset": "utf-8",
+            "accept-encoding": "deflate, gzip, br, zstd",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=utf-8",
+            "traceparent": "00-ccfa4ec6c86b14a86eb7ce2816d1443a-deddfd67343fac93-01",
+            "tracestate": "es=s:1",
+            "via": "2.0 Caddy",
+            "x-forwarded-for": "35.203.70.73",
             "x-forwarded-host": "n8n.megyk.com",
-            "x-forwarded-proto": "https",
-            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
-            "accept-encoding": "gzip"
+            "x-forwarded-proto": "https"
           },
           "params": {},
           "query": {},
-          "body": [
-            {
-              "title": "",
-              "first_name": "TEST 2",
-              "family_name": "TEST 2",
-              "company": "",
-              "job_title": "",
-              "mail": "test@adamhaley.com",
-              "website": "",
-              "phone": "",
-              "ba_street": "",
-              "ba_city": "",
-              "ba_postal_code": "",
-              "ba_state": "",
-              "ba_country": "",
-              "id": "62535"
-            }
-          ],
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
+          "body": {
+            "email": "test@test.com",
+            "first_name": "TEST",
+            "last_name": "TEST",
+            "title": "",
+            "salutation": "",
+            "company": "",
+            "street": "12345 ANywhere Ln.",
+            "city": "Los Angeles",
+            "zipcode": "91602",
+            "state": "CA",
+            "country_code": "USA",
+            "country_name": "",
+            "phone_no": "(323)384-3493",
+            "order_id": "",
+            "transaction_id": "",
+            "product_name": "",
+            "product_name_intern": "",
+            "product_id": "",
+            "quantity": "",
+            "receipt_url": "",
+            "invoice_url": "",
+            "eticket_url": "",
+            "custom": "",
+            "tags": "",
+            "event": "",
+            "amount_brutto": "",
+            "amount_netto": "",
+            "amount_vendor": "",
+            "amount_affiliate": "",
+            "currency": "",
+            "is_gdpr_country": ""
+          },
+          "webhookUrl": "https://n8n.megyk.com/webhook-test/4bc1401c-29df-48a8-9a53-824d29fa21d7",
           "executionMode": "test"
         }
       }
     ]
   },
-  "versionId": "9247dd1d-cde7-42de-877a-ba813d9a7a84",
+  "versionId": "1f645fad-e4a5-4775-9229-f6d4021a4243",
   "triggerCount": 0,
   "tags": []
 }
