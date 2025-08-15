@@ -1,159 +1,209 @@
 {
-  "createdAt": "2025-08-03T00:12:38.233Z",
-  "updatedAt": "2025-08-03T00:28:45.000Z",
-  "id": "0mupmIyBMc9Mic8o",
-  "name": "GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+  "createdAt": "2025-06-04T22:07:05.836Z",
+  "updatedAt": "2025-06-15T20:28:40.000Z",
+  "id": "26OUjbuI1flCV0fh",
+  "name": "Scrape Google Maps and Store",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
+        "fieldToSplitOut": "data[0]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -360
+      ],
+      "id": "59f71df7-10de-4dd2-a7d8-df85e22aefe2",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2e172538-efa3-4997-aad9-0c522cd607b7",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "790182be-f054-464f-bf08-0e67374e062e",
+              "name": "site",
+              "value": "={{ $json.site }}",
+              "type": "string"
+            },
+            {
+              "id": "0f573acd-c2fc-469d-ad13-441c5a6a4b09",
+              "name": "full_address",
+              "value": "={{ $json.full_address }}",
+              "type": "string"
+            },
+            {
+              "id": "7e04ba70-0506-43ef-9f22-6c55e809bf7f",
+              "name": "phone",
+              "value": "=<tel:{{ $json.phone }}|{{ $json.phone }}>",
+              "type": "string"
+            },
+            {
+              "id": "edb48b22-8a72-4783-bdf0-5e9f628f91a5",
+              "name": "category",
+              "value": "={{ $json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "1de435de-4dd1-450e-ba57-e2c5b0a0b2a4",
+              "name": "subtypes",
+              "value": "={{ $json.subtypes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -500,
+        -360
+      ],
+      "id": "c96535a7-d4c1-4552-a274-4f5103fba9db",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://api.outscraper.cloud/maps/search-v3",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.parameters }}"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            },
+            {
+              "name": "async",
+              "value": "false"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "ZDVhMWE1MjE3NTQ0NDVmYWIwZTFjYjQ4OGM1ZjNiNzJ8YTQ0MzlhYzIyMQ"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -940,
+        -360
+      ],
+      "id": "054bc784-8d78-4d0e-b77c-9ff47dd590a6",
+      "name": "Outscraper"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n \"parameters\": \"Barbers in Hollywood, CA\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1160,
+        -360
+      ],
+      "id": "bc2f1451-f6dc-484a-82a2-355e8fb83357",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
-          "mode": "list",
-          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
+          "value": "={{ $('Create Google Sheet').item.json.spreadsheetId }}",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1696979597,
-          "mode": "list",
-          "cachedResultName": "export (1)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
+          "value": "Sheet1",
+          "mode": "name"
         },
         "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Datum": "={{ $now.format('y-MM-d') }}",
-            "Produkt": "Buch extern (zB Amazon)",
-            "Zeit": "={{ $now.format('HH:mm') }}",
-            "Nachname": "={{ $json.data.last_name }}",
-            "Vorname": "={{ $json.data.first_name }}",
-            "E-Mail": "={{ $json.data.email }}",
-            "Telefonnr.": "={{ $('Webhook').item.json.body[0].phone }}",
-            "Land": "={{ $('Webhook').item.json.body[0].ba_country }}",
-            "Adresse": "={{ $('Webhook').item.json.body[0].ba_street }} {{ $('Webhook').item.json.body[0].ba_city }} {{ $('Webhook').item.json.body[0].ba_state }} {{ $('Webhook').item.json.body[0].ba_postal_code }}"
-          },
+          "mappingMode": "autoMapInputData",
+          "value": {},
           "matchingColumns": [],
           "schema": [
             {
-              "id": "Datum",
-              "displayName": "Datum",
+              "id": "name",
+              "displayName": "name",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
-              "id": "Zeit",
-              "displayName": "Zeit",
+              "id": "site",
+              "displayName": "site",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
-              "id": "Produkt",
-              "displayName": "Produkt",
+              "id": "full_address",
+              "displayName": "full_address",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
-              "id": "Anrede",
-              "displayName": "Anrede",
+              "id": "phone",
+              "displayName": "phone",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
-              "id": "Nachname",
-              "displayName": "Nachname",
+              "id": "category",
+              "displayName": "category",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
-              "id": "Vorname",
-              "displayName": "Vorname",
+              "id": "subtypes",
+              "displayName": "subtypes",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "E-Mail",
-              "displayName": "E-Mail",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Telefonnr.",
-              "displayName": "Telefonnr.",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Land",
-              "displayName": "Land",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Katrin Anmerkung",
-              "displayName": "Katrin Anmerkung",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Adresse",
-              "displayName": "Adresse",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "4,95",
-              "displayName": "4,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "6,95",
-              "displayName": "6,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -164,275 +214,122 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        560,
-        368
+        160,
+        -360
       ],
-      "id": "4c0f1c2f-51f3-4346-94ef-75511f32e556",
-      "name": "Append row in sheet",
+      "id": "ed60f0f6-66e9-4db2-9d5c-31c4e2f3089c",
+      "name": "Google Sheets1",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "aIDyvQUuR4iZRmoo",
-          "name": "Markus Longdragon Google Acct"
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
         }
       }
     },
     {
       "parameters": {
-        "resource": "person",
-        "name": "={{ $json.Vorname }} {{ $json.Nachname }} {{ $json.Adresse }}{{ $json.Land }} {{ $json.Datum }}",
-        "additionalFields": {
-          "email": [
-            "={{ $json[\"E-Mail\"] }} "
-          ],
-          "phone": [
-            "={{ $json[\"Telefonnr.\"] }} "
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        784,
-        368
-      ],
-      "id": "5f529997-f503-4cda-8339-65e23d60add4",
-      "name": "Create a person",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "sqk78yrjAXyJsVVw",
-          "name": "Pipedrive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1008,
-        368
-      ],
-      "id": "a220dde3-94ad-4a8b-99db-27fd7b20160a",
-      "name": "Post to Quentn1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
-          "name": "Bearer Auth account 2"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpQueryAuth",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
+        "resource": "spreadsheet",
+        "title": "={{ $('When Executed by Another Workflow').item.json.parameters }}",
+        "sheetsUi": {
+          "sheetValues": [
             {
-              "name": "email",
-              "value": "test@test.com"
-            },
-            {
-              "name": "first_name",
-              "value": "test"
-            },
-            {
-              "name": "last_name",
-              "value": "test"
-            },
-            {
-              "name": "memberships",
-              "value": "1"
-            },
-            {
-              "name": "notify",
-              "value": "1"
-            },
-            {
-              "name": "opm_api_key",
-              "value": "2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32"
+              "title": "Sheet1"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
       "position": [
-        336,
-        368
+        -280,
+        -360
       ],
-      "id": "76d56700-16ce-46c1-811e-8dd3dd9a24ff",
-      "name": "POST To MarkusDan.com Members",
+      "id": "3551e8fe-225d-44b5-b278-cc03bd2a0cdd",
+      "name": "Create Google Sheet",
+      "executeOnce": true,
       "credentials": {
-        "httpQueryAuth": {
-          "id": "ISBD5w0SgPqx0Sfz",
-          "name": "MarkusDan.com Auth"
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
         }
       }
     },
     {
       "parameters": {
-        "content": "## Receive Webhook POST from Quentn\n\n[Unbenanntes Element (DEH Buchfunnel)]",
-        "height": 416,
-        "width": 256,
-        "color": 4
+        "jsCode": "return $('Edit Fields').all();"
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        224
-      ],
-      "id": "bae6397c-7bbc-4ecb-b37b-81b7bbebec17",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "12d976d8-c8fa-4acc-86f4-d6766f86c644",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
+      "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        112,
-        368
+        -60,
+        -360
       ],
-      "id": "07df2488-c076-478e-b694-65fad61821ad",
-      "name": "Webhook",
-      "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
-    },
-    {
-      "parameters": {
-        "content": "## POST to MarkusDan.com endpoint",
-        "height": 416,
-        "width": 224
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        272,
-        224
-      ],
-      "id": "5080f62c-10eb-46e3-a276-974f974af6e6",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "## Append to Katrin Google Sheet\n",
-        "height": 416,
-        "width": 208,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        512,
-        224
-      ],
-      "id": "b09deede-97c5-40bc-897d-0b17db7c56e8",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {
-        "content": "## Add Person to Pipedrive\n",
-        "height": 416,
-        "width": 208,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        736,
-        224
-      ],
-      "id": "6c10cfe7-1508-4113-9494-82cb503ded64",
-      "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "content": "## POST Add contact to Quentn",
-        "height": 416,
-        "width": 224,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        960,
-        224
-      ],
-      "id": "ded7344d-4d92-4fc4-934b-0c183a2cc819",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "## GOOKGG Amazon -> Katrin Sheet + Pipedrive",
-        "width": 736,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "b9f9893b-01d0-41ec-a9c4-385679e3ea22",
-      "name": "Sticky Note5"
+      "id": "3b64df25-67bd-4ddc-9316-f856ef4fe4c6",
+      "name": "Code"
     }
   ],
   "connections": {
-    "Append row in sheet": {
+    "Split Out": {
       "main": [
         [
           {
-            "node": "Create a person",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Create a person": {
+    "Outscraper": {
       "main": [
         [
           {
-            "node": "Post to Quentn1",
+            "node": "Split Out",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "POST To MarkusDan.com Members": {
+    "When Executed by Another Workflow": {
       "main": [
         [
           {
-            "node": "Append row in sheet",
+            "node": "Outscraper",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Webhook": {
+    "Edit Fields": {
       "main": [
         [
           {
-            "node": "POST To MarkusDan.com Members",
+            "node": "Create Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Google Sheet": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
             "type": "main",
             "index": 0
           }
@@ -448,48 +345,986 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {
-    "Webhook": [
+    "When Executed by Another Workflow": [
       {
         "json": {
-          "headers": {
-            "host": "n8n.megyk.com",
-            "user-agent": "Drupal (+http://drupal.org/)",
-            "content-length": "230",
-            "content-type": "application/json",
-            "via": "1.0 Caddy",
-            "x-forwarded-for": "176.9.50.181",
-            "x-forwarded-host": "n8n.megyk.com",
-            "x-forwarded-proto": "https",
-            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
-            "accept-encoding": "gzip"
-          },
-          "params": {},
-          "query": {},
-          "body": [
-            {
-              "title": "",
-              "first_name": "TEST 2",
-              "family_name": "TEST 2",
-              "company": "",
-              "job_title": "",
-              "mail": "test@adamhaley.com",
-              "website": "",
-              "phone": "",
-              "ba_street": "",
-              "ba_city": "",
-              "ba_postal_code": "",
-              "ba_state": "",
-              "ba_country": "",
-              "id": "62535"
-            }
-          ],
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
-          "executionMode": "test"
+          "parameters": "Auto Repair in North Hollywood, CA"
+        }
+      }
+    ],
+    "Outscraper": [
+      {
+        "json": {
+          "id": "a-3b803600-84e6-4ece-bb38-1a878ee66faf",
+          "status": "Success",
+          "data": [
+            [
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "North Hollywood Auto Repair",
+                "name_for_emails": "North Hollywood Auto Repair",
+                "place_id": "ChIJpxsxDu-VwoARuXV1Dv8L4lQ",
+                "google_id": "0x80c295ef0e311ba7:0x54e20bff0e7575b9",
+                "kgmid": "/g/1tj1sbm2",
+                "full_address": "5451 Tujunga Ave, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "5451 Tujunga Ave",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.170270699999996,
+                "longitude": -118.37915079999999,
+                "h3": "8929a189437ffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": "http://northhollywoodauto.com/",
+                "phone": "+1 818-769-2335",
+                "type": "Auto repair shop",
+                "logo": "https://lh4.googleusercontent.com/-orjpeDBZagw/AAAAAAAAAAI/AAAAAAAAAAA/V1hpM0Mdfn8/s44-p-k-no-ns-nd/photo.jpg",
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop, Auto air conditioning service, Auto electrical service, Auto tune up service, Brake shop, Car repair and maintenance service, Oil change service, Transmission shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.9,
+                "reviews": 621,
+                "photos_count": 79,
+                "cid": "6116464434009699769",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJpxsxDu-VwoARuXV1Dv8L4lQ&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "6116464434009699769",
+                "photo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrQf4wcxRhbr2lXTTbu3KBcjmMxM1pqa3MwWFmRfDXO9OT5iKYG72XgALst10Ovi6SoHg4CkmCLsYGOXD4EVceStfqmf1fhtdKGG4gctx4rro7WFYfcoDCVt_-p_AecIHMkofLHIw=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrQf4wcxRhbr2lXTTbu3KBcjmMxM1pqa3MwWFmRfDXO9OT5iKYG72XgALst10Ovi6SoHg4CkmCLsYGOXD4EVceStfqmf1fhtdKGG4gctx4rro7WFYfcoDCVt_-p_AecIHMkofLHIw=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "7:30AM-5PM",
+                  "Tuesday": "7:30AM-5PM",
+                  "Wednesday": "7:30AM-5PM",
+                  "Thursday": "7:30AM-5PM",
+                  "Friday": "7:30AM-5PM",
+                  "Saturday": "Closed",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,7:30AM,5PM|Tuesday,7:30AM,5PM|Wednesday,7:30AM,5PM|Thursday,7:30AM,5PM|Friday,7:30AM,5PM|Saturday,",
+                "working_hours_old_format": "Monday:7:30AM-5PM|Tuesday:7:30AM-5PM|Wednesday:7:30AM-5PM|Thursday:7:30AM-5PM|Friday:7:30AM-5PM|Saturday:Closed|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true,
+                    "Wheelchair accessible restroom": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Planning": {
+                    "Appointments recommended": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 10,
+                  "2": 1,
+                  "3": 3,
+                  "4": 6,
+                  "5": 601
+                },
+                "reservation_links": null,
+                "booking_appointment_link": "https://www.northhollywoodauto.com/appointments",
+                "menu_link": null,
+                "order_links": [
+                  "https://www.northhollywoodauto.com/appointments"
+                ],
+                "owner_id": "110478317991100478365",
+                "verified": true,
+                "owner_title": "North Hollywood Auto Repair",
+                "owner_link": "https://www.google.com/maps/contrib/110478317991100478365",
+                "location_link": "https://www.google.com/maps/place/North+Hollywood+Auto+Repair/@34.170270699999996,-118.37915079999999,14z/data=!4m8!1m2!2m1!1sNorth+Hollywood+Auto+Repair!3m4!1s0x80c295ef0e311ba7:0x54e20bff0e7575b9!8m2!3d34.170270699999996!4d-118.37915079999999",
+                "location_reviews_link": "https://www.google.com/maps/place/North+Hollywood+Auto+Repair/@34.170270699999996,-118.37915079999999,13.99z/data=!4m16!1m7!3m6!1s0x80c295ef0e311ba7:0x54e20bff0e7575b9!2sNorth+Hollywood+Auto+Repair!8m2!3d34.170270699999996!4d-118.37915079999999!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295ef0e311ba7:0x54e20bff0e7575b9!8m2!3d34.170270699999996!4d-118.37915079999999!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "Safeway Auto Center, LLC",
+                "name_for_emails": "Safeway Auto Center",
+                "place_id": "ChIJY9LGMPOVwoARaOGqVSUamOw",
+                "google_id": "0x80c295f330c6d263:0xec981a2555aae168",
+                "kgmid": "/g/1tcyfqrq",
+                "full_address": "5234 Vineland Ave, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "5234 Vineland Ave",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.165814999999995,
+                "longitude": -118.370014,
+                "h3": "8929a189417ffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": null,
+                "phone": "+1 818-390-7041",
+                "type": "Auto repair shop",
+                "logo": "https://lh5.googleusercontent.com/-vBYy24atQaQ/AAAAAAAAAAI/AAAAAAAAAAA/nR1gXCHfW3U/s44-p-k-no-ns-nd/photo.jpg",
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop, Auto body shop, Auto painting",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.5,
+                "reviews": 70,
+                "photos_count": 534,
+                "cid": "17048405137064386920",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJY9LGMPOVwoARaOGqVSUamOw&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "-1398338936645164696",
+                "photo": "https://lh3.googleusercontent.com/p/AF1QipPbxZJepg1GAcstpMkNxXYzA702MBWYY9l56CAa=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/p/AF1QipPbxZJepg1GAcstpMkNxXYzA702MBWYY9l56CAa=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "8AM-5PM",
+                  "Tuesday": "8AM-5PM",
+                  "Wednesday": "8AM-5PM",
+                  "Thursday": "8AM-5PM",
+                  "Friday": "8AM-5PM",
+                  "Saturday": "8AM-2PM",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,8AM,5PM|Tuesday,8AM,5PM|Wednesday,8AM,5PM|Thursday,8AM,5PM|Friday,8AM,5PM|Saturday,8AM,2PM",
+                "working_hours_old_format": "Monday:8AM-5PM|Tuesday:8AM-5PM|Wednesday:8AM-5PM|Thursday:8AM-5PM|Friday:8AM-5PM|Saturday:8AM-2PM|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Gender-neutral restroom": true,
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Crowd": {
+                    "LGBTQ+ friendly": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  },
+                  "Other": {
+                    "LGBTQ+ friendly": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 7,
+                  "2": 0,
+                  "3": 1,
+                  "4": 2,
+                  "5": 60
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": "117275949056850085531",
+                "verified": true,
+                "owner_title": "Safeway Auto Center, LLC",
+                "owner_link": "https://www.google.com/maps/contrib/117275949056850085531",
+                "location_link": "https://www.google.com/maps/place/Safeway+Auto+Center%2C+LLC/@34.165814999999995,-118.370014,14z/data=!4m8!1m2!2m1!1sSafeway+Auto+Center%2C+LLC!3m4!1s0x80c295f330c6d263:0xec981a2555aae168!8m2!3d34.165814999999995!4d-118.370014",
+                "location_reviews_link": "https://www.google.com/maps/place/Safeway+Auto+Center%2C+LLC/@34.165814999999995,-118.370014,13.99z/data=!4m16!1m7!3m6!1s0x80c295f330c6d263:0xec981a2555aae168!2sSafeway+Auto+Center%2C+LLC!8m2!3d34.165814999999995!4d-118.370014!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295f330c6d263:0xec981a2555aae168!8m2!3d34.165814999999995!4d-118.370014!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "Autowright Auto Repair North Hollywood",
+                "name_for_emails": "Autowright Auto Repair North Hollywood",
+                "place_id": "ChIJy4XnCZGVwoARnZ4NEn5c2Zg",
+                "google_id": "0x80c2959109e785cb:0x98d95c7e120d9e9d",
+                "kgmid": "/g/1th5_1cx",
+                "full_address": "5705 Cahuenga Blvd, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "5705 Cahuenga Blvd",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.174166899999996,
+                "longitude": -118.36184229999999,
+                "h3": "8929a18947bffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": null,
+                "phone": "+1 818-761-2678",
+                "type": "Auto repair shop",
+                "logo": "https://lh3.googleusercontent.com/-w7yQxpEbnDs/AAAAAAAAAAI/AAAAAAAAAAA/LCY2rQYFnlo/s44-p-k-no-ns-nd/photo.jpg",
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.5,
+                "reviews": 73,
+                "photos_count": 165,
+                "cid": "11013936060249775773",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJy4XnCZGVwoARnZ4NEn5c2Zg&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "-7432808013459775843",
+                "photo": "https://lh3.googleusercontent.com/p/AF1QipPnj9TRiPUsbWuc7oexY5z8E1q_ZfxqqdfokiHi=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/p/AF1QipPnj9TRiPUsbWuc7oexY5z8E1q_ZfxqqdfokiHi=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "8AM-6PM",
+                  "Tuesday": "8AM-6PM",
+                  "Wednesday": "8AM-6PM",
+                  "Thursday": "8AM-6PM",
+                  "Friday": "8AM-6PM",
+                  "Saturday": "8AM-3PM",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,8AM,6PM|Tuesday,8AM,6PM|Wednesday,8AM,6PM|Thursday,8AM,6PM|Friday,8AM,6PM|Saturday,8AM,3PM",
+                "working_hours_old_format": "Monday:8AM-6PM|Tuesday:8AM-6PM|Wednesday:8AM-6PM|Thursday:8AM-6PM|Friday:8AM-6PM|Saturday:8AM-3PM|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Crowd": {
+                    "LGBTQ+ friendly": true,
+                    "Transgender safespace": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  },
+                  "Other": {
+                    "LGBTQ+ friendly": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 4,
+                  "2": 3,
+                  "3": 1,
+                  "4": 8,
+                  "5": 57
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": "108716937630615961841",
+                "verified": true,
+                "owner_title": "Autowright Auto Repair North Hollywood",
+                "owner_link": "https://www.google.com/maps/contrib/108716937630615961841",
+                "location_link": "https://www.google.com/maps/place/Autowright+Auto+Repair+North+Hollywood/@34.174166899999996,-118.36184229999999,14z/data=!4m8!1m2!2m1!1sAutowright+Auto+Repair+North+Hollywood!3m4!1s0x80c2959109e785cb:0x98d95c7e120d9e9d!8m2!3d34.174166899999996!4d-118.36184229999999",
+                "location_reviews_link": "https://www.google.com/maps/place/Autowright+Auto+Repair+North+Hollywood/@34.174166899999996,-118.36184229999999,13.99z/data=!4m16!1m7!3m6!1s0x80c2959109e785cb:0x98d95c7e120d9e9d!2sAutowright+Auto+Repair+North+Hollywood!8m2!3d34.174166899999996!4d-118.36184229999999!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c2959109e785cb:0x98d95c7e120d9e9d!8m2!3d34.174166899999996!4d-118.36184229999999!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "Mike's Auto Repair & Body Center, Inc.",
+                "name_for_emails": "Mikes Auto Repair And Body Center",
+                "place_id": "ChIJ2VP79-yVwoAR8FE-ov0LbGc",
+                "google_id": "0x80c295ecf7fb53d9:0x676c0bfda23e51f0",
+                "kgmid": "/g/1tdylgl2",
+                "full_address": "11062 Burbank Blvd, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "11062 Burbank Blvd",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.1718018,
+                "longitude": -118.37244589999999,
+                "h3": "8929a18943bffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": "http://mikesautorepairandbody.com/",
+                "phone": "+1 818-763-7669",
+                "type": "Auto repair shop",
+                "logo": "https://lh3.googleusercontent.com/-jfgmMV5hi6M/AAAAAAAAAAI/AAAAAAAAAAA/v0yxM9ffR4M/s44-p-k-no-ns-nd/photo.jpg",
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop, Auto body shop, Auto tune up service, Brake shop, Car detailing service, Smog inspection station, Transmission shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.7,
+                "reviews": 212,
+                "photos_count": 45,
+                "cid": "7452344667367952880",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJ2VP79-yVwoAR8FE-ov0LbGc&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "7452344667367952880",
+                "photo": "https://lh3.googleusercontent.com/p/AF1QipPeXWtuwnvyaisSxZK5xG8NA1ZRl_zBD31PdGjt=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/p/AF1QipPeXWtuwnvyaisSxZK5xG8NA1ZRl_zBD31PdGjt=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "7AM-6PM",
+                  "Tuesday": "7AM-6PM",
+                  "Wednesday": "7AM-6PM",
+                  "Thursday": "7AM-6PM",
+                  "Friday": "7AM-6PM",
+                  "Saturday": "Closed",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,7AM,6PM|Tuesday,7AM,6PM|Wednesday,7AM,6PM|Thursday,7AM,6PM|Friday,7AM,6PM|Saturday,",
+                "working_hours_old_format": "Monday:7AM-6PM|Tuesday:7AM-6PM|Wednesday:7AM-6PM|Thursday:7AM-6PM|Friday:7AM-6PM|Saturday:Closed|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Service options": {
+                    "Onsite services": true
+                  },
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Planning": {
+                    "Appointments recommended": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 13,
+                  "2": 1,
+                  "3": 3,
+                  "4": 1,
+                  "5": 194
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": "105844710744020169575",
+                "verified": true,
+                "owner_title": "Mike's Auto Repair & Body Center, Inc.",
+                "owner_link": "https://www.google.com/maps/contrib/105844710744020169575",
+                "location_link": "https://www.google.com/maps/place/Mike%27s+Auto+Repair+%26+Body+Center%2C+Inc./@34.1718018,-118.37244589999999,14z/data=!4m8!1m2!2m1!1sMike%27s+Auto+Repair+%26+Body+Center%2C+Inc.!3m4!1s0x80c295ecf7fb53d9:0x676c0bfda23e51f0!8m2!3d34.1718018!4d-118.37244589999999",
+                "location_reviews_link": "https://www.google.com/maps/place/Mike%27s+Auto+Repair+%26+Body+Center%2C+Inc./@34.1718018,-118.37244589999999,13.99z/data=!4m16!1m7!3m6!1s0x80c295ecf7fb53d9:0x676c0bfda23e51f0!2sMike%27s+Auto+Repair+%26+Body+Center%2C+Inc.!8m2!3d34.1718018!4d-118.37244589999999!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295ecf7fb53d9:0x676c0bfda23e51f0!8m2!3d34.1718018!4d-118.37244589999999!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "VIP Auto Service",
+                "name_for_emails": "Vip Auto Service",
+                "place_id": "ChIJ81CPm5eVwoARwfUsAW7xLps",
+                "google_id": "0x80c295979b8f50f3:0x9b2ef16e012cf5c1",
+                "kgmid": "/g/11fl08qxgm",
+                "full_address": "5606 Lankershim Blvd, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "5606 Lankershim Blvd",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.173172799999996,
+                "longitude": -118.3793161,
+                "h3": "8929a189437ffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": "https://vipautomechanic.com/",
+                "phone": "+1 818-761-4024",
+                "type": "Auto repair shop",
+                "logo": "https://lh5.googleusercontent.com/-War5pevJGac/AAAAAAAAAAI/AAAAAAAAAAA/_PlxFgGzwjQ/s44-p-k-no-ns-nd/photo.jpg",
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.8,
+                "reviews": 130,
+                "photos_count": 39,
+                "cid": "11182140379575940545",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJ81CPm5eVwoARwfUsAW7xLps&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "-7264603694133611071",
+                "photo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nq39tHmaTKRHec-ku51sbbcwNPGNphEOv8avMB_xRnpaUpHcLOrizlbvRlqsgIlGvJgbEUw6r8m3um93roLHdYtE_N3HAs-1h1X4OFTSlmp_jOovyvhOR0aJj8uotW0f_fvCvji=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nq39tHmaTKRHec-ku51sbbcwNPGNphEOv8avMB_xRnpaUpHcLOrizlbvRlqsgIlGvJgbEUw6r8m3um93roLHdYtE_N3HAs-1h1X4OFTSlmp_jOovyvhOR0aJj8uotW0f_fvCvji=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "7:30AM-4:30PM",
+                  "Tuesday": "7:30AM-4:30PM",
+                  "Wednesday": "7:30AM-4:30PM",
+                  "Thursday": "7:30AM-4:30PM",
+                  "Friday": "7:30AM-4:30PM",
+                  "Saturday": "7:30AM-4:30PM",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,7:30AM,4:30PM|Tuesday,7:30AM,4:30PM|Wednesday,7:30AM,4:30PM|Thursday,7:30AM,4:30PM|Friday,7:30AM,4:30PM|Saturday,7:30AM,4:30PM",
+                "working_hours_old_format": "Monday:7:30AM-4:30PM|Tuesday:7:30AM-4:30PM|Wednesday:7:30AM-4:30PM|Thursday:7:30AM-4:30PM|Friday:7:30AM-4:30PM|Saturday:7:30AM-4:30PM|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true,
+                    "Wheelchair accessible restroom": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 6,
+                  "2": 0,
+                  "3": 0,
+                  "4": 3,
+                  "5": 121
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": "102692903329896507640",
+                "verified": true,
+                "owner_title": "VIP Auto Service",
+                "owner_link": "https://www.google.com/maps/contrib/102692903329896507640",
+                "location_link": "https://www.google.com/maps/place/VIP+Auto+Service/@34.173172799999996,-118.3793161,14z/data=!4m8!1m2!2m1!1sVIP+Auto+Service!3m4!1s0x80c295979b8f50f3:0x9b2ef16e012cf5c1!8m2!3d34.173172799999996!4d-118.3793161",
+                "location_reviews_link": "https://www.google.com/maps/place/VIP+Auto+Service/@34.173172799999996,-118.3793161,13.99z/data=!4m16!1m7!3m6!1s0x80c295979b8f50f3:0x9b2ef16e012cf5c1!2sVIP+Auto+Service!8m2!3d34.173172799999996!4d-118.3793161!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295979b8f50f3:0x9b2ef16e012cf5c1!8m2!3d34.173172799999996!4d-118.3793161!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "North Hollywood Auto Repair and Smog",
+                "name_for_emails": "North Hollywood Auto Repair And Smog",
+                "place_id": "ChIJ5cSOM-GVwoARPh9sGtUZpQA",
+                "google_id": "0x80c295e1338ec4e5:0xa519d51a6c1f3e",
+                "kgmid": "/g/1td0gs2r",
+                "full_address": "5000 Vineland Ave, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "5000 Vineland Ave",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.1611483,
+                "longitude": -118.3698096,
+                "h3": "8929a18948fffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": null,
+                "phone": "+1 818-509-8328",
+                "type": "Car repair and maintenance service",
+                "logo": null,
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Car repair and maintenance service",
+                "subtypes": "Car repair and maintenance service",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 5,
+                "reviews": 6,
+                "photos_count": 1,
+                "cid": "46471774219280190",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJ5cSOM-GVwoARPh9sGtUZpQA&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "46471774219280190",
+                "photo": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=XSCsjoVxRVSvlAMOI_yXIQ&cb_client=search.gws-prod.gps&w=800&h=500&yaw=95.40364&pitch=0&thumbfov=100",
+                "street_view": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=XSCsjoVxRVSvlAMOI_yXIQ&cb_client=search.gws-prod.gps&w=1600&h=1000&yaw=95.40364&pitch=0&thumbfov=100",
+                "working_hours": {
+                  "Monday": "8AM-5PM",
+                  "Tuesday": "8AM-5PM",
+                  "Wednesday": "8AM-5PM",
+                  "Thursday": "8AM-5PM",
+                  "Friday": "8AM-5PM",
+                  "Saturday": "8AM-2PM",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,8AM,5PM|Tuesday,8AM,5PM|Wednesday,8AM,5PM|Thursday,8AM,5PM|Friday,8AM,5PM|Saturday,8AM,2PM",
+                "working_hours_old_format": "Monday:8AM-5PM|Tuesday:8AM-5PM|Wednesday:8AM-5PM|Thursday:8AM-5PM|Friday:8AM-5PM|Saturday:8AM-2PM|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Payments": {
+                    "Debit cards": true,
+                    "Credit cards": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 0,
+                  "2": 0,
+                  "3": 0,
+                  "4": 0,
+                  "5": 6
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": null,
+                "verified": false,
+                "owner_title": "North Hollywood Auto Repair and Smog",
+                "owner_link": null,
+                "location_link": "https://www.google.com/maps/place/North+Hollywood+Auto+Repair+and+Smog/@34.1611483,-118.3698096,14z/data=!4m8!1m2!2m1!1sNorth+Hollywood+Auto+Repair+and+Smog!3m4!1s0x80c295e1338ec4e5:0xa519d51a6c1f3e!8m2!3d34.1611483!4d-118.3698096",
+                "location_reviews_link": "https://www.google.com/maps/place/North+Hollywood+Auto+Repair+and+Smog/@34.1611483,-118.3698096,13.99z/data=!4m16!1m7!3m6!1s0x80c295e1338ec4e5:0xa519d51a6c1f3e!2sNorth+Hollywood+Auto+Repair+and+Smog!8m2!3d34.1611483!4d-118.3698096!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295e1338ec4e5:0xa519d51a6c1f3e!8m2!3d34.1611483!4d-118.3698096!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "A-1 Auto Repair No. Hollywood",
+                "name_for_emails": "A 1 Auto Repair No Hollywood",
+                "place_id": "ChIJrwrYA-aVwoARTCNcRplw7CI",
+                "google_id": "0x80c295e603d80aaf:0x22ec7099465c234c",
+                "kgmid": "/g/1vhlyfxc",
+                "full_address": "11474 Burbank Blvd, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "11474 Burbank Blvd",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.172003,
+                "longitude": -118.38154209999999,
+                "h3": "8929a1895cbffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": "https://mgabbaiconst.shop/",
+                "phone": "+1 818-766-5338",
+                "type": "Auto repair shop",
+                "logo": null,
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop, Muffler shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.9,
+                "reviews": 36,
+                "photos_count": 6,
+                "cid": "2516510095406015308",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJrwrYA-aVwoARTCNcRplw7CI&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "2516510095406015308",
+                "photo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noQKu1DNn-8bbBUVNAt4j_l5bKvMkZhml4AkInTLxILsDIzGwGP8MXs9YgnN73YEJqoI411Jrt2VoZo74AkecOpIlh8aLAR2R8vWCivrLWGlnsxqfuBC9VlxDhFS0unuqxmKxD-nQ=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noQKu1DNn-8bbBUVNAt4j_l5bKvMkZhml4AkInTLxILsDIzGwGP8MXs9YgnN73YEJqoI411Jrt2VoZo74AkecOpIlh8aLAR2R8vWCivrLWGlnsxqfuBC9VlxDhFS0unuqxmKxD-nQ=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "8AM-6PM",
+                  "Tuesday": "8AM-6PM",
+                  "Wednesday": "8AM-6PM",
+                  "Thursday": "8AM-6PM",
+                  "Friday": "8AM-6PM",
+                  "Saturday": "Closed",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,8AM,6PM|Tuesday,8AM,6PM|Wednesday,8AM,6PM|Thursday,8AM,6PM|Friday,8AM,6PM|Saturday,",
+                "working_hours_old_format": "Monday:8AM-6PM|Tuesday:8AM-6PM|Wednesday:8AM-6PM|Thursday:8AM-6PM|Friday:8AM-6PM|Saturday:Closed|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 0,
+                  "2": 0,
+                  "3": 0,
+                  "4": 5,
+                  "5": 31
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": null,
+                "verified": false,
+                "owner_title": "A-1 Auto Repair No. Hollywood",
+                "owner_link": null,
+                "location_link": "https://www.google.com/maps/place/A-1+Auto+Repair+No.+Hollywood/@34.172003,-118.38154209999999,14z/data=!4m8!1m2!2m1!1sA-1+Auto+Repair+No.+Hollywood!3m4!1s0x80c295e603d80aaf:0x22ec7099465c234c!8m2!3d34.172003!4d-118.38154209999999",
+                "location_reviews_link": "https://www.google.com/maps/place/A-1+Auto+Repair+No.+Hollywood/@34.172003,-118.38154209999999,13.99z/data=!4m16!1m7!3m6!1s0x80c295e603d80aaf:0x22ec7099465c234c!2sA-1+Auto+Repair+No.+Hollywood!8m2!3d34.172003!4d-118.38154209999999!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295e603d80aaf:0x22ec7099465c234c!8m2!3d34.172003!4d-118.38154209999999!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "North Hollywood Discount Auto Repair",
+                "name_for_emails": "North Hollywood Discount Auto Repair",
+                "place_id": "ChIJC8d9ZNyVwoARJ-8xFP1FJTc",
+                "google_id": "0x80c295dc647dc70b:0x372545fd1431ef27",
+                "kgmid": "/g/1hc0tdsrt",
+                "full_address": "6039 Lankershim Blvd, North Hollywood, CA 91606",
+                "borough": "North Hollywood",
+                "street": "6039 Lankershim Blvd",
+                "postal_code": "91606",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.1805194,
+                "longitude": -118.3842938,
+                "h3": "8929a189547ffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": null,
+                "phone": "+1 818-980-0401",
+                "type": "Auto repair shop",
+                "logo": null,
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop, Brake shop, Engine rebuilding service, Muffler shop, Oil change service",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.5,
+                "reviews": 52,
+                "photos_count": 3,
+                "cid": "3973659199492189991",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJC8d9ZNyVwoARJ-8xFP1FJTc&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "3973659199492189991",
+                "photo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noYqW2YcSvloC65rH2L5aiw7QBYY5wn3UX_pnuWAQ-zG4HF4Dzgy1AR4OKiF6BoJAHig0MQVRJx0RUMTbWQEcsHw4goPw-nw_6ZBc-4S5Dea04xksgKs5xj2F3IrHR--Kjj4unq=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noYqW2YcSvloC65rH2L5aiw7QBYY5wn3UX_pnuWAQ-zG4HF4Dzgy1AR4OKiF6BoJAHig0MQVRJx0RUMTbWQEcsHw4goPw-nw_6ZBc-4S5Dea04xksgKs5xj2F3IrHR--Kjj4unq=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "8AM-5PM",
+                  "Tuesday": "8AM-5PM",
+                  "Wednesday": "8AM-5PM",
+                  "Thursday": "8AM-5PM",
+                  "Friday": "8AM-5PM",
+                  "Saturday": "8AM-5PM",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,8AM,5PM|Tuesday,8AM,5PM|Wednesday,8AM,5PM|Thursday,8AM,5PM|Friday,8AM,5PM|Saturday,8AM,5PM",
+                "working_hours_old_format": "Monday:8AM-5PM|Tuesday:8AM-5PM|Wednesday:8AM-5PM|Thursday:8AM-5PM|Friday:8AM-5PM|Saturday:8AM-5PM|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 5,
+                  "2": 0,
+                  "3": 2,
+                  "4": 1,
+                  "5": 44
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": null,
+                "verified": false,
+                "owner_title": "North Hollywood Discount Auto Repair",
+                "owner_link": null,
+                "location_link": "https://www.google.com/maps/place/North+Hollywood+Discount+Auto+Repair/@34.1805194,-118.3842938,14z/data=!4m8!1m2!2m1!1sNorth+Hollywood+Discount+Auto+Repair!3m4!1s0x80c295dc647dc70b:0x372545fd1431ef27!8m2!3d34.1805194!4d-118.3842938",
+                "location_reviews_link": "https://www.google.com/maps/place/North+Hollywood+Discount+Auto+Repair/@34.1805194,-118.3842938,13.99z/data=!4m16!1m7!3m6!1s0x80c295dc647dc70b:0x372545fd1431ef27!2sNorth+Hollywood+Discount+Auto+Repair!8m2!3d34.1805194!4d-118.3842938!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c295dc647dc70b:0x372545fd1431ef27!8m2!3d34.1805194!4d-118.3842938!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "Swedish Auto Tech",
+                "name_for_emails": "Swedish Auto Tech",
+                "place_id": "ChIJj8kS3yG-woARFut6xJUgql0",
+                "google_id": "0x80c2be21df12c98f:0x5daa2095c47aeb16",
+                "kgmid": "/g/1trxdzgr",
+                "full_address": "4701 Lankershim Blvd, North Hollywood, CA 91602",
+                "borough": "North Hollywood",
+                "street": "4701 Lankershim Blvd",
+                "postal_code": "91602",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.1557116,
+                "longitude": -118.3693009,
+                "h3": "8929a189493ffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": "http://swedish-auto-tech.jany.io/",
+                "phone": "+1 818-506-1022",
+                "type": "Auto repair shop",
+                "logo": null,
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.9,
+                "reviews": 48,
+                "photos_count": 2,
+                "cid": "6749242819186715414",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJj8kS3yG-woARFut6xJUgql0&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "6749242819186715414",
+                "photo": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=-eAUDfD3rexsXRddDc0PHg&cb_client=search.gws-prod.gps&w=800&h=500&yaw=196.67987&pitch=0&thumbfov=100",
+                "street_view": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nr_9v1LaJGm4lwd3u32O_HNKRDhcR9Ymvwn8xK2t0KKSwEpN0bqobSGB-zjyZxidAQcFHoIN11DrgI43KLM4khDDJGua-NtscjtsC3ww8UDWKoLD9-ynUwr0jjWheQjg3PQOgdtvQ=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "7:30AM-5PM",
+                  "Tuesday": "7:30AM-5PM",
+                  "Wednesday": "7:30AM-5PM",
+                  "Thursday": "7:30AM-5PM",
+                  "Friday": "7:30AM-5PM",
+                  "Saturday": "7:30AM-12PM",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,7:30AM,5PM|Tuesday,7:30AM,5PM|Wednesday,7:30AM,5PM|Thursday,7:30AM,5PM|Friday,7:30AM,5PM|Saturday,7:30AM,12PM",
+                "working_hours_old_format": "Monday:7:30AM-5PM|Tuesday:7:30AM-5PM|Wednesday:7:30AM-5PM|Thursday:7:30AM-5PM|Friday:7:30AM-5PM|Saturday:7:30AM-12PM|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true,
+                    "Wheelchair accessible parking lot": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true
+                  },
+                  "Planning": {
+                    "Appointments recommended": true
+                  },
+                  "Payments": {
+                    "Credit cards": true,
+                    "Debit cards": true,
+                    "NFC mobile payments": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 0,
+                  "2": 0,
+                  "3": 1,
+                  "4": 3,
+                  "5": 44
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": null,
+                "verified": false,
+                "owner_title": "Swedish Auto Tech",
+                "owner_link": null,
+                "location_link": "https://www.google.com/maps/place/Swedish+Auto+Tech/@34.1557116,-118.3693009,14z/data=!4m8!1m2!2m1!1sSwedish+Auto+Tech!3m4!1s0x80c2be21df12c98f:0x5daa2095c47aeb16!8m2!3d34.1557116!4d-118.3693009",
+                "location_reviews_link": "https://www.google.com/maps/place/Swedish+Auto+Tech/@34.1557116,-118.3693009,13.99z/data=!4m16!1m7!3m6!1s0x80c2be21df12c98f:0x5daa2095c47aeb16!2sSwedish+Auto+Tech!8m2!3d34.1557116!4d-118.3693009!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c2be21df12c98f:0x5daa2095c47aeb16!8m2!3d34.1557116!4d-118.3693009!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              },
+              {
+                "query": "Auto Repair in North Hollywood, CA",
+                "name": "Gabe's Auto Repair",
+                "name_for_emails": "Gabes Auto Repair",
+                "place_id": "ChIJk3Dz4IuVwoARRGGCmoTgJ1g",
+                "google_id": "0x80c2958be0f37093:0x5827e0849a826144",
+                "kgmid": "/g/1tfshnnf",
+                "full_address": "10702 Magnolia Blvd, North Hollywood, CA 91601",
+                "borough": "North Hollywood",
+                "street": "10702 Magnolia Blvd",
+                "postal_code": "91601",
+                "area_service": false,
+                "country_code": "US",
+                "country": "United States of America",
+                "city": "North Hollywood",
+                "us_state": "California",
+                "state": "California",
+                "plus_code": null,
+                "latitude": 34.1646887,
+                "longitude": -118.36397079999999,
+                "h3": "8929a18941bffff",
+                "time_zone": "America/Los_Angeles",
+                "popular_times": null,
+                "site": "http://gabes-auto-repair.jany.io/",
+                "phone": "+1 818-763-8818",
+                "type": "Auto repair shop",
+                "logo": null,
+                "description": null,
+                "typical_time_spent": null,
+                "located_in": null,
+                "located_google_id": null,
+                "category": "Auto repair shop",
+                "subtypes": "Auto repair shop",
+                "posts": null,
+                "reviews_tags": null,
+                "rating": 4.8,
+                "reviews": 30,
+                "photos_count": 13,
+                "cid": "6352292659561914692",
+                "reviews_link": "https://search.google.com/local/reviews?placeid=ChIJk3Dz4IuVwoARRGGCmoTgJ1g&q=Auto+Repair+in+North+Hollywood,+CA&authuser=0&hl=en&gl=US",
+                "reviews_id": "6352292659561914692",
+                "photo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrxkk3XlVaiNWNoIHafANOk2sfwOWoEn4nTemJzC8FzXgrCuuoC7tcUpeG8OopTzio6ail2ugM9FCcroEK8EzyHNIRp-lkK-B9SKdZB4W6takTFW0LsG3Z486ZLHizW_kvoniI=w800-h500-k-no",
+                "street_view": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrxkk3XlVaiNWNoIHafANOk2sfwOWoEn4nTemJzC8FzXgrCuuoC7tcUpeG8OopTzio6ail2ugM9FCcroEK8EzyHNIRp-lkK-B9SKdZB4W6takTFW0LsG3Z486ZLHizW_kvoniI=w1600-h1000-k-no",
+                "working_hours": {
+                  "Monday": "8AM-5PM",
+                  "Tuesday": "8AM-5PM",
+                  "Wednesday": "8AM-5PM",
+                  "Thursday": "8AM-5PM",
+                  "Friday": "8AM-5PM",
+                  "Saturday": "Closed",
+                  "Sunday": "Closed"
+                },
+                "working_hours_csv_compatible": "Sunday,|Monday,8AM,5PM|Tuesday,8AM,5PM|Wednesday,8AM,5PM|Thursday,8AM,5PM|Friday,8AM,5PM|Saturday,",
+                "working_hours_old_format": "Monday:8AM-5PM|Tuesday:8AM-5PM|Wednesday:8AM-5PM|Thursday:8AM-5PM|Friday:8AM-5PM|Saturday:Closed|Sunday:Closed",
+                "other_hours": null,
+                "business_status": "OPERATIONAL",
+                "about": {
+                  "Accessibility": {
+                    "Wheelchair accessible entrance": true
+                  },
+                  "Offerings": {
+                    "Oil change": true
+                  },
+                  "Amenities": {
+                    "Mechanic": true,
+                    "Restroom": true
+                  },
+                  "Planning": {
+                    "Appointments recommended": true
+                  }
+                },
+                "range": null,
+                "prices": null,
+                "reviews_per_score": {
+                  "1": 1,
+                  "2": 0,
+                  "3": 1,
+                  "4": 1,
+                  "5": 27
+                },
+                "reservation_links": null,
+                "booking_appointment_link": null,
+                "menu_link": null,
+                "order_links": null,
+                "owner_id": null,
+                "verified": false,
+                "owner_title": "Gabe's Auto Repair",
+                "owner_link": null,
+                "location_link": "https://www.google.com/maps/place/Gabe%27s+Auto+Repair/@34.1646887,-118.36397079999999,14z/data=!4m8!1m2!2m1!1sGabe%27s+Auto+Repair!3m4!1s0x80c2958be0f37093:0x5827e0849a826144!8m2!3d34.1646887!4d-118.36397079999999",
+                "location_reviews_link": "https://www.google.com/maps/place/Gabe%27s+Auto+Repair/@34.1646887,-118.36397079999999,13.99z/data=!4m16!1m7!3m6!1s0x80c2958be0f37093:0x5827e0849a826144!2sGabe%27s+Auto+Repair!8m2!3d34.1646887!4d-118.36397079999999!16s%2Fg%2F11ckvg1dmb!3m7!1s0x80c2958be0f37093:0x5827e0849a826144!8m2!3d34.1646887!4d-118.36397079999999!9m1!1b1!16s%2Fg%2F11ckvg1dmb?entry=ttu"
+              }
+            ]
+          ]
         }
       }
     ]
   },
-  "versionId": "9247dd1d-cde7-42de-877a-ba813d9a7a84",
+  "versionId": "7f19e070-7263-4f4c-b9de-40048b22ac48",
   "triggerCount": 0,
   "tags": []
 }
