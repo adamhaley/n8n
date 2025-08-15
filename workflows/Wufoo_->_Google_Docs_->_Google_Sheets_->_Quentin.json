@@ -1,43 +1,209 @@
 {
-  "createdAt": "2025-08-03T00:12:38.233Z",
-  "updatedAt": "2025-08-03T00:28:45.000Z",
-  "id": "0mupmIyBMc9Mic8o",
-  "name": "GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+  "createdAt": "2025-07-21T16:55:15.356Z",
+  "updatedAt": "2025-08-03T00:10:19.000Z",
+  "id": "lqQv2l6wwUHY9Nlf",
+  "name": "Wufoo -> Google Docs -> Google Sheets -> Quentin",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
+    {
+      "parameters": {
+        "form": "r1ktp8om0ykx345"
+      },
+      "type": "n8n-nodes-base.wufooTrigger",
+      "typeVersion": 1,
+      "position": [
+        656,
+        64
+      ],
+      "id": "149b8751-4cc1-4da2-884d-8602caa4ec8d",
+      "name": "Wufoo Trigger",
+      "webhookId": "602021a6-36dc-40ac-a071-2a49afd03ad0"
+    },
     {
       "parameters": {
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
+          "value": "1KxtAEY0Ch2jv9aVKQU3xnjU8vMTsHcRbkXwg83JRJg8",
           "mode": "list",
-          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
+          "cachedResultName": "Q4-Vermögensschutz Anfragen",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxtAEY0Ch2jv9aVKQU3xnjU8vMTsHcRbkXwg83JRJg8/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1696979597,
+          "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "export (1)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
+          "cachedResultName": "Tabellenblatt1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxtAEY0Ch2jv9aVKQU3xnjU8vMTsHcRbkXwg83JRJg8/edit#gid=0"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Datum": "={{ $now.format('y-MM-d') }}",
-            "Produkt": "Buch extern (zB Amazon)",
-            "Zeit": "={{ $now.format('HH:mm') }}",
-            "Nachname": "={{ $json.data.last_name }}",
-            "Vorname": "={{ $json.data.first_name }}",
-            "E-Mail": "={{ $json.data.email }}",
-            "Telefonnr.": "={{ $('Webhook').item.json.body[0].phone }}",
-            "Land": "={{ $('Webhook').item.json.body[0].ba_country }}",
-            "Adresse": "={{ $('Webhook').item.json.body[0].ba_street }} {{ $('Webhook').item.json.body[0].ba_city }} {{ $('Webhook').item.json.body[0].ba_state }} {{ $('Webhook').item.json.body[0].ba_postal_code }}"
+            "Name": "={{ $('Wufoo Trigger').item.json['Name:'].Vorname}} {{ $('Wufoo Trigger').item.json['Name:'].Nachname }}",
+            "Email": "={{ $('Wufoo Trigger').item.json['E-Mail-Adresse'] }}",
+            "Telefon": "={{ $('Wufoo Trigger').item.json.Telefonnummer }}",
+            "Immo": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Immobilien'][0] }}",
+            "Immo - Wie viel ": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in Immobilien investiert?'].first() }}",
+            "Wertpapiere": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Wertpapiere?'].first() }}",
+            "Wertpapiere - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)'].first() }}",
+            "Edelmetalle": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Edelmetalle?'].first() }}",
+            "Edelmetalle -  Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)'].first() }}",
+            "Datum": "={{ $now.format('y-MM-d H:m:ss') }}",
+            "LV": "={{ $('Wufoo Trigger').item.json['Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?'].first() }}",
+            "LV - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?'].first() }}",
+            "Bank": "={{ $('Wufoo Trigger').item.json['Haben Sie Geld auf der Bank?'].first() }}",
+            "Bank - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)'].first()}}",
+            "Alternative": "={{ $('Wufoo Trigger').item.json['Haben Sie alternative (Sach-)Werte?'].first()}}",
+            "Alternative - Wie viel": "={{ $('Wufoo Trigger').item.json['Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)'].first() }}",
+            "Anmerkungen": "={{ $('Wufoo Trigger').item.json['Anmerkungen, Feedback?'] }}"
           },
           "matchingColumns": [],
           "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefon",
+              "displayName": "Telefon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Immo",
+              "displayName": "Immo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Immo - Wie viel ",
+              "displayName": "Immo - Wie viel ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Wertpapiere",
+              "displayName": "Wertpapiere",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Wertpapiere - Wie viel",
+              "displayName": "Wertpapiere - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Edelmetalle",
+              "displayName": "Edelmetalle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Edelmetalle -  Wie viel",
+              "displayName": "Edelmetalle -  Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LV",
+              "displayName": "LV",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LV - Wie viel",
+              "displayName": "LV - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bank",
+              "displayName": "Bank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bank - Wie viel",
+              "displayName": "Bank - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Alternative",
+              "displayName": "Alternative",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Alternative - Wie viel",
+              "displayName": "Alternative - Wie viel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Anmerkungen",
+              "displayName": "Anmerkungen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
             {
               "id": "Datum",
               "displayName": "Datum",
@@ -48,8 +214,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Zeit",
-              "displayName": "Zeit",
+              "id": "Datum in schön",
+              "displayName": "Datum in schön",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -57,8 +223,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Produkt",
-              "displayName": "Produkt",
+              "id": "VERSCHICKT",
+              "displayName": "VERSCHICKT",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -66,8 +232,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Anrede",
-              "displayName": "Anrede",
+              "id": "Gefädungspotential",
+              "displayName": "Gefädungspotential",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -75,8 +241,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Nachname",
-              "displayName": "Nachname",
+              "id": "erreicht nach einer Woche?",
+              "displayName": "erreicht nach einer Woche?",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -84,8 +250,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Vorname",
-              "displayName": "Vorname",
+              "id": "GFA gekauft?",
+              "displayName": "GFA gekauft?",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -93,62 +259,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "E-Mail",
-              "displayName": "E-Mail",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Telefonnr.",
-              "displayName": "Telefonnr.",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Land",
-              "displayName": "Land",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Katrin Anmerkung",
-              "displayName": "Katrin Anmerkung",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Adresse",
-              "displayName": "Adresse",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "4,95",
-              "displayName": "4,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "6,95",
-              "displayName": "6,95",
+              "id": "verkauf durch",
+              "displayName": "verkauf durch",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -164,260 +276,298 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        560,
-        368
+        1248,
+        64
       ],
-      "id": "4c0f1c2f-51f3-4346-94ef-75511f32e556",
-      "name": "Append row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "aIDyvQUuR4iZRmoo",
-          "name": "Markus Longdragon Google Acct"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "person",
-        "name": "={{ $json.Vorname }} {{ $json.Nachname }} {{ $json.Adresse }}{{ $json.Land }} {{ $json.Datum }}",
-        "additionalFields": {
-          "email": [
-            "={{ $json[\"E-Mail\"] }} "
-          ],
-          "phone": [
-            "={{ $json[\"Telefonnr.\"] }} "
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        784,
-        368
-      ],
-      "id": "5f529997-f503-4cda-8339-65e23d60add4",
-      "name": "Create a person",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "sqk78yrjAXyJsVVw",
-          "name": "Pipedrive account"
-        }
-      }
+      "id": "7714adf4-6893-4515-9fb1-6e3c6305edba",
+      "name": "Append row in sheet"
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
         "sendHeaders": true,
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1008,
-        368
-      ],
-      "id": "a220dde3-94ad-4a8b-99db-27fd7b20160a",
-      "name": "Post to Quentn1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
-          "name": "Bearer Auth account 2"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpQueryAuth",
-        "sendBody": true,
-        "bodyParameters": {
+        "headerParameters": {
           "parameters": [
             {
-              "name": "email",
-              "value": "test@test.com"
-            },
-            {
-              "name": "first_name",
-              "value": "test"
-            },
-            {
-              "name": "last_name",
-              "value": "test"
-            },
-            {
-              "name": "memberships",
-              "value": "1"
-            },
-            {
-              "name": "notify",
-              "value": "1"
-            },
-            {
-              "name": "opm_api_key",
-              "value": "2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32"
+              "name": "Authorization",
+              "value": "Bearer U6Oa4-zHw6Zel0jJIOumZ2rpqawjvGXJjzsCuqoqJsA"
             }
           ]
         },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $('Wufoo Trigger').item.json['Name:'].Vorname }}\",\n      \"family_name\" : \"{{ $('Wufoo Trigger').item.json['Name:'].Nachname }}\",\n      \"mail\" : \"{{ $('Wufoo Trigger').item.json['E-Mail-Adresse'] }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        336,
-        368
+        1504,
+        64
       ],
-      "id": "76d56700-16ce-46c1-811e-8dd3dd9a24ff",
-      "name": "POST To MarkusDan.com Members",
-      "credentials": {
-        "httpQueryAuth": {
-          "id": "ISBD5w0SgPqx0Sfz",
-          "name": "MarkusDan.com Auth"
-        }
-      }
+      "id": "12d05c58-1e4b-42a9-b962-0214d31cd076",
+      "name": "Post to Quentn"
     },
     {
       "parameters": {
-        "content": "## Receive Webhook POST from Quentn\n\n[Unbenanntes Element (DEH Buchfunnel)]",
-        "height": 416,
-        "width": 256,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        224
-      ],
-      "id": "bae6397c-7bbc-4ecb-b37b-81b7bbebec17",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "12d976d8-c8fa-4acc-86f4-d6766f86c644",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        112,
-        368
-      ],
-      "id": "07df2488-c076-478e-b694-65fad61821ad",
-      "name": "Webhook",
-      "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
-    },
-    {
-      "parameters": {
-        "content": "## POST to MarkusDan.com endpoint",
-        "height": 416,
+        "content": "## Wufoo Form - Collect Data",
+        "height": 320,
         "width": 224
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        272,
-        224
+        592,
+        -48
       ],
-      "id": "5080f62c-10eb-46e3-a276-974f974af6e6",
+      "id": "527e6fa1-ca37-45d3-a28b-f322034c2488",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Create Doc from Template\nCopy new doc from template and update values",
+        "height": 320,
+        "width": 336,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        832,
+        -48
+      ],
+      "id": "182f11db-3cff-4ac5-addc-7a3805990840",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
-        "content": "## Append to Katrin Google Sheet\n",
-        "height": 416,
-        "width": 208,
+        "content": "## Append row to Google Sheet",
+        "height": 320,
+        "width": 224,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        512,
-        224
+        1184,
+        -48
       ],
-      "id": "b09deede-97c5-40bc-897d-0b17db7c56e8",
+      "id": "4ae1a448-8042-418f-9f21-0c1813bef807",
       "name": "Sticky Note2"
     },
     {
       "parameters": {
-        "content": "## Add Person to Pipedrive\n",
-        "height": 416,
-        "width": 208,
-        "color": 5
+        "content": "## Add Quentn Contact\n",
+        "height": 320,
+        "width": 272,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        736,
-        224
+        1424,
+        -48
       ],
-      "id": "6c10cfe7-1508-4113-9494-82cb503ded64",
+      "id": "60d9f333-02dd-4562-96e1-1c3b1dc0293f",
       "name": "Sticky Note3"
     },
     {
       "parameters": {
-        "content": "## POST Add contact to Quentn",
-        "height": 416,
-        "width": 224,
+        "content": "## Q4-Vermögensschutz Schnellcheck SCHRITT 1 - WUFOO\n\n- Triggers on a new Wufoo form submission\nGenerates a personalized Google Doc based on the respondent's name\n- Appends form data (name, email, phone, real estate holdings, etc.) to a central Google Sheet for internal tracking\n- Sends contact info to Quentn CRM via API to update or create a contact record\n",
+        "height": 224,
+        "width": 1104,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        960,
-        224
+        592,
+        -288
       ],
-      "id": "ded7344d-4d92-4fc4-934b-0c183a2cc819",
+      "id": "bb7a7186-52d8-4d44-9265-6002794fafc2",
       "name": "Sticky Note4"
     },
     {
       "parameters": {
-        "content": "## GOOKGG Amazon -> Katrin Sheet + Pipedrive",
-        "width": 736,
-        "color": 7
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1-DivBvHLX_vV_dtBE9L8VdX5xBK8yRDSLw4_lccuH00",
+          "mode": "list",
+          "cachedResultName": "Vermögensschutz-Schnell-Check Markus Dan",
+          "cachedResultUrl": "https://docs.google.com/document/d/1-DivBvHLX_vV_dtBE9L8VdX5xBK8yRDSLw4_lccuH00/edit?usp=drivesdk"
+        },
+        "name": "=n8n-Vermögens-Schnell-Check_{{ $json['Name:'].Vorname }} {{ $json['Name:'].Nachname }}",
+        "sameFolder": false,
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tB-f7Nqhhi36ClWDcwUJp4l1mroBWWMk",
+          "mode": "list",
+          "cachedResultName": "Q4-Vermögensschutz-Schnell-Check",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1tB-f7Nqhhi36ClWDcwUJp4l1mroBWWMk"
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
       "position": [
-        0,
-        0
+        864,
+        64
       ],
-      "id": "b9f9893b-01d0-41ec-a9c4-385679e3ea22",
-      "name": "Sticky Note5"
+      "id": "7e43983c-dc52-4fbc-8c56-ee4110778cac",
+      "name": "Copy file"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": " {{Name}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Name:\"].Vorname }} {{ $('Wufoo Trigger').item.json[\"Name:\"].Nachname }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Email}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"E-Mail-Adresse\"] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Telefonnummer}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json.Telefonnummer }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Immobilien}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Immobilien\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Immobilien}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in Immobilien investiert?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Wertpapiere}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Wertpapiere?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Wertpapiere}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Edelmetalle}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Edelmetalle?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Edelmetalle}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Lebensversicherung}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Lebensversicherung}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Bankguthaben}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Besitz_Alternative_Werte}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Haben Sie alternative (Sach-)Werte?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Alternative_Werte}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Haben Sie alternative (Sach-)Werte?\"].first() }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{Invest_Bankguthaben}}",
+              "replaceText": "={{ $('Wufoo Trigger').item.json[\"Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)\"].first() }}",
+              "matchCase": true
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        64
+      ],
+      "id": "c62cdcb9-c7ab-498f-99a9-15cfb937a963",
+      "name": "Update a document"
     }
   ],
   "connections": {
+    "Wufoo Trigger": {
+      "main": [
+        [
+          {
+            "node": "Copy file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Append row in sheet": {
       "main": [
         [
           {
-            "node": "Create a person",
+            "node": "Post to Quentn",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Create a person": {
+    "Copy file": {
       "main": [
         [
           {
-            "node": "Post to Quentn1",
+            "node": "Update a document",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "POST To MarkusDan.com Members": {
+    "Update a document": {
       "main": [
         [
           {
@@ -427,69 +577,156 @@
           }
         ]
       ]
-    },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "POST To MarkusDan.com Members",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "gWILjCr3MnTftlFz"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {
-    "Webhook": [
+    "Wufoo Trigger": [
       {
         "json": {
-          "headers": {
-            "host": "n8n.megyk.com",
-            "user-agent": "Drupal (+http://drupal.org/)",
-            "content-length": "230",
-            "content-type": "application/json",
-            "via": "1.0 Caddy",
-            "x-forwarded-for": "176.9.50.181",
-            "x-forwarded-host": "n8n.megyk.com",
-            "x-forwarded-proto": "https",
-            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
-            "accept-encoding": "gzip"
+          "Name:": {
+            "Vorname": "Adam",
+            "Nachname": "Haley"
           },
-          "params": {},
-          "query": {},
-          "body": [
+          "E-Mail-Adresse": "adamhaley@gmail.com",
+          "Telefonnummer": "3233843493",
+          "Besitzen Sie Immobilien": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in Immobilien investiert?": [
+            "weniger als €100.000 "
+          ],
+          "Besitzen Sie Wertpapiere?": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in Wertpapieren investiert? (Aktien, Anleihen, ETFs usw.)": [
+            "weniger als €10.000 "
+          ],
+          "Besitzen Sie Edelmetalle?": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in Edelmetalle investiert? (Goldbarren, Münzen, Silber usw.)": [
+            "weniger als €10.000 "
+          ],
+          "Besitzen Sie Lebensversicherungen als Rentenvorsorge (oder Bausparverträge)?": [
+            "Ja"
+          ],
+          "Optional: Wie viel zahlen Sie monatlich in diese Lebensversicherung/en ein?": [
+            "weniger als €100 "
+          ],
+          "Haben Sie Geld auf der Bank?": [
+            "Ja"
+          ],
+          "Optional: Wie viel Geld haben Sie auf der Bank? (Konto, Bausparer usw.)": [
+            "weniger als €10.000 "
+          ],
+          "Haben Sie alternative (Sach-)Werte?": [
+            "Ja"
+          ],
+          "Optional: Wie viel haben Sie in alternative Werte investiert? (Krypto, Oldtimer, usw - alles was bisher nicht aufgeschienen ist)": [
+            "weniger als €10.000 "
+          ],
+          "Anmerkungen, Feedback?": "lorem ipsum dolor samet"
+        }
+      }
+    ],
+    "Update a document": [
+      {
+        "json": {
+          "replies": [
             {
-              "title": "",
-              "first_name": "TEST 2",
-              "family_name": "TEST 2",
-              "company": "",
-              "job_title": "",
-              "mail": "test@adamhaley.com",
-              "website": "",
-              "phone": "",
-              "ba_street": "",
-              "ba_city": "",
-              "ba_postal_code": "",
-              "ba_state": "",
-              "ba_country": "",
-              "id": "62535"
+              "replaceAllText": {
+                "occurrencesChanged": 8
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
+            },
+            {
+              "replaceAllText": {
+                "occurrencesChanged": 1
+              }
             }
           ],
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
-          "executionMode": "test"
+          "writeControl": {
+            "requiredRevisionId": "ALBJ4LvpXmaIlJDxufGkJKu9LZGXBPdNaw_CaiEk46y3PNqrXKr_11oGQ0_os2SdxHea_l3nblJR18-v5_iF"
+          },
+          "documentId": "1862nD2sb1BEbDoOn9rcKf9ZEqdPNm7K5Ep64kiwwvDA"
         }
       }
     ]
   },
-  "versionId": "9247dd1d-cde7-42de-877a-ba813d9a7a84",
+  "versionId": "78622cd2-d6a3-42a9-ab2c-fe90bf539bed",
   "triggerCount": 0,
   "tags": []
 }
