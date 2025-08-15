@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-06T22:44:37.016Z",
-  "updatedAt": "2025-07-19T01:44:00.000Z",
+  "updatedAt": "2025-08-15T02:22:47.000Z",
   "id": "RxtX2VQfcWer8aQM",
   "name": "Whatsapp Agent",
   "active": false,
@@ -20,8 +20,8 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        -1060,
-        -220
+        -1056,
+        -224
       ],
       "id": "813bc5dd-b4a1-496a-8479-52ed2f4be419",
       "name": "WhatsApp Trigger",
@@ -76,8 +76,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        40,
-        -220
+        48,
+        -224
       ],
       "id": "6e27f370-5c01-4dd3-8597-cab536a6203c",
       "name": "Execute Workflow"
@@ -93,8 +93,8 @@
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        260,
-        -220
+        272,
+        -224
       ],
       "id": "e73e74e0-d69e-4b82-87b2-70f3b7452639",
       "name": "WhatsApp Business Cloud",
@@ -126,27 +126,6 @@
     },
     {
       "parameters": {
-        "resource": "file",
-        "fileId": "={{ $json.message.voice.file_id }}"
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        -620,
-        -320
-      ],
-      "id": "a90aba00-3a93-45cc-9f1c-864609c67f75",
-      "name": "Download Message",
-      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
-      "credentials": {
-        "telegramApi": {
-          "id": "Up0ePNUE4mWLrzEL",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -168,8 +147,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -180,
-        -220
+        -176,
+        -224
       ],
       "id": "849793ab-62d6-4fef-9dc9-31d5533c9073",
       "name": "Add sessionId"
@@ -190,7 +169,7 @@
       "typeVersion": 1,
       "position": [
         -400,
-        -120
+        -128
       ],
       "id": "0deecb77-077c-4707-b756-d56026750877",
       "name": "Normalize Msg"
@@ -252,8 +231,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -840,
-        -220
+        -848,
+        -224
       ],
       "id": "6879386a-f934-4e46-9db0-7f599523603c",
       "name": "Is Voice or Text?"
@@ -268,10 +247,31 @@
       "typeVersion": 1,
       "position": [
         -1040,
-        -540
+        -544
       ],
       "id": "279a7307-612f-40b9-a46b-a02d9107f831",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -320
+      ],
+      "id": "e6423125-f847-45f2-949d-4224f7e67d66",
+      "name": "Download media",
+      "webhookId": "54ad74f2-fb2a-4b98-bb8c-abab5fb155c8",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "AzTkhQmOQUC2wp1H",
+          "name": "WhatsApp account"
+        }
+      }
     }
   ],
   "connections": {
@@ -308,17 +308,6 @@
         ]
       ]
     },
-    "Download Message": {
-      "main": [
-        [
-          {
-            "node": "Transcribe Voice",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Normalize Msg": {
       "main": [
         [
@@ -334,7 +323,7 @@
       "main": [
         [
           {
-            "node": "Download Message",
+            "node": "Download media",
             "type": "main",
             "index": 0
           }
@@ -358,6 +347,17 @@
           }
         ]
       ]
+    },
+    "Download media": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -368,7 +368,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6d91498a-55e7-4807-acab-f726b588a159",
+  "versionId": "9f1c7bd3-9de3-489b-800c-3bb74744d5c6",
   "triggerCount": 1,
   "tags": []
 }
