@@ -1,428 +1,422 @@
 {
-  "createdAt": "2025-08-03T00:12:38.233Z",
-  "updatedAt": "2025-08-03T00:28:45.000Z",
-  "id": "0mupmIyBMc9Mic8o",
-  "name": "GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+  "createdAt": "2025-08-07T23:05:32.898Z",
+  "updatedAt": "2025-08-07T23:08:25.000Z",
+  "id": "80bvyoXdtHBOp2yR",
+  "name": "RAG Injest and Process File",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
+        "mode": "insert",
+        "pineconeIndex": {
           "__rl": true,
-          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
+          "value": "ah-media",
           "mode": "list",
-          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
+          "cachedResultName": "ah-media"
         },
-        "sheetName": {
-          "__rl": true,
-          "value": 1696979597,
-          "mode": "list",
-          "cachedResultName": "export (1)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Datum": "={{ $now.format('y-MM-d') }}",
-            "Produkt": "Buch extern (zB Amazon)",
-            "Zeit": "={{ $now.format('HH:mm') }}",
-            "Nachname": "={{ $json.data.last_name }}",
-            "Vorname": "={{ $json.data.first_name }}",
-            "E-Mail": "={{ $json.data.email }}",
-            "Telefonnr.": "={{ $('Webhook').item.json.body[0].phone }}",
-            "Land": "={{ $('Webhook').item.json.body[0].ba_country }}",
-            "Adresse": "={{ $('Webhook').item.json.body[0].ba_street }} {{ $('Webhook').item.json.body[0].ba_city }} {{ $('Webhook').item.json.body[0].ba_state }} {{ $('Webhook').item.json.body[0].ba_postal_code }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Datum",
-              "displayName": "Datum",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Produkt",
-              "displayName": "Produkt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Anrede",
-              "displayName": "Anrede",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Nachname",
-              "displayName": "Nachname",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Vorname",
-              "displayName": "Vorname",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "E-Mail",
-              "displayName": "E-Mail",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Telefonnr.",
-              "displayName": "Telefonnr.",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Land",
-              "displayName": "Land",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Katrin Anmerkung",
-              "displayName": "Katrin Anmerkung",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Adresse",
-              "displayName": "Adresse",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "4,95",
-              "displayName": "4,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "6,95",
-              "displayName": "6,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
+        "options": {
+          "pineconeNamespace": "={{ $json.namespace }}"
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
       "position": [
-        560,
-        368
+        -1168,
+        -400
       ],
-      "id": "4c0f1c2f-51f3-4346-94ef-75511f32e556",
-      "name": "Append row in sheet",
+      "id": "3d7fd911-9e16-415e-a136-a0c4be3651a9",
+      "name": "Pinecone Vector Store",
+      "alwaysOutputData": true,
+      "notesInFlow": false,
       "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "aIDyvQUuR4iZRmoo",
-          "name": "Markus Longdragon Google Acct"
+        "pineconeApi": {
+          "id": "x0bN3Ljld6zAEruh",
+          "name": "PineconeApi account"
         }
       }
     },
     {
       "parameters": {
-        "resource": "person",
-        "name": "={{ $json.Vorname }} {{ $json.Nachname }} {{ $json.Adresse }}{{ $json.Land }} {{ $json.Datum }}",
-        "additionalFields": {
-          "email": [
-            "={{ $json[\"E-Mail\"] }} "
-          ],
-          "phone": [
-            "={{ $json[\"Telefonnr.\"] }} "
-          ]
-        }
+        "model": "nomic-embed-text:latest"
       },
-      "type": "n8n-nodes-base.pipedrive",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        784,
-        368
+        -1184,
+        -176
       ],
-      "id": "5f529997-f503-4cda-8339-65e23d60add4",
-      "name": "Create a person",
+      "id": "1b135e0a-4cdb-4382-8e42-eae303f7e27a",
+      "name": "Embeddings Ollama",
       "credentials": {
-        "pipedriveApi": {
-          "id": "sqk78yrjAXyJsVVw",
-          "name": "Pipedrive account"
+        "ollamaApi": {
+          "id": "b1Nz8WxwYDKRmecP",
+          "name": "Ollama account"
         }
       }
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
+        "dataType": "binary",
+        "options": {
+          "splitPages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        -176
+      ],
+      "id": "b43b9231-3d8b-43ec-8f47-c445f44f76a9",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "separator": "=\\n",
+        "chunkSize": 800,
+        "chunkOverlap": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        32
+      ],
+      "id": "c8028574-0633-479e-9ac3-6ad9f692a377",
+      "name": "Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "83720de6-7b86-4a53-ba9e-efa0fb9121d0",
+        "responseMode": "responseNode",
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2720,
+        -304
+      ],
+      "id": "66226ad8-e91d-4382-98a7-fe651eada67b",
+      "name": "Webhook",
+      "webhookId": "83720de6-7b86-4a53-ba9e-efa0fb9121d0"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"namespace\": \"{{ $('Inject Namespace').item.json.namespace }}\"\n}",
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
       "position": [
-        1008,
-        368
+        -240,
+        -400
       ],
-      "id": "a220dde3-94ad-4a8b-99db-27fd7b20160a",
-      "name": "Post to Quentn1",
+      "id": "d4413729-9d4e-4f8a-98dc-b74a7465d0b6",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "  const adjectives = [\n    \"quick\", \"bright\", \"silent\", \"brave\", \"calm\", \"lucky\", \"sunny\", \"clever\", \"happy\", \"shiny\"\n  ];\n  const nouns = [\n    \"tiger\", \"hill\", \"cloud\", \"river\", \"falcon\", \"stone\", \"tree\", \"flame\", \"wave\", \"trail\"\n  ];\n\n  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];\n  const noun = nouns[Math.floor(Math.random() * nouns.length)];\n  const number = Math.floor(Math.random() * 10000); // 0 to 9999\n\n  return { namespace: `${adjective}-${noun}-${number}` };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1840,
+        -224
+      ],
+      "id": "0d20eb1d-3c84-44c8-bae7-3c019f676cdc",
+      "name": "Generate Namespace"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        -400
+      ],
+      "id": "63572303-66cc-4599-8cf8-b43bc65c1407",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Get File Info').first().json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1408,
+        -400
+      ],
+      "id": "c142e332-d81a-4482-b170-17435312680d",
+      "name": "Download File",
       "credentials": {
-        "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
-          "name": "Bearer Auth account 2"
+        "googleDriveOAuth2Api": {
+          "id": "fA1w6gMdQ2aJNFpG",
+          "name": "adam@adamhaley.com Google Drive"
         }
       }
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpQueryAuth",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
+        "assignments": {
+          "assignments": [
             {
-              "name": "email",
-              "value": "test@test.com"
-            },
-            {
-              "name": "first_name",
-              "value": "test"
-            },
-            {
-              "name": "last_name",
-              "value": "test"
-            },
-            {
-              "name": "memberships",
-              "value": "1"
-            },
-            {
-              "name": "notify",
-              "value": "1"
-            },
-            {
-              "name": "opm_api_key",
-              "value": "2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32"
+              "id": "84d62751-53eb-4145-9e72-fcd968d12b95",
+              "name": "namespace",
+              "value": "={{ $('Webhook').item.json.body.namespace || $('Generate Namespace').item.json.namespace }}",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        336,
-        368
+        -1616,
+        -400
       ],
-      "id": "76d56700-16ce-46c1-811e-8dd3dd9a24ff",
-      "name": "POST To MarkusDan.com Members",
+      "id": "1c4ea4ba-d929-4109-acbb-ae5108046d63",
+      "name": "Inject Namespace"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3cb86ff3-683e-4013-94d0-bba50bcc4c0a",
+              "leftValue": "={{ $('Webhook').item.json.body.namespace }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2064,
+        -304
+      ],
+      "id": "9dd42394-67c2-46a9-9324-a5e90a414f75",
+      "name": "If Namespace with Request"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "data0",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1zaQwxyD3xd090fwyWq8lSxWVcb1Dmf1Y",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -2496,
+        -304
+      ],
+      "id": "894c4783-7966-4662-923d-51e5ba1d9e8e",
+      "name": "Upload to Google Drive",
       "credentials": {
-        "httpQueryAuth": {
-          "id": "ISBD5w0SgPqx0Sfz",
-          "name": "MarkusDan.com Auth"
+        "googleDriveOAuth2Api": {
+          "id": "fA1w6gMdQ2aJNFpG",
+          "name": "adam@adamhaley.com Google Drive"
         }
       }
     },
     {
       "parameters": {
-        "content": "## Receive Webhook POST from Quentn\n\n[Unbenanntes Element (DEH Buchfunnel)]",
-        "height": 416,
-        "width": 256,
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $json.id }}?fields=*",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2288,
+        -304
+      ],
+      "id": "c2ad7e03-f36a-4b42-b52e-aff006372c17",
+      "name": "Get File Info",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "fA1w6gMdQ2aJNFpG",
+          "name": "adam@adamhaley.com Google Drive"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2dedd910-8caf-421a-8160-de47286ecfbb",
+              "name": "namespace",
+              "value": "={{ $('Inject Namespace').item.json.namespace }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -464,
+        -400
+      ],
+      "id": "4d43eae2-566c-4d37-9a28-a3f104b1fa8e",
+      "name": "Extract Namespace"
+    },
+    {
+      "parameters": {
+        "content": "## Ingest File\n",
+        "height": 700,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2800,
+        -544
+      ],
+      "id": "9232dedc-e6f6-4ced-b763-bc6259a5fe21",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Manage Namespace for Multi-tenancy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf a namespace came in with the webhook call, use that namespace. Otherwise we need to generate a namespace (see code node).\nNamespace is generated with a random adjective, noun, and number. This balance the best-of-both worlds of having a human-readable name, and also low likelihood of collisions.\n ",
+        "height": 700,
+        "width": 660,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        224
+        -2128,
+        -544
       ],
-      "id": "bae6397c-7bbc-4ecb-b37b-81b7bbebec17",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "12d976d8-c8fa-4acc-86f4-d6766f86c644",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        112,
-        368
-      ],
-      "id": "07df2488-c076-478e-b694-65fad61821ad",
-      "name": "Webhook",
-      "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
-    },
-    {
-      "parameters": {
-        "content": "## POST to MarkusDan.com endpoint",
-        "height": 416,
-        "width": 224
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        272,
-        224
-      ],
-      "id": "5080f62c-10eb-46e3-a276-974f974af6e6",
+      "id": "be7d86cf-4b52-40c8-9ff4-f9daf7995b92",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
-        "content": "## Append to Katrin Google Sheet\n",
-        "height": 416,
-        "width": 208,
+        "content": "## Document Loading and Vector Embedding\n",
+        "height": 700,
+        "width": 700,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        512,
-        224
+        -1440,
+        -544
       ],
-      "id": "b09deede-97c5-40bc-897d-0b17db7c56e8",
+      "id": "1ef93a4d-1284-49e0-848d-273b8d07e704",
       "name": "Sticky Note2"
     },
     {
       "parameters": {
-        "content": "## Add Person to Pipedrive\n",
-        "height": 416,
-        "width": 208,
-        "color": 5
+        "content": "## Return Data\n",
+        "height": 700,
+        "width": 660,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        736,
-        224
+        -720,
+        -544
       ],
-      "id": "6c10cfe7-1508-4113-9494-82cb503ded64",
+      "id": "0a126b29-ae97-4214-814a-33dc30da8b91",
       "name": "Sticky Note3"
     },
     {
       "parameters": {
-        "content": "## POST Add contact to Quentn",
-        "height": 416,
-        "width": 224,
+        "content": "## RAG Injest and Process File (multi-tenant)",
+        "height": 120,
+        "width": 640,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        960,
-        224
+        -2800,
+        -896
       ],
-      "id": "ded7344d-4d92-4fc4-934b-0c183a2cc819",
+      "id": "4393e612-9cc3-40b9-909d-77af9c76662a",
       "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "## GOOKGG Amazon -> Katrin Sheet + Pipedrive",
-        "width": 736,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "b9f9893b-01d0-41ec-a9c4-385679e3ea22",
-      "name": "Sticky Note5"
     }
   ],
   "connections": {
-    "Append row in sheet": {
-      "main": [
+    "Embeddings Ollama": {
+      "ai_embedding": [
         [
           {
-            "node": "Create a person",
-            "type": "main",
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
             "index": 0
           }
         ]
       ]
     },
-    "Create a person": {
-      "main": [
+    "Default Data Loader": {
+      "ai_document": [
         [
           {
-            "node": "Post to Quentn1",
-            "type": "main",
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
             "index": 0
           }
         ]
       ]
     },
-    "POST To MarkusDan.com Members": {
-      "main": [
+    "Character Text Splitter": {
+      "ai_textSplitter": [
         [
           {
-            "node": "Append row in sheet",
-            "type": "main",
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
             "index": 0
           }
         ]
@@ -432,7 +426,113 @@
       "main": [
         [
           {
-            "node": "POST To MarkusDan.com Members",
+            "node": "Upload to Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Namespace": {
+      "main": [
+        [
+          {
+            "node": "Inject Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Extract Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inject Namespace": {
+      "main": [
+        [
+          {
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Namespace with Request": {
+      "main": [
+        [
+          {
+            "node": "Inject Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Namespace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Get File Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get File Info": {
+      "main": [
+        [
+          {
+            "node": "If Namespace with Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Namespace": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
             "type": "main",
             "index": 0
           }
@@ -443,53 +543,16 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Google Drive Trigger": {
+      "lastTimeChecked": "2025-05-15T00:59:26Z"
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.megyk.com",
-            "user-agent": "Drupal (+http://drupal.org/)",
-            "content-length": "230",
-            "content-type": "application/json",
-            "via": "1.0 Caddy",
-            "x-forwarded-for": "176.9.50.181",
-            "x-forwarded-host": "n8n.megyk.com",
-            "x-forwarded-proto": "https",
-            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
-            "accept-encoding": "gzip"
-          },
-          "params": {},
-          "query": {},
-          "body": [
-            {
-              "title": "",
-              "first_name": "TEST 2",
-              "family_name": "TEST 2",
-              "company": "",
-              "job_title": "",
-              "mail": "test@adamhaley.com",
-              "website": "",
-              "phone": "",
-              "ba_street": "",
-              "ba_city": "",
-              "ba_postal_code": "",
-              "ba_state": "",
-              "ba_country": "",
-              "id": "62535"
-            }
-          ],
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "9247dd1d-cde7-42de-877a-ba813d9a7a84",
-  "triggerCount": 0,
+  "pinData": {},
+  "versionId": "c2b7d6bb-1ddb-486d-b72e-b67e79542504",
+  "triggerCount": 1,
   "tags": []
 }
