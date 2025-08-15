@@ -1,438 +1,334 @@
 {
-  "createdAt": "2025-08-03T00:12:38.233Z",
-  "updatedAt": "2025-08-03T00:28:45.000Z",
-  "id": "0mupmIyBMc9Mic8o",
-  "name": "GOOKGG Amazon -> Katrin Sheet + Pipedrive",
+  "createdAt": "2025-07-26T22:59:20.363Z",
+  "updatedAt": "2025-07-28T02:10:25.000Z",
+  "id": "pl4B77yfp5CnjRnC",
+  "name": "Get Body Composition",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "operation": "append",
+        "path": "read_body_composition",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8fffbcd7-88c8-457a-817d-5cce032db475",
+      "name": "Webhook",
+      "webhookId": "a3bfbeab-5e06-40b3-9eb1-926a9d3f0bbf",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AAwmntbUzK3L2Bwn",
+          "name": "N8N WEBHOOK AUTH"
+        }
+      }
+    },
+    {
+      "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
+          "value": "1JznDHfkIBTqmMB9LDdG1TzdEQ-rRIjYFCOxbZA93X48",
           "mode": "list",
-          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
+          "cachedResultName": "BodyCompositionLog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JznDHfkIBTqmMB9LDdG1TzdEQ-rRIjYFCOxbZA93X48/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1696979597,
+          "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "export (1)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Datum": "={{ $now.format('y-MM-d') }}",
-            "Produkt": "Buch extern (zB Amazon)",
-            "Zeit": "={{ $now.format('HH:mm') }}",
-            "Nachname": "={{ $json.data.last_name }}",
-            "Vorname": "={{ $json.data.first_name }}",
-            "E-Mail": "={{ $json.data.email }}",
-            "Telefonnr.": "={{ $('Webhook').item.json.body[0].phone }}",
-            "Land": "={{ $('Webhook').item.json.body[0].ba_country }}",
-            "Adresse": "={{ $('Webhook').item.json.body[0].ba_street }} {{ $('Webhook').item.json.body[0].ba_city }} {{ $('Webhook').item.json.body[0].ba_state }} {{ $('Webhook').item.json.body[0].ba_postal_code }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Datum",
-              "displayName": "Datum",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Produkt",
-              "displayName": "Produkt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Anrede",
-              "displayName": "Anrede",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Nachname",
-              "displayName": "Nachname",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Vorname",
-              "displayName": "Vorname",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "E-Mail",
-              "displayName": "E-Mail",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Telefonnr.",
-              "displayName": "Telefonnr.",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Land",
-              "displayName": "Land",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Katrin Anmerkung",
-              "displayName": "Katrin Anmerkung",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Adresse",
-              "displayName": "Adresse",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "4,95",
-              "displayName": "4,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "6,95",
-              "displayName": "6,95",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JznDHfkIBTqmMB9LDdG1TzdEQ-rRIjYFCOxbZA93X48/edit#gid=0"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        560,
-        368
+        672,
+        0
       ],
-      "id": "4c0f1c2f-51f3-4346-94ef-75511f32e556",
-      "name": "Append row in sheet",
+      "id": "ec677bab-d803-4531-a46e-d69517c238af",
+      "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "aIDyvQUuR4iZRmoo",
-          "name": "Markus Longdragon Google Acct"
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
         }
       }
     },
     {
       "parameters": {
-        "resource": "person",
-        "name": "={{ $json.Vorname }} {{ $json.Nachname }} {{ $json.Adresse }}{{ $json.Land }} {{ $json.Datum }}",
-        "additionalFields": {
-          "email": [
-            "={{ $json[\"E-Mail\"] }} "
-          ],
-          "phone": [
-            "={{ $json[\"Telefonnr.\"] }} "
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        784,
-        368
-      ],
-      "id": "5f529997-f503-4cda-8339-65e23d60add4",
-      "name": "Create a person",
-      "credentials": {
-        "pipedriveApi": {
-          "id": "sqk78yrjAXyJsVVw",
-          "name": "Pipedrive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://qk7fee.eu-4.quentn.com/public/api/v1/contact",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n   \"contact\" : {\n      \"first_name\" : \"{{ $json.first_name }}\",\n      \"family_name\" : \"{{ $json.last_name }}\",\n      \"mail\" : \"{{$json.primary_email }}\",\t\n      \"request_ip\" : \"123.123.123.123\"\n   },\n   \"duplicate_check_method\" : \"email\",\n   \"duplicate_merge_method\" : \"update_add\",\n   \"return_fields\" : [\n      \"mail_status\",\"mail\",\"first_name\",\"family_name\"\n   ],\n   \"flood_limit\" : 5,\n   \"spam_protection\" : true\n} ",
+        "respondWith": "allIncomingItems",
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
       "position": [
-        1008,
-        368
+        1120,
+        0
       ],
-      "id": "a220dde3-94ad-4a8b-99db-27fd7b20160a",
-      "name": "Post to Quentn1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "gBPFMcYMVNcGZUkz",
-          "name": "Bearer Auth account 2"
-        }
-      }
+      "id": "618c959c-d349-4e3b-a423-ac090cc9fcdd",
+      "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://markusdan.com/wp-json/opm-api/v1/members",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpQueryAuth",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
+        "workflowId": {
+          "__rl": true,
+          "value": "d3gWDU9Utjf2lJ0S",
+          "mode": "list",
+          "cachedResultName": "Parse Filters"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "params"
+          ],
+          "schema": [
             {
-              "name": "email",
-              "value": "test@test.com"
+              "id": "params",
+              "displayName": "params",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "e56d60fb-1330-4922-b47d-b543354acf32",
+      "name": "Query Params To Filters Object"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "df0a520c-89bc-462d-8e77-b7307281d307",
+              "name": "start_date",
+              "value": "={{ $json.query.start_date || $now.format('y-MM-d') }}",
+              "type": "string"
             },
             {
-              "name": "first_name",
-              "value": "test"
+              "id": "c9fa4412-fe36-4394-aa9e-ae1c09893fc4",
+              "name": "end_date",
+              "value": "={{ $json.query.end_date || $now.format('y-MM-d') }}",
+              "type": "string"
             },
             {
-              "name": "last_name",
-              "value": "test"
+              "id": "6adf1bb6-15c5-4790-bf0e-451775bea612",
+              "name": "min_weight",
+              "value": "={{ $json.query.min_weight || 0 }}",
+              "type": "string"
             },
             {
-              "name": "memberships",
-              "value": "1"
+              "id": "8d2df5be-d7e1-4866-b8bc-fcde9b15135c",
+              "name": "max_weight",
+              "value": "={{ $json.query.max_weight || 500 }}",
+              "type": "string"
             },
             {
-              "name": "notify",
-              "value": "1"
+              "id": "22877303-a2c7-435d-a054-cb1516d3f069",
+              "name": "min_body_fat",
+              "value": "={{ $json.query.min_body_fat || 0 }}",
+              "type": "string"
             },
             {
-              "name": "opm_api_key",
-              "value": "2611829e90d5b0bb61204ccab16913fa074db7051043badabeb3d0688d566a32"
+              "id": "59aa28fd-72af-4615-8194-6330512c547a",
+              "name": "max_body_fat",
+              "value": "={{ $json.query.max_body_fat || .50 }}",
+              "type": "string"
+            },
+            {
+              "id": "aed4dccd-854d-4009-a31d-a6dc8b10b52b",
+              "name": "=min_bmi",
+              "value": "={{ $json.query.min_bmi || 15 }}",
+              "type": "string"
+            },
+            {
+              "id": "82d8d928-f15b-4783-bc13-2876b72e0a9b",
+              "name": "max_bmi",
+              "value": "={{ $json.query.max_bmi || 40 }}",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        336,
-        368
-      ],
-      "id": "76d56700-16ce-46c1-811e-8dd3dd9a24ff",
-      "name": "POST To MarkusDan.com Members",
-      "credentials": {
-        "httpQueryAuth": {
-          "id": "ISBD5w0SgPqx0Sfz",
-          "name": "MarkusDan.com Auth"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "content": "## Receive Webhook POST from Quentn\n\n[Unbenanntes Element (DEH Buchfunnel)]",
-        "height": 416,
-        "width": 256,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        224
-      ],
-      "id": "bae6397c-7bbc-4ecb-b37b-81b7bbebec17",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "12d976d8-c8fa-4acc-86f4-d6766f86c644",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        112,
-        368
-      ],
-      "id": "07df2488-c076-478e-b694-65fad61821ad",
-      "name": "Webhook",
-      "webhookId": "12d976d8-c8fa-4acc-86f4-d6766f86c644"
-    },
-    {
-      "parameters": {
-        "content": "## POST to MarkusDan.com endpoint",
-        "height": 416,
-        "width": 224
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        272,
-        224
-      ],
-      "id": "5080f62c-10eb-46e3-a276-974f974af6e6",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "## Append to Katrin Google Sheet\n",
-        "height": 416,
-        "width": 208,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        512,
-        224
-      ],
-      "id": "b09deede-97c5-40bc-897d-0b17db7c56e8",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {
-        "content": "## Add Person to Pipedrive\n",
-        "height": 416,
-        "width": 208,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        736,
-        224
-      ],
-      "id": "6c10cfe7-1508-4113-9494-82cb503ded64",
-      "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "content": "## POST Add contact to Quentn",
-        "height": 416,
-        "width": 224,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        960,
-        224
-      ],
-      "id": "ded7344d-4d92-4fc4-934b-0c183a2cc819",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "## GOOKGG Amazon -> Katrin Sheet + Pipedrive",
-        "width": 736,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
+        224,
         0
       ],
-      "id": "b9f9893b-01d0-41ec-a9c4-385679e3ea22",
-      "name": "Sticky Note5"
+      "id": "56a4401f-b4fd-4a11-ad94-ea911328c708",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0bbd4978-da90-4a82-9403-c4ec92da3e18",
+              "leftValue": "={{ $json.Date }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.start_date }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            },
+            {
+              "id": "83fc1a4a-56b2-4fab-a1d6-27accdb3b1e8",
+              "leftValue": "={{ $json.Date }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.end_date }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            },
+            {
+              "id": "092c8fe3-088e-45de-b1bf-381e514e5967",
+              "leftValue": "={{ $json.Weight }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.min_weight }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "c7f3d435-4e35-47b7-a041-be9322991ac5",
+              "leftValue": "={{ $json.Weight }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.max_weight }}",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            },
+            {
+              "id": "238ad6ea-3969-4bf1-826c-965151660e33",
+              "leftValue": "={{ $json[\"Body Fat (%)\"] }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.min_body_fat }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "eb8533ca-1430-4e29-805e-28c2ec402a11",
+              "leftValue": "={{ $json[\"Body Fat (%)\"] }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.max_body_fat }}",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            },
+            {
+              "id": "5e1f7858-fb7d-472a-94f7-516d70e30849",
+              "leftValue": "={{ $json.BMI }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.min_bmi }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "65c45d4a-09c0-49cb-8eb2-f60bea2ff352",
+              "leftValue": "={{ $json.BMI }}",
+              "rightValue": "={{ $('Query Params To Filters Object').item.json.max_bmi }}",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        0
+      ],
+      "id": "45a2ecf9-2a72-4ae7-89e3-37df66c82afd",
+      "name": "Filter",
+      "alwaysOutputData": true
     }
   ],
   "connections": {
-    "Append row in sheet": {
-      "main": [
-        [
-          {
-            "node": "Create a person",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create a person": {
-      "main": [
-        [
-          {
-            "node": "Post to Quentn1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "POST To MarkusDan.com Members": {
-      "main": [
-        [
-          {
-            "node": "Append row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
           {
-            "node": "POST To MarkusDan.com Members",
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Params To Filters Object": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Query Params To Filters Object",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -447,49 +343,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.megyk.com",
-            "user-agent": "Drupal (+http://drupal.org/)",
-            "content-length": "230",
-            "content-type": "application/json",
-            "via": "1.0 Caddy",
-            "x-forwarded-for": "176.9.50.181",
-            "x-forwarded-host": "n8n.megyk.com",
-            "x-forwarded-proto": "https",
-            "x-quentn-hmac-sha256": "j4eqc2T0oqvGjUq5wSbQPeRE1Bf6bQUUt81E1ofOflM=",
-            "accept-encoding": "gzip"
-          },
-          "params": {},
-          "query": {},
-          "body": [
-            {
-              "title": "",
-              "first_name": "TEST 2",
-              "family_name": "TEST 2",
-              "company": "",
-              "job_title": "",
-              "mail": "test@adamhaley.com",
-              "website": "",
-              "phone": "",
-              "ba_street": "",
-              "ba_city": "",
-              "ba_postal_code": "",
-              "ba_state": "",
-              "ba_country": "",
-              "id": "62535"
-            }
-          ],
-          "webhookUrl": "https://n8n.megyk.com/webhook-test/12d976d8-c8fa-4acc-86f4-d6766f86c644",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "9247dd1d-cde7-42de-877a-ba813d9a7a84",
+  "pinData": {},
+  "versionId": "09f7969d-4e01-4af6-b33c-6ab23afbe769",
   "triggerCount": 0,
   "tags": []
 }
