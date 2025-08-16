@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T00:20:15.482Z",
-  "updatedAt": "2025-08-15T00:05:04.000Z",
+  "updatedAt": "2025-08-16T03:45:24.000Z",
   "id": "0pOnipWtAgVcVBzC",
   "name": "Twitter extractor with Video Download",
   "active": false,
@@ -150,19 +150,6 @@
       "typeVersion": 1,
       "id": "e9b5e1c7-107e-4bc0-9425-e8fb6c599c91",
       "name": "Sticky Note6"
-    },
-    {
-      "parameters": {
-        "functionCode": "const url = $json.tweet_url;\nconst match = url.match(/x\\.com\\/([^\\/]+)\\/status\\/(\\d+)/) || url.match(/twitter\\.com\\/([^\\/]+)\\/status\\/(\\d+)/);\nif (!match) throw new Error('Invalid tweet URL');\nreturn {\n  tweet_id: match[2],\n  username: match[1]\n};"
-      },
-      "name": "Extract Tweet ID and Username",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        160,
-        1168
-      ],
-      "id": "ed87a24c-45cd-41a8-a72f-9e66108d79e4"
     },
     {
       "parameters": {
@@ -719,11 +706,6 @@
         ]
       ]
     },
-    "Extract Tweet ID and Username": {
-      "main": [
-        []
-      ]
-    },
     "Get first tweet": {
       "main": [
         [
@@ -917,7 +899,7 @@
       }
     ]
   },
-  "versionId": "138bdf8f-9a20-4458-8029-31f54fd469b4",
+  "versionId": "2964911d-3600-4b57-ab85-b3f5472e06a8",
   "triggerCount": 1,
   "tags": []
 }
