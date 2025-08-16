@@ -1,0 +1,245 @@
+{
+  "createdAt": "2025-08-16T07:38:01.911Z",
+  "updatedAt": "2025-08-16T07:38:12.000Z",
+  "id": "OGvyjGctfYAzTtyB",
+  "name": "email-agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -368,
+        -160
+      ],
+      "id": "01ad661e-0f2d-4042-9384-beabed4dd29b",
+      "name": "When chat message received",
+      "webhookId": "601fc321-d196-4e74-a593-5c41078b9e88"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Gesamtkontext:\n\nDer Agent empfängt Chat-Nachrichten und verarbeitet sie mithilfe eines Vektor-Speichers. Falls erforderlich, sendet er eine E-Mail mit dem send_email-Tool unter Verwendung vordefinierter Parameter.\n\nErforderliche Abfrageparameter für das send_email-Tool:\n\nDer Agent muss die folgenden Felder dynamisch ausfüllen:\n\n{\n  \"sendTo\": \"[Empfänger-E-Mail-Adresse]\",\n  \"subject\": \"[Basierend auf der Nutzeranfrage generiert]\",\n  \"emailType\": \"text\",\n  \"message\": \"[Der von der KI generierte E-Mail-Inhalt]\",\n  \"appendAttribution\": false,\n  \"bccList\": \"[Optionale BCC-Empfänger]\",\n  \"ccList\": \"[Optionale CC-Empfänger]\",\n  \"senderName\": \"[Vordefinierter oder benutzerdefinierter Absendername]\"\n}\n\nAblauf des Agenten:\n\n    Empfangen einer Chat-Nachricht\n        Erkennen, ob eine Antwort erforderlich ist.\n        Den Pinecone-Vektor-Speicher nutzen, um relevantes Wissen abzurufen.\n        Eine KI-basierte Antwort generieren.\n\n    Bestimmen, ob eine E-Mail erforderlich ist\n        Falls eine E-Mail gesendet werden muss, die Anfrage mit den strukturierten Parametern formatieren.\n\n    E-Mail senden\n        Den Aufruf des send_email-Tools mit den strukturierten Parametern durchführen.\n\nBeispiel für einen API-Aufruf:\n\nFalls der Agent entscheidet, eine E-Mail zu senden, sollte die Anfrage folgendermaßen aufgebaut sein:\n\n{\n  \"sendTo\": \"user@example.com\",\n  \"subject\": \"Ihre Frage wurde beantwortet\",\n  \"emailType\": \"text\",\n  \"message\": \"Hier sind die relevanten Informationen basierend auf Ihrer Anfrage...\",\n  \"appendAttribution\": false,\n  \"bccList\": \"\",\n  \"ccList\": \"team@example.com\",\n  \"senderName\": \"AI Assistant\"\n}\n\nPrompt für den Agenten:\n\n*\"Beim Empfang einer Nachricht bestimme, ob eine E-Mail gesendet werden muss. Falls erforderlich, nutze das send_email-Tool mit den folgenden Parametern:\n\n    sendTo: Die extrahierte Empfänger-E-Mail-Adresse oder eine Standardkontaktadresse.\n    subject: Kontextuell generiert basierend auf der Anfrage.\n    emailType: Immer auf \"text\" setzen.\n    message: Die von der KI generierte Antwort, klar formatiert.\n    appendAttribution: Immer auf false setzen.\n    bccList: Leer lassen, es sei denn, der Nutzer gibt eine Angabe.\n    ccList: Relevante Teammitglieder hinzufügen, falls erforderlich.\n    senderName: Entweder vordefiniert oder dynamisch aus der Benutzereingabe gesetzt.\n\nSchließe die E-Mail mit einer Grußformel und unterschreibe mit \"Sebastian Claes\".\"*",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -144,
+        -160
+      ],
+      "id": "a7ca41e8-958b-477d-b7e4-82af94770a77",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        64
+      ],
+      "id": "ac92acd8-f11e-42c3-957a-d3b3891fce59",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "name": "contacts",
+        "description": "Call this to retrieve information about contacts like email address. "
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        176,
+        64
+      ],
+      "id": "ef527b55-e847-4cd7-8c64-156c3678a5ec",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        288
+      ],
+      "id": "59c993e1-6ab2-4c1b-9180-dc3fa8076993",
+      "name": "OpenAI Chat Model1"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "my-email-agent",
+          "mode": "list",
+          "cachedResultName": "my-email-agent"
+        },
+        "options": {
+          "pineconeNamespace": "my-contact-data"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        288
+      ],
+      "id": "72b8f8a0-bab5-4b4e-9ad2-6c0acff6c6df",
+      "name": "Pinecone Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        512
+      ],
+      "id": "509b6a4a-6e1a-44a8-a67f-fca0ed15c7e7",
+      "name": "Embeddings OpenAI"
+    },
+    {
+      "parameters": {
+        "name": "send_email",
+        "description": "Call this tool when you need to send an email.",
+        "workflowId": {
+          "__rl": true,
+          "value": "cAgcoN2KW1QcnUyg",
+          "mode": "list",
+          "cachedResultName": "send_email"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        80
+      ],
+      "id": "0be9ff8d-d7a8-4405-8442-d72f479acc52",
+      "name": "send_email"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send_email": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "987f70ab-d57c-430a-896c-42002611e99b",
+  "triggerCount": 0,
+  "tags": []
+}
