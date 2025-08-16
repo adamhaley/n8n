@@ -1,0 +1,253 @@
+{
+  "createdAt": "2025-08-16T07:39:50.924Z",
+  "updatedAt": "2025-08-16T07:40:07.000Z",
+  "id": "TYSubkeHrMkG3V7i",
+  "name": "voice-rag-bot",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "{{ $json.body.question }}",
+        "options": {
+          "systemMessage": "=Du bist ein KI-Agent, der sachlich und informativ auf Fragen zur n8n Dokumentation antwortet.\nBeantworte Fragen ausschließlich auf Basis der bereitgestellten Inhalte aus dem Pinecone Vectorte Store."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -160,
+        -96
+      ],
+      "id": "3eb7c918-8ed1-4065-810c-697dc157d9f0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -272,
+        128
+      ],
+      "id": "121d346b-9784-42d3-859a-255c2d328625",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -128,
+        128
+      ],
+      "id": "1e3d1cf9-7a8c-4813-a2d1-7ba7813fdfb6",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "name": "Data",
+        "description": "Rufe dieses Tool auf, um auf die Datenbank zuzugreifen und die Fragen des Nutzers zu beantworten."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        16,
+        128
+      ],
+      "id": "abbb0f1a-5a62-45f2-a07a-7f5e82920e7f",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        176,
+        288
+      ],
+      "id": "306f0f0f-7744-4cf5-b942-d0c0fbec66aa",
+      "name": "OpenAI Chat Model1"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n-docs-rag",
+          "mode": "list",
+          "cachedResultName": "n8n-docs-rag"
+        },
+        "options": {
+          "pineconeNamespace": "n8n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        288
+      ],
+      "id": "b1a78d38-814d-4110-9fc0-498cfbefc98e",
+      "name": "Pinecone Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        432
+      ],
+      "id": "37cfa2e6-7bbe-442f-9d84-1db6b0fdf10c",
+      "name": "Embeddings OpenAI"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f395e61b-3576-4180-9312-c14cea1f40fa",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        -96
+      ],
+      "id": "91cd4b35-1e25-4605-bf02-6e9b3676da63",
+      "name": "Webhook",
+      "webhookId": "f395e61b-3576-4180-9312-c14cea1f40fa"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        -96
+      ],
+      "id": "3ea5f6e2-78b7-4c2a-93db-5f00968bcabb",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "c43e375b-0a5b-4ea6-9198-7ef0de98b2ee",
+  "triggerCount": 0,
+  "tags": []
+}
