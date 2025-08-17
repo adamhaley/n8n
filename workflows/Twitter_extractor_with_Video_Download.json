@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T00:20:15.482Z",
-  "updatedAt": "2025-08-16T03:45:24.000Z",
+  "updatedAt": "2025-08-16T21:35:45.000Z",
   "id": "0pOnipWtAgVcVBzC",
   "name": "Twitter extractor with Video Download",
   "active": false,
@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        2208,
-        576
+        1728,
+        560
       ],
       "id": "de0b09c9-c521-47dc-abe6-e0aef22085ad",
       "name": "Merge first tweet and others"
@@ -198,8 +198,8 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        720,
-        576
+        512,
+        656
       ],
       "id": "cc93d429-8add-4171-a9dd-d5f982d7658a"
     },
@@ -212,7 +212,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        960,
+        720,
         688
       ],
       "id": "1af4bdee-7049-407d-9802-ff3bb305e0e6",
@@ -253,7 +253,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1184,
+        928,
         688
       ],
       "id": "b92bc339-d6f0-48c6-a0a5-2568dc5f57ff",
@@ -294,8 +294,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2480,
-        576
+        528,
+        1184
       ],
       "id": "201645e4-d4b7-4b9f-ada5-96271ed80723",
       "name": "Filter empty ones"
@@ -376,8 +376,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        3600,
-        576
+        1648,
+        1184
       ],
       "id": "62e22bf4-0292-49c0-827d-21b3fcf46e7a",
       "name": "Store Tweet Meta-Data",
@@ -398,8 +398,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3040,
-        576
+        1088,
+        1184
       ],
       "id": "91c877bb-745c-4c3c-999f-3477a395335e",
       "name": "Get Video FIles from APIFY",
@@ -408,7 +408,8 @@
           "id": "7z0IPZTjEDXn9tkI",
           "name": "Apify AHMedia"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -429,8 +430,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        3312,
-        576
+        1360,
+        1184
       ],
       "id": "876122dd-994d-4630-a95e-230c7a23d2df",
       "name": "Upload Files to Google Drive",
@@ -439,7 +440,8 @@
           "id": "reZwBdwR7JImRDL0",
           "name": "Google Drive account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -455,8 +457,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2768,
-        576
+        816,
+        1184
       ],
       "id": "74435d3d-88ab-4055-ac01-c5f1f127f785",
       "name": "APIFY Video Download Actor",
@@ -465,36 +467,21 @@
           "id": "7z0IPZTjEDXn9tkI",
           "name": "Apify AHMedia"
         }
-      }
-    },
-    {
-      "parameters": {
-        "content": "## Download Video and Add Metadata to Sheet",
-        "height": 496,
-        "width": 1856,
-        "color": 6
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1904,
-        400
-      ],
-      "id": "4537f2c8-c096-4c85-8490-b4d5f4e06ada",
-      "name": "Sticky Note7"
+      "disabled": true
     },
     {
       "parameters": {
         "content": "## Download Video and add to Sheet\n- This uses the Apify Actor \"X (Twitter) Video Downloader\" \n( https://console.apify.com/actors/JOgEdu6j61eqvVsRC/input )\n- At this time (08-04-2025) This actor runs at $.06 / video download\n- After download, Video will be moved to google drive with the filename [tweet id].mp4\n- The following Tweet metadata and path to video file are stored to google sheet:\n  Top Level Tweet\n  Author\n  Tweet Thread\n  Video Path",
-        "height": 368,
-        "width": 1856,
+        "height": 576,
+        "width": 1888,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1904,
-        0
+        0,
+        944
       ],
       "id": "4aec0dee-f29e-45b5-8541-c06278afb85e",
       "name": "Sticky Note8"
@@ -541,7 +528,7 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1424,
+        1120,
         688
       ],
       "id": "8f61ade8-0b7a-415a-bc11-8d9be64cd77c",
@@ -631,7 +618,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1680,
+        1328,
         688
       ],
       "id": "8fd52d8b-9af2-4916-b009-c3ff94adff84",
@@ -651,7 +638,7 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        1968,
+        1520,
         688
       ],
       "id": "70b16a2e-3da4-4162-afbc-f57596c4055d",
@@ -899,7 +886,7 @@
       }
     ]
   },
-  "versionId": "2964911d-3600-4b57-ab85-b3f5472e06a8",
+  "versionId": "fa27c9ba-a752-4ee8-ba6e-6a42e257edba",
   "triggerCount": 1,
   "tags": []
 }
