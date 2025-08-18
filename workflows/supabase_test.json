@@ -1,0 +1,64 @@
+{
+  "createdAt": "2025-08-18T00:53:12.928Z",
+  "updatedAt": "2025-08-18T01:40:21.000Z",
+  "id": "UjRPUZVqSZJx6qmF",
+  "name": "supabase test",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9e50af49-608d-4b31-9998-bca3cbf3a99f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d0b43ca8-37d0-4a4d-94f0-54ad640e8d61",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "VIwyPQ2feqN9ODWK",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "691bda52-19dd-4af6-a9db-3870c9eed4d3",
+  "triggerCount": 0,
+  "tags": []
+}
