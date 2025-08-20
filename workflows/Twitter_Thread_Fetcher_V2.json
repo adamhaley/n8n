@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-30T22:54:35.371Z",
-  "updatedAt": "2025-08-07T19:29:48.000Z",
+  "updatedAt": "2025-08-19T16:49:24.000Z",
   "id": "j8C6avmu2iIFeYzV",
   "name": "Twitter Thread Fetcher V2",
   "active": false,
@@ -290,8 +290,8 @@
       "name": "APIFY Video Download Actor",
       "credentials": {
         "httpQueryAuth": {
-          "id": "dOZ2chSOOuVpb5qW",
-          "name": "APIFY 2"
+          "id": "7z0IPZTjEDXn9tkI",
+          "name": "Apify AHMedia"
         }
       }
     },
@@ -547,7 +547,7 @@
       }
     ]
   },
-  "versionId": "02ae46e2-ed1d-4117-87b6-413d48419ced",
+  "versionId": "c4e37937-445c-4eae-bb38-dc7cae0e1384",
   "triggerCount": 0,
   "tags": []
 }
