@@ -1,0 +1,76 @@
+{
+  "createdAt": "2025-08-19T17:35:57.730Z",
+  "updatedAt": "2025-08-19T17:36:53.000Z",
+  "id": "k1QKmtHv4T7qrsEK",
+  "name": "Load Tweets To Scrape",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ffbd9517-ac86-42be-b4b5-eca1f146426f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg",
+          "mode": "list",
+          "cachedResultName": "Tweets To Scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1177738232,
+          "mode": "list",
+          "cachedResultName": "tweets-to-scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg/edit#gid=1177738232"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        256,
+        -32
+      ],
+      "id": "70381259-a42c-415c-97a6-7fb9e55607c9",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "b861a08d-2993-4f23-ad4e-63e699bc3875",
+  "triggerCount": 0,
+  "tags": []
+}
