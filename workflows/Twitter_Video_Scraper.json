@@ -1,5 +1,10 @@
 {
+  "createdAt": "2025-08-19T17:30:24.103Z",
+  "updatedAt": "2025-08-19T20:11:20.000Z",
+  "id": "nzgtZDtQ50m3SfX2",
   "name": "Twitter Video Scraper",
+  "active": false,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {},
@@ -105,7 +110,7 @@
       "parameters": {
         "content": "## Setup for Video Download\n- Filter by Author replies to Him/Herself\n- Merge first tweet and other tweets in thread\n- Sometimes there is an empty array after merging all tweets, so filter it",
         "height": 360,
-        "width": 1384,
+        "width": 1240,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -444,7 +449,7 @@
         "genericAuthType": "httpQueryAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"proxy\": {\n        \"useApifyProxy\": false\n    },\n    \"urls\": [\n        {\n            \"url\": \"{{ $json.url }}\",\n            \"method\": \"GET\"\n        }\n    ]\n} ",
+        "jsonBody": "={\n    \"proxy\": {\n        \"useApifyProxy\": false\n    },\n    \"quality\": \"1080\",\n    \"urls\": [\n        {\n            \"url\": \"{{ $json.url }}\",\n            \"method\": \"GET\"\n        }\n    ]\n} ",
         "options": {
           "batching": {
             "batch": {
@@ -470,31 +475,15 @@
     },
     {
       "parameters": {
-        "content": "## Download Video and Add Metadata to Sheet\n- limit 10 before sending to Apify",
-        "height": 864,
-        "width": 1056,
+        "content": "## Download Video and add to Sheet\n- This uses the Apify Actor \"X (Twitter) Video Downloader\" \n( https://console.apify.com/actors/JOgEdu6j61eqvVsRC/input )\n- At this time (08-04-2025) This actor runs at $.06 / video download\n- After download, Video will be moved to google drive with the filename [tweet id].mp4 \nThe following JSON body is sent to the APIFy Actor: \n```\n{\n    \"proxy\": {\n        \"useApifyProxy\": false\n    },\n    \"quality\": \"1080\",\n    \"urls\": [\n        {\n            \"url\": \"https://x.com/X/status/1697304622749086011\",\n            \"method\": \"GET\"\n        }\n    ]\n}\n```\n\"quality can be set to one of the following values:\n360  <- (SD)\n480  <-\t(SD)\n720  <- (HD)\n1080 <- (Full HD)\n1440 <- 2K\n2160 <- 4K",
+        "height": 1200,
+        "width": 1040,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         2864,
-        400
-      ],
-      "id": "1f20370e-46a7-4ab7-aa9d-07900a567751",
-      "name": "Sticky Note7"
-    },
-    {
-      "parameters": {
-        "content": "## Download Video and add to Sheet\n- This uses the Apify Actor \"X (Twitter) Video Downloader\" \n( https://console.apify.com/actors/JOgEdu6j61eqvVsRC/input )\n- At this time (08-04-2025) This actor runs at $.06 / video download\n- After download, Video will be moved to google drive with the filename [tweet id].mp4\n- The following Tweet metadata and path to video file are stored to google sheet:\n  Top Level Tweet\n  Author\n  Tweet Thread\n  Video Path",
-        "height": 352,
-        "width": 880,
-        "color": 6
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        3008,
         16
       ],
       "id": "e94b499b-b699-47b9-8a2d-dd2700c943a8",
@@ -556,7 +545,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1888,
+        1872,
         688
       ],
       "id": "1c794487-d168-47fe-93dc-9aa6f45d0ee0",
@@ -576,7 +565,7 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        2176,
+        2128,
         688
       ],
       "id": "a62a391c-2ea3-4c2b-9dac-b8829fba1eb0",
@@ -628,7 +617,7 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "tweet_url": "={{ $('Get Rows where Completed=''').item.json.tweet_url }}",
+            "tweet_url": "={{ $('Get Rows in Sheet').item.json.tweet_url }}",
             "completed": "Yes"
           },
           "matchingColumns": [
@@ -728,7 +717,7 @@
         688
       ],
       "id": "4631f115-6be1-4439-95db-7beb49adac66",
-      "name": "Get Rows where Completed=''",
+      "name": "Get Rows in Sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "dFntNaEYJAOsYZIZ",
@@ -737,15 +726,6 @@
       }
     }
   ],
-  "pinData": {
-    "When clicking ‘Test workflow’": [
-      {
-        "json": {
-          "tweet_url": ""
-        }
-      }
-    ]
-  },
   "connections": {
     "Merge first tweet and others": {
       "main": [
@@ -762,7 +742,7 @@
       "main": [
         [
           {
-            "node": "Get Rows where Completed=''",
+            "node": "Get Rows in Sheet",
             "type": "main",
             "index": 0
           }
@@ -967,7 +947,7 @@
         ]
       ]
     },
-    "Get Rows where Completed=''": {
+    "Get Rows in Sheet": {
       "main": [
         [
           {
@@ -979,15 +959,23 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "b201a214-4fc2-408b-b7f3-1ccae9a213ab",
+  "staticData": null,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "9eba4434b08a3b38c7a52d54228c736501f146e2a8d1b314568ff999759dcb0e"
+    "templateCredsSetupCompleted": true
   },
-  "id": "nzgtZDtQ50m3SfX2",
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "tweet_url": ""
+        }
+      }
+    ]
+  },
+  "versionId": "543c8ab2-07ec-4741-ad19-7fcfad74bb51",
+  "triggerCount": 0,
   "tags": []
 }
