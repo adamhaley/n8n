@@ -1,0 +1,512 @@
+{
+  "createdAt": "2025-08-23T03:52:12.111Z",
+  "updatedAt": "2025-08-23T03:52:12.000Z",
+  "id": "34jxGnkxsyP23Awu",
+  "name": "Chad Voice Agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        256
+      ],
+      "id": "11f0f520-6f00-469e-9471-0ea689deaa21",
+      "name": "Download Message",
+      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
+              "name": "msg",
+              "value": "={{ $json.msg }}",
+              "type": "string"
+            },
+            {
+              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
+              "name": "sessionId",
+              "value": "={{ $('Is Voice or Text?').item.json.message.chat.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        368
+      ],
+      "id": "1de5b126-1b9d-4ba0-bf44-dc0fb7a6f388",
+      "name": "Add sessionId"
+    },
+    {
+      "parameters": {
+        "keys": {
+          "key": [
+            {
+              "currentKey": "message.text",
+              "newKey": "msg"
+            }
+          ]
+        },
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.renameKeys",
+      "typeVersion": 1,
+      "position": [
+        736,
+        464
+      ],
+      "id": "abcc5841-289d-4575-b6ad-fb07a97853fc",
+      "name": "Normalize Msg"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        288,
+        368
+      ],
+      "id": "79459b0f-d0ca-40b1-86f5-97c5953847fe",
+      "name": "Is Voice or Text?"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        368
+      ],
+      "id": "de0781b4-d91d-4c85-8c40-7e8dcd5d55ed",
+      "name": "Receive Message",
+      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924"
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "reply.mp3"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1840,
+        288
+      ],
+      "id": "7bec7ffc-892a-481e-9f89-c032bd6176ff",
+      "name": "Send Audio Reply",
+      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
+        "text": "={{ $('Call BOT CORE').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2064,
+        368
+      ],
+      "id": "cea94925-ce01-41ad-9225-a91d09d0a298",
+      "name": "Send Text Reply",
+      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "sptIOeflIGpXVtq5",
+          "mode": "list",
+          "cachedResultName": "Chad Phase0 CORE"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sessionId": "={{ $json.sessionId }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "sessionId",
+              "displayName": "sessionId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1168,
+        368
+      ],
+      "id": "d1442ad8-73b7-493b-86e3-c5b1153ea555",
+      "name": "Call BOT CORE"
+    },
+    {
+      "parameters": {
+        "content": "## Process Message from Telegram",
+        "height": 784,
+        "width": 912,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "11be9ee9-d7d9-41ff-974d-03410731a728",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Receive Message').item.json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $('Receive Message').item.json.message.text}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1392,
+        368
+      ],
+      "id": "4943e077-7d04-4c85-a59e-3dc80f621b7a",
+      "name": "Is Voice or Text?1"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        720,
+        256
+      ],
+      "id": "fe618ebf-2804-4066-9d88-6e53e12ca516",
+      "name": "Transcribe a recording"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1600,
+        272
+      ],
+      "id": "f7d0664c-7c65-4cc0-a7a8-99b08d54f747",
+      "name": "Generate audio"
+    },
+    {
+      "parameters": {
+        "content": "## TTS and Send back to Telegram",
+        "height": 784,
+        "width": 768,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        0
+      ],
+      "id": "c9558127-1835-4dd2-bf3f-476761d1fc90",
+      "name": "Sticky Note1"
+    }
+  ],
+  "connections": {
+    "Download Message": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Msg": {
+      "main": [
+        [
+          {
+            "node": "Add sessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?": {
+      "main": [
+        [
+          {
+            "node": "Download Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Message": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Audio Reply": {
+      "main": [
+        [
+          {
+            "node": "Send Text Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add sessionId": {
+      "main": [
+        [
+          {
+            "node": "Call BOT CORE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call BOT CORE": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?1": {
+      "main": [
+        [
+          {
+            "node": "Generate audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Text Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Add sessionId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate audio": {
+      "main": [
+        [
+          {
+            "node": "Send Audio Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "835886bc-7c8d-4be3-be0b-7682a5e1399b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-23T03:52:12.115Z",
+      "updatedAt": "2025-08-23T03:52:12.115Z",
+      "role": "workflow:owner",
+      "workflowId": "34jxGnkxsyP23Awu",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
