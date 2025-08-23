@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-19T17:35:57.730Z",
-  "updatedAt": "2025-08-19T17:36:53.000Z",
+  "updatedAt": "2025-08-23T03:54:11.000Z",
   "id": "k1QKmtHv4T7qrsEK",
   "name": "Load Tweets To Scrape",
   "active": false,
@@ -72,5 +72,14 @@
   "pinData": {},
   "versionId": "b861a08d-2993-4f23-ad4e-63e699bc3875",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-19T17:35:57.734Z",
+      "updatedAt": "2025-08-19T17:35:57.734Z",
+      "role": "workflow:owner",
+      "workflowId": "k1QKmtHv4T7qrsEK",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
