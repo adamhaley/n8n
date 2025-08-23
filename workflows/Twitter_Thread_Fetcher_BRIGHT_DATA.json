@@ -611,5 +611,14 @@
   },
   "versionId": "16ebe234-de7c-4d2f-87e2-ea56c60e128d",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-05T05:20:31.047Z",
+      "updatedAt": "2025-08-05T05:20:31.047Z",
+      "role": "workflow:owner",
+      "workflowId": "RSoHDuF1mMnf2960",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
