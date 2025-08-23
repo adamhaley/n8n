@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-19T17:30:24.103Z",
-  "updatedAt": "2025-08-19T20:11:20.000Z",
+  "updatedAt": "2025-08-23T03:49:45.000Z",
   "id": "nzgtZDtQ50m3SfX2",
   "name": "Twitter Video Scraper",
   "active": false,
@@ -977,5 +977,14 @@
   },
   "versionId": "543c8ab2-07ec-4741-ad19-7fcfad74bb51",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-19T17:30:24.111Z",
+      "updatedAt": "2025-08-19T17:30:24.111Z",
+      "role": "workflow:owner",
+      "workflowId": "nzgtZDtQ50m3SfX2",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
