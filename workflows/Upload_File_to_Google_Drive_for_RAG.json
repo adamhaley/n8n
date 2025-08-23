@@ -125,6 +125,15 @@
   "pinData": {},
   "versionId": "13594853-17ea-487e-8759-266703d076ed",
   "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-04-21T18:58:10.849Z",
+      "updatedAt": "2025-04-21T18:58:10.849Z",
+      "role": "workflow:owner",
+      "workflowId": "0nTFUgJw31voQl2P",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": [
     {
       "createdAt": "2025-04-21T19:07:16.984Z",
