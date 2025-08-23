@@ -1,0 +1,354 @@
+{
+  "createdAt": "2025-08-23T03:51:17.540Z",
+  "updatedAt": "2025-08-23T03:51:22.000Z",
+  "id": "YdrJrDeacTs0leMm",
+  "name": "Chad MCP",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "path": "0f3c9576-55b2-4cdc-b1c9-be8e5da78560"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        240,
+        192
+      ],
+      "id": "fd904184-7345-4127-8b67-08f122941498",
+      "name": "MCP Server Trigger",
+      "webhookId": "0f3c9576-55b2-4cdc-b1c9-be8e5da78560"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Makes an HTTP request to the LogDailyDiscipline endpoint",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_daily_discipline",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        400
+      ],
+      "id": "c8252f97-06ae-46c2-b1de-4f8f8d7b8563",
+      "name": "LogDailyDiscipline"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_workout",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        400
+      ],
+      "id": "ee3bcd4c-f0d7-47b2-a2ac-e5df473d1221",
+      "name": "LogWorkout"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_weekly_goal",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        512,
+        400
+      ],
+      "id": "9527a4bb-e1fd-4a39-b776-702b31b21496",
+      "name": "LogWeeklyGoal"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_hydration",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        656,
+        336
+      ],
+      "id": "9fbf186b-9a2c-44dd-a46f-199bb0bbb4b8",
+      "name": "LogHydration"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_body_metrics",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        688,
+        176
+      ],
+      "id": "bc7e88ea-6387-42de-ae0a-807795273668",
+      "name": "LogBodyMetrics"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_device_data",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        592,
+        32
+      ],
+      "id": "f5a5bb31-5000-4af7-a954-1d5fc06689a7",
+      "name": "LogDeviceData"
+    },
+    {
+      "parameters": {
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/weekly_streak",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        432,
+        608
+      ],
+      "id": "91f9c015-9f63-44f0-bc58-ccb281ca713e",
+      "name": "GetWeeklyStreak"
+    },
+    {
+      "parameters": {
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/daily_streak",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        592,
+        608
+      ],
+      "id": "006412ae-7c3b-4a04-95c8-e5a7e6bf9d04",
+      "name": "GetStreak"
+    },
+    {
+      "parameters": {
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/goal_status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        752,
+        608
+      ],
+      "id": "e771ca62-43b7-417d-a53b-71c2d070a6c5",
+      "name": "GetGoalStatus"
+    },
+    {
+      "parameters": {
+        "content": "## Tool Calls to POST endpoints",
+        "height": 528,
+        "width": 864,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "389fa069-702b-4817-a6e1-cfa5c63bbfd8",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Tool Calls to GET endpoints",
+        "height": 240,
+        "width": 496,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        368,
+        544
+      ],
+      "id": "ca9e9def-edfd-4d83-a80f-2111c8191f4a",
+      "name": "Sticky Note1"
+    }
+  ],
+  "connections": {
+    "LogDailyDiscipline": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogWorkout": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogWeeklyGoal": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogHydration": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogBodyMetrics": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogDeviceData": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetWeeklyStreak": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetStreak": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetGoalStatus": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "4ac947ab-acea-4330-8fa4-8f57661729f6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-23T03:51:17.545Z",
+      "updatedAt": "2025-08-23T03:51:17.545Z",
+      "role": "workflow:owner",
+      "workflowId": "YdrJrDeacTs0leMm",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
