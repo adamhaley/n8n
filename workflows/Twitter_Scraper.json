@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-08-19T16:35:48.004Z",
-  "updatedAt": "2025-08-19T16:40:29.000Z",
-  "id": "71wgSKwCzM9dzTBs",
+  "createdAt": "2025-08-07T23:40:54.113Z",
+  "updatedAt": "2025-08-08T18:07:18.000Z",
+  "id": "2TRBQaraLLL1OOSA",
   "name": "Twitter Scraper",
   "active": false,
   "isArchived": false,
@@ -11,10 +11,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        2224,
-        352
+        592,
+        1152
       ],
-      "id": "0498c063-1020-4c75-af38-4760d71fb18b",
+      "id": "1aa0ed05-78e1-4dba-80c1-7ba55df008f5",
       "name": "Merge first tweet and others"
     },
     {
@@ -22,58 +22,11 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        448,
-        592
+        -512,
+        816
       ],
-      "id": "1e025912-8f81-476b-a983-d006b3026cf4",
+      "id": "fc866056-fa67-40ab-bd5a-ec75e7436255",
       "name": "When clicking ‘Test workflow’"
-    },
-    {
-      "parameters": {
-        "content": "## Extract first tweet\n",
-        "height": 500,
-        "width": 440,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        736,
-        192
-      ],
-      "id": "90c2e4ed-f258-4508-9bdc-a68bd42139f7",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "## Extract thread tweets\n",
-        "height": 500,
-        "width": 840
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1200,
-        192
-      ],
-      "id": "8243d3d8-fbce-45fd-a4c4-fad533d7ef62",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {
-        "content": "## Merge all tweets with order\n",
-        "height": 500,
-        "width": 860,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        2064,
-        192
-      ],
-      "id": "1946246f-6c4f-492f-a5bb-2eb5bb02be7a",
-      "name": "Sticky Note3"
     },
     {
       "parameters": {
@@ -82,84 +35,73 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        448,
-        352
+        -512,
+        560
       ],
-      "id": "7e05cb8e-b482-467f-a6d0-c2a8a54a5de6",
+      "id": "4d28ddf3-06f6-43c2-b55c-0a772686f727",
       "name": "When Executed by Another Workflow"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        2688,
-        352
-      ],
-      "id": "e7e534d8-cc1b-490a-88cf-194b9a3f0603",
-      "name": "No Operation, do nothing"
     },
     {
       "parameters": {
         "content": "## Extract first tweet\n- Extracts first tweet of the thread from input tweet link",
-        "height": 360,
-        "width": 440,
+        "height": 584,
+        "width": 568,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        736,
-        -208
+        -128,
+        304
       ],
       "typeVersion": 1,
-      "id": "22dc1cfb-1d53-4c78-a557-14665d9d01b0",
+      "id": "f19c802d-1af4-4313-af4f-7ebbd18974c1",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
         "content": "## Extract thread tweets\n- Iterates over each reply to first tweet\n- Checks if reply is related to first tweet or not\n- If reply is continuation of first tweet, saves it into an array",
-        "height": 360,
+        "height": 584,
         "width": 840
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1200,
-        -208
+        464,
+        304
       ],
       "typeVersion": 1,
-      "id": "3326e172-fe65-416b-aeab-0863c3f55eb2",
+      "id": "cb781965-e3ad-4569-8829-024c4dc996e4",
       "name": "Sticky Note4"
     },
     {
       "parameters": {
         "content": "## Merge all tweets with order\n- Merge first tweet and other tweets in thread\n- Sometimes there is an empty array after merging all tweets, so filter it",
-        "height": 360,
-        "width": 840,
+        "height": 584,
+        "width": 552,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2064,
-        -208
+        1328,
+        304
       ],
       "typeVersion": 1,
-      "id": "6585dcfe-3f67-4fb3-ba39-32dbd0d8fa11",
+      "id": "cf857b00-33ec-40c0-964d-17da5b3cb739",
       "name": "Sticky Note5"
     },
     {
       "parameters": {
         "content": "## Input\n- You can trigger this workflow from another workspace\n- You can set manual trigger to test how it works\n- Suggestion: \nCreate another workflow, which gets input from twitter, notion, spreadsheet etc\nThen calls this workflow to fetch threads\n\nThis workflow will return all fetched tweets end of the pipeline",
-        "height": 360,
+        "height": 1080,
         "width": 440,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        256,
-        -64
+        -672,
+        304
       ],
       "typeVersion": 1,
-      "id": "1cf25676-8257-4dff-aca8-81c1ee88a8a6",
+      "id": "2c498296-9b13-4fe6-9ac1-53907dd20fb9",
       "name": "Sticky Note6"
     },
     {
@@ -170,10 +112,10 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        800,
-        480
+        128,
+        736
       ],
-      "id": "06f4dffd-736e-4e51-8600-7aea907508c8"
+      "id": "9b0bd488-18fb-424b-98e6-9e1967950429"
     },
     {
       "parameters": {
@@ -202,10 +144,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1024,
-        256
+        288,
+        464
       ],
-      "id": "85b5f3b7-51a0-47ed-9497-05d3f753621f",
+      "id": "c07b5536-39bc-4329-bba1-2f1eca62fcc9",
       "name": "Get first tweet",
       "credentials": {
         "httpHeaderAuth": {
@@ -222,10 +164,10 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        1248,
-        352
+        736,
+        464
       ],
-      "id": "7cb9ef28-a3b5-40b0-a619-80ef186d7495"
+      "id": "e7c31baf-b913-4686-b608-8dd7f9fa43a7"
     },
     {
       "parameters": {
@@ -236,42 +178,25 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1456,
-        480
+        960,
+        736
       ],
-      "id": "efef2568-71b4-46d5-a628-0e11dacffbd8",
+      "id": "58e3c6e3-9d85-4fd2-9cdc-2397e591c779",
       "name": "Merge all tweet infos"
     },
     {
       "parameters": {
-        "url": "https://api.twitterapi.io/twitter/tweet/replies",
+        "url": "https://api.twitterapi.io/twitter/tweet/advanced_search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
-              "name": "tweetId",
-              "value": "={{ $json.tweet_id }}"
+              "name": "query",
+              "value": "=conversation_id:{{ $json.tweet_id }}"
             },
-            {
-              "name": "author_id",
-              "value": "={{ $json.author_id }}"
-            },
-            {
-              "name": "cursor",
-              "value": "={{ $json.nextCursor }}"
-            },
-            {
-              "name": "untilTime",
-              "value": "={{ Math.floor(Date.parse($('Get first tweet').item.json.tweets[0].createdAt) / 1000) + 3600 }}\n"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "X-API-Key"
-            }
+            {}
           ]
         },
         "options": {
@@ -294,25 +219,18 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1680,
-        480
+        1184,
+        736
       ],
-      "id": "3a816e6d-4888-45ee-b953-534de42d4702",
+      "id": "2dc6bf60-5c5b-4a9e-b489-f749a2b579f2",
       "name": "Get Tweet Replies",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "jsCode": "const originalAuthorId = $('Get first tweet').first().json.tweets[0].author.id; \n\nlet tweets = [];\n\n// Iterate over all input items (each item has a 'tweets' array)\nfor (const item of items) {\n  if (item.json && Array.isArray(item.json.tweets)) {\n    for (const tweet of item.json.tweets) {\n      if (tweet.author && tweet.author.id === originalAuthorId) {\n        tweets.push(tweet);\n      }\n    }\n  }\n}\n\n// Reverse tweets to chronological order\ntweets = tweets.reverse();\n\n// Build the required output object\nreturn [\n  {\n    json: {\n      tweets: tweets,\n      status: \"success\",\n      msg: \"success\",\n      code: 0\n    }\n  }\n];\n"
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "lVKFxR2s5cquKAeb",
+          "name": "TWITTERAPI.IO HEADER AUTH"
+        }
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1904,
-        480
-      ],
-      "id": "2d2fb221-bf75-46dd-9042-ebcbcb3e9ffb",
-      "name": "Fetch tweets which are connected to first tweet"
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -326,10 +244,10 @@
           "conditions": [
             {
               "id": "fc162a77-9a9d-4799-9dbf-88757ac4fc34",
-              "leftValue": "={{ $json.tweets }}",
+              "leftValue": "={{ $json }}",
               "rightValue": "",
               "operator": {
-                "type": "array",
+                "type": "object",
                 "operation": "notEmpty",
                 "singleValue": true
               }
@@ -342,11 +260,366 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2448,
-        352
+        1680,
+        1152
       ],
-      "id": "014e948a-4ad1-4b86-8c6b-4c1910027762",
+      "id": "eb4c474a-fcbc-4f4a-8e4e-4fc71ce0df44",
       "name": "Filter empty ones"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1vb4g8FQSpXkiFD9XA32RdCgrv7EsfgxubmD4REu0Pns",
+          "mode": "list",
+          "cachedResultName": "Tweets Metadata",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vb4g8FQSpXkiFD9XA32RdCgrv7EsfgxubmD4REu0Pns/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vb4g8FQSpXkiFD9XA32RdCgrv7EsfgxubmD4REu0Pns/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Video Path": "={{ $json.webViewLink}}",
+            "Top Level Tweet": "={{ $('Split Out1').item.json.text}}",
+            "Author": "={{ $('Filter empty ones').item.json.author.userName}}",
+            "Reply Tweet ": "={{ $('Filter empty ones').item.json.text}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Top Level Tweet",
+              "displayName": "Top Level Tweet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Reply Tweet ",
+              "displayName": "Reply Tweet ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Path",
+              "displayName": "Video Path",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1664,
+        1488
+      ],
+      "id": "64a7f140-6952-4458-91e0-43d7f1d5cae6",
+      "name": "Store Tweet Meta-Data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.videoUrl }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        592,
+        1488
+      ],
+      "id": "edfa64f1-403d-452e-9ad4-2bd8d86d47d7",
+      "name": "Get Video FIles from APIFY",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "7z0IPZTjEDXn9tkI",
+          "name": "Apify AHMedia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('APIFY Video Download Actor').item.json.id }}.mp4",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1136,
+        1488
+      ],
+      "id": "7fc45ec2-32ed-47a6-9d0e-686cbbfcebeb",
+      "name": "Upload Files to Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "reZwBdwR7JImRDL0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/bytepulselabs~x-video-downloader/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"proxy\": {\n        \"useApifyProxy\": false\n    },\n    \"urls\": [\n        {\n            \"url\": \"{{ $json.url }}\",\n            \"method\": \"GET\"\n        }\n    ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        1488
+      ],
+      "id": "ee241814-ca11-4f17-9446-dd1a8fab3077",
+      "name": "APIFY Video Download Actor",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "7z0IPZTjEDXn9tkI",
+          "name": "Apify AHMedia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Download Video and add to Sheet\n- This uses the Apify Actor \"X (Twitter) Video Downloader\" \n( https://console.apify.com/actors/JOgEdu6j61eqvVsRC/input )\n- At this time (08-04-2025) This actor runs at $.06 / video download\n- After download, Video will be moved to google drive with the filename [tweet id].mp4\n- The following Tweet metadata and path to video file are stored to google sheet:\n  Top Level Tweet\n  Author\n  Tweet Thread\n  Video Path",
+        "height": 400,
+        "width": 2000,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        928
+      ],
+      "id": "a6ad50f9-a0f8-4959-95c2-a47f9d681659",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bQ76MHH6SX47qxW0FsWqY-BEuEzCpj-XF8r9PEW6kt8",
+          "mode": "list",
+          "cachedResultName": "Tweet Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bQ76MHH6SX47qxW0FsWqY-BEuEzCpj-XF8r9PEW6kt8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bQ76MHH6SX47qxW0FsWqY-BEuEzCpj-XF8r9PEW6kt8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -80,
+        688
+      ],
+      "id": "486bf8cc-ba8c-49ac-a205-335a05c212ca",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tweets",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        736
+      ],
+      "id": "132c46bb-1df3-431e-a28b-3b04f1aee9ef",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tweets",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        688
+      ],
+      "id": "cdaa5a53-724b-4ab0-ab7d-e7b786db1ec1",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg",
+          "mode": "list",
+          "cachedResultName": "Tweets To Scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1177738232,
+          "mode": "list",
+          "cachedResultName": "tweets-to-scrape",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17DF55P-ea0u3XLPs1sbi7RAW34mJJSHv5G7d6S9aTwg/edit#gid=1177738232"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        1056
+      ],
+      "id": "43ab8ea0-60a7-48f3-8d7d-45fd3d872b27",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "m1ZtqUedkLuUD9Oz",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "66bce60f-7813-4011-9559-8b69ba6c5fb3",
+              "leftValue": "={{ $json.author.id }}",
+              "rightValue": "={{ $('Get first tweet').first().json.tweets.first().author.id }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        736
+      ],
+      "id": "366adf90-302e-4310-b014-0db381a94ca0",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "createdAt"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        1168
+      ],
+      "id": "89934cdd-18e6-4992-b01a-f6180d9d978a",
+      "name": "Sort"
+    },
+    {
+      "parameters": {
+        "content": "## Download Video and Add Metadata to Sheet",
+        "height": 416,
+        "width": 2000,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        1344
+      ],
+      "id": "c4f65161-b322-4e5f-a633-915eb001ab1e",
+      "name": "Sticky Note7"
     }
   ],
   "connections": {
@@ -365,7 +638,7 @@
       "main": [
         [
           {
-            "node": "Extract Tweet ID and Username",
+            "node": "Get row(s) in sheet",
             "type": "main",
             "index": 0
           }
@@ -376,7 +649,7 @@
       "main": [
         [
           {
-            "node": "Extract Tweet ID and Username",
+            "node": "Get row(s) in sheet",
             "type": "main",
             "index": 0
           }
@@ -408,7 +681,7 @@
             "index": 0
           },
           {
-            "node": "Merge first tweet and others",
+            "node": "Split Out1",
             "type": "main",
             "index": 0
           }
@@ -441,14 +714,113 @@
       "main": [
         [
           {
-            "node": "Fetch tweets which are connected to first tweet",
+            "node": "Split Out",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Fetch tweets which are connected to first tweet": {
+    "Filter empty ones": {
+      "main": [
+        [
+          {
+            "node": "APIFY Video Download Actor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video FIles from APIFY": {
+      "main": [
+        [
+          {
+            "node": "Upload Files to Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Files to Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Store Tweet Meta-Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY Video Download Actor": {
+      "main": [
+        [
+          {
+            "node": "Get Video FIles from APIFY",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Extract Tweet ID and Username",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Merge first tweet and others",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Tweet ID and Username",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
       "main": [
         [
           {
@@ -458,34 +830,34 @@
           }
         ]
       ]
-    },
-    "Filter empty ones": {
-      "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {
     "When clicking ‘Test workflow’": [
       {
         "json": {
-          "tweet_url": "https://x.com/Muricyen/status/1952261617485545701"
+          "tweet_url": ""
         }
       }
     ]
   },
-  "versionId": "2cad4b80-6f9d-4cb7-b320-c7ad04ae5246",
+  "versionId": "b6276a4f-f307-4550-8dc1-88012f388870",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-07T23:40:54.119Z",
+      "updatedAt": "2025-08-07T23:40:54.119Z",
+      "role": "workflow:owner",
+      "workflowId": "2TRBQaraLLL1OOSA",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
