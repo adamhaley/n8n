@@ -1,19 +1,218 @@
 {
-  "createdAt": "2025-08-04T15:56:48.299Z",
-  "updatedAt": "2025-08-04T15:56:48.000Z",
-  "id": "KnOupN8LVfsJSMWH",
+  "createdAt": "2025-07-11T19:33:09.581Z",
+  "updatedAt": "2025-07-25T22:07:47.000Z",
+  "id": "CFxyw7s6FYHGw941",
   "name": "Error Handling",
   "active": false,
   "isArchived": false,
-  "nodes": [],
-  "connections": {},
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a9b26302-bc22-4236-a5ce-43e5fe30c5f5",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08NT6423SN",
+          "mode": "list",
+          "cachedResultName": "notifications"
+        },
+        "text": "=n8n Workflow Error:  {{ $json.message }} see details and debug at: {{ $json.execution }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "5d7cfdf5-1992-4b54-944d-d75604d45a24",
+      "name": "Send a message",
+      "webhookId": "09d32795-9b3c-4b71-a0ae-4d178031a99b",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "aku9PHR5ccUxQYCi",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ",
+          "mode": "list",
+          "cachedResultName": "n8n Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11oXYJaKNuz-phQzMrorTl6-NKmspRoYfp3bAJFk3zrQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $now.format('yyyy-MM-dd') }}",
+            "time": "={{ $now.format('HH:mm') }}",
+            "workflow name": "={{ $json.workflow.name }}",
+            "workflow id": "={{ $json.workflow.id }}",
+            "message": "={{ $json.execution.error.message }}",
+            "execution": "={{ $json.execution.url }}",
+            "stacktrace": "={{ $json.execution.error.stack }}",
+            "node": "={{ $json.execution.lastNodeExecuted }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow name",
+              "displayName": "workflow name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow id",
+              "displayName": "workflow id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution",
+              "displayName": "execution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stacktrace",
+              "displayName": "stacktrace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "node",
+              "displayName": "node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        224,
+        0
+      ],
+      "id": "9466deb9-ad64-45e2-96f8-339398bf0238",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFntNaEYJAOsYZIZ",
+          "name": "adamhaley@gmail Google Sheets"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "c3b64d1f-325f-4b88-91a7-f5471e575e64",
+  "versionId": "51672fc5-e02c-49c9-920a-d9f97a226a5a",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-07-11T19:33:09.586Z",
+      "updatedAt": "2025-07-11T19:33:09.586Z",
+      "role": "workflow:owner",
+      "workflowId": "CFxyw7s6FYHGw941",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
