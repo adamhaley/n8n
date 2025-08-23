@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-30T22:54:35.371Z",
-  "updatedAt": "2025-08-19T16:49:24.000Z",
+  "updatedAt": "2025-08-23T03:50:05.000Z",
   "id": "j8C6avmu2iIFeYzV",
   "name": "Twitter Thread Fetcher V2",
   "active": false,
@@ -549,5 +549,14 @@
   },
   "versionId": "c4e37937-445c-4eae-bb38-dc7cae0e1384",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-07-30T22:54:35.379Z",
+      "updatedAt": "2025-07-30T22:54:35.379Z",
+      "role": "workflow:owner",
+      "workflowId": "j8C6avmu2iIFeYzV",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
