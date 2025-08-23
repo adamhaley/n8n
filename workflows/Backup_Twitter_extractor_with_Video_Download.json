@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T00:20:15.482Z",
-  "updatedAt": "2025-08-19T17:27:23.000Z",
+  "updatedAt": "2025-08-23T03:49:53.000Z",
   "id": "0pOnipWtAgVcVBzC",
   "name": "Backup Twitter extractor with Video Download",
   "active": false,
@@ -829,5 +829,14 @@
   },
   "versionId": "171571bf-ead7-4eeb-88af-5c7af9019dad",
   "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-07-31T00:20:15.489Z",
+      "updatedAt": "2025-07-31T00:20:15.489Z",
+      "role": "workflow:owner",
+      "workflowId": "0pOnipWtAgVcVBzC",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
