@@ -454,5 +454,14 @@
   "pinData": {},
   "versionId": "baa5f735-eb86-42ce-a98c-21badb2baad7",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-16T07:32:02.332Z",
+      "updatedAt": "2025-08-16T07:32:02.332Z",
+      "role": "workflow:owner",
+      "workflowId": "zJGAERd2BIAwWaCJ",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
