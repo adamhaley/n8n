@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-07T23:00:50.917Z",
-  "updatedAt": "2025-08-07T23:35:48.000Z",
+  "updatedAt": "2025-08-23T04:02:45.000Z",
   "id": "z5wdDPg2ECzSsuwR",
   "name": "Automate Upwork",
   "active": false,
@@ -1156,5 +1156,14 @@
   },
   "versionId": "c67def69-ee6a-4c01-8c04-322fef3e1bb3",
   "triggerCount": 2,
+  "shared": [
+    {
+      "createdAt": "2025-08-07T23:00:50.925Z",
+      "updatedAt": "2025-08-07T23:00:50.925Z",
+      "role": "workflow:owner",
+      "workflowId": "z5wdDPg2ECzSsuwR",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
