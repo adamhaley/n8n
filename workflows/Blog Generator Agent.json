@@ -459,47 +459,6 @@
     },
     {
       "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
-          "mode": "list",
-          "cachedResultName": "Blogs Generated",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 240688560,
-          "mode": "list",
-          "cachedResultName": "Sheet2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Publish",
-              "lookupValue": "true"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        144,
-        1056
-      ],
-      "id": "9dc522db-6d35-45eb-a43c-134e11a7547d",
-      "name": "Get row(s) in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "Dv0moFbIBLnKZVHy",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "title": "={{ $json.Title }}",
         "additionalFields": {
           "content": "={{ $json.Content }}",
@@ -509,7 +468,7 @@
       "type": "n8n-nodes-base.wordpress",
       "typeVersion": 1,
       "position": [
-        352,
+        592,
         1056
       ],
       "id": "f44048d3-a40d-4d1c-be81-d0fdb047aa35",
@@ -523,8 +482,8 @@
     },
     {
       "parameters": {
-        "content": "## POST To Wordpress",
-        "height": 576,
+        "content": "## POST To Wordpress\n\n- Load articles from Google Sheetset to publish=true and Publish Date set to Today's date\n- Load articles from Google Sheet set to publish=true and Publish Date set to blank\n\nThese options allow Blog Articles to be cued up days or weeks in advance, OR auto-post today if no date set ",
+        "height": 624,
         "width": 688,
         "color": 5
       },
@@ -542,7 +501,7 @@
         "operation": "download",
         "fileId": {
           "__rl": true,
-          "value": "={{ $('Get row(s) in sheet').item.json.Image }}",
+          "value": "={{ $('Merge').item.json.Image }}",
           "mode": "url"
         },
         "options": {}
@@ -550,7 +509,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        592,
+        832,
         1056
       ],
       "id": "07a9eba5-bf9a-425d-bb2d-bf89975b96a5",
@@ -584,8 +543,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        1056,
-        1056
+        1072,
+        1216
       ],
       "credentials": {
         "httpBasicAuth": {
@@ -624,7 +583,7 @@
       "typeVersion": 4.1,
       "position": [
         832,
-        1056
+        1216
       ],
       "credentials": {
         "httpBasicAuth": {
@@ -750,6 +709,106 @@
       ],
       "id": "5ea5212c-d7fc-4dca-894a-7b2fe8f87cf2",
       "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Publish",
+              "lookupValue": "true"
+            },
+            {
+              "lookupColumn": "Publish Date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        960
+      ],
+      "id": "9dc522db-6d35-45eb-a43c-134e11a7547d",
+      "name": "Get With Blank Publish Date",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Publish",
+              "lookupValue": "true"
+            },
+            {
+              "lookupColumn": "Publish Date",
+              "lookupValue": "={{ $now.format('M/dd/y') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        1168
+      ],
+      "id": "a276b845-cac8-4951-9221-23906f5f343d",
+      "name": "Get with Today's Publish Date",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        336,
+        1056
+      ],
+      "id": "4089aabe-61f8-4946-ae49-fcc818d7a348",
+      "name": "Merge"
     }
   ],
   "pinData": {
@@ -776,536 +835,6 @@
         "json": {
           "output": "```json\n{\n  \"title\": \"Nostalgia for the Nostrud: A Deep Dive into the Art of Doing Nothing\",\n  \"content\": \"Ah, the illustrious pursuit of quis quis nostrud duis laborum. In the world of AI and high-tech doodads, sometimes you just need to pause, take a deep breath, and dive into the abyss of, well, not doing much at all. It's a revolutionary concept, really. Why bother with all the hustle and bustle when there's a whole universe of nonchalance waiting to be exploited? Here at [Your Blog Name], we're masters of the temporarily-sint: the delicate art of sipping a cup of metaphorical coffee while the world rushes by.\\n\\nFor those of you holed up in your echo chambers of productivity, concerned about future cupidatat ex-ecutive burnout, take a cue from us. Embrace your inner consectetur laborum tempor sint—it's like biohacking but with more chill and less Silicon Valley pretentiousness.\\n\\nJoin the resistance. Embrace the tacit brilliance of sitting back and exhaling loudly. After all, who needs to run when you can perform a dynamic, stationary nostrud duis instead? Quirky, right!? Now off you go—bask in this future-forward lifestyle. Tempus may fugit, but dear reader, you certainly don't have to.\"\n}\n```",
           "threadId": "thread_oQJpgy6RoPFnygyfnQafrONm"
-        }
-      }
-    ],
-    "Upload file": [
-      {
-        "json": {
-          "kind": "drive#file",
-          "id": "1dh2gGz58jHoWygQiH_iZmqcWPmXqo_fS",
-          "name": "Quis Quis Nostrud: The Latin Guide to Avoiding Boring, Except on Tuesdays.png",
-          "mimeType": "image/png",
-          "starred": false,
-          "trashed": false,
-          "explicitlyTrashed": false,
-          "parents": [
-            "0AOIsbVpaBNybUk9PVA"
-          ],
-          "spaces": [
-            "drive"
-          ],
-          "version": "2",
-          "webContentLink": "https://drive.google.com/uc?id=1dh2gGz58jHoWygQiH_iZmqcWPmXqo_fS&export=download",
-          "webViewLink": "https://drive.google.com/file/d/1dh2gGz58jHoWygQiH_iZmqcWPmXqo_fS/view?usp=drivesdk",
-          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
-          "hasThumbnail": true,
-          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMVLyO9j9DclWV4XSRNusMTNs5XzhnwOPOS1jPSUP7QdQOtJvmNgNgqLw2MgS71F0DIHQu6bsI-Ba5IGIIYTykmMOpxcZnl0Q9AX6nZmSSCsrg=s220",
-          "thumbnailVersion": "2",
-          "viewedByMe": false,
-          "createdTime": "2025-08-23T21:50:34.911Z",
-          "modifiedTime": "2025-08-23T21:50:36.005Z",
-          "modifiedByMeTime": "2025-08-23T21:50:36.005Z",
-          "modifiedByMe": true,
-          "owners": [
-            {
-              "kind": "drive#user",
-              "displayName": "Adam Haley",
-              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-              "me": true,
-              "permissionId": "00502410147390681063",
-              "emailAddress": "adamhaley@gmail.com"
-            }
-          ],
-          "lastModifyingUser": {
-            "kind": "drive#user",
-            "displayName": "Adam Haley",
-            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-            "me": true,
-            "permissionId": "00502410147390681063",
-            "emailAddress": "adamhaley@gmail.com"
-          },
-          "shared": false,
-          "ownedByMe": true,
-          "downloadRestrictions": {
-            "itemDownloadRestriction": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            },
-            "effectiveDownloadRestrictionWithContext": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            }
-          },
-          "capabilities": {
-            "canAcceptOwnership": false,
-            "canAddChildren": false,
-            "canAddMyDriveParent": false,
-            "canChangeCopyRequiresWriterPermission": true,
-            "canChangeItemDownloadRestriction": true,
-            "canChangeSecurityUpdateEnabled": false,
-            "canChangeViewersCanCopyContent": true,
-            "canComment": true,
-            "canCopy": true,
-            "canDelete": true,
-            "canDisableInheritedPermissions": false,
-            "canDownload": true,
-            "canEdit": true,
-            "canEnableInheritedPermissions": true,
-            "canListChildren": false,
-            "canModifyContent": true,
-            "canModifyContentRestriction": true,
-            "canModifyEditorContentRestriction": true,
-            "canModifyOwnerContentRestriction": true,
-            "canModifyLabels": false,
-            "canMoveChildrenWithinDrive": false,
-            "canMoveItemIntoTeamDrive": true,
-            "canMoveItemOutOfDrive": true,
-            "canMoveItemWithinDrive": true,
-            "canReadLabels": false,
-            "canReadRevisions": true,
-            "canRemoveChildren": false,
-            "canRemoveContentRestriction": false,
-            "canRemoveMyDriveParent": true,
-            "canRename": true,
-            "canShare": true,
-            "canTrash": true,
-            "canUntrash": true
-          },
-          "viewersCanCopyContent": true,
-          "copyRequiresWriterPermission": false,
-          "writersCanShare": true,
-          "permissions": [
-            {
-              "kind": "drive#permission",
-              "id": "00502410147390681063",
-              "type": "user",
-              "emailAddress": "adamhaley@gmail.com",
-              "role": "owner",
-              "displayName": "adamhaley",
-              "deleted": false,
-              "pendingOwner": false
-            }
-          ],
-          "permissionIds": [
-            "00502410147390681063"
-          ],
-          "originalFilename": "Untitled",
-          "fullFileExtension": "png",
-          "fileExtension": "png",
-          "md5Checksum": "9ecec50ba2eccf800db5473c44955843",
-          "sha1Checksum": "5b62df9f3f654542c97eaf9713d17011240f96f0",
-          "sha256Checksum": "5aeafa85f173159b658d8f356e5e1a47a2ed4091bb55863ac84e0a6a93e77c35",
-          "size": "1441136",
-          "quotaBytesUsed": "1441136",
-          "headRevisionId": "0B-IsbVpaBNybazBWSk5MWXcrdnBYaE16ZXpLY3IvQmJnYm0wPQ",
-          "imageMediaMetadata": {
-            "width": 1024,
-            "height": 1024,
-            "rotation": 0
-          },
-          "isAppAuthorized": true,
-          "linkShareMetadata": {
-            "securityUpdateEligible": false,
-            "securityUpdateEnabled": true
-          },
-          "inheritedPermissionsDisabled": false
-        }
-      },
-      {
-        "json": {
-          "kind": "drive#file",
-          "id": "1GD2oE_lbWqL5y5hDmgUwgtclPNslkCr8",
-          "name": "The Bizarre Art of Mastering the Useless.png",
-          "mimeType": "image/png",
-          "starred": false,
-          "trashed": false,
-          "explicitlyTrashed": false,
-          "parents": [
-            "0AOIsbVpaBNybUk9PVA"
-          ],
-          "spaces": [
-            "drive"
-          ],
-          "version": "2",
-          "webContentLink": "https://drive.google.com/uc?id=1GD2oE_lbWqL5y5hDmgUwgtclPNslkCr8&export=download",
-          "webViewLink": "https://drive.google.com/file/d/1GD2oE_lbWqL5y5hDmgUwgtclPNslkCr8/view?usp=drivesdk",
-          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
-          "hasThumbnail": true,
-          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOJpUagANgOZWal7dCNEcFaYNbgzTSMn__YUDpQEJAnKP_BWydPMderGMvJn8KBgbeGyhQC6EjpXln5kCEJmDGBMMyU6zTA2FFlcFy_kXV3djE=s220",
-          "thumbnailVersion": "2",
-          "viewedByMe": false,
-          "createdTime": "2025-08-23T21:50:38.032Z",
-          "modifiedTime": "2025-08-23T21:50:39.116Z",
-          "modifiedByMeTime": "2025-08-23T21:50:39.116Z",
-          "modifiedByMe": true,
-          "owners": [
-            {
-              "kind": "drive#user",
-              "displayName": "Adam Haley",
-              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-              "me": true,
-              "permissionId": "00502410147390681063",
-              "emailAddress": "adamhaley@gmail.com"
-            }
-          ],
-          "lastModifyingUser": {
-            "kind": "drive#user",
-            "displayName": "Adam Haley",
-            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-            "me": true,
-            "permissionId": "00502410147390681063",
-            "emailAddress": "adamhaley@gmail.com"
-          },
-          "shared": false,
-          "ownedByMe": true,
-          "downloadRestrictions": {
-            "itemDownloadRestriction": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            },
-            "effectiveDownloadRestrictionWithContext": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            }
-          },
-          "capabilities": {
-            "canAcceptOwnership": false,
-            "canAddChildren": false,
-            "canAddMyDriveParent": false,
-            "canChangeCopyRequiresWriterPermission": true,
-            "canChangeItemDownloadRestriction": true,
-            "canChangeSecurityUpdateEnabled": false,
-            "canChangeViewersCanCopyContent": true,
-            "canComment": true,
-            "canCopy": true,
-            "canDelete": true,
-            "canDisableInheritedPermissions": false,
-            "canDownload": true,
-            "canEdit": true,
-            "canEnableInheritedPermissions": true,
-            "canListChildren": false,
-            "canModifyContent": true,
-            "canModifyContentRestriction": true,
-            "canModifyEditorContentRestriction": true,
-            "canModifyOwnerContentRestriction": true,
-            "canModifyLabels": false,
-            "canMoveChildrenWithinDrive": false,
-            "canMoveItemIntoTeamDrive": true,
-            "canMoveItemOutOfDrive": true,
-            "canMoveItemWithinDrive": true,
-            "canReadLabels": false,
-            "canReadRevisions": true,
-            "canRemoveChildren": false,
-            "canRemoveContentRestriction": false,
-            "canRemoveMyDriveParent": true,
-            "canRename": true,
-            "canShare": true,
-            "canTrash": true,
-            "canUntrash": true
-          },
-          "viewersCanCopyContent": true,
-          "copyRequiresWriterPermission": false,
-          "writersCanShare": true,
-          "permissions": [
-            {
-              "kind": "drive#permission",
-              "id": "00502410147390681063",
-              "type": "user",
-              "emailAddress": "adamhaley@gmail.com",
-              "role": "owner",
-              "displayName": "adamhaley",
-              "deleted": false,
-              "pendingOwner": false
-            }
-          ],
-          "permissionIds": [
-            "00502410147390681063"
-          ],
-          "originalFilename": "Untitled",
-          "fullFileExtension": "png",
-          "fileExtension": "png",
-          "md5Checksum": "fc618aea5381b2eadfb6f8e5c0f0c8b2",
-          "sha1Checksum": "9ea562160169eb0bf74c7dd5b82341b3f42297da",
-          "sha256Checksum": "ba58223f5501839f901cf0ee51abc81cfcd8dc484e13661ed15e8d074450bbef",
-          "size": "2157885",
-          "quotaBytesUsed": "2157885",
-          "headRevisionId": "0B-IsbVpaBNybRWVJbHpSb3U4MTJBNU5DSkNKa014UlNlcEU0PQ",
-          "imageMediaMetadata": {
-            "width": 1024,
-            "height": 1024,
-            "rotation": 0
-          },
-          "isAppAuthorized": true,
-          "linkShareMetadata": {
-            "securityUpdateEligible": false,
-            "securityUpdateEnabled": true
-          },
-          "inheritedPermissionsDisabled": false
-        }
-      },
-      {
-        "json": {
-          "kind": "drive#file",
-          "id": "1idb1eVv3-9eoG-c1fnbgzBVAjaQ62evr",
-          "name": "Who Invited the Latin Guy? A Deep Dive into Nonsense.png",
-          "mimeType": "image/png",
-          "starred": false,
-          "trashed": false,
-          "explicitlyTrashed": false,
-          "parents": [
-            "0AOIsbVpaBNybUk9PVA"
-          ],
-          "spaces": [
-            "drive"
-          ],
-          "version": "2",
-          "webContentLink": "https://drive.google.com/uc?id=1idb1eVv3-9eoG-c1fnbgzBVAjaQ62evr&export=download",
-          "webViewLink": "https://drive.google.com/file/d/1idb1eVv3-9eoG-c1fnbgzBVAjaQ62evr/view?usp=drivesdk",
-          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
-          "hasThumbnail": true,
-          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMFoeAfTi6zXKKCGeOmcZ48SGkCYfjN5hZgKYGNaDCyqCkbeVDUksyz6HKkFs4VpGFAkZVsbBwgAQ0_frlyOIhGbcNGQ5OLCIkzQFQzg7dpnQ=s220",
-          "thumbnailVersion": "2",
-          "viewedByMe": false,
-          "createdTime": "2025-08-23T21:50:41.596Z",
-          "modifiedTime": "2025-08-23T21:50:42.765Z",
-          "modifiedByMeTime": "2025-08-23T21:50:42.765Z",
-          "modifiedByMe": true,
-          "owners": [
-            {
-              "kind": "drive#user",
-              "displayName": "Adam Haley",
-              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-              "me": true,
-              "permissionId": "00502410147390681063",
-              "emailAddress": "adamhaley@gmail.com"
-            }
-          ],
-          "lastModifyingUser": {
-            "kind": "drive#user",
-            "displayName": "Adam Haley",
-            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-            "me": true,
-            "permissionId": "00502410147390681063",
-            "emailAddress": "adamhaley@gmail.com"
-          },
-          "shared": false,
-          "ownedByMe": true,
-          "downloadRestrictions": {
-            "itemDownloadRestriction": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            },
-            "effectiveDownloadRestrictionWithContext": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            }
-          },
-          "capabilities": {
-            "canAcceptOwnership": false,
-            "canAddChildren": false,
-            "canAddMyDriveParent": false,
-            "canChangeCopyRequiresWriterPermission": true,
-            "canChangeItemDownloadRestriction": true,
-            "canChangeSecurityUpdateEnabled": false,
-            "canChangeViewersCanCopyContent": true,
-            "canComment": true,
-            "canCopy": true,
-            "canDelete": true,
-            "canDisableInheritedPermissions": false,
-            "canDownload": true,
-            "canEdit": true,
-            "canEnableInheritedPermissions": true,
-            "canListChildren": false,
-            "canModifyContent": true,
-            "canModifyContentRestriction": true,
-            "canModifyEditorContentRestriction": true,
-            "canModifyOwnerContentRestriction": true,
-            "canModifyLabels": false,
-            "canMoveChildrenWithinDrive": false,
-            "canMoveItemIntoTeamDrive": true,
-            "canMoveItemOutOfDrive": true,
-            "canMoveItemWithinDrive": true,
-            "canReadLabels": false,
-            "canReadRevisions": true,
-            "canRemoveChildren": false,
-            "canRemoveContentRestriction": false,
-            "canRemoveMyDriveParent": true,
-            "canRename": true,
-            "canShare": true,
-            "canTrash": true,
-            "canUntrash": true
-          },
-          "viewersCanCopyContent": true,
-          "copyRequiresWriterPermission": false,
-          "writersCanShare": true,
-          "permissions": [
-            {
-              "kind": "drive#permission",
-              "id": "00502410147390681063",
-              "type": "user",
-              "emailAddress": "adamhaley@gmail.com",
-              "role": "owner",
-              "displayName": "adamhaley",
-              "deleted": false,
-              "pendingOwner": false
-            }
-          ],
-          "permissionIds": [
-            "00502410147390681063"
-          ],
-          "originalFilename": "Untitled",
-          "fullFileExtension": "png",
-          "fileExtension": "png",
-          "md5Checksum": "52310b8a2d841ef026a9674b915a16aa",
-          "sha1Checksum": "44b16b7d9c2d1bfdd5ced830627c9a8956b419f6",
-          "sha256Checksum": "101553e8de8e9d6ccca0f8c129d8a4d233e81e63cc6fbfa1e9fb28fec8e79719",
-          "size": "2013622",
-          "quotaBytesUsed": "2013622",
-          "headRevisionId": "0B-IsbVpaBNybeEZxT2RSSGE4VytyVUdqdXl6N0hPZ1hJSXBvPQ",
-          "imageMediaMetadata": {
-            "width": 1024,
-            "height": 1024,
-            "rotation": 0
-          },
-          "isAppAuthorized": true,
-          "linkShareMetadata": {
-            "securityUpdateEligible": false,
-            "securityUpdateEnabled": true
-          },
-          "inheritedPermissionsDisabled": false
-        }
-      },
-      {
-        "json": {
-          "kind": "drive#file",
-          "id": "1BzycgmPAhGLe-Orf9W2qH9eVAjM8hafo",
-          "name": "Nostalgia for the Nostrud: A Deep Dive into the Art of Doing Nothing.png",
-          "mimeType": "image/png",
-          "starred": false,
-          "trashed": false,
-          "explicitlyTrashed": false,
-          "parents": [
-            "0AOIsbVpaBNybUk9PVA"
-          ],
-          "spaces": [
-            "drive"
-          ],
-          "version": "2",
-          "webContentLink": "https://drive.google.com/uc?id=1BzycgmPAhGLe-Orf9W2qH9eVAjM8hafo&export=download",
-          "webViewLink": "https://drive.google.com/file/d/1BzycgmPAhGLe-Orf9W2qH9eVAjM8hafo/view?usp=drivesdk",
-          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
-          "hasThumbnail": true,
-          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMYoc58YZoxbUi_LZCAnCRfOw_StyVuf1dOdvqPMANbDLncicpdXua3_KHOjvBGCW5XY3fZXYJtj4jhGthhkspL9yeuEJF0lYrOA4lpDi-yxQg=s220",
-          "thumbnailVersion": "2",
-          "viewedByMe": false,
-          "createdTime": "2025-08-23T21:50:44.259Z",
-          "modifiedTime": "2025-08-23T21:50:45.246Z",
-          "modifiedByMeTime": "2025-08-23T21:50:45.246Z",
-          "modifiedByMe": true,
-          "owners": [
-            {
-              "kind": "drive#user",
-              "displayName": "Adam Haley",
-              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-              "me": true,
-              "permissionId": "00502410147390681063",
-              "emailAddress": "adamhaley@gmail.com"
-            }
-          ],
-          "lastModifyingUser": {
-            "kind": "drive#user",
-            "displayName": "Adam Haley",
-            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
-            "me": true,
-            "permissionId": "00502410147390681063",
-            "emailAddress": "adamhaley@gmail.com"
-          },
-          "shared": false,
-          "ownedByMe": true,
-          "downloadRestrictions": {
-            "itemDownloadRestriction": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            },
-            "effectiveDownloadRestrictionWithContext": {
-              "restrictedForReaders": false,
-              "restrictedForWriters": false
-            }
-          },
-          "capabilities": {
-            "canAcceptOwnership": false,
-            "canAddChildren": false,
-            "canAddMyDriveParent": false,
-            "canChangeCopyRequiresWriterPermission": true,
-            "canChangeItemDownloadRestriction": true,
-            "canChangeSecurityUpdateEnabled": false,
-            "canChangeViewersCanCopyContent": true,
-            "canComment": true,
-            "canCopy": true,
-            "canDelete": true,
-            "canDisableInheritedPermissions": false,
-            "canDownload": true,
-            "canEdit": true,
-            "canEnableInheritedPermissions": true,
-            "canListChildren": false,
-            "canModifyContent": true,
-            "canModifyContentRestriction": true,
-            "canModifyEditorContentRestriction": true,
-            "canModifyOwnerContentRestriction": true,
-            "canModifyLabels": false,
-            "canMoveChildrenWithinDrive": false,
-            "canMoveItemIntoTeamDrive": true,
-            "canMoveItemOutOfDrive": true,
-            "canMoveItemWithinDrive": true,
-            "canReadLabels": false,
-            "canReadRevisions": true,
-            "canRemoveChildren": false,
-            "canRemoveContentRestriction": false,
-            "canRemoveMyDriveParent": true,
-            "canRename": true,
-            "canShare": true,
-            "canTrash": true,
-            "canUntrash": true
-          },
-          "viewersCanCopyContent": true,
-          "copyRequiresWriterPermission": false,
-          "writersCanShare": true,
-          "permissions": [
-            {
-              "kind": "drive#permission",
-              "id": "00502410147390681063",
-              "type": "user",
-              "emailAddress": "adamhaley@gmail.com",
-              "role": "owner",
-              "displayName": "adamhaley",
-              "deleted": false,
-              "pendingOwner": false
-            }
-          ],
-          "permissionIds": [
-            "00502410147390681063"
-          ],
-          "originalFilename": "Untitled",
-          "fullFileExtension": "png",
-          "fileExtension": "png",
-          "md5Checksum": "2d2a9f400ae681ff1b084b27aff1d098",
-          "sha1Checksum": "a94ab9ec399c9c5632a2eec438acf261869bbe6c",
-          "sha256Checksum": "325db944645d52fac17c9d87f9ee87334abbc5682a689bebdcc25a2e79057982",
-          "size": "1914099",
-          "quotaBytesUsed": "1914099",
-          "headRevisionId": "0B-IsbVpaBNybTmxEOWhyYW1aT3BsOHpiTkVWeThWMzB6VGZVPQ",
-          "imageMediaMetadata": {
-            "width": 1024,
-            "height": 1024,
-            "rotation": 0
-          },
-          "isAppAuthorized": true,
-          "linkShareMetadata": {
-            "securityUpdateEligible": false,
-            "securityUpdateEnabled": true
-          },
-          "inheritedPermissionsDisabled": false
         }
       }
     ]
@@ -1419,18 +948,12 @@
       "main": [
         [
           {
-            "node": "Get row(s) in sheet",
+            "node": "Get With Blank Publish Date",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet": {
-      "main": [
-        [
+          },
           {
-            "node": "Create a post",
+            "node": "Get with Today's Publish Date",
             "type": "main",
             "index": 0
           }
@@ -1498,13 +1021,46 @@
           }
         ]
       ]
+    },
+    "Get With Blank Publish Date": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get with Today's Publish Date": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "b9c9fde9-e65a-4ccd-9168-93ec855ccef7",
+  "versionId": "85c60d1b-9583-49bc-acf1-a15a2ca7fda1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "758deb40de42bd43f63cee96dbf5765c08f7c6d28f0ee911ebacc0511319da36"
