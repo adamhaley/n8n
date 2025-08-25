@@ -92,7 +92,7 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        816,
+        912,
         208
       ],
       "id": "c14a66ed-929a-4951-b9f8-2b8afd7df13b",
@@ -116,110 +116,6 @@
       ],
       "id": "37ef19bb-d264-4106-aeb9-5b54aba6de35",
       "name": "Config"
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
-          "mode": "list",
-          "cachedResultName": "Blogs Generated",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 240688560,
-          "mode": "list",
-          "cachedResultName": "Sheet2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Content": "={{ $json.content }}",
-            "Title": "={{ $json.title }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Title",
-              "displayName": "Title",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Content",
-              "displayName": "Content",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Image",
-              "displayName": "Image",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Publish",
-              "displayName": "Publish",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Column 5",
-              "displayName": "Column 5",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Column 6",
-              "displayName": "Column 6",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        832,
-        704
-      ],
-      "id": "436c2ccd-580a-407e-a2f3-ad84fad2d3ff",
-      "name": "Append row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "Dv0moFbIBLnKZVHy",
-          "name": "Google Sheets account"
-        }
-      }
     },
     {
       "parameters": {
@@ -319,124 +215,6 @@
         "googleDriveOAuth2Api": {
           "id": "nXRNTV69NUVFfmaI",
           "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
-          "mode": "list",
-          "cachedResultName": "Blogs Generated",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 240688560,
-          "mode": "list",
-          "cachedResultName": "Sheet2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Image": "={{ $json.webViewLink }}",
-            "Title": "={{ $('Code').item.json.title }}"
-          },
-          "matchingColumns": [
-            "Title"
-          ],
-          "schema": [
-            {
-              "id": "Title",
-              "displayName": "Title",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Content",
-              "displayName": "Content",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Image",
-              "displayName": "Image",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Publish",
-              "displayName": "Publish",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Column 5",
-              "displayName": "Column 5",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Column 6",
-              "displayName": "Column 6",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        1056,
-        544
-      ],
-      "id": "cdbdc0b9-6063-4d1c-9fb6-c0e5e6214fa6",
-      "name": "Update row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "Dv0moFbIBLnKZVHy",
-          "name": "Google Sheets account"
         }
       }
     },
@@ -593,81 +371,6 @@
       }
     },
     {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
-          "mode": "list",
-          "cachedResultName": "Blogs Generated",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 240688560,
-          "mode": "list",
-          "cachedResultName": "Sheet2",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Title",
-              "lookupValue": "={{ $json.title }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        352,
-        544
-      ],
-      "id": "4f290ef4-842d-4378-9370-974d407e5c09",
-      "name": "Get row(s) in sheet1",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "Dv0moFbIBLnKZVHy",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "4a105642-2b6a-4a49-8f27-3e1c175f18f6",
-              "leftValue": "={{ $json.isEmpty() }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        592,
-        720
-      ],
-      "id": "22f95f3c-d7f5-41bf-9ced-cb232f27fec0",
-      "name": "If"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
@@ -809,6 +512,313 @@
       ],
       "id": "4089aabe-61f8-4946-ae49-fcc818d7a348",
       "name": "Merge"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Title",
+              "lookupValue": "={{ $json.title }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        544
+      ],
+      "id": "4f290ef4-842d-4378-9370-974d407e5c09",
+      "name": "Check for Article of existing Title",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a105642-2b6a-4a49-8f27-3e1c175f18f6",
+              "leftValue": "={{ $json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        720
+      ],
+      "id": "22f95f3c-d7f5-41bf-9ced-cb232f27fec0",
+      "name": "If Title Doesn't Exist"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Content": "={{ $json.content }}",
+            "Title": "={{ $json.title }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Column 5",
+              "displayName": "Column 5",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Column 6",
+              "displayName": "Column 6",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        704
+      ],
+      "id": "436c2ccd-580a-407e-a2f3-ad84fad2d3ff",
+      "name": "Create Article in Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Image": "={{ $json.webViewLink }}",
+            "Title": "={{ $('Code').item.json.title }}"
+          },
+          "matchingColumns": [
+            "Title"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Publish Date",
+              "displayName": "Publish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tags",
+              "displayName": "tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1056,
+        544
+      ],
+      "id": "cdbdc0b9-6063-4d1c-9fb6-c0e5e6214fa6",
+      "name": "Update Image in Article",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -915,7 +925,7 @@
             "index": 0
           },
           {
-            "node": "Get row(s) in sheet1",
+            "node": "Check for Article of existing Title",
             "type": "main",
             "index": 0
           }
@@ -937,7 +947,7 @@
       "main": [
         [
           {
-            "node": "Update row in sheet",
+            "node": "Update Image in Article",
             "type": "main",
             "index": 0
           }
@@ -993,35 +1003,6 @@
         ]
       ]
     },
-    "Get row(s) in sheet1": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Append row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get With Blank Publish Date": {
       "main": [
         [
@@ -1054,13 +1035,42 @@
           }
         ]
       ]
+    },
+    "Check for Article of existing Title": {
+      "main": [
+        [
+          {
+            "node": "If Title Doesn't Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Title Doesn't Exist": {
+      "main": [
+        [
+          {
+            "node": "Create Article in Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "85c60d1b-9583-49bc-acf1-a15a2ca7fda1",
+  "versionId": "f4f750ff-88a9-48fb-a809-5d8f046a80ed",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "758deb40de42bd43f63cee96dbf5765c08f7c6d28f0ee911ebacc0511319da36"
