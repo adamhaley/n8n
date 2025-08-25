@@ -1,0 +1,1514 @@
+{
+  "name": "Blog Generator Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        112
+      ],
+      "id": "15ef2bb8-1343-440c-8512-0ad1278bc957",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.rss }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        208
+      ],
+      "id": "2a405324-a39f-4c28-9094-ea145ead0976",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        304
+      ],
+      "id": "3168cce5-b544-499c-8d51-d8c74219e038",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "## Trigger Options / Config\n- run workflow manually\n- run workflow on a schedule",
+        "height": 480,
+        "width": 480,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -16
+      ],
+      "id": "beae819b-259c-46a7-b922-fb6a6ace6aa0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Load Data Source\n- Load RSS feeds defined in Code node\n- extract title and content",
+        "height": 480,
+        "width": 384
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        336,
+        -16
+      ],
+      "id": "785585d2-7f5e-4b37-99a6-c4dde2268741",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_S04M10ZsOJTKjnFcyaYBJRZ0",
+          "mode": "list",
+          "cachedResultName": "Re-Write Assistant "
+        },
+        "prompt": "define",
+        "text": "=Please create a blog post based on the following:  \"\"{{ $json.content }} \"\"\n\nGenerate a Title and Content and output your generated article in the following JSON format: \n{\n  \"title\": \"Lorem Ipsum\",\n  \"content\": \"Dolor Samet. Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \"\n\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        816,
+        208
+      ],
+      "id": "c14a66ed-929a-4951-b9f8-2b8afd7df13b",
+      "name": "Send to Custom GPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "Um5RnzPnRAKUqJpa",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let categories = [\n  {\n    name: 'Tech',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Artificial Intelligence',\n        'Tech Ethics',\n        'Blockchain',\n        'Metaverse',\n        'Digital Realestate',\n        'Cloud Computing',\n        'Virtual Reality / Augmented Reality',\n        'Robotics',\n        'Autonomous',\n        'Drones',\n        'Smart Home',\n        'Software Development',\n        'Retro Tech',\n        'Open Source',\n        'Smart Cities',\n        'Tech Regulation',\n        '3D Printing',\n        'Creative Coding',\n        'Cybersecurity',\n        'Automation',\n        'Robotic Automation',\n        'Streaming Technology',\n        'Green Technology',\n        'Renewable Energy Tech',\n        'Data Center',\n        'Communication',\n        'Data Breach',\n        'Data Leaks',\n        'Pytorch',\n        'Python',\n        'ComfyUI',\n        'n8n',\n        'GitHub'\n      ],\n      and_or: 'and'\n    }\n  },\n  {\n    name: 'Art & Music',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Digital Art',\n        'Generative Art',\n        'AI Art',\n        'AI Music',\n        'Generative Music',\n        'AI Music Tools',\n        'Algorithmic Art',\n        'NFT Art',\n        'Augmented Reality Art',\n        'Virtual Reality Art',\n        'Procedural Art',\n        'Art Tech Platforms',\n        'Generative Design',\n        'AI-Generated Music',\n        'Holographic Art',\n        'Robotic Art',\n        'Digital Collectibles',\n        '3D Animation',\n        'Game Design',\n        'Digital Photography',\n        'AI Design',\n        'Creative AI Tools',\n        'Digital Storytelling',\n        'midjourney',\n        'Image Generation',\n        'Leonardo.ai',\n        'Kling Ai',\n        'Stable Diffusion',\n        'FLUX',\n        'DALL•E',\n        'Adobe Firefly',\n        'Sora',\n        'Runway',\n        'Veo',\n        'Dream Machine',\n        'Hunyuan'\n      ],\n      and_or: 'and'\n    }\n  },\n  {\n    name: 'Business',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Tech Startups',\n        'Venture Capital',\n        'Tech IPOs',\n        'Tech Policy',\n        'E-commerce',\n        'Film Industry',\n        'Fashion Industry',\n        'Entertainment',\n        'Adult Entertainment',\n        'Quantum Computing',\n        'FinTech',\n        'Smart Contracts',\n        'Decentralized Finance (DeFi)',\n        'Blockchain Business',\n        'Cryptocurrency',\n        'Cloud Computing Solutions',\n        'Digital Payments',\n        'Tech Regulation',\n        'Intellectual Property',\n        'Workforce',\n        'Remote Work',\n        'Enterprise Software',\n        'Marketing',\n        'Copyright Infringement',\n        'AdTech',\n        'Property Tech',\n        'Health Tech',\n        'Education Tech',\n        'Market Crash',\n        'Crypto Crash',\n        'Trading Platform',\n        'Trading Tools',\n        'Trading Algorithms',\n        'Video Game Streaming',\n        'Streaming Platform',\n        'Social Media',\n        'Facebook',\n        'Youtube',\n        'OpenAi',\n        'TikTok',\n        'Twitch',\n        'Meta',\n        'Google Cloud',\n        'Google Labs',\n        'Claude',\n        'Grok',\n        'Tesla',\n        'Amazon',\n        'Adobe',\n        'Apple',\n        'IBM',\n        'Microsoft Azure',\n        'AWS'\n      ],\n      and_or: 'and'\n    }\n  },\n  {\n    name: 'Culture',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Satire',\n        'Wearable Technology',\n        'Food Tech',\n        'Robot Workers',\n        'AI Companion',\n        'AI Love',\n        'Heartbreak',\n        'Deepfake',\n        'Celebrity Fakes',\n        'Fakes',\n        'Online Dating',\n        'Social Media',\n        'Cyberstalking',\n        'Virtual Romance',\n        'Scams',\n        'Crypto Scams',\n        'Phishing Scams',\n        'Digital Heists',\n        'Cancel Culture',\n        'Online Shaming',\n        'Meme',\n        'Viral',\n        'Internet Troll',\n        'Privacy Invasion',\n        'Spying',\n        'Cyberbullying',\n        'Online Harassment',\n        'Doppelgänger',\n        'Digital Clones',\n        'Rage',\n        'Censorship',\n        'Culture',\n        'Esports',\n        'Esports Betting',\n        'Online Gambling',\n        'Sports Gambling',\n        'Addiction',\n        'Social Media Addiction',\n        'Hacked',\n        'Webcam',\n        'Fraud',\n        'Clickbait',\n        'Traps',\n        'Thirst Trap',\n        'Pranks',\n        'Fail',\n        'Fails',\n        'Infidelity',\n        'Vigilante',\n        'Justice',\n        'Darkweb',\n        'Drugs',\n        'Psychedelics',\n        'Psychedelic Research',\n        'Drug Market',\n        'Misinformation',\n        'Disinformation',\n        'Conspiracy Theory',\n        'Conspiracies',\n        'Protest',\n        'Porn',\n        'Sex Workers',\n        'Influencer',\n        'Streamer',\n        'Cyberculture',\n        'Digital Footprint',\n        'Dopamine',\n        'Identity Theft',\n        'Chatbot',\n        'Comedy',\n        'Memes',\n        'Social Media Trends',\n        'Cyberpunk',\n        'Gaming Culture',\n        'Fandom',\n        'Debate',\n        'Cyberactivism',\n        'Hacktivism',\n        'Ethical Hacking',\n        'Quantum Theory',\n        'Multiverse'\n      ],\n      and_or: 'and'\n    }\n  }\n];\n\n\nreturn categories;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        208
+      ],
+      "id": "37ef19bb-d264-4106-aeb9-5b54aba6de35",
+      "name": "Config"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Content": "={{ $json.content }}",
+            "Title": "={{ $json.title }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Column 5",
+              "displayName": "Column 5",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Column 6",
+              "displayName": "Column 6",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        704
+      ],
+      "id": "436c2ccd-580a-407e-a2f3-ad84fad2d3ff",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6eb7ffe3-5d24-43e9-a4a0-e367d93bff5d",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "eb6f8674-da6f-44c8-9173-8d9127a674b8",
+              "name": "content",
+              "value": "={{ $json.content }}",
+              "type": "string"
+            },
+            {
+              "id": "7819e6a4-b954-482b-a468-b77adfc4055f",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        208
+      ],
+      "id": "f84aed1b-41a9-4b46-969b-c27af0cc5c50",
+      "name": "Extract Fields"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let input = $json.output;\n\n// Remove leading/trailing triple backticks (and optional language hint)\nlet cleaned = input.replace(/^```[a-zA-Z0-9]*\\n?/, '').replace(/```$/, '');\n\n// Now safely parse\nreturn JSON.parse(cleaned);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        544
+      ],
+      "id": "ec2984fa-ac6e-4d40-96eb-adb89294c9de",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "prompt": "=You are an image generator that takes incoming article text and creates the perfect image to go with that article for posting to a blog. Here is the article:\n\n \"{{ $json.title }}\"\n\n{{ $json.content }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        592,
+        544
+      ],
+      "id": "281b4f41-e757-451f-9853-8152d4f9a957",
+      "name": "Generate an image",
+      "credentials": {
+        "openAiApi": {
+          "id": "Um5RnzPnRAKUqJpa",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Code').item.json.title }}.png",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        832,
+        544
+      ],
+      "id": "0f21634c-efdf-4757-bcd7-11298b8d4089",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "nXRNTV69NUVFfmaI",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Image": "={{ $json.webViewLink }}",
+            "Title": "={{ $('Code').item.json.title }}"
+          },
+          "matchingColumns": [
+            "Title"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Column 5",
+              "displayName": "Column 5",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Column 6",
+              "displayName": "Column 6",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1056,
+        544
+      ],
+      "id": "cdbdc0b9-6063-4d1c-9fb6-c0e5e6214fa6",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        1056
+      ],
+      "id": "10a99c24-03a8-479e-a1cf-fa8ea4c51237",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Publish",
+              "lookupValue": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        1056
+      ],
+      "id": "9dc522db-6d35-45eb-a43c-134e11a7547d",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "={{ $json.Title }}",
+        "additionalFields": {
+          "content": "={{ $json.Content }}",
+          "date": "={{ $now }}"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        352,
+        1056
+      ],
+      "id": "f44048d3-a40d-4d1c-be81-d0fdb047aa35",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "90Z7zgqIbr2X3c7N",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## POST To Wordpress",
+        "height": 576,
+        "width": 688,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        736
+      ],
+      "id": "aaca0a3a-0b62-4727-a40e-e66cd52d5a49",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Get row(s) in sheet').item.json.Image }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        592,
+        1056
+      ],
+      "id": "07a9eba5-bf9a-425d-bb2d-bf89975b96a5",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "nXRNTV69NUVFfmaI",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://test.artificialinfringement.com/index.php/wp-json/wp/v2/posts/{{ $('Create a post').item.json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "featured_media",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a3d755d3-3ea6-4025-ac42-69e0d735a783",
+      "name": "Attach Image to Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1056,
+        1056
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "rvdtwLlikDlk49E9",
+          "name": "Unnamed credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://test.artificialinfringement.com/index.php/wp-json/wp/v2/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "image/png"
+            },
+            {
+              "name": "content-disposition",
+              "value": "=attachment; filename=\"image-{{ $json.id }}.png\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "25ddb4b0-cc71-4d5b-802a-df6dae8697f9",
+      "name": "Upload Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        832,
+        1056
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "rvdtwLlikDlk49E9",
+          "name": "Unnamed credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Title",
+              "lookupValue": "={{ $json.title }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        544
+      ],
+      "id": "4f290ef4-842d-4378-9370-974d407e5c09",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dv0moFbIBLnKZVHy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a105642-2b6a-4a49-8f27-3e1c175f18f6",
+              "leftValue": "={{ $json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        720
+      ],
+      "id": "22f95f3c-d7f5-41bf-9ced-cb232f27fec0",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        832,
+        864
+      ],
+      "id": "a6ec970a-e4aa-4253-8d4e-b08c2ba1b8a4",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "## Add Record to Sheet",
+        "height": 544,
+        "width": 704,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        544,
+        480
+      ],
+      "id": "8cd659e1-127a-4c7b-8d3e-997b1744c23d",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Send to Custom GPT",
+        "height": 480,
+        "width": 512,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        736,
+        -16
+      ],
+      "id": "5ea5212c-d7fc-4dca-894a-7b2fe8f87cf2",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {
+    "Send to Custom GPT": [
+      {
+        "json": {
+          "output": "{\n  \"title\": \"Quis Quis Nostrud: The Latin Guide to Avoiding Boring, Except on Tuesdays\",\n  \"content\": \"Welcome to the snazzy world of Quis Quis Nostrud! This isn't your run-of-the-mill space odyssey—no ma'am, this is the epic saga of those who dare to nostrud. Picture this: diligently resisting the urge to duis that mundane laborum because, really, who needs ex qui consectetur when you've got a grand temporal adventure at hand? \\n\\nLet's break it down. Nostrud is not just the squiggly lines you see before your coffee kicks in; it is the art of participating in something—anything really—without having the memory stick of life's melodrama full. High fives to all nostrud aficionados who manage to simulate conventional enthusiasm while secretly plotting their next daring escape from... well, everyone.\\n\\nAs you're likely contemplating the ridiculous profundity of Latin phrases, be reminded: tempor sint just adds a semicolon to time-out situations. Of course, you might prefer to marathon your own personal soap opera, but hey, chacun à son goût.  \\n\\nRemember, with great nostrud comes great laborum—because let's face it, every hero needs a villain. You've got this, champ! Keep the illusion going, and who knows, you might just find yourself tempor sunt-ing like a true champion!\"\n}",
+          "threadId": "thread_gkPy9P1Dd5WjNehEUk3fbiCT"
+        }
+      },
+      {
+        "json": {
+          "output": "```json\n{\n  \"title\": \"The Bizarre Art of Mastering the Useless\",\n  \"content\": \"Welcome, fellow wanderer of the digital abyss, to the realm where 'quis quis nostrud duis laborum' isn't just Latin gibberish. It's a lifestyle. A creed, if you will, in the grand odyssey of pretending you know exactly what you're doing. Spoiler: you don't. \\n\\nConsectetur laboratorium tempor sint? More like, 'let's see how much we can cram into one brain before it implodes!' Just remember, with each brain cell fatigued, you edge closer to knowing everything about nothing. Congratulations, that's genius! \\n\\nFeeling 'cupidatat ex'? Don't worry, it's not contagious—unless, of course, you opt into the premium package. Revel in your existential compliance and let irony be your guide as you navigate the labyrinth of 'is there really a point here?' Spoiler alert: there isn't! \\n\\n'Lorem ipsum dolor sit', they say; I say, let's embrace the nonsensical voyage while intermittently asking profound questions like, 'Why is there a 'di' in 'diis laborum'? Is it double cheese or an innocuous typo? \\n\\nUllamco laboris nisi ut aliquip'. But, let's face it, trying to decode that feels like Roman holiday in a washing machine. Ride the wave, enjoy the spin cycle, and let sundry musings guide you in this vehicular odyssey of random enlightenment. \\n\\nIn summary, dear reader, may your quest to master the art of mastering nothing at all be as futile as it is glorious. Embrace the chaos, laugh heartily, and remember: Ex am Otticae ut sit amet, res exstatis, quandocumque et ubicumque—I'm sure that's a thing, right?\"\n}\n```",
+          "threadId": "thread_2UdJH8oKLIGaZRFzf8OD9Deu"
+        }
+      },
+      {
+        "json": {
+          "output": "```json\n{\n  \"title\": \"Who Invited the Latin Guy? A Deep Dive into Nonsense\",\n  \"content\": \"Ah, 'quis quis nostrud duis laborum in cupidatat ex qui consectetur laborum tempor sint.' For those fluent in gibberish, this is the Holy Grail. For everyone else, let's see how efficiently Google Translate throws in the towel. Once upon a caffeine-induced haze, someone decided to go all scandalous and string together random Latin words into sentences, because... Latin. \\n\\n“Consectetur laborum tempor sint.” Sounds like a rejected password to your ex’s Netflix account. But wait! This just in—scientists now say pretending to understand Latin boosts your IQ by zero, count 'em, zero points. \\n\\nTaking it one step further, I've distilled this sentence to its essence. Spoiler alert: There is none. It's as void as that junk drawer your mom refuses to clean. So here's the real scoop: Scrap the Latin, grab a donut, and just admit your not-so-secret love for Lo-fi hip-hop playlists during late-night existential crises. Truth is, Latin is to tech blogs what flip phones are to the metaverse—oddly irrelevant yet mysteriously enduring. Take that, Cicero.\\n\\nNow go forth, my brave reader, and conquer the lands of future-forward blogging with some English, maybe a latte, and a sprinkle of sarcasm on top. Carpe whatever-you-want-carped!\"\n}\n```",
+          "threadId": "thread_U82ySO87KYjzw6tosOH2B0Ef"
+        }
+      },
+      {
+        "json": {
+          "output": "```json\n{\n  \"title\": \"Nostalgia for the Nostrud: A Deep Dive into the Art of Doing Nothing\",\n  \"content\": \"Ah, the illustrious pursuit of quis quis nostrud duis laborum. In the world of AI and high-tech doodads, sometimes you just need to pause, take a deep breath, and dive into the abyss of, well, not doing much at all. It's a revolutionary concept, really. Why bother with all the hustle and bustle when there's a whole universe of nonchalance waiting to be exploited? Here at [Your Blog Name], we're masters of the temporarily-sint: the delicate art of sipping a cup of metaphorical coffee while the world rushes by.\\n\\nFor those of you holed up in your echo chambers of productivity, concerned about future cupidatat ex-ecutive burnout, take a cue from us. Embrace your inner consectetur laborum tempor sint—it's like biohacking but with more chill and less Silicon Valley pretentiousness.\\n\\nJoin the resistance. Embrace the tacit brilliance of sitting back and exhaling loudly. After all, who needs to run when you can perform a dynamic, stationary nostrud duis instead? Quirky, right!? Now off you go—bask in this future-forward lifestyle. Tempus may fugit, but dear reader, you certainly don't have to.\"\n}\n```",
+          "threadId": "thread_oQJpgy6RoPFnygyfnQafrONm"
+        }
+      }
+    ],
+    "Upload file": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1dh2gGz58jHoWygQiH_iZmqcWPmXqo_fS",
+          "name": "Quis Quis Nostrud: The Latin Guide to Avoiding Boring, Except on Tuesdays.png",
+          "mimeType": "image/png",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "0AOIsbVpaBNybUk9PVA"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "2",
+          "webContentLink": "https://drive.google.com/uc?id=1dh2gGz58jHoWygQiH_iZmqcWPmXqo_fS&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1dh2gGz58jHoWygQiH_iZmqcWPmXqo_fS/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
+          "hasThumbnail": true,
+          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMVLyO9j9DclWV4XSRNusMTNs5XzhnwOPOS1jPSUP7QdQOtJvmNgNgqLw2MgS71F0DIHQu6bsI-Ba5IGIIYTykmMOpxcZnl0Q9AX6nZmSSCsrg=s220",
+          "thumbnailVersion": "2",
+          "viewedByMe": false,
+          "createdTime": "2025-08-23T21:50:34.911Z",
+          "modifiedTime": "2025-08-23T21:50:36.005Z",
+          "modifiedByMeTime": "2025-08-23T21:50:36.005Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+              "me": true,
+              "permissionId": "00502410147390681063",
+              "emailAddress": "adamhaley@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+            "me": true,
+            "permissionId": "00502410147390681063",
+            "emailAddress": "adamhaley@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "owner",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "png",
+          "fileExtension": "png",
+          "md5Checksum": "9ecec50ba2eccf800db5473c44955843",
+          "sha1Checksum": "5b62df9f3f654542c97eaf9713d17011240f96f0",
+          "sha256Checksum": "5aeafa85f173159b658d8f356e5e1a47a2ed4091bb55863ac84e0a6a93e77c35",
+          "size": "1441136",
+          "quotaBytesUsed": "1441136",
+          "headRevisionId": "0B-IsbVpaBNybazBWSk5MWXcrdnBYaE16ZXpLY3IvQmJnYm0wPQ",
+          "imageMediaMetadata": {
+            "width": 1024,
+            "height": 1024,
+            "rotation": 0
+          },
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      },
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1GD2oE_lbWqL5y5hDmgUwgtclPNslkCr8",
+          "name": "The Bizarre Art of Mastering the Useless.png",
+          "mimeType": "image/png",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "0AOIsbVpaBNybUk9PVA"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "2",
+          "webContentLink": "https://drive.google.com/uc?id=1GD2oE_lbWqL5y5hDmgUwgtclPNslkCr8&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1GD2oE_lbWqL5y5hDmgUwgtclPNslkCr8/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
+          "hasThumbnail": true,
+          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOJpUagANgOZWal7dCNEcFaYNbgzTSMn__YUDpQEJAnKP_BWydPMderGMvJn8KBgbeGyhQC6EjpXln5kCEJmDGBMMyU6zTA2FFlcFy_kXV3djE=s220",
+          "thumbnailVersion": "2",
+          "viewedByMe": false,
+          "createdTime": "2025-08-23T21:50:38.032Z",
+          "modifiedTime": "2025-08-23T21:50:39.116Z",
+          "modifiedByMeTime": "2025-08-23T21:50:39.116Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+              "me": true,
+              "permissionId": "00502410147390681063",
+              "emailAddress": "adamhaley@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+            "me": true,
+            "permissionId": "00502410147390681063",
+            "emailAddress": "adamhaley@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "owner",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "png",
+          "fileExtension": "png",
+          "md5Checksum": "fc618aea5381b2eadfb6f8e5c0f0c8b2",
+          "sha1Checksum": "9ea562160169eb0bf74c7dd5b82341b3f42297da",
+          "sha256Checksum": "ba58223f5501839f901cf0ee51abc81cfcd8dc484e13661ed15e8d074450bbef",
+          "size": "2157885",
+          "quotaBytesUsed": "2157885",
+          "headRevisionId": "0B-IsbVpaBNybRWVJbHpSb3U4MTJBNU5DSkNKa014UlNlcEU0PQ",
+          "imageMediaMetadata": {
+            "width": 1024,
+            "height": 1024,
+            "rotation": 0
+          },
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      },
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1idb1eVv3-9eoG-c1fnbgzBVAjaQ62evr",
+          "name": "Who Invited the Latin Guy? A Deep Dive into Nonsense.png",
+          "mimeType": "image/png",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "0AOIsbVpaBNybUk9PVA"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "2",
+          "webContentLink": "https://drive.google.com/uc?id=1idb1eVv3-9eoG-c1fnbgzBVAjaQ62evr&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1idb1eVv3-9eoG-c1fnbgzBVAjaQ62evr/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
+          "hasThumbnail": true,
+          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMFoeAfTi6zXKKCGeOmcZ48SGkCYfjN5hZgKYGNaDCyqCkbeVDUksyz6HKkFs4VpGFAkZVsbBwgAQ0_frlyOIhGbcNGQ5OLCIkzQFQzg7dpnQ=s220",
+          "thumbnailVersion": "2",
+          "viewedByMe": false,
+          "createdTime": "2025-08-23T21:50:41.596Z",
+          "modifiedTime": "2025-08-23T21:50:42.765Z",
+          "modifiedByMeTime": "2025-08-23T21:50:42.765Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+              "me": true,
+              "permissionId": "00502410147390681063",
+              "emailAddress": "adamhaley@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+            "me": true,
+            "permissionId": "00502410147390681063",
+            "emailAddress": "adamhaley@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "owner",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "png",
+          "fileExtension": "png",
+          "md5Checksum": "52310b8a2d841ef026a9674b915a16aa",
+          "sha1Checksum": "44b16b7d9c2d1bfdd5ced830627c9a8956b419f6",
+          "sha256Checksum": "101553e8de8e9d6ccca0f8c129d8a4d233e81e63cc6fbfa1e9fb28fec8e79719",
+          "size": "2013622",
+          "quotaBytesUsed": "2013622",
+          "headRevisionId": "0B-IsbVpaBNybeEZxT2RSSGE4VytyVUdqdXl6N0hPZ1hJSXBvPQ",
+          "imageMediaMetadata": {
+            "width": 1024,
+            "height": 1024,
+            "rotation": 0
+          },
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      },
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1BzycgmPAhGLe-Orf9W2qH9eVAjM8hafo",
+          "name": "Nostalgia for the Nostrud: A Deep Dive into the Art of Doing Nothing.png",
+          "mimeType": "image/png",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "0AOIsbVpaBNybUk9PVA"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "2",
+          "webContentLink": "https://drive.google.com/uc?id=1BzycgmPAhGLe-Orf9W2qH9eVAjM8hafo&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1BzycgmPAhGLe-Orf9W2qH9eVAjM8hafo/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/image/png",
+          "hasThumbnail": true,
+          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMYoc58YZoxbUi_LZCAnCRfOw_StyVuf1dOdvqPMANbDLncicpdXua3_KHOjvBGCW5XY3fZXYJtj4jhGthhkspL9yeuEJF0lYrOA4lpDi-yxQg=s220",
+          "thumbnailVersion": "2",
+          "viewedByMe": false,
+          "createdTime": "2025-08-23T21:50:44.259Z",
+          "modifiedTime": "2025-08-23T21:50:45.246Z",
+          "modifiedByMeTime": "2025-08-23T21:50:45.246Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Adam Haley",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+              "me": true,
+              "permissionId": "00502410147390681063",
+              "emailAddress": "adamhaley@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Adam Haley",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJRPunHsWxtq3tLgAbcXe5z4ARWI9ii7YkadHutUMKS9zDI25oi=s64",
+            "me": true,
+            "permissionId": "00502410147390681063",
+            "emailAddress": "adamhaley@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "00502410147390681063",
+              "type": "user",
+              "emailAddress": "adamhaley@gmail.com",
+              "role": "owner",
+              "displayName": "adamhaley",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "00502410147390681063"
+          ],
+          "originalFilename": "Untitled",
+          "fullFileExtension": "png",
+          "fileExtension": "png",
+          "md5Checksum": "2d2a9f400ae681ff1b084b27aff1d098",
+          "sha1Checksum": "a94ab9ec399c9c5632a2eec438acf261869bbe6c",
+          "sha256Checksum": "325db944645d52fac17c9d87f9ee87334abbc5682a689bebdcc25a2e79057982",
+          "size": "1914099",
+          "quotaBytesUsed": "1914099",
+          "headRevisionId": "0B-IsbVpaBNybTmxEOWhyYW1aT3BsOHpiTkVWeThWMzB6VGZVPQ",
+          "imageMediaMetadata": {
+            "width": 1024,
+            "height": 1024,
+            "rotation": 0
+          },
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Extract Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Custom GPT": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Fields": {
+      "main": [
+        [
+          {
+            "node": "Send to Custom GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Attach Image to Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b9c9fde9-e65a-4ccd-9168-93ec855ccef7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "758deb40de42bd43f63cee96dbf5765c08f7c6d28f0ee911ebacc0511319da36"
+  },
+  "id": "ExcihJ43FjG7kS22",
+  "tags": []
+}
