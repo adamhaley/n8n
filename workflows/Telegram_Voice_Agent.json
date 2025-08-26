@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-07T23:04:32.664Z",
-  "updatedAt": "2025-08-07T23:08:37.000Z",
+  "updatedAt": "2025-08-25T16:54:12.000Z",
   "id": "G5MBrx5mkLfmRYqg",
   "name": "Telegram Voice Agent",
   "active": false,
@@ -304,14 +304,14 @@
     {
       "parameters": {
         "content": "## Telegram AI Agent Wrapper\n",
-        "height": 224,
-        "width": 448,
+        "height": 720,
+        "width": 928,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1568,
+        -1648,
         -256
       ],
       "id": "a30cd189-1d11-4997-bd50-8197654968e8",
@@ -515,7 +515,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "57c9821a-a258-41e4-bd67-40266bd1cb8f",
+  "versionId": "c258dd25-4a45-4e1c-bad2-a9570ca0a722",
   "triggerCount": 1,
   "shared": [
     {
