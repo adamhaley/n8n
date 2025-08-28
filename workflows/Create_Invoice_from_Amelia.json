@@ -1,0 +1,857 @@
+{
+  "createdAt": "2025-08-27T21:34:21.422Z",
+  "updatedAt": "2025-08-27T21:34:21.000Z",
+  "id": "anAWyvObi9GnY4sg",
+  "name": "Create Invoice from Amelia",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 9
+            }
+          ]
+        }
+      },
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        80,
+        240
+      ],
+      "id": "48178a6f-0a6b-4219-bcbf-05293dcb2a43"
+    },
+    {
+      "parameters": {
+        "functionCode": "const discounts = {\n  \"Marc Torrisi\": 30,\n  \"Qualin Critch\": 50,\n  \"Shane Bentley\": 26,\n  \"Jo Sharpe\": 26,\n  \"Qualin Gritch\": 26,\n  \"Cheryl Solomon\": 26  \n};\n\nreturn items.map(item => {\n  const fullName = `${item.json.firstName} ${item.json.lastName}`;\n  const basePrice = item.json.booking_price ?? item.json.service_price ?? 0;\n  const discount = discounts[fullName] || 0;\n  const finalPrice = Math.max(basePrice - discount, 0);\n\n  item.json.finalPrice = finalPrice;\n  item.json.discount = discount;\n  return item;\n});"
+      },
+      "name": "Apply Discounts & Final Price",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        240
+      ],
+      "id": "2c279328-14a4-4967-ab6d-d37fc0891633"
+    },
+    {
+      "parameters": {
+        "url": "https://api.stripe.com/v1/customers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        592
+      ],
+      "id": "72a056a3-b58d-4ddc-bf83-f2b9cc5a9998",
+      "name": "Get Stripe Customer",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "url": "https://ronnieadamowicz.com/wp-admin/admin-ajax.php?action=wpamelia_api&call=/api/v1/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dates",
+              "value": "={{ $now.format('y-MM-dd') }},{{ $now.format('y-MM-dd') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        240
+      ],
+      "id": "394b7daa-b0b6-476a-bb77-ab4b0aac3b00",
+      "name": "Get Todays Bookings"
+    },
+    {
+      "parameters": {
+        "jsCode": "return JSON.parse( $input.first().json.data );"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        240
+      ],
+      "id": "64cd5372-4e08-468d-8022-11607534fda8",
+      "name": "Parse"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8bb3a713-18bc-462f-94ab-3a5ac8259809",
+              "name": "booking_id",
+              "value": "={{ $json.bookings[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "b2dba125-a90a-4ac3-bc4b-dc8b65b59508",
+              "name": "customerId",
+              "value": "={{ $json.bookings[0].customer.id }}",
+              "type": "string"
+            },
+            {
+              "id": "c093a6ca-1445-47ea-a65d-dacd280c0076",
+              "name": "email",
+              "value": "={{ $json.bookings[0].customer.email }}",
+              "type": "string"
+            },
+            {
+              "id": "e9c03b8a-c84d-4b3f-8306-4a734962fdfc",
+              "name": "firstName",
+              "value": "={{ $json.bookings[0].customer.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "008cf26b-41dd-483c-85b9-48ec991b2afd",
+              "name": "lastName",
+              "value": "={{ $json.bookings[0].customer.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "82ebf150-b1f7-469e-873a-3984f07b6d9b",
+              "name": "bookingStart",
+              "value": "={{ $json.bookingStart }}",
+              "type": "string"
+            },
+            {
+              "id": "6a6e9500-6026-42f6-a2c5-53a257414981",
+              "name": "service_id",
+              "value": "={{ $json.serviceId }}",
+              "type": "string"
+            },
+            {
+              "id": "9c5b47ee-8e2c-4434-8ca0-49f04b2627ff",
+              "name": "service_name",
+              "value": "={{ $json.service.name }}",
+              "type": "string"
+            },
+            {
+              "id": "20829e43-b5e7-405c-ba10-d860c1b6751d",
+              "name": "service_price",
+              "value": "={{ $json.service.price }}",
+              "type": "string"
+            },
+            {
+              "id": "1e7e2cd2-238e-4638-a28d-c6e511fc3dad",
+              "name": "booking_price",
+              "value": "={{ $json.service.price }}",
+              "type": "string"
+            },
+            {
+              "id": "aed4c695-f952-4dbb-a38e-05d8ac3067d1",
+              "name": "payment_status",
+              "value": "={{ $json.bookings[0].payments[0].status }}",
+              "type": "string"
+            },
+            {
+              "id": "7baa19ee-9f36-419e-a279-098df94b86ac",
+              "name": "appointment_status",
+              "value": "={{ $json.bookings[0].status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        976,
+        240
+      ],
+      "id": "db31744d-02a3-4440-851d-c31d1dfd5669",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "## Get Todays Bookings\n-9:00am schedule trigger\n-Get all of today's bookings",
+        "height": 224,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "47432482-28c3-415d-8ae5-c06e450974f0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Format customer Booking Data\n\n- parse JSON\n- Flatten array\n- [Set]-extract customer object\n- Apply Discounts\n- add searchName\n- Filter out service_id=2, Already Paid, Canceled",
+        "height": 464,
+        "width": 1424,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        480,
+        0
+      ],
+      "id": "74d1a5ac-dbe9-46a9-985e-06c064e70379",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.stripe.com/v1/invoices",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "customer",
+              "value": "={{ $json.customer }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1936,
+        528
+      ],
+      "id": "7674c469-4db2-4937-9e04-8121a6a39721",
+      "name": "Create Stripe Invoice"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.stripe.com/v1/invoiceitems",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "customer",
+              "value": "={{ $json.customer }}"
+            },
+            {
+              "name": "amount",
+              "value": "={{ $json.amount }}"
+            },
+            {
+              "name": "currency",
+              "value": "={{ $json.currency }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $json.description }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        528
+      ],
+      "id": "61b851a5-6050-4bf7-a804-d4e4602c7753",
+      "name": "Stripe Invoice Items"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {\n  customer:$json.data[0].id,\n  amount: Math.floor($('Filter Service_id != 2 and Not Paid and Not Cancelled').item.json.finalPrice * 100),\n  currency: 'aud',\n  description: $('Map Stripe Emails / add searchName').item.json.service_name + ' on ' + $('Map Stripe Emails / add searchName').item.json.bookingStart\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        528
+      ],
+      "id": "8c6be4b6-9b0f-4f0f-ae60-1fb51b0b7ff6",
+      "name": "Map Line Item Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f4ebe7e7-a0e0-40dc-b663-615a9c776284",
+              "leftValue": "={{ $json.service_id }}",
+              "rightValue": "2",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "425e9144-73d6-4c94-8caf-78aea5c0b751",
+              "leftValue": "={{ $json.payment_status }}",
+              "rightValue": "paid",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "f2a2b078-11e2-41f0-8027-a3d043e3bf5f",
+              "leftValue": "={{ $json.appointment_status }}",
+              "rightValue": "canceled",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        240
+      ],
+      "id": "6959b3a6-0686-43fe-8c64-ec6a812fd228",
+      "name": "Filter Service_id != 2 and Not Paid and Not Cancelled"
+    },
+    {
+      "parameters": {
+        "jsCode": "const root = $input.first().json.data;\nconst apptsObj = root?.appointments;\n\n\nif (!apptsObj || !Object.keys(apptsObj).length) return [];\n\nconst firstDateKey = Object.keys(apptsObj).sort()[0];\nconst day = apptsObj[firstDateKey];\nconst appointments = Array.isArray(day?.appointments) ? day.appointments : [];\n\n\nreturn appointments.map(a => ({ json: a }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        240
+      ],
+      "id": "7dc6cf43-553b-4713-89b6-1336d35fa04d",
+      "name": "Flatten"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "//adjust emails for those who have different lookup email in Stripe\n// Map of Amelia email -> Stripe email\nlet emailMap = {\n  \"critch.q@gmail.com\": \"invoices@myintegra.com.au\",      // Qualin Critch\n  \"manofgod8766@gmail.com\": \"invoices@ndsp.com.au\",       // Shane Bentley\n  \"dohertyjarod@gmail.com\": \"shimonaf@spotlight.com.au\",  // Jarod Doherty\n  \"joanne.sharpe@ozemail.com.au\": \"ndispayments@adec.org.au\" // Joanne Sharpe\n\n};\n\nlet email = $json.email;\nif (emailMap[$json.email]) {\n  $json.originalEmail = $json.email; // keep original for reference\n  $json.email = emailMap[$json.email];\n}\n\n\n$json.searchName = ($json.firstName + ' ' + $json.lastName).toLowerCase();\n\n\nreturn $json;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        240
+      ],
+      "id": "b5edbb0c-9726-4306-a681-95907bbb1ced",
+      "name": "Map Stripe Emails / add searchName"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        528,
+        496
+      ],
+      "id": "c309ddd7-93d1-4dc5-beb1-49d596dfd34c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "31972656-01af-41f5-8986-516e942bcb75",
+              "leftValue": "={{ $json.default_source }}",
+              "rightValue": "src_",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        496
+      ],
+      "id": "ac885cf5-5952-4843-b685-5723bcd4735f",
+      "name": "Filter Only With Payment Method"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a200b53a-b743-411d-b416-53bf40255e7a",
+              "name": "data",
+              "value": "={{[$json]}}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        496
+      ],
+      "id": "d6ab755a-fff8-41eb-a4fa-e75837cf17c8",
+      "name": "Add data key"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Multiple Stripe Records found\n- If found multiple Customer Accts, filter by the one with a payment method\n",
+        "height": 448,
+        "width": 1120,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        480
+      ],
+      "id": "73d3a0d4-fc17-4be7-a58c-0368db1941f3",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e3770025-2fb8-4930-a351-19cbe7986535",
+              "leftValue": "={{ $json.data }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "array",
+                "operation": "lengthGt",
+                "rightType": "number"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        592
+      ],
+      "id": "9497cd57-526c-4975-b5b2-177b3fa44a61",
+      "name": "If Multiple Records"
+    },
+    {
+      "parameters": {
+        "content": "## Create Record In Stripe\n",
+        "height": 240,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        688
+      ],
+      "id": "67475b92-349b-4d05-a84d-2597dcf25660",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.stripe.com/v1/customers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=name",
+              "value": "={{ $json.data[0].name }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json.data[0].email }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $json.data[0].description }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        736
+      ],
+      "id": "ff689d13-a6ba-466c-bacb-1a39d0dc905a",
+      "name": "Create Stripe Customer"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "array",
+                      "operation": "lengthGt",
+                      "rightType": "number"
+                    },
+                    "id": "89de3963-97ca-4de4-adc1-3243167e99fa"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stripe_record_exists"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2b7e418d-5972-4af3-9da3-0dadffb6de6e",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "array",
+                      "operation": "lengthLt",
+                      "rightType": "number"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stripe_record_does_not_exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1200,
+        544
+      ],
+      "id": "eeb06147-2839-410a-a7a7-2c68c7adf599",
+      "name": "Stripe Record Exists Or Not"
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Todays Bookings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Discounts & Final Price": {
+      "main": [
+        [
+          {
+            "node": "Map Stripe Emails / add searchName",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Stripe Customer": {
+      "main": [
+        [
+          {
+            "node": "If Multiple Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Todays Bookings": {
+      "main": [
+        [
+          {
+            "node": "Parse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse": {
+      "main": [
+        [
+          {
+            "node": "Flatten",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Apply Discounts & Final Price",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stripe Invoice Items": {
+      "main": [
+        [
+          {
+            "node": "Create Stripe Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Line Item Data": {
+      "main": [
+        [
+          {
+            "node": "Stripe Invoice Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Service_id != 2 and Not Paid and Not Cancelled": {
+      "main": [
+        [
+          {
+            "node": "Get Stripe Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Stripe Emails / add searchName": {
+      "main": [
+        [
+          {
+            "node": "Filter Service_id != 2 and Not Paid and Not Cancelled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter Only With Payment Method",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Only With Payment Method": {
+      "main": [
+        [
+          {
+            "node": "Add data key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add data key": {
+      "main": [
+        [
+          {
+            "node": "Stripe Record Exists Or Not",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Multiple Records": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stripe Record Exists Or Not",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stripe Record Exists Or Not": {
+      "main": [
+        [
+          {
+            "node": "Map Line Item Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Stripe Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Stripe Customer": {
+      "main": [
+        [
+          {
+            "node": "Map Line Item Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Cron Trigger": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "versionId": "013911df-b123-45f3-94df-c6bed38c98d9",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-27T21:34:21.429Z",
+      "updatedAt": "2025-08-27T21:34:21.429Z",
+      "role": "workflow:owner",
+      "workflowId": "anAWyvObi9GnY4sg",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
