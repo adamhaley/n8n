@@ -1,0 +1,349 @@
+{
+  "createdAt": "2025-08-27T21:32:41.598Z",
+  "updatedAt": "2025-08-27T21:32:41.000Z",
+  "id": "UfTKSznjDey9dfXr",
+  "name": "Wordpress Config",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "={{ $json.wordpress_url }}/wp-json/wp/v2/categories",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        304
+      ],
+      "id": "45362dc3-fc1d-4d15-ab55-c81e057c3cae",
+      "name": "Get Categories"
+    },
+    {
+      "parameters": {
+        "jsCode": "/// Build a lookup map keyed by slug\nlet categoryMap = {};\nfor (const item of items) {\n  categoryMap[item.json.slug] = {\n    id: item.json.id,\n    name: item.json.name\n  };\n}\n\n// Return a single item with top-level \"categories\"\nreturn [{ json: { categories: categoryMap } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        304
+      ],
+      "id": "15ba6041-e8af-4541-a4ad-2d1ad96a95ea",
+      "name": "Parse Categories"
+    },
+    {
+      "parameters": {
+        "jsCode": "let categories = [\n  {\n    name: 'Tech',\n    slug: 'tech',\n    author: 'joe-blow',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Artificial Intelligence',\n        'Tech Ethics',\n        'Blockchain',\n        'Metaverse',\n        'Digital Realestate',\n        'Cloud Computing',\n        'Virtual Reality / Augmented Reality',\n        'Robotics',\n        'Autonomous',\n        'Drones',\n        'Smart Home',\n        'Software Development',\n        'Retro Tech',\n        'Open Source',\n        'Smart Cities',\n        'Tech Regulation',\n        '3D Printing',\n        'Creative Coding',\n        'Cybersecurity',\n        'Automation',\n        'Robotic Automation',\n        'Streaming Technology',\n        'Green Technology',\n        'Renewable Energy Tech',\n        'Data Center',\n        'Communication',\n        'Data Breach',\n        'Data Leaks',\n        'Pytorch',\n        'Python',\n        'ComfyUI',\n        'n8n',\n        'GitHub'\n      ],\n      and_or: 'and'\n    }\n  },\n  {\n    name: 'Art & Music',\n    slug: 'art-music',\n    author: 'jane-doe',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Digital Art',\n        'Generative Art',\n        'AI Art',\n        'AI Music',\n        'Generative Music',\n        'AI Music Tools',\n        'Algorithmic Art',\n        'NFT Art',\n        'Augmented Reality Art',\n        'Virtual Reality Art',\n        'Procedural Art',\n        'Art Tech Platforms',\n        'Generative Design',\n        'AI-Generated Music',\n        'Holographic Art',\n        'Robotic Art',\n        'Digital Collectibles',\n        '3D Animation',\n        'Game Design',\n        'Digital Photography',\n        'AI Design',\n        'Creative AI Tools',\n        'Digital Storytelling',\n        'midjourney',\n        'Image Generation',\n        'Leonardo.ai',\n        'Kling Ai',\n        'Stable Diffusion',\n        'FLUX',\n        'DALL•E',\n        'Adobe Firefly',\n        'Sora',\n        'Runway',\n        'Veo',\n        'Dream Machine',\n        'Hunyuan'\n      ],\n      and_or: 'and'\n    }\n  },\n  {\n    name: 'Business',\n    slug: 'business',\n    author: 'joe-blow',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Tech Startups',\n        'Venture Capital',\n        'Tech IPOs',\n        'Tech Policy',\n        'E-commerce',\n        'Film Industry',\n        'Fashion Industry',\n        'Entertainment',\n        'Adult Entertainment',\n        'Quantum Computing',\n        'FinTech',\n        'Smart Contracts',\n        'Decentralized Finance (DeFi)',\n        'Blockchain Business',\n        'Cryptocurrency',\n        'Cloud Computing Solutions',\n        'Digital Payments',\n        'Tech Regulation',\n        'Intellectual Property',\n        'Workforce',\n        'Remote Work',\n        'Enterprise Software',\n        'Marketing',\n        'Copyright Infringement',\n        'AdTech',\n        'Property Tech',\n        'Health Tech',\n        'Education Tech',\n        'Market Crash',\n        'Crypto Crash',\n        'Trading Platform',\n        'Trading Tools',\n        'Trading Algorithms',\n        'Video Game Streaming',\n        'Streaming Platform',\n        'Social Media',\n        'Facebook',\n        'Youtube',\n        'OpenAi',\n        'TikTok',\n        'Twitch',\n        'Meta',\n        'Google Cloud',\n        'Google Labs',\n        'Claude',\n        'Grok',\n        'Tesla',\n        'Amazon',\n        'Adobe',\n        'Apple',\n        'IBM',\n        'Microsoft Azure',\n        'AWS'\n      ],\n      and_or: 'and'\n    }\n  },\n  {\n    name: 'Culture',\n    slug: 'culture',\n    author: 'jane-doe',\n    data: {\n      rss: 'https://lorem-rss.herokuapp.com/feed?length=1',\n      tags: [\n        'Satire',\n        'Wearable Technology',\n        'Food Tech',\n        'Robot Workers',\n        'AI Companion',\n        'AI Love',\n        'Heartbreak',\n        'Deepfake',\n        'Celebrity Fakes',\n        'Fakes',\n        'Online Dating',\n        'Social Media',\n        'Cyberstalking',\n        'Virtual Romance',\n        'Scams',\n        'Crypto Scams',\n        'Phishing Scams',\n        'Digital Heists',\n        'Cancel Culture',\n        'Online Shaming',\n        'Meme',\n        'Viral',\n        'Internet Troll',\n        'Privacy Invasion',\n        'Spying',\n        'Cyberbullying',\n        'Online Harassment',\n        'Doppelgänger',\n        'Digital Clones',\n        'Rage',\n        'Censorship',\n        'Culture',\n        'Esports',\n        'Esports Betting',\n        'Online Gambling',\n        'Sports Gambling',\n        'Addiction',\n        'Social Media Addiction',\n        'Hacked',\n        'Webcam',\n        'Fraud',\n        'Clickbait',\n        'Traps',\n        'Thirst Trap',\n        'Pranks',\n        'Fail',\n        'Fails',\n        'Infidelity',\n        'Vigilante',\n        'Justice',\n        'Darkweb',\n        'Drugs',\n        'Psychedelics',\n        'Psychedelic Research',\n        'Drug Market',\n        'Misinformation',\n        'Disinformation',\n        'Conspiracy Theory',\n        'Conspiracies',\n        'Protest',\n        'Porn',\n        'Sex Workers',\n        'Influencer',\n        'Streamer',\n        'Cyberculture',\n        'Digital Footprint',\n        'Dopamine',\n        'Identity Theft',\n        'Chatbot',\n        'Comedy',\n        'Memes',\n        'Social Media Trends',\n        'Cyberpunk',\n        'Gaming Culture',\n        'Fandom',\n        'Debate',\n        'Cyberactivism',\n        'Hacktivism',\n        'Ethical Hacking',\n        'Quantum Theory',\n        'Multiverse'\n      ],\n      and_or: 'and'\n    }\n  }\n];\n\n// ---- helpers ----\nconst slugify = (s) => s.toString()\n  .trim().toLowerCase()\n  .normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '')\n  .replace(/[^a-z0-9]+/g, '-')\n  .replace(/(^-|-$)+/g, '');\n\n// ---- extract WP payload from input OR fallback to other nodes ----\nlet wpTagsMap, wpCategoriesMap, wpAuthorsMap;\n\n// 1) Try from current input\nconst payload = items?.[0]?.json;\nif (payload && Array.isArray(payload.data)) {\n  for (const entry of payload.data) {\n    if (entry.tags)       wpTagsMap       = entry.tags;\n    if (entry.categories) wpCategoriesMap = entry.categories;\n    if (entry.authors)    wpAuthorsMap    = entry.authors;\n  }\n}\n\n// 2) Fallback: try named nodes if you have them\nif (!wpTagsMap)        wpTagsMap        = $items('Parse Tags')?.[0]?.json?.tags;\nif (!wpCategoriesMap)  wpCategoriesMap  = $items('Parse Categories')?.[0]?.json?.categories;\nif (!wpAuthorsMap)     wpAuthorsMap     = $items('Parse Authors')?.[0]?.json?.authors;\n\n// Guard against undefined\nwpTagsMap        = wpTagsMap       || {};\nwpCategoriesMap  = wpCategoriesMap || {};\nwpAuthorsMap     = wpAuthorsMap    || {};\n\n// Convenience slug→id maps\nconst tagSlugToId = Object.fromEntries(Object.entries(wpTagsMap).map(([slug, obj]) => [slug, obj.id]));\nconst catSlugToId = Object.fromEntries(Object.entries(wpCategoriesMap).map(([slug, obj]) => [slug, obj.id]));\nconst authorSlugToId = Object.fromEntries(Object.entries(wpAuthorsMap).map(([slug, obj]) => [slug, obj.id]));\n\n// ---- annotate categories with WP id/slug if present ----\nconst mergedCategories = categories.map(c => {\n  const slug = c.slug ? c.slug : slugify(c.name);\n  const wpCat = wpCategoriesMap[slug]; // { id, name } if exists\n  return {\n    ...c,\n    slug,\n    wp: {\n      id: wpCat ? wpCat.id : null,\n      slug: wpCat ? slug : null,\n      matched: !!wpCat\n    }\n  };\n});\n\n// ---- final return ----\nreturn [{\n  json: {\n    categories: mergedCategories,\n    wp: {\n      url: $('Set Target Wordpress URL').first().json.wordpress_url,\n      categories: wpCategoriesMap,  // slug → {id,name}\n      tags: wpTagsMap,              // slug → {id,name}\n      authors: wpAuthorsMap,        // slug → {id,name}\n      maps: {\n        categorySlugToId: catSlugToId,\n        tagSlugToId: tagSlugToId,\n        authorSlugToId: authorSlugToId\n      }\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        304
+      ],
+      "id": "594bfd34-8d09-4f32-a5a3-e88f4a2f002c",
+      "name": "Config"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        976,
+        288
+      ],
+      "id": "2367db43-7708-4d3f-8401-64ed62a19c36",
+      "name": "Merge Tags and Categories"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        304
+      ],
+      "id": "20d750cb-a251-48f4-8d65-ae88a0b74739",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.wordpress_url }}/wp-json/wp/v2/tags",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        112
+      ],
+      "id": "f6fc581b-581d-4fa6-9133-d1acc5290340",
+      "name": "GET Wordpress Tags"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build a lookup map keyed by slug\nlet tagMap = {};\nfor (const item of items) {\n  tagMap[item.json.slug] = {\n    id: item.json.id,\n    name: item.json.name\n  };\n}\n\n// Return a single item with top-level \"tags\"\nreturn [{ json: { tags: tagMap } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        112
+      ],
+      "id": "8359d069-33be-49b3-b8a6-f5d9de0f5ad5",
+      "name": "Parse Tags"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "wordpress_url"
+            }
+          ]
+        }
+      },
+      "id": "14d2212d-81f8-4739-9822-956f0f3a5bc3",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        80,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9e65ede-b79b-4e75-b1fc-2aee37f5a137",
+              "name": "wordpress_url",
+              "value": "https://test.artificialinfringement.com/index.php",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        304
+      ],
+      "id": "b32531eb-22f4-47b6-ab0b-5c7ccc25fb87",
+      "name": "Set Target Wordpress URL"
+    },
+    {
+      "parameters": {
+        "content": "## Get Wordpress Tags, Categories, and Authors\n- Get Data from wordpress. These will be passed to the GPT to insure it generates tags only based off what is in Wordpress\n- RETURN config complete with helper functions to access Tags, Categories, and Authors via slugs as keys and return wordpress IDs",
+        "height": 640,
+        "width": 1072,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        480,
+        0
+      ],
+      "id": "e6970a5b-7084-4840-9f65-ff38d8b49d1c",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Set Wordpress Target to POST to\n- edit this node to point to a different blog\n- NOTE: you will need to update the credential to match the new blog as well\n",
+        "height": 656,
+        "width": 464,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "105bca72-c9e9-4bfa-8e2e-b3c4e385a183",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build a lookup map keyed by author slug\nlet authorMap = {};\nfor (const item of items) {\n  authorMap[item.json.slug] = {\n    id: item.json.id,\n    name: item.json.name\n    // Optionally add more WP fields if you requested them:\n    // link: item.json.link,\n    // avatar_urls: item.json.avatar_urls\n  };\n}\n\n// Return a single item with top-level \"authors\"\nreturn [{ json: { authors: authorMap } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        480
+      ],
+      "id": "faf9a79c-046b-4c4d-ac8b-c272f01a86d1",
+      "name": "Parse Authors"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.wordpress_url }}/wp-json/wp/v2/users",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        480
+      ],
+      "id": "c03ccefb-3c78-4587-8ec8-181207b2e22b",
+      "name": "Get Authors"
+    }
+  ],
+  "connections": {
+    "GET Wordpress Tags": {
+      "main": [
+        [
+          {
+            "node": "Parse Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Tags": {
+      "main": [
+        [
+          {
+            "node": "Merge Tags and Categories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Categories": {
+      "main": [
+        [
+          {
+            "node": "Parse Categories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Tags and Categories": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Categories": {
+      "main": [
+        [
+          {
+            "node": "Merge Tags and Categories",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Target Wordpress URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target Wordpress URL": {
+      "main": [
+        [
+          {
+            "node": "GET Wordpress Tags",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Categories",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Authors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Authors": {
+      "main": [
+        [
+          {
+            "node": "Parse Authors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Authors": {
+      "main": [
+        [
+          {
+            "node": "Merge Tags and Categories",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "dc8457e2-2db6-4f8e-a6ae-4b67edf83479",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-27T21:32:41.604Z",
+      "updatedAt": "2025-08-27T21:32:41.604Z",
+      "role": "workflow:owner",
+      "workflowId": "UfTKSznjDey9dfXr",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
