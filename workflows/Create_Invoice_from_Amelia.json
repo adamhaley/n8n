@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-27T21:34:21.422Z",
-  "updatedAt": "2025-08-27T21:34:21.000Z",
+  "updatedAt": "2025-08-29T16:17:19.000Z",
   "id": "anAWyvObi9GnY4sg",
   "name": "Create Invoice from Amelia",
   "active": false,
@@ -842,7 +842,7 @@
       }
     ]
   },
-  "versionId": "013911df-b123-45f3-94df-c6bed38c98d9",
+  "versionId": "6d8deef1-f861-474b-886d-4ca639612f6e",
   "triggerCount": 0,
   "shared": [
     {
