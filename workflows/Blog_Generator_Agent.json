@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-27T21:31:55.009Z",
-  "updatedAt": "2025-08-27T21:31:55.000Z",
+  "updatedAt": "2025-08-31T22:36:48.000Z",
   "id": "7PUN0MsnChwYbrXm",
   "name": "Blog Generator Agent",
   "active": false,
@@ -136,8 +136,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1408,
-        624
+        2128,
+        96
       ],
       "id": "bfa0e6dc-7c26-4e8a-9214-556c9930a691",
       "name": "Generate an image"
@@ -161,8 +161,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        720,
-        896
+        1888,
+        320
       ],
       "id": "13adc35c-5d02-4991-a4f1-4e802216af9e",
       "name": "Upload file"
@@ -182,8 +182,8 @@
       "type": "n8n-nodes-base.wordpress",
       "typeVersion": 1,
       "position": [
-        1088,
-        1184
+        784,
+        816
       ],
       "id": "1b24963f-bbb9-4ecc-b7b5-c938a766e790",
       "name": "Create a post"
@@ -192,14 +192,14 @@
       "parameters": {
         "content": "## POST To Wordpress\n\n- Load articles from Google Sheetset to publish=true and Publish Date set to Today's date\n- Load articles from Google Sheet set to publish=true and Publish Date set to blank\n\nThese options allow Blog Articles to be cued up days or weeks in advance, OR auto-post today if no date set ",
         "height": 720,
-        "width": 624,
+        "width": 2512,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         0,
-        864
+        608
       ],
       "id": "0f7d3af8-1f05-48ca-b66e-8fabec439a31",
       "name": "Sticky Note2"
@@ -217,8 +217,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        1408,
-        1184
+        1088,
+        816
       ],
       "id": "a382f8e0-f53e-4232-8d3f-33a8515d337f",
       "name": "Download file"
@@ -245,8 +245,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        1088,
-        1440
+        1776,
+        944
       ]
     },
     {
@@ -278,8 +278,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        720,
-        1440
+        1424,
+        944
       ]
     },
     {
@@ -292,8 +292,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        640,
-        544
+        1584,
+        0
       ],
       "id": "bc9c827a-4b55-4dba-9f8d-f6ab01cca7e0",
       "name": "Sticky Note3"
@@ -349,8 +349,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        416,
-        1072
+        288,
+        816
       ],
       "id": "4dc6f996-6ebc-4030-8de7-5d0ea5144250",
       "name": "Get With Blank Publish Date"
@@ -391,8 +391,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        416,
-        1312
+        288,
+        1040
       ],
       "id": "992f9a6b-2726-49fd-9d1e-da6341185997",
       "name": "Get with Today's Publish Date"
@@ -402,8 +402,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        720,
-        1184
+        496,
+        944
       ],
       "id": "8da8ec5f-0822-4cf4-8552-6f62472998f6",
       "name": "Merge"
@@ -523,8 +523,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1088,
-        624
+        1888,
+        96
       ],
       "id": "ecd29641-d541-4fa4-a446-ae0641297444",
       "name": "Create Article in Sheet"
@@ -645,8 +645,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1088,
-        896
+        2128,
+        320
       ],
       "id": "64d9d5e6-464f-4747-b35c-9d227516d30b",
       "name": "Update Image in Article"
@@ -659,8 +659,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        720,
-        624
+        1664,
+        96
       ],
       "id": "464b120c-b8cd-4246-ada1-34e7fb7f6dae",
       "name": "Parse GPT Output"
@@ -695,8 +695,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -192,
-        1200
+        -176,
+        928
       ],
       "id": "38d4554c-9c6a-4cd7-a30d-3f73e23b2e96",
       "name": "Post Trigger"
@@ -771,8 +771,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        112,
-        1200
+        80,
+        928
       ],
       "name": "Call Wordpress Config1",
       "id": "9708fc50-53cf-4821-b6db-902030bcfd88"
@@ -928,8 +928,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1408,
-        1440
+        2096,
+        800
       ],
       "id": "1c9ed005-b1b4-447d-89f6-baf67ce979f7",
       "name": "Update row in sheet"
@@ -1186,7 +1186,7 @@
       }
     ]
   },
-  "versionId": "a741f6db-e9d3-4c4e-8aca-66ef4b1da6b2",
+  "versionId": "fd3c6c0c-3624-4648-a33f-fc11b4d44a80",
   "triggerCount": 0,
   "shared": [
     {
