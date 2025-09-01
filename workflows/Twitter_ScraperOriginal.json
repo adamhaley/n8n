@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-08-07T23:42:17.548Z",
-  "updatedAt": "2025-08-07T23:47:25.000Z",
+  "updatedAt": "2025-08-31T22:24:31.000Z",
   "id": "N5TvZwAU0lEjnTLi",
   "name": "Twitter ScraperOriginal",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {},
@@ -479,7 +479,7 @@
       }
     ]
   },
-  "versionId": "2fdcac67-7611-41a0-88df-79da7ebb2a95",
+  "versionId": "b4ffdafe-1e5c-4efb-a20f-102f01fdaa38",
   "triggerCount": 0,
   "shared": [
     {
