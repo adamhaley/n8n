@@ -1,0 +1,28 @@
+{
+  "createdAt": "2025-08-31T22:32:19.253Z",
+  "updatedAt": "2025-08-31T22:32:19.000Z",
+  "id": "qQy09FOkFkC3RxAP",
+  "name": "4 days ago booking reminder",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "a73c7378-1895-4d2a-a81e-400f6b56cf1b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-31T22:32:19.261Z",
+      "updatedAt": "2025-08-31T22:32:19.261Z",
+      "role": "workflow:owner",
+      "workflowId": "qQy09FOkFkC3RxAP",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
