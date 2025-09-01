@@ -1,0 +1,1255 @@
+{
+  "createdAt": "2025-08-31T22:37:58.573Z",
+  "updatedAt": "2025-09-01T00:03:34.000Z",
+  "id": "Z4IKFnGBMqQUF76I",
+  "name": "Blog Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "cb447f7d-25b1-45b9-bce2-41bceee5966b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.rss }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        16
+      ],
+      "id": "658c9d3e-694d-4c48-83a4-b9514fdfcfff",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "content": "## GENERATE Blogs\n- run workflow manually\n- run workflow on a schedule\n\n",
+        "height": 528,
+        "width": 624,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -208
+      ],
+      "id": "6c0e7073-7976-46fd-a318-c29d41f40bb4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "##  Load Data Source\n- Load RSS feeds defined in Code node\n- extract title and content",
+        "height": 528,
+        "width": 384
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -208
+      ],
+      "id": "63a6ad3a-04e2-4582-a531-7aec0a6e122d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_S04M10ZsOJTKjnFcyaYBJRZ0",
+          "mode": "list",
+          "cachedResultName": "Re-Write Assistant "
+        },
+        "prompt": "define",
+        "text": "=Please create a blog post based on the following:  \"\"{{ $('Extract Fields').item.json.content }} \"\"\n\nThe writing will be in one of the following two styles based on Author name and I will tell you after presenting the two styles which Author name to use this time: \nYou are a blog-writing assistant. Adjust your tone and style based on the provided `Author` field:\n\n- If Author = \"Joe Blow\":  \n  Write in the voice of a Tech and Business writer.  \n  Style: Authoritative and direct. Matter-of-fact, trustworthy, professional.  \n  Avoid fluff, focus on clarity, precision, and useful insights.\n\n- If Author = \"Jane Doe\":  \n  Write in the voice of a Culture, Arts, and Fashion writer.  \n  Style: Creative and relatable. Friendly yet sassy, current, and conversational.  \n  Use a modern, playful tone that connects with the reader while staying insightful.\n\nAuthor: {{ $('Extract Fields').item.json.author }}\n\nGenerate a Title and Content as well as a list of tags for Wordpress and output your generated article in the following JSON format.Tags must be picked from the following list: {{ $('Call Wordpress Config').item.json.wp.tags.keys().join(', ') }}. Only return the following json structure with the generated field values. no extraneous content outsside of the json: \n```\n{\n  \"title\": \"Lorem Ipsum\",\n  \"tags\": [\"tag1\",\"tag2\",\"tag3\",\"tag4\"],\n  \"content\": \"Dolor Samet. Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \"\n\n}\n```",
+        "options": {
+          "preserveOriginalTools": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1616,
+        16
+      ],
+      "id": "e5d93a52-a796-4e02-8fd2-7031bc97ff9b",
+      "name": "Send to Custom GPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6eb7ffe3-5d24-43e9-a4a0-e367d93bff5d",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "eb6f8674-da6f-44c8-9173-8d9127a674b8",
+              "name": "content",
+              "value": "={{ $json.content }}",
+              "type": "string"
+            },
+            {
+              "id": "7819e6a4-b954-482b-a468-b77adfc4055f",
+              "name": "author",
+              "value": "={{ $('Split Out').item.json.author }}",
+              "type": "string"
+            },
+            {
+              "id": "927c9e24-0d9c-4cf3-8efc-742623cccffd",
+              "name": "category",
+              "value": "={{ $('Split Out').item.json.slug }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1408,
+        16
+      ],
+      "id": "cf7a864d-9bfb-478f-afe3-b98d091df7c8",
+      "name": "Extract Fields"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "prompt": "=You are an image generator that takes incoming article text and creates the perfect image to go with that article for posting to a blog. Here is the article:\n\n \"{{ $json.Title }}\"\n\n{{ $json.Content }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2448,
+        -112
+      ],
+      "id": "00ed5e22-bea6-4662-b0bf-48ea880ca603",
+      "name": "Generate an image",
+      "credentials": {
+        "openAiApi": {
+          "id": "5GRgzlcJ5Ujkvgcd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Parse GPT Output').item.json.title }}.png",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2208,
+        112
+      ],
+      "id": "73c8d4fb-d80f-41cc-9de9-f6bb63e1e803",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "reZwBdwR7JImRDL0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Merge').item.json.Title }}",
+        "additionalFields": {
+          "authorId": "={{ $('Call Wordpress Config1').item.json.wp.maps.authorSlugToId[ $json.Author] }}",
+          "content": "={{ $('Merge').item.json.Content }}",
+          "status": "publish",
+          "date": "={{ $now }}",
+          "categories": "={{ $('Call Wordpress Config1').item.json.categories[0].wp.id }}",
+          "tags": "={{  $json.tags.split(', ').map( item => $('Call Wordpress Config1').item.json.wp.maps.tagSlugToId[item]  ).join(',')}}"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        608
+      ],
+      "id": "248a4db9-cf16-4922-b7b8-121d77b2fd92",
+      "name": "Create a post"
+    },
+    {
+      "parameters": {
+        "content": "## POST To Wordpress\n\n- Load articles from Google Sheetset to publish=true and Publish Date set to Today's date\n- Load articles from Google Sheet set to publish=true and Publish Date set to blank\n\nThese options allow Blog Articles to be cued up days or weeks in advance, OR auto-post today if no date set ",
+        "height": 720,
+        "width": 2512,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        400
+      ],
+      "id": "a2b26439-387d-4d0a-b4b0-f8c9f18c4ea7",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Merge').item.json.Image }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1408,
+        608
+      ],
+      "id": "0595a38e-42f1-4d8f-87f7-9e5efb5de4ca",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "reZwBdwR7JImRDL0",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Call Wordpress Config1').item.json.wp.url }}/wp-json/wp/v2/posts/{{ $('Create a post').item.json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "featured_media",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1e0a7078-0e59-4cf4-b016-84cb1d9ff8cd",
+      "name": "Attach Image to Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2096,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Call Wordpress Config1').item.json.wp.url }}/wp-json/wp/v2/media ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "image/png"
+            },
+            {
+              "name": "content-disposition",
+              "value": "=attachment; filename=\"image-{{ $json.id }}.png\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "de4bf1ba-dbbc-417a-bad0-8a11c146b117",
+      "name": "Upload Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1744,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Add Record to Sheet, Generate Image",
+        "height": 528,
+        "width": 928,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1904,
+        -208
+      ],
+      "id": "50bf9b8d-06fb-4bbc-b989-f403062e01e3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Send to Custom GPT",
+        "height": 528,
+        "width": 528,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        -208
+      ],
+      "id": "d433d288-9ebc-47bf-984e-ce8d68315390",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Publish",
+              "lookupValue": "true"
+            },
+            {
+              "lookupColumn": "Publish Date"
+            },
+            {
+              "lookupColumn": "Published At"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        608
+      ],
+      "id": "7bfa4741-962f-4a2d-9b50-97ac14819fa0",
+      "name": "Get With Blank Publish Date",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Publish",
+              "lookupValue": "true"
+            },
+            {
+              "lookupColumn": "Publish Date",
+              "lookupValue": "={{ $now.format('M/dd/y') }}"
+            },
+            {
+              "lookupColumn": "Published At"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        832
+      ],
+      "id": "4b850887-8f07-4078-bd48-37289f7a2ef6",
+      "name": "Get with Today's Publish Date",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        816,
+        736
+      ],
+      "id": "670bbf12-60c4-49ec-8e11-51650a499c96",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Content": "={{ $json.content }}",
+            "Title": "={{ $json.title }}",
+            "Author": "={{ $('Extract Fields').item.json.author }}",
+            "tags": "={{ $json.tags.join(', ') }}",
+            "Category": "={{ $('Extract Fields').item.json.category }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Publish Date",
+              "displayName": "Publish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tags",
+              "displayName": "tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2208,
+        -112
+      ],
+      "id": "2902b885-5a0a-4639-8902-583325f9a2da",
+      "name": "Create Article in Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Image": "={{ $json.webViewLink }}",
+            "Title": "={{ $('Parse GPT Output').item.json.title }}"
+          },
+          "matchingColumns": [
+            "Title"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Publish Date",
+              "displayName": "Publish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tags",
+              "displayName": "tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2448,
+        112
+      ],
+      "id": "3d5ef960-1cc5-4c41-8ec5-c33b5e48ad9b",
+      "name": "Update Image in Article",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\nlet input = $json.output;\n// Match the first triple-backtick block and capture inner JSON\nlet match = input.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n\nif (match && match[1]) {\n  let cleaned = match[1].trim();\n  return JSON.parse(cleaned);\n} else {\n  return 'No JSON Found';  \n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        -112
+      ],
+      "id": "8a6bc128-a4fb-4612-b40f-a0b44405ebe7",
+      "name": "Parse GPT Output"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        144
+      ],
+      "id": "455b1888-0579-4f59-8963-ef878f744d09",
+      "name": "Generate Trigger"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        720
+      ],
+      "id": "a257d68b-89f5-44a9-8c30-27b75aaa769f",
+      "name": "Post Trigger"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "8U9xOu5hAfB9ync8",
+          "mode": "list",
+          "cachedResultName": "Wordpress Config"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "wordpress_url",
+              "displayName": "wordpress_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        736,
+        16
+      ],
+      "name": "Call Wordpress Config",
+      "id": "1e197b0e-7b1b-47c9-9e0d-996681abede0"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "8U9xOu5hAfB9ync8",
+          "mode": "list",
+          "cachedResultName": "Wordpress Config"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "wordpress_url",
+              "displayName": "wordpress_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        720
+      ],
+      "name": "Call Wordpress Config1",
+      "id": "18f4eab7-70fc-49db-aa53-1fcc76315c73"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "categories",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        976,
+        16
+      ],
+      "id": "411f6570-6961-46d8-859d-1edbe56bc5d1",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0",
+          "mode": "list",
+          "cachedResultName": "Blogs Generated",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 240688560,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15PecHcsacz7SNiZ6ijUgiMp0I17B8kcmoFSOeLfksl0/edit#gid=240688560"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $('Merge').item.json.Title }}",
+            "Published At": "={{ $now.format('MM/dd/y hh:mm a') }}"
+          },
+          "matchingColumns": [
+            "Title"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Author",
+              "displayName": "Author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Publish",
+              "displayName": "Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Publish Date",
+              "displayName": "Publish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Published At",
+              "displayName": "Published At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tags",
+              "displayName": "tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2416,
+        592
+      ],
+      "id": "728ddd38-f3a4-4b9b-a324-6964a4e2ee6f",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Call Wordpress Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Extract Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Custom GPT": {
+      "main": [
+        [
+          {
+            "node": "Parse GPT Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Fields": {
+      "main": [
+        [
+          {
+            "node": "Send to Custom GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Update Image in Article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Attach Image to Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get With Blank Publish Date": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get with Today's Publish Date": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Parse GPT Output": {
+      "main": [
+        [
+          {
+            "node": "Create Article in Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Article in Sheet": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Trigger": {
+      "main": [
+        [
+          {
+            "node": "Call Wordpress Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Trigger": {
+      "main": [
+        [
+          {
+            "node": "Call Wordpress Config1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Wordpress Config1": {
+      "main": [
+        [
+          {
+            "node": "Get With Blank Publish Date",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get with Today's Publish Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Wordpress Config": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attach Image to Post": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Post Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-08-26T16:27:57.913-07:00",
+          "Readable date": "August 26th 2025, 4:27:57 pm",
+          "Readable time": "4:27:57 pm",
+          "Day of week": "Tuesday",
+          "Year": "2025",
+          "Month": "August",
+          "Day of month": "26",
+          "Hour": "16",
+          "Minute": "27",
+          "Second": "57",
+          "Timezone": "America/Los_Angeles (UTC-07:00)"
+        }
+      }
+    ]
+  },
+  "versionId": "9f4a511c-db17-4c74-bccb-5f8433c78c87",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-31T22:37:58.576Z",
+      "updatedAt": "2025-08-31T22:37:58.576Z",
+      "role": "workflow:owner",
+      "workflowId": "Z4IKFnGBMqQUF76I",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
