@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T22:37:58.573Z",
-  "updatedAt": "2025-09-01T00:03:34.000Z",
+  "updatedAt": "2025-09-01T17:19:00.000Z",
   "id": "Z4IKFnGBMqQUF76I",
   "name": "Blog Generator",
   "active": false,
@@ -201,7 +201,7 @@
       "typeVersion": 1,
       "position": [
         1104,
-        608
+        560
       ],
       "id": "248a4db9-cf16-4922-b7b8-121d77b2fd92",
       "name": "Create a post"
@@ -217,7 +217,7 @@
       "typeVersion": 1,
       "position": [
         320,
-        400
+        368
       ],
       "id": "a2b26439-387d-4d0a-b4b0-f8c9f18c4ea7",
       "name": "Sticky Note2"
@@ -236,7 +236,7 @@
       "typeVersion": 3,
       "position": [
         1408,
-        608
+        560
       ],
       "id": "0595a38e-42f1-4d8f-87f7-9e5efb5de4ca",
       "name": "Download file",
@@ -270,7 +270,7 @@
       "typeVersion": 4.1,
       "position": [
         2096,
-        736
+        688
       ]
     },
     {
@@ -303,7 +303,7 @@
       "typeVersion": 4.1,
       "position": [
         1744,
-        736
+        688
       ]
     },
     {
@@ -374,7 +374,7 @@
       "typeVersion": 4.7,
       "position": [
         608,
-        608
+        560
       ],
       "id": "7bfa4741-962f-4a2d-9b50-97ac14819fa0",
       "name": "Get With Blank Publish Date",
@@ -422,7 +422,7 @@
       "typeVersion": 4.7,
       "position": [
         608,
-        832
+        784
       ],
       "id": "4b850887-8f07-4078-bd48-37289f7a2ef6",
       "name": "Get with Today's Publish Date",
@@ -439,7 +439,7 @@
       "typeVersion": 3.2,
       "position": [
         816,
-        736
+        688
       ],
       "id": "670bbf12-60c4-49ec-8e11-51650a499c96",
       "name": "Merge"
@@ -744,7 +744,7 @@
       "typeVersion": 1.2,
       "position": [
         144,
-        720
+        672
       ],
       "id": "a257d68b-89f5-44a9-8c30-27b75aaa769f",
       "name": "Post Trigger"
@@ -820,7 +820,7 @@
       "typeVersion": 1.2,
       "position": [
         400,
-        720
+        672
       ],
       "name": "Call Wordpress Config1",
       "id": "18f4eab7-70fc-49db-aa53-1fcc76315c73"
@@ -977,7 +977,7 @@
       "typeVersion": 4.7,
       "position": [
         2416,
-        592
+        544
       ],
       "id": "728ddd38-f3a4-4b9b-a324-6964a4e2ee6f",
       "name": "Update row in sheet",
@@ -1240,7 +1240,7 @@
       }
     ]
   },
-  "versionId": "9f4a511c-db17-4c74-bccb-5f8433c78c87",
+  "versionId": "b9be5ad0-5930-47d2-a328-66e02d5306f1",
   "triggerCount": 0,
   "shared": [
     {
