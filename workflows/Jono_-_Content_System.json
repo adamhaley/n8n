@@ -1,0 +1,3524 @@
+{
+  "createdAt": "2025-09-04T16:13:15.271Z",
+  "updatedAt": "2025-09-04T16:13:15.000Z",
+  "id": "bTW4JkOPo9oYCQVq",
+  "name": "Jono - Content System",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "de339b2f-7f11-43ab-8541-175522725cb2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        752
+      ],
+      "id": "dd615df2-3722-46f0-9b4d-d6377679cb90",
+      "name": "Webhook",
+      "webhookId": "de339b2f-7f11-43ab-8541-175522725cb2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "TRUE",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Delivery",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        160
+      ],
+      "id": "a3b1b0c7-395b-4bc7-9c9f-f1fc08182cb2",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "3. Scheduled",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 14,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "facd9d86-a88b-4b2f-abc5-4096b26762b6",
+              "leftValue": "={{ $json.body.rowValues[0]['2'] }}",
+              "rightValue": "Short",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        336
+      ],
+      "id": "06167c61-f421-48c2-8e6a-15763798441d",
+      "name": "Filter2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "=⭐⭐⭐⭐",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 8,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "5156fd13-09a1-4410-b2d5-4b6674922646",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 10,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        1136
+      ],
+      "id": "ece851a6-a255-4e1d-aee5-d9e05de611e0",
+      "name": "Filter3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "=3. Scheduled",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 14,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        832
+      ],
+      "id": "bf9cf58a-5983-4b20-afb6-fe43ff566d16",
+      "name": "Filter4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "=7. Pending Publish",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 14,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        528
+      ],
+      "id": "bad57ebc-ac4a-406d-8c5e-e9479d29632e",
+      "name": "Filter5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "=⭐",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 8,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "5156fd13-09a1-4410-b2d5-4b6674922646",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 10,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            },
+            {
+              "id": "be0f6668-0788-40ab-b173-da798e32cd03",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "⭐⭐⭐⭐",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        1296
+      ],
+      "id": "ee3f862b-928e-4b70-9743-393bdf88c27e",
+      "name": "Filter6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "5. Assets Required",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 14,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "facd9d86-a88b-4b2f-abc5-4096b26762b6",
+              "leftValue": "={{ $json.body.rowValues[0]['2'] }}",
+              "rightValue": "Short",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        688
+      ],
+      "id": "a883d487-e4e4-496e-be2f-be2830962183",
+      "name": "Filter7"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "423a444a-e209-4c57-bf33-eb6984077512",
+              "leftValue": "={{ $json.body.value }}",
+              "rightValue": "0.",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c9fd949a-fdb7-40f6-aa30-f976a8fe16b6",
+              "leftValue": "={{ $json.body.sheetName }}",
+              "rightValue": "Content Ideas",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "77163752-dba8-4cf8-b9c7-766e58e4e4c2",
+              "leftValue": "={{ $json.body.range.columnStart }}",
+              "rightValue": 14,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        976
+      ],
+      "id": "57f8c30b-1403-4aff-8330-db06ce70be25",
+      "name": "Filter8"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "deleteFolder",
+        "folderNoRootId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.rowValues[0]['15'] }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        976
+      ],
+      "id": "2ca5d803-ab15-4bd3-8736-117db7e9c1b8",
+      "name": "Google Drive"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08Q8317QQY",
+          "mode": "list",
+          "cachedResultName": "production"
+        },
+        "text": "=🔔 Hey <@U08RLQ6G8LW>, a new video has been filmed that you need to find visuals for:  \n{{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        688
+      ],
+      "id": "1e5290b7-7b0a-4106-bd0b-0575720f05ba",
+      "name": "Slack",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "U08RLQ6G8LW",
+          "mode": "list",
+          "cachedResultName": "gerenteluisflorez"
+        },
+        "text": "=🔔 Hey <@U08RLQ6G8LW>, a new video has been filmed that you need to find visuals for:  \n{{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        688
+      ],
+      "id": "453b4e25-9874-4222-b9b7-de9d772e1ed1",
+      "name": "Slack1",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Create a timeline for the video",
+        "additionalFields": {
+          "assignees": [
+            99977521
+          ],
+          "content": "=Please create a timeline, with all the assets for this video (once Jono's filmed it): {{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}. Here's the Drive folder {{ $('Webhook').item.json.body.rowValues[0]['6'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').item.json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 10
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        208,
+        688
+      ],
+      "id": "a5bc2d30-fc0e-44c9-8c56-53c149b315ff",
+      "name": "ClickUp"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0",
+          "mode": "list",
+          "cachedResultName": "Content Pipeline - 06/23/2025",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2045625226,
+          "mode": "list",
+          "cachedResultName": "Content Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit#gid=2045625226"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "0. Rejected",
+            "row_number": "={{ $json.body.range.rowStart }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "™",
+              "displayName": "™",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Virality",
+              "displayName": "Virality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Channel",
+              "displayName": "Channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paula",
+              "displayName": "Paula",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Benson",
+              "displayName": "Benson",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Luis",
+              "displayName": "Luis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Checklist",
+              "displayName": "Checklist",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Split Test",
+              "displayName": "Split Test",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Type",
+              "displayName": "Video Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Drive URL",
+              "displayName": "Drive URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Drive ID",
+              "displayName": "Drive ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Editor",
+              "displayName": "Editor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tag",
+              "displayName": "Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Gut Intuition",
+              "displayName": "Gut Intuition",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Passed",
+              "displayName": "Passed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "YouTube Top",
+              "displayName": "YouTube Top",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Bottleneck",
+              "displayName": "Bottleneck",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -224,
+        1296
+      ],
+      "id": "72f02ff5-f4e5-4ac6-a0d7-71271c5c0fbe",
+      "name": "Google Sheets"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Create a title and description for this video so that my editors can understand more about what this video is about.\n\n##Rules\nThe title shouldn't be more than 50 characters at a maximum.\nThe description shouldn't be more than 150 characters, just summarizing the video\n\nHere's a brief overview of what I do: I create social media videos around AI automation. Usually it's about me building out systems to automate business processes, talking about new releases, or how to leverage AI and automation to make money.",
+              "role": "system"
+            },
+            {
+              "content": "=This is the video:\nTitle: {{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}\nTranscript: {{ $json.content }}"
+            },
+            {
+              "content": "Output the data in JSON format with the following structure:\n{\n\"description\": \"\",\n\"title\": \"\"\n}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        208,
+        528
+      ],
+      "id": "23754540-7222-4a8e-b482-c1622dfecceb",
+      "name": "OpenAI"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You're an marketing and sales copywriter that will receive a title and description for a video and will have to turn that into social media captions for the following platforms: TikTok, Instagram, X, and LinkedIn. Your goal is to create captions that are  as close to 10/10 as possible when it comes to engagement. I want to add in results, give examples, and a personal story.\n\nGive sample results/examples/stories for now, and I'll change it later.\n\nI'm in the AI automation space, and I produce videos that provide blueprints + updates to people.\n\n#Rules\n1. Make the caption tailored to their respective platform.\n2. Always have a CTA of telling them to comment below with the keyword so that I can send them the blueprints or links to get started for free\n3. For Instagram & TikTok, always start with the CTA so that it's the first thing people see before the caption getting cut off\n4. Do not include a keyword that Instagram might flag or shadow ban, such as \"sell\", \"free\".\n5. Include relevant hashtags, such as #n8n #make #ai #automation #aiautomation #aiagent #aiagents, or anything else relevant \n6. Include the transcript of the video in TikTok and Instagram captions.\n7. Never use —'s. Use regular -'s.\n\n### EXAMPLES\n\n## X / TWITTER\n\n## LINKEDIN\n\n## INSTAGRAM \n\n\n## TIKTOK",
+              "role": "system"
+            },
+            {
+              "content": "=This is the information:\ntitle: {{ $json.message.content.title }}\ndescription: {{ $json.message.content.description }}\nVideo Transcript: {{ $('Google Docs').item.json.content }}"
+            },
+            {
+              "content": "Output the data in JSON format with the following structure:\n{\n\"instagram_caption\": \"\",\n\"tiktok_caption\": \"\",\n\"x_caption\": \"\",\n\"linkedin_caption\": \"\"\n}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        592,
+        528
+      ],
+      "id": "1e530df6-7b77-4434-a2c2-096ecb98513a",
+      "name": "OpenAI1"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "driveId": {
+            "__rl": true,
+            "value": "My Drive",
+            "mode": "list",
+            "cachedResultName": "My Drive",
+            "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.body.rowValues[0]['15'] }}",
+            "mode": "id"
+          },
+          "whatToSearch": "files",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        528
+      ],
+      "id": "5ddcf492-de04-4cf6-9891-45f2a9a48c65",
+      "name": "Google Drive1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        0,
+        528
+      ],
+      "id": "3abd45bb-3720-480a-b0fa-28d502e84727",
+      "name": "Google Docs",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "pageId": {
+          "__rl": true,
+          "value": "https://www.notion.so/Blueprints-1fc248138ab9801f82ddc80f02f021fb",
+          "mode": "url"
+        },
+        "title": "={{ $('OpenAI').item.json.message.content.title }}",
+        "simple": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        528
+      ],
+      "id": "5fec588f-c8f4-4360-8f1b-98582361e234",
+      "name": "Notion"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0",
+          "mode": "list",
+          "cachedResultName": "Content Pipeline - 06/23/2025",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Content Delivery",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.format('DD') }}",
+            "Blueprints Link": "={{ $json.url }}",
+            "Name": "={{ $('OpenAI').item.json.message.content.title }}",
+            "Description": "={{ $('OpenAI').item.json.message.content.description }}",
+            "Editor": "={{ $('Webhook').first().json.body.rowValues[0]['17'] || \"Esteban\" }}",
+            "Deadline": "={{ $now.plus(2, 'days')}}",
+            "Type": "={{ $('Webhook').first().json.body.rowValues[0]['3'] }}",
+            "RAW File Link": "={{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+            "Filmed": "TRUE",
+            "Edited": "FALSE",
+            "Approved": "FALSE",
+            "Published": "FALSE",
+            "ID": "={{ $('Webhook').first().json.body.rowValues[0]['15'] }}",
+            "Tag": "={{ $('Webhook').first().json.body.rowValues[0]['18'] }}",
+            "LinkedIn": "={{ $('OpenAI1').first().json.message.content.linkedin_caption }}",
+            "X": "={{ $('OpenAI1').first().json.message.content.x_caption }}",
+            "TikTok": "={{ $('OpenAI1').first().json.message.content.tiktok_caption }}",
+            "Instagram": "={{ $('OpenAI1').first().json.message.content.instagram_caption }}",
+            "Edited Link": "={{ $json.webViewLink }}",
+            "Thumbnail Link": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Editor",
+              "displayName": "Editor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "RAW File Link",
+              "displayName": "RAW File Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Filmed",
+              "displayName": "Filmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Edited Link",
+              "displayName": "Edited Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thumbnail Link",
+              "displayName": "Thumbnail Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Blueprints Link",
+              "displayName": "Blueprints Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Edited",
+              "displayName": "Edited",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Approved",
+              "displayName": "Approved",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Uploaded",
+              "displayName": "Uploaded",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Uploaded Link",
+              "displayName": "Uploaded Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Published",
+              "displayName": "Published",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tag",
+              "displayName": "Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "TikTok",
+              "displayName": "TikTok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram",
+              "displayName": "Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "X",
+              "displayName": "X",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn",
+              "displayName": "LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1392,
+        528
+      ],
+      "id": "f5c9ba8b-963a-46ea-887a-51d3908dede5",
+      "name": "Google Sheets1"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08Q8317QQY",
+          "mode": "list",
+          "cachedResultName": "production"
+        },
+        "text": "=🔔 New Video Upload\nName: {{ $('OpenAI').first().json.message.content.title }}\nType: {{ $('Webhook').first().json.body.rowValues[0]['3'] }} {{ $('Webhook').first().json.body.rowValues[0]['2'] }}\nDescription: {{ $('OpenAI').first().json.message.content.description }}\nEditor: {{ $if(\n  $('Webhook').first().json.body.rowValues[0]['17'] === \"Kunal\",\n  \"<@U091JQDBGRX>\",\n  $if(\n    $('Webhook').first().json.body.rowValues[0]['17'] === \"Agha\",\n    \"<@U08CG2CQ2UE>\",\n    \"<@U091F8PM4N9>\"\n  )\n) }}, can we please editing by 8am EST tomorrow, and if this is a Short, I need: \n1) a TikTok video with a thumbnail in it,\n2) A Instagram video without a thumbnail in it\n3) A separate thumbnail image\nClickup Task: {{ $('ClickUp1').first().json.url }}\n{{ $if($('Webhook').first().json.body.rowValues[0]['3'] === \"YouTube Long\", \"Thumbnail: <@U08MFBTMGP4> can you please finish the thumbnail by 9am EST tomorrow\"; \"\") }}\nDouble Check: <@U06DQEE80NR> can you please:\n1) Double check the video + thumbnail + captions\n2) Create the blueprints \n3) Create the LinkedIn image\n4) Upload tomorrow before 2pm\nClickup Task: {{ $json.url }}\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        3200,
+        528
+      ],
+      "id": "059fa474-0ccc-44c6-a3ff-4d3af824a8a5",
+      "name": "Slack2",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Video Editing",
+        "additionalFields": {
+          "assignees": "={{ [$if(\n  $('Webhook').first().json.body.rowValues[0]['17'] === \"Kunal\",\n  \"57204677\",\n  $if(\n    $('Webhook').first().json.body.rowValues[0]['17'] === \"Agha\",\n    \"78705162\",\n    \"99977522\"\n  )\n)] }}",
+          "content": "=Please edit this video:\n{{ $('Webhook').first().json.body.rowValues[0]['1'] }}\n\nIf this is a Short, I need:\n1) a TikTok video with a thumbnail in it,\n2) A Instagram video without a thumbnail in it\n3) A separate thumbnail image\n\nHere's the Drive folder\n{{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 300
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        528
+      ],
+      "id": "7e74765a-97ba-4b88-a771-af51ff3e2bbc",
+      "name": "ClickUp1"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $now.format('DD') }} - {{ $json.body.rowValues[0]['1'].substring(0,30) }} - {{ $json.body.rowValues[0]['3'] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1DzcQtM2GTlmY6nZ0OrxPJfnw5zqZwB1T",
+          "mode": "list",
+          "cachedResultName": "RAW files",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1DzcQtM2GTlmY6nZ0OrxPJfnw5zqZwB1T"
+        },
+        "options": {
+          "simplifyOutput": false
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        832
+      ],
+      "id": "2269c082-d8b2-4b69-b1bd-ee126c8eea42",
+      "name": "Google Drive2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0",
+          "mode": "list",
+          "cachedResultName": "Content Pipeline - 06/23/2025",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2045625226,
+          "mode": "list",
+          "cachedResultName": "Content Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit#gid=2045625226"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Webhook').first().json.body.range.rowStart }}",
+            "Drive ID": "={{ $json.id }}",
+            "Drive URL": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Virality",
+              "displayName": "Virality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Channel",
+              "displayName": "Channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paula",
+              "displayName": "Paula",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Benson",
+              "displayName": "Benson",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Luis",
+              "displayName": "Luis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Checklist",
+              "displayName": "Checklist",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Split Test",
+              "displayName": "Split Test",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Type",
+              "displayName": "Video Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Drive URL",
+              "displayName": "Drive URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Drive ID",
+              "displayName": "Drive ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Editor",
+              "displayName": "Editor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tag",
+              "displayName": "Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Gut Intuition",
+              "displayName": "Gut Intuition",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Passed",
+              "displayName": "Passed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "YouTube Top",
+              "displayName": "YouTube Top",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Bottleneck",
+              "displayName": "Bottleneck",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        0,
+        832
+      ],
+      "id": "353d67d6-66de-44c2-93b0-a69ea885fb4a",
+      "name": "Google Sheets2"
+    },
+    {
+      "parameters": {
+        "folderId": "={{ $('Google Drive2').item.json.id }}",
+        "title": "={{ $now.format('DD') }} - {{ $('Webhook').item.json.body.rowValues[0]['1'] }} - {{ $('Webhook').item.json.body.rowValues[0]['3'] }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        208,
+        832
+      ],
+      "id": "8315c747-018a-4148-9742-5b32aa2cb57f",
+      "name": "Google Docs1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0",
+          "mode": "list",
+          "cachedResultName": "Content Pipeline - 06/23/2025",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2045625226,
+          "mode": "list",
+          "cachedResultName": "Content Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit#gid=2045625226"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Webhook').first().json.body.range.rowStart }}",
+            "Status": "2. Pending Idea Approval"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Virality",
+              "displayName": "Virality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Channel",
+              "displayName": "Channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paula",
+              "displayName": "Paula",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Benson",
+              "displayName": "Benson",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Luis",
+              "displayName": "Luis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Checklist",
+              "displayName": "Checklist",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Split Test",
+              "displayName": "Split Test",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Type",
+              "displayName": "Video Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Drive URL",
+              "displayName": "Drive URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Drive ID",
+              "displayName": "Drive ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Editor",
+              "displayName": "Editor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tag",
+              "displayName": "Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Gut Intuition",
+              "displayName": "Gut Intuition",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Passed",
+              "displayName": "Passed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "YouTube Top",
+              "displayName": "YouTube Top",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Bottleneck",
+              "displayName": "Bottleneck",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -224,
+        1136
+      ],
+      "id": "54b62412-1948-423c-99bf-df5b043a603b",
+      "name": "Google Sheets3"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08Q8317QQY",
+          "mode": "list",
+          "cachedResultName": "production"
+        },
+        "text": "=🔔 Hey <@U08RLQ6G8LW>, a new video has been scheduled that you need to build out: {{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}\nPlease create the video script, timeline and find the assets. The deadline for this video is tomrorow at 12pm EST.\nThe type of video is: {{ $('Webhook').item.json.body.rowValues[0]['3'] }}\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        960,
+        832
+      ],
+      "id": "6e9aee5a-18f2-4dab-9fa0-b46506e41e07",
+      "name": "Slack3",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "U08RLQ6G8LW",
+          "mode": "list",
+          "cachedResultName": "gerenteluisflorez"
+        },
+        "text": "=🔔 Hey <@U08RLQ6G8LW>, a new video has been scheduled that you need to build out: {{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}\nPlease create the video script, timeline and find the assets. The deadline for this video is tomrorow at 12pm EST.\nThe type of video is: {{ $('Webhook').item.json.body.rowValues[0]['3'] }}\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1168,
+        832
+      ],
+      "id": "be9b5e0a-8d60-416c-b7d0-4ff201b235cb",
+      "name": "Slack4",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $if($('Webhook').first().json.body.rowValues[0]['12'] === \"Build\", \"Please write the SOP here. Make sure to include the blueprints and all files in this folder\", \"Please write down a timeline for the visuals and assign myself or yourself to each item\") }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        432,
+        832
+      ],
+      "id": "1568d3a6-0cb3-4daf-aa84-a918f458623d",
+      "name": "Google Docs2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5e424cf5-075e-4891-8d22-7d76033676d1",
+              "leftValue": "={{ $('Webhook').item.json.body.rowValues[0]['2'] }}",
+              "rightValue": "Short",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        832
+      ],
+      "id": "d21bf945-c261-470f-bb8b-7e2fe3d8f306",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.range.columnStart }}",
+                    "rightValue": 12,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "ee861b23-eb15-47bf-8afe-b56917799cdd"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "529c28e6-b045-4140-a3e5-9c26b1e2fd07",
+                    "leftValue": "={{ $json.body.range.columnStart }}",
+                    "rightValue": 13,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cbeb15b0-9dea-4ad8-841d-4f82fec42ee7",
+                    "leftValue": "={{ $json.body.range.columnStart }}",
+                    "rightValue": 16,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -224,
+        160
+      ],
+      "id": "1850a7e3-77f3-4101-9fa3-8a7ed90babd1",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08Q8317QQY",
+          "mode": "list",
+          "cachedResultName": "production"
+        },
+        "text": "=🔔 Hey <@U08RLQ6G8LW>, a new video has been edited that you need to review: \n{{ $('Webhook').item.json.body.rowValues[0]['1'] }}\n\nPlease review the video and if there are changed required, please book a call with {{ $('Webhook').item.json.body.rowValues[0]['3'] }}. The deadline for this video is {{ $now.plus(1, 'days').format('DD') }} at 12pm EST.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0ef8dfe5-be65-406f-8d03-333b71b31482",
+      "name": "Slack5",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "U08RLQ6G8LW",
+          "mode": "list",
+          "cachedResultName": "gerenteluisflorez"
+        },
+        "text": "=🔔 Hey <@U08RLQ6G8LW>, a new video has been edited that you need to review: \n{{ $('Webhook').item.json.body.rowValues[0]['1'] }}\n\nPlease review the video and if there are changed required, please book a call with {{ $('Webhook').item.json.body.rowValues[0]['3'] }}. The deadline for this video is {{ $now.plus(1, 'days').format('DD') }} at 12pm EST.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4d7a6e84-4a51-436b-88f8-85bf0159dcee",
+      "name": "Slack6",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Approve Video Edit + Checklist",
+        "additionalFields": {
+          "assignees": [
+            99977521
+          ],
+          "content": "=Please preview the video and make sure you approve the edits:\n{{ $('Webhook').item.json.body.rowValues[0]['6'] }}\n\nHere's the checklist to approve:\nhttps://jonocatliff.notion.site/checklist?source=copy_link\n",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['17']] }}",
+          "timeEstimate": 10
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        432,
+        0
+      ],
+      "id": "0acbdf51-af64-463f-99fa-7cfe8f5944cc",
+      "name": "ClickUp2"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C08Q8317QQY",
+          "mode": "list",
+          "cachedResultName": "production"
+        },
+        "text": "=🔔 Hey <@U08R81XNH32>, a new video has been approved that you need to review: {{ $('Webhook').item.json.body.rowValues[0]['1'].substring(0,30) }}\n\nIf this is a Skool or YouTube video please upload this <@U06DQEE80NR>",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        160
+      ],
+      "id": "c7110cc0-9ac8-4bc5-a2f0-d513e7aa73c4",
+      "name": "Slack7",
+      "webhookId": "76d418f5-ca74-4d07-9dfd-4d10b7035922"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Approve Video Edit + Checklist",
+        "additionalFields": {
+          "assignees": [
+            26301095
+          ],
+          "content": "=Please preview the video and make sure you approve the edits:\n{{ $('Webhook').item.json.body.rowValues[0]['6'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['17']] }}",
+          "timeEstimate": 10
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        208,
+        160
+      ],
+      "id": "29eca292-b2e1-4972-b00d-a3720f5a39ed",
+      "name": "ClickUp3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b018d985-daaf-4f80-b3ee-b9ca94d6a9fe",
+              "leftValue": "={{ $('Webhook').item.json.body.rowValues[0]['5'] }}",
+              "rightValue": "YouTube Long",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "b9e663f4-7ff8-4659-a419-7c7996c77cfd",
+              "leftValue": "={{ $('Webhook').item.json.body.rowValues[0]['5'] }}",
+              "rightValue": "Skool",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        160
+      ],
+      "id": "e601d750-cf5e-4794-8450-c589858fae55",
+      "name": "Filter9"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Upload video",
+        "additionalFields": {
+          "assignees": [
+            105959246
+          ],
+          "content": "=Please preview the video and make sure you approve the edits:\n{{ $('Webhook').item.json.body.rowValues[0]['6'] }}",
+          "dueDate": "={{ $now.plus(1, 'days') }}",
+          "priority": 1,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['17']] }}",
+          "timeEstimate": 10
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        672,
+        160
+      ],
+      "id": "0e510df9-f376-47cc-bfba-82c6007c1c2b",
+      "name": "ClickUp4"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "deleteFolder",
+        "folderNoRootId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.rowValues[0]['16'] }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        0,
+        336
+      ],
+      "id": "b4545aa0-f926-49ba-ba64-b820ce977a99",
+      "name": "Google Drive3",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b018d985-daaf-4f80-b3ee-b9ca94d6a9fe",
+              "leftValue": "={{ $('Webhook').item.json.body.rowValues[0]['13'] }}",
+              "rightValue": "YouTube Long",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        336
+      ],
+      "id": "5be09ed0-ec7d-4e8e-8398-b57e58fd1d4f",
+      "name": "Filter10"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0",
+          "mode": "list",
+          "cachedResultName": "Content Pipeline - 06/23/2025",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2045625226,
+          "mode": "list",
+          "cachedResultName": "Content Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit#gid=2045625226"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "8. Published",
+            "Drive ID": "={{ $('Webhook').item.json.body.rowValues[0]['16'] }}"
+          },
+          "matchingColumns": [
+            "Drive ID"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Virality",
+              "displayName": "Virality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Channel",
+              "displayName": "Channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paula",
+              "displayName": "Paula",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Benson",
+              "displayName": "Benson",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Luis",
+              "displayName": "Luis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Checklist",
+              "displayName": "Checklist",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Split Test",
+              "displayName": "Split Test",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Type",
+              "displayName": "Video Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Drive URL",
+              "displayName": "Drive URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Drive ID",
+              "displayName": "Drive ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Editor",
+              "displayName": "Editor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tag",
+              "displayName": "Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Gut Intuition",
+              "displayName": "Gut Intuition",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Passed",
+              "displayName": "Passed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "YouTube Top",
+              "displayName": "YouTube Top",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Bottleneck",
+              "displayName": "Bottleneck",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        432,
+        336
+      ],
+      "id": "58403ba5-94c8-4673-a339-b72b5ea28c91",
+      "name": "Google Sheets4"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0",
+          "mode": "list",
+          "cachedResultName": "Content Pipeline - 06/23/2025",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 921990826,
+          "mode": "list",
+          "cachedResultName": "Published",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFmeif5wBsmnSy1cxHeN5HcyUs-Izizg9s1dJDsodn0/edit#gid=921990826"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Webhook').item.json.body.rowValues[0]['1'] }}",
+            "Blueprint": "={{ $('Webhook').item.json.body.rowValues[0]['10'] }}",
+            "Description": "={{ $('Webhook').item.json.body.rowValues[0]['2'] }}",
+            "Type": "={{ $('Webhook').item.json.body.rowValues[0]['5'] }}",
+            "Published Date": "={{ $now.format('DD') }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Blueprint",
+              "displayName": "Blueprint",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Published Date",
+              "displayName": "Published Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        672,
+        336
+      ],
+      "id": "e86d6c27-bcbe-463f-8ecf-84910a661b54",
+      "name": "Google Sheets5"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "LinkedIn Image + social media captions",
+        "additionalFields": {
+          "assignees": [
+            99977521,
+            105959246
+          ],
+          "content": "=Please create \n1) a LinkedIn image, and \n2) captions for X, LinkedIn, Instagram + TikTok this video:\n{{ $('Webhook').first().json.body.rowValues[0]['1'] }}\n\nIf this is a Short, I need:\n1) a TikTok video with a thumbnail in it,\n2) A Instagram video without a thumbnail in it\n3) A separate thumbnail image\nPlease make sure the editor provides this\n\nHere's the Drive folder\n{{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 300
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        528
+      ],
+      "id": "79d87bd7-4592-4016-9620-dc77ba19e0a9",
+      "name": "ClickUp5"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Google Drive1').first().json.name }} - Editing Folder",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.rowValues[0]['15'] }}",
+          "mode": "id"
+        },
+        "options": {
+          "simplifyOutput": false
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1168,
+        528
+      ],
+      "id": "5a9b5fce-fb16-4407-9a65-1aafda5abcfe",
+      "name": "Google Drive4"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Create TikTok video with thumbnail",
+        "additionalFields": {
+          "assignees": "={{ [$if(\n  $('Webhook').first().json.body.rowValues[0]['17'] === \"Kunal\",\n  \"57204677\",\n  $if(\n    $('Webhook').first().json.body.rowValues[0]['17'] === \"Agha\",\n    \"78705162\",\n    \"99977522\"\n  )\n)] }}",
+          "content": "=Please edit a TikTok version of this video:\n{{ $('Webhook').first().json.body.rowValues[0]['1'] }}\n\nThis must have a thumbnail in it in the first 0.2 milliseconds or less. Just enough for us to grab that frame as a thumbnail when uploading the video, but not long enough for people to now want to watch because it pauses.\n\nThe call to action at the end should be to comment down below to get access to the blueprints.\n\nThis is the same as the Instagram video just with a thumbnail in it.\n\nHere's the Drive folder\n{{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "parentId": "={{ $json.id }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 300
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        528
+      ],
+      "id": "6ce78c28-10cd-4ce8-af33-3c3e24fa64d4",
+      "name": "ClickUp6"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Create Instagram video",
+        "additionalFields": {
+          "assignees": "={{ [$if(\n  $('Webhook').first().json.body.rowValues[0]['17'] === \"Kunal\",\n  \"57204677\",\n  $if(\n    $('Webhook').first().json.body.rowValues[0]['17'] === \"Agha\",\n    \"78705162\",\n    \"99977522\"\n  )\n)] }}",
+          "content": "=Please edit an Instagram version of this video:\n{{ $('Webhook').first().json.body.rowValues[0]['1'] }}\n\nThis will not have a thumbnail in it. It's the same as TikTok just without the thumbnail.\n\nThe call to action at the end should be to comment down below to get access to the blueprints.\n\nHere's the Drive folder\n{{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "parentId": "={{ $('ClickUp1').item.json.id }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 300
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        528
+      ],
+      "id": "c68b1c64-df84-450d-a139-48a91f4b9dba",
+      "name": "ClickUp7"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Create Video Thumbnail",
+        "additionalFields": {
+          "assignees": "={{ [$if(\n  $('Webhook').first().json.body.rowValues[0]['17'] === \"Kunal\",\n  \"57204677\",\n  $if(\n    $('Webhook').first().json.body.rowValues[0]['17'] === \"Agha\",\n    \"78705162\",\n    \"99977522\"\n  )\n)] }}",
+          "content": "=Please edit an Thumbnail of this video:\n{{ $('Webhook').first().json.body.rowValues[0]['1'] }}\n\nThis will be the thumbnail used when uploading to Instagram, LinkedIn, and Twitter.\n\nHere's the Drive folder\n{{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "parentId": "={{ $('ClickUp1').item.json.id }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 300
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        528
+      ],
+      "id": "a10718fb-be13-4e43-8671-cf775e611fa9",
+      "name": "ClickUp8"
+    },
+    {
+      "parameters": {
+        "team": "9013414210",
+        "space": "90131835149",
+        "folderless": true,
+        "list": "901314359166",
+        "name": "Create a YouTube video",
+        "additionalFields": {
+          "assignees": "={{ [$if(\n  $('Webhook').first().json.body.rowValues[0]['17'] === \"Kunal\",\n  \"57204677\",\n  $if(\n    $('Webhook').first().json.body.rowValues[0]['17'] === \"Agha\",\n    \"78705162\",\n    \"99977522\"\n  )\n)] }}",
+          "content": "=Please edit a YouTube version of this video:\n{{ $('Webhook').first().json.body.rowValues[0]['1'] }}\n\nThe call to action at the end should be to view the description for the blueprints.\n\nHere's the Drive folder\n{{ $('Webhook').first().json.body.rowValues[0]['14'] }}",
+          "dueDate": "={{ $now.plus(2, 'days') }}",
+          "parentId": "={{ $('ClickUp1').item.json.id }}",
+          "priority": 3,
+          "status": "to do",
+          "tags": "={{ [$('Webhook').first().json.body.rowValues[0]['18']] }}",
+          "timeEstimate": 300
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2736,
+        528
+      ],
+      "id": "77d59d1a-4d51-49d9-8e06-cb774eaf406d",
+      "name": "ClickUp9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9793f92b-334b-4ad5-ac6f-de244b3bd0a5",
+              "leftValue": "={{ $json.body.rowValues[0]['2'] }}",
+              "rightValue": "Short",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1616,
+        528
+      ],
+      "id": "a52cd225-0c36-4afd-9eb1-c81472e9c5d8",
+      "name": "Filter11"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter4": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter5": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter6": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter7": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter8": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack": {
+      "main": [
+        [
+          {
+            "node": "Slack1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack1": {
+      "main": [
+        [
+          {
+            "node": "ClickUp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Google Drive4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Filter11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack3": {
+      "main": [
+        [
+          {
+            "node": "Slack4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Slack3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Slack5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Drive3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack5": {
+      "main": [
+        [
+          {
+            "node": "Slack6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack6": {
+      "main": [
+        [
+          {
+            "node": "ClickUp2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack7": {
+      "main": [
+        [
+          {
+            "node": "ClickUp3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp3": {
+      "main": [
+        [
+          {
+            "node": "Filter9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter9": {
+      "main": [
+        [
+          {
+            "node": "ClickUp4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive3": {
+      "main": [
+        [
+          {
+            "node": "Filter10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter10": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp5": {
+      "main": [
+        [
+          {
+            "node": "Slack2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp6": {
+      "main": [
+        [
+          {
+            "node": "ClickUp7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp7": {
+      "main": [
+        [
+          {
+            "node": "ClickUp8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp8": {
+      "main": [
+        [
+          {
+            "node": "ClickUp9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp9": {
+      "main": [
+        [
+          {
+            "node": "ClickUp5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter11": {
+      "main": [
+        [
+          {
+            "node": "ClickUp1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp1": {
+      "main": [
+        [
+          {
+            "node": "ClickUp6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Google Docs1": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "12ZMiLRfVHJuWwKCIbqaSR5xdjlgAmX0aYx0jpRw6vnI",
+          "name": "Aug 9, 2025 -  - ",
+          "mimeType": "application/vnd.google-apps.document"
+        }
+      }
+    ]
+  },
+  "versionId": "99412877-77aa-4708-8944-ccbc8cb9b4c9",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-04T16:13:15.283Z",
+      "updatedAt": "2025-09-04T16:13:15.283Z",
+      "role": "workflow:owner",
+      "workflowId": "bTW4JkOPo9oYCQVq",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
