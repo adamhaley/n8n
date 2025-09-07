@@ -1,0 +1,251 @@
+{
+  "createdAt": "2025-09-06T16:06:38.730Z",
+  "updatedAt": "2025-09-06T16:06:46.000Z",
+  "id": "Px97aCPjueSIVFd3",
+  "name": "Loop Analysys",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Loop Analysis Anna\n- store pointer to redis store (incrementing digit)\n- on schedule trigger, load next row in google sheet",
+        "height": 592,
+        "width": 672,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -32
+      ],
+      "id": "520fb87e-5887-4dd3-bc52-b9fb4a0cebf7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -96,
+        128
+      ],
+      "id": "91b33a6f-bd60-4c44-9698-ddeb4bb57abe",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4c490260-42d5-4342-bfac-1aa66ebd6785",
+              "name": "row_number",
+              "value": "={{ $json.megyk_incrementor }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        128
+      ],
+      "id": "26c11ec6-8c52-4ab7-a300-9ab90e995326",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "167pvvSqPMJdFm9r-aJRDDTXlWd_N7IwzvY1oz_7gals",
+          "mode": "list",
+          "cachedResultName": "Companies - AI Sales Team",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/167pvvSqPMJdFm9r-aJRDDTXlWd_N7IwzvY1oz_7gals/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 233130169,
+          "mode": "list",
+          "cachedResultName": "Google Test Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/167pvvSqPMJdFm9r-aJRDDTXlWd_N7IwzvY1oz_7gals/edit#gid=233130169"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "row_number",
+              "lookupValue": "={{ $json.row_number }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        224
+      ],
+      "id": "fae7d011-64c3-4dec-827f-665cad9db1cf",
+      "name": "Get row(s) in sheet"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "E9DIeC5qr9BvwdK8",
+          "mode": "list",
+          "cachedResultName": "Analyse \"Impressum\""
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_id": "={{ $json.row_number }}",
+            "company_name": "={{ $json.company }}",
+            "company_website": "={{ $json.website }}",
+            "location_link": "={{ $json.location_link }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "company_name",
+              "displayName": "company_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "location_link",
+              "displayName": "location_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "company_website",
+              "displayName": "company_website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        784,
+        320
+      ],
+      "id": "2321b1f3-9736-434c-ac9d-c5faa4b1c695",
+      "name": "Execute Analysys"
+    },
+    {
+      "parameters": {
+        "operation": "incr",
+        "key": "megyk_incrementor"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        96,
+        128
+      ],
+      "id": "643caa9a-41f3-451e-8656-915a546f0eab",
+      "name": "Redis"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Execute Analysys",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "1230a169-6663-40e6-b0a9-50da39511b97",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-06T16:06:38.733Z",
+      "updatedAt": "2025-09-06T16:06:38.733Z",
+      "role": "workflow:owner",
+      "workflowId": "Px97aCPjueSIVFd3",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
