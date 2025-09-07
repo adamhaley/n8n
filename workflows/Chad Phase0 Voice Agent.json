@@ -1,0 +1,706 @@
+{
+  "name": "Chad Phase0 Voice Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Receive Message').first().json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        192
+      ],
+      "id": "a9c7b0ef-5198-48e7-bd68-c912b7b6a921",
+      "name": "Download Message",
+      "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "ng1KnRwOQe4i8Ctd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Receive Message').first().json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $('Receive Message').first().json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        112,
+        288
+      ],
+      "id": "ff76d0e5-0ebe-48b9-a3ed-3ac2e24327dc",
+      "name": "Is Voice or Text?"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -624,
+        64
+      ],
+      "id": "b8154dd8-5058-41b1-bdad-cde8413179cd",
+      "name": "Receive Message",
+      "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924",
+      "credentials": {
+        "telegramApi": {
+          "id": "ng1KnRwOQe4i8Ctd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Receive Message').first().json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "reply.mp3"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2432,
+        176
+      ],
+      "id": "1d9ff8f4-974b-43fb-ab56-56ff64c65acf",
+      "name": "Send Audio Reply",
+      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d",
+      "credentials": {
+        "telegramApi": {
+          "id": "ng1KnRwOQe4i8Ctd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Receive Message').first().json.message.chat.id }}",
+        "text": "={{ $('Call CHAD CORE').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2736,
+        384
+      ],
+      "id": "1e74e8db-034e-4312-8c6c-5507a6dc971f",
+      "name": "Send Text Reply",
+      "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d",
+      "credentials": {
+        "telegramApi": {
+          "id": "ng1KnRwOQe4i8Ctd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Process Message from Telegram",
+        "height": 880,
+        "width": 1904,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -48
+      ],
+      "id": "b68ea67a-a0bc-4893-9d3d-f9653a353906",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Receive Message').first().json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
+                    "leftValue": "={{ $('Receive Message').first().json.message.text}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1776,
+        272
+      ],
+      "id": "f27a3b90-7c95-4fae-a74e-dec03decd0a3",
+      "name": "Is Voice or Text?1"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        688,
+        192
+      ],
+      "id": "370518b8-bc13-4b8b-bb3d-b19f999f540e",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "openAiApi": {
+          "id": "4nniNysr9C4INLD9",
+          "name": "OpenAi Adams Test Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.output }}",
+        "voice": "onyx",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2208,
+        176
+      ],
+      "id": "88c9651a-24f2-4ec4-be92-f685d1ecd455",
+      "name": "Generate audio",
+      "credentials": {
+        "openAiApi": {
+          "id": "4nniNysr9C4INLD9",
+          "name": "OpenAi Adams Test Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## TTS and Send back to Telegram",
+        "height": 864,
+        "width": 1312,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1616,
+        -32
+      ],
+      "id": "57bfd5fb-8995-4ed9-b9c4-d683adc80075",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "app_user"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        192
+      ],
+      "id": "0da3d4c1-6a15-432b-a82a-81860e0de2cc",
+      "name": "Lookup System Users",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
+        "text": "Access not authorized.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        576
+      ],
+      "id": "e726f59b-9e82-4c38-b64b-f36141f8f880",
+      "name": "Send Unauthorized Message",
+      "webhookId": "dd178122-d4c5-4a9b-b3ce-d3c39de825d8",
+      "credentials": {
+        "telegramApi": {
+          "id": "ng1KnRwOQe4i8Ctd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  output: $input.first().json.output\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        176
+      ],
+      "id": "e6195716-d06f-4e3c-a0da-d7a851ad626b",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "jsCode": "if( $('Receive Message').first().json.message?.voice ){\n return {\n   msg: $input.first().json.text\n }\n}else if( $('Receive Message').first().json.message?.text ){\n  return {\n    msg: $('Receive Message').first().json.message.text\n  }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        416
+      ],
+      "id": "ce2f6474-6b67-430a-bf16-a33578d5aded",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "jsCode": "let authUserIndex = $input.all().map( item => item.json.telegram_user_id ).indexOf( $(\"Receive Message\").first().json.message.from.id);\n\nif( authUserIndex !== -1 ){\n  return {\n    ...$json,\n    'authorized': true,\n  }\n  \n}else{\n  return {\n    'authorized': false\n  }\n  \n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        464
+      ],
+      "id": "2d9121d2-a76c-463f-bd5b-40a060ad4ab2",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "93aabae9-ffe1-4564-a0d1-8c94c29ca94d",
+              "leftValue": "={{ $json.authorized }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -144,
+        384
+      ],
+      "id": "56436b03-2aa0-4dc8-a67f-20dda06739b2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "tMNqUSccvqDrOclH",
+          "mode": "list",
+          "cachedResultName": "Chad Phase0 CORE Direct Tools"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sessionId": "={{ $('Receive Message').first().json.message.from.id }}",
+            "message": "={{ $json.msg }}",
+            "user": "={{ $('Code').item }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "sessionId",
+              "displayName": "sessionId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "userId",
+              "displayName": "userId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "user",
+              "displayName": "user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        416
+      ],
+      "id": "07285792-b455-4387-973d-e8d64c1735d9",
+      "name": "Call CHAD CORE"
+    }
+  ],
+  "pinData": {
+    "Receive Message": [
+      {
+        "json": {
+          "update_id": 522973242,
+          "message": {
+            "message_id": 37,
+            "from": {
+              "id": 6627695515,
+              "is_bot": false,
+              "first_name": "Adam",
+              "last_name": "Haley",
+              "username": "adamhaley7",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 6627695515,
+              "first_name": "Adam",
+              "last_name": "Haley",
+              "username": "adamhaley7",
+              "type": "private"
+            },
+            "date": 1757278605,
+            "voice": {
+              "duration": 4,
+              "mime_type": "audio/ogg",
+              "file_id": "AwACAgEAAxkBAAMlaL3xjcUyOEXbnlAYh3oFsKarXDMAArQEAAIVaOhFN_FOtuSGhnQ2BA",
+              "file_unique_id": "AgADtAQAAhVo6EU",
+              "file_size": 17528
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Download Message": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?": {
+      "main": [
+        [
+          {
+            "node": "Download Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Message": {
+      "main": [
+        [
+          {
+            "node": "Lookup System Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Audio Reply": {
+      "main": [
+        [
+          {
+            "node": "Send Text Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Voice or Text?1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Text Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate audio": {
+      "main": [
+        [
+          {
+            "node": "Send Audio Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookup System Users": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Generate audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Call CHAD CORE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Unauthorized Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call CHAD CORE": {
+      "main": [
+        [
+          {
+            "node": "Is Voice or Text?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "833109f1-1c60-405b-8dc4-c78fb5aa212e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e36638038ba027540464f5c7ca2a9e38142242a60ad22d34895c7e9597f46493"
+  },
+  "id": "vK4MuUuWdPTvTJN0",
+  "tags": []
+}

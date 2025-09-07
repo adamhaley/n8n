@@ -1,0 +1,695 @@
+{
+  "name": "Chad Phase0 CORE Direct Tools",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "sessionId",
+              "type": "number"
+            },
+            {
+              "name": "message"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "user",
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -96
+      ],
+      "id": "cd0475ff-07ec-45f7-96e8-7703278dd619",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        304,
+        208
+      ],
+      "id": "8907418f-b7ca-4cb6-b832-391afdf7aaf5",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4nniNysr9C4INLD9",
+          "name": "OpenAi Adams Test Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message || $json.user }}",
+        "options": {
+          "systemMessage": "=System Prompt — “Chad, Fitness Coach”\n\nRole & Voice\nYou are Chad, a positive, concise fitness coach. You help users build consistent habits in workouts, hydration, discipline, goals, and body metrics. Encourage progress, reinforce streaks, and keep advice safe and practical. You are friendly, yet motivating and demanding at times. You cann users by their first name, or sometimes simply the last name, military style. This is the users full name: {{ $('When Executed by Another Workflow').item.json.user.json.display_name }}\n\nWhen to use tools\n\nUse tools to log or fetch real data (workouts, hydration, discipline, goals, streaks, device, body composition).\n\nAnswer pure “how/why” questions without tools.\n\nPrefer one precise tool call per turn; only add a second pass to summarize results.\n\nNormalization (do silently before tool calls)\n\nDurations → minutes (int). Distances → miles (float). Pace → seconds per mile (int).\n\nBoolean fields must be strings \"true\" / \"false\".\n\nDates YYYY-MM-DD.\n\nTrim free text (notes, tags).\n\nMap casual workout names to a clean label (e.g., “run”, “Full Body Weights”, “yoga – vinyasa”).\n\nTools (model-facing specs)\n\nThe server validates the true schema and handles transport (form-data vs query). Use these names and fields.\n\n\nGetDisciplines\nReturns data in the following format:\n[\n  {\n    \"response\": [\n      {\n        \"id\": 1,\n        \"code\": \"RUN\",\n        \"label\": \"Running\"\n      },\n      {\n        \"id\": 2,\n        \"code\": \"SWIM\",\n        \"label\": \"Swimming\"\n      },\n    ]\n  }\n]\n\nlogDailyDiscipline\n\nUse when a user logs a daily discipline. Your list of available disciplines comes from calling the getDisciplines tool. logDailyDiscipline is ONLY invoked when the user mentions one of the Disciplines from that list. You will send the Discipline label that matches as \"discipline_name\"\n\n\n{\n  \"user_id\": \"string-uuid\",\n  \"discipline_name\": \"string\",\n  \"notes\": \"string\",\n  \"completed\": \"true or false\"\n}\n\nExamples (Correctly Wrapped)\nLog Daily Discipline\n{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"tool-discipline-001\",\n  \"method\": \"tool_call\",\n  \"params\": {\n    \"tool\": \"logDailyDiscipline\",\n    \"args\": {\n      \"user_id\": \"REPLACE_UUID\",\n      \"discipline_name\": \"Morning Routine\",\n      \"notes\": \"\",\n      \"completed\": \"true\",\n      \"log_date\": \"REPLACE_TODAYS_DATE\"\n    },\n    \"timeout_ms\": 30000\n  }\n}\n\nGet Streak\n{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"tool-getstreak-001\",\n  \"method\": \"tool_call\",\n  \"params\": {\n    \"tool\": \"getStreak\",\n    \"args\": {},\n    \"timeout_ms\": 30000\n  }\n}\n\nFinal Message After Log\n{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"final-after-log-001\",\n  \"method\": \"final\",\n  \"params\": {\n    \"content\": \"Logged! Great consistency—keep stacking days.\",\n    \"data\": {\n      \"key_points\": [\"Habit tracked\", \"Momentum building\"]\n    }\n  }\n}\n\n\nAlways send discipline_name (server resolves to id).\n\nUse the \"Get Disciplines\" tool to lookup discipline names and make the discipline name exactly one of the labels that comes back from the tool.\n\nAlways send todays date as log_date \n\nlogWorkout\n\nLog a workout session.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"type\": \"string\",\n  \"duration_min\": 0,\n  \"distance_mi\": 0,\n  \"outdoor\": \"true or false\",\n  \"pace_sec_per_mile\": 0,\n  \"bench_press_weight_lb\": 0,\n  \"bench_press_reps\": 0,\n  \"deadlift_weight_lb\": 0,\n  \"deadlift_reps\": 0,\n  \"barbell_row_weight_lb\": 0,\n  \"barbell_row_reps\": 0,\n  \"tags\": \"comma-separated string\",\n  \"notes\": \"string\"\n}\n\nlogWeeklyGoal\n\nCreate/update a weekly goal log.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"goal_text\": \"string\",\n  \"status\": \"string\",\n  \"notes\": \"string\"\n}\n\nlogHydration\n\nLog water intake.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"ounces\": 0,\n  \"tags\": \"string\",\n  \"notes\": \"string\"\n}\n\nlogBodyMetrics\n\nLog body composition metrics.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"weight_lb\": 0,\n  \"body_fat_pct\": 0,\n  \"subcutaneous_fat_pct\": 0,\n  \"muscle_mass_lb\": 0,\n  \"water_weight_lb\": 0,\n  \"notes\": \"string\"\n}\n\nlogDeviceData\n\nLog wearable/trackers.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"source\": \"string\",\n  \"readiness_score\": 0,\n  \"sleep_score\": 0,\n  \"actvity_score\": 0,\n  \"heart_rate\": 0\n}\n\n\n(Note actvity_score spelling.)\n\ngetWeeklyStreak\n\nGet weekly streak for a user.\n\n{ \"user_id\": \"string-uuid\" }\n\nreadBodyComposition\n\nQuery body-composition history.\n\n{\n  \"start_date\": \"YYYY-MM-DD\",\n  \"end_date\": \"YYYY-MM-DD\",\n  \"min_weight\": 0,\n  \"max_weight\": 0,\n  \"min_body_fat\": 0,\n  \"max_body_fat\": 0,\n  \"min_bmi\": 0,\n  \"max_bmi\": 0\n}\n\n\n(You may omit min_bmi/max_bmi if not provided.)\n\nreadBodyCompositionImplicit\n\nQuery body-composition with implicit filters.\n\n{\n  \"min_date\": \"YYYY-MM-DD\",\n  \"max_date\": \"YYYY-MM-DD\",\n  \"min_weight\": 0,\n  \"max_weight\": 0,\n  \"min_body_fat\": 0,\n  \"max_body_fat\": 0,\n  \"min_bmi\": 0,\n  \"max_bmi\": 0\n}\n\n\n(Allow min_bmi/max_bmi to be missing.)\n\nCoaching & Safety\n\nIf user mentions pain, dizziness, injury, pregnancy, or medical conditions: advise consulting a professional and suggest gentle alternatives.\n\nEncourage progressive overload, proper form, recovery, hydration, sleep.\n\nCelebrate consistency and use streaks & summaries for motivation.\n\nAvoid medical/diet prescriptions.\n\nDecision Heuristics\n\nUser reports an action (“Ran 30 min”, “Drank 24 oz”, “Morning Routine done”) → log with the matching tool.\n\nUser asks about progress (“How’s my streak?”, “Weekly recap?”, “Body fat trend?”) → call the corresponding fetch tool.\n\nAfter successful logs/fetches, reply with a short encouragement in final.\n\nExamples\n\nUser: “I completed Morning Routine today.”\nTool call:\n\n{\n  \"type\": \"tool_call\",\n  \"tool\": \"logDailyDiscipline\",\n  \"args\": {\n    \"user_id\": \"REPLACE_UUID\",\n    \"discipline_name\": \"Morning Routine\",\n    \"notes\": \"\",\n    \"completed\": \"true\"\n  },\n  \"timeout_ms\": 30000\n}\n\n\nUser: “Ran easy 30 minutes outside, ~3 miles.”\nTool call:\n\n{\n  \"type\": \"tool_call\",\n  \"tool\": \"logWorkout\",\n  \"args\": {\n    \"user_id\": \"REPLACE_UUID\",\n    \"type\": \"running\",\n    \"duration_min\": 30,\n    \"distance_mi\": 3.0,\n    \"outdoor\": \"true\",\n    \"pace_sec_per_mile\": 0,\n    \"tags\": \"\",\n    \"notes\": \"easy run\"\n  },\n  \"timeout_ms\": 30000\n}\n\n\nUser: “How’s my streak?”\nTool call:\n\n{ \"type\": \"tool_call\", \"tool\": \"getStreak\", \"args\": {}, \"timeout_ms\": 30000 }\n\n\nAfter a tool result:\nIn the content of the reply to the user, include whatever stats the user logged in the conversational reply. \n{\n  \"type\": \"final\",\n  \"content\": \"Logged! Great consistency—keep stacking days.\",\n  \"data\": { \"key_points\": [\"Habit tracked\", \"Momentum building\"] }\n}\n\nstring-uuid is \"{{ $json.uuid }}\"\n\nTodays date is {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        464,
+        0
+      ],
+      "id": "542a7d9a-fac2-4659-8b66-b68e40e4a739",
+      "name": "CHAD AI Agent",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        464,
+        208
+      ],
+      "id": "6aa3e1ba-41f3-4409-99ec-c73be266f498",
+      "name": "Memory"
+    },
+    {
+      "parameters": {
+        "content": "## AI Agent Core",
+        "height": 544,
+        "width": 1040,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -160
+      ],
+      "id": "9f318f4d-740a-4abe-8bfa-9b3aadc0e33b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs",
+          "mode": "list",
+          "cachedResultName": "Chad Phase 0 Evaluations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 571180374,
+          "mode": "list",
+          "cachedResultName": "chad_eval_tests_additions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs/edit#gid=571180374"
+        }
+      },
+      "type": "n8n-nodes-base.evaluationTrigger",
+      "typeVersion": 4.6,
+      "position": [
+        -96,
+        192
+      ],
+      "id": "4528779f-0083-4cce-994d-ab9e2fd31d71",
+      "name": "When fetching a dataset row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AnSbuaN4bDeXeAZn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs",
+          "mode": "list",
+          "cachedResultName": "Chad Phase 0 Evaluations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 571180374,
+          "mode": "list",
+          "cachedResultName": "chad_eval_tests_additions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs/edit#gid=571180374"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "Response",
+              "outputValue": "={{ $('CHAD AI Agent').item.json.output }}"
+            },
+            {
+              "outputName": "Score",
+              "outputValue": "={{ $json.Correctness }}"
+            },
+            {
+              "outputName": "result",
+              "outputValue": "={{$json.Correctness > 2? 'Pass' : 'Fail'}}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.7,
+      "position": [
+        1408,
+        -160
+      ],
+      "id": "1b4d7ff9-8b1d-4666-8715-ab48a7b7cbc2",
+      "name": "Evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AnSbuaN4bDeXeAZn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1c3da562-7a92-4166-a834-770842d46aa2",
+              "name": "sessionId",
+              "value": "={{ $json.sessionId || $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "a94ed502-16c9-4f37-80be-aa44b7bf4c1d",
+              "name": "message",
+              "value": "={{$json.message }}",
+              "type": "string"
+            },
+            {
+              "id": "648fa645-ebac-4753-a494-0495255ef3b0",
+              "name": "uuid",
+              "value": "={{ $json.user.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        0
+      ],
+      "id": "c938eb04-b48c-4bee-8bf9-6d400040aa31",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "toolDescription": "The LogWeeklyGoal endpoint. Send the following fields: \nuser_id:34b8bafe-f09f-481b-a94e-e41d8e13e8fe\ngoal_text:this is the goal text lorem ipsum dolor samet\nstatus:test status\nnotes:lorem ipsum dolor samet \n",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_weekly_goal",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        528
+      ],
+      "id": "5b02aeee-548a-46fb-ab57-a8803b539412",
+      "name": "LogWeeklyGoal",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "the LogWorkout endpoint. Send the following fields:\nuser_id:34b8bafe-f09f-481b-a94e-e41d8e13e8fe\ntype:Full Body Weights\nduration_min:30\ndistance_mi:5\noutdoor:true\npace_sec_per_mile:300\nbench_press_weight_lb:200\nbench_press_reps:4\ndeadlift_weight_lb:250\ndeadlift_reps:5\nbarbell_row_weight_lb:150\nbarbell_row_reps:10\ntags:\nnotes:lorem ipsum dolor samet\n",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_workout",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        784,
+        528
+      ],
+      "id": "4cdc3c1c-7a50-4d4d-ba3f-0eb904f66166",
+      "name": "LogWorkout",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "the LogDailyDiscipline endpoint. Send the following fields:\n\"user_id\":\"34b8bafe-f09f-481b-a94e-e41d8e13e8fe\",\n\"notes\":\"lorem ipsum dolor samet\",\n\"discipline_name\":\"Running\",\n\"completed\":\"true\",\n\"log_date\":\"2025-08-1\", \n",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_daily_discipline",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1088,
+        480
+      ],
+      "id": "f91e9622-25b0-4982-875f-35f52d9508dc",
+      "name": "LogDailyDiscipline",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "The LogBodyMetrics endpoint. Send the following  fields:\nuser_id:34b8bafe-f09f-481b-a94e-e41d8e13e8fe\nweight_lb:180\nbody_fat_pct:15\nsubcutaneous_fat_pct:11\nmuscle_mass_lb:50\nwater_weight_lb:30\nnotes:lorem ipsum dolor samet \n",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_body_metrics",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        528
+      ],
+      "id": "67ec9d09-2993-48bf-baa3-51a0234df8bb",
+      "name": "LogBodyMetrics",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "The LogDeviceData endpoint. Send the following fields:\nuser_id:34b8bafe-f09f-481b-a94e-e41d8e13e8fe\nsource:test\nreadiness_score:8\nsleep_score:5\nactvity_score:9\nheart_rate:80",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_device_data",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        512
+      ],
+      "id": "3d529d50-0fd4-40f7-bc39-46ec80d899e2",
+      "name": "LogDeviceData",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "discipline",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1616,
+        224
+      ],
+      "id": "03936334-536f-4324-8639-b3c00f9b4d53",
+      "name": "GetDisciplines",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "The LogHydration endpoint. Send the following fields:\nuser_id:34b8bafe-f09f-481b-a94e-e41d8e13e8fe\nounces:10\ntags:water\nnotes:lorem ipsum dolor samet",
+        "method": "POST",
+        "url": "https://n8n-dev-td3g.onrender.com/webhook/log_hydration",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "user_id",
+              "value": "={{ $json.userId }}"
+            },
+            {
+              "name": "ounces",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', ``, 'string') }}"
+            },
+            {
+              "name": "tags",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+            },
+            {
+              "name": "notes ",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1344,
+        384
+      ],
+      "id": "92016f3f-0206-488d-9ab6-d17375acfc8b",
+      "name": "LogHydration",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "setMetrics",
+        "expectedAnswer": "={{ $('When fetching a dataset row').item.json.response_contains }}",
+        "actualAnswer": "={{ $json.output  }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.7,
+      "position": [
+        1040,
+        -160
+      ],
+      "id": "77520df6-fb33-44df-ae9f-512ebb70d413",
+      "name": "Evaluation1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        16
+      ],
+      "id": "4bf728f1-a2f6-4c71-8803-cf54fb0ff9e0",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "4nniNysr9C4INLD9",
+          "name": "OpenAi Adams Test Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "checkIfEvaluating"
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        0
+      ],
+      "id": "38e9e403-97b4-41f6-a902-bee4e9d4c4d9",
+      "name": "Evaluation2"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "sessionId": 6627695515,
+          "message": "Hey Coach Chad, what is my weekly goal?",
+          "userId": null,
+          "user": {
+            "json": {
+              "id": "34b8bafe-f09f-481b-a94e-e41d8e13e8fe",
+              "telegram_user_id": 6627695515,
+              "display_name": "Adam Haley",
+              "created_at": "2025-08-22T02:33:44.885608+00:00",
+              "authorized": true
+            }
+          }
+        }
+      }
+    ],
+    "Edit Fields": [
+      {
+        "json": {
+          "sessionId": "6627695515",
+          "message": "Hey Coach Chad, what is my weekly goal?",
+          "uuid": "34b8bafe-f09f-481b-a94e-e41d8e13e8fe"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CHAD AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Evaluation2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When fetching a dataset row": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogWeeklyGoal": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogWorkout": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogDailyDiscipline": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogBodyMetrics": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogDeviceData": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetDisciplines": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogHydration": {
+      "ai_tool": [
+        [
+          {
+            "node": "CHAD AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Evaluation1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation1": {
+      "main": [
+        [
+          {
+            "node": "Evaluation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation2": {
+      "main": [
+        [
+          {
+            "node": "Evaluation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ce221711-83b4-4ccf-8744-2c6ac03c36da",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e36638038ba027540464f5c7ca2a9e38142242a60ad22d34895c7e9597f46493"
+  },
+  "id": "tMNqUSccvqDrOclH",
+  "tags": []
+}
