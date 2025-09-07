@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-27T21:35:14.616Z",
-  "updatedAt": "2025-08-27T21:35:14.000Z",
+  "updatedAt": "2025-09-06T15:49:33.000Z",
   "id": "TMG3zMBC2TjSRBz7",
   "name": "4 day since booking reminder automation",
   "active": false,
@@ -10,13 +10,13 @@
       "parameters": {
         "jsCode": "// Calculate date 4 days ago\nconst fourDaysAgo = new Date();\nfourDaysAgo.setDate(fourDaysAgo.getDate() - 4);\n\n// Format for Amelia API (YYYY-MM-DD)\nconst targetDate = fourDaysAgo.toISOString().split('T')[0];\nconst startDateTime = targetDate + ' 00:00:00';\nconst endDateTime = targetDate + ' 23:59:59';\n\nconsole.log(`Looking for bookings from: ${targetDate}`);\n\nreturn [{\n  targetDate: targetDate,\n  startDateTime: startDateTime,\n  endDateTime: endDateTime,\n  timestamp: new Date().toISOString()\n}];"
       },
-      "id": "53cba04e-8deb-4294-a099-58fbf9f8750a",
+      "id": "b882b246-cadb-4ae9-9cde-b22060b888f6",
       "name": "Calculate Target Date",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        336,
-        176
+        -752,
+        -320
       ]
     },
     {
@@ -61,13 +61,13 @@
           }
         }
       },
-      "id": "ad932d0b-16b5-4acd-a034-e50d4c355a30",
+      "id": "4950c779-2736-431b-8ccc-c36149565341",
       "name": "Get Bookings 4 Days Ago",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        560,
-        176
+        -528,
+        -320
       ]
     },
     {
@@ -90,13 +90,13 @@
         },
         "options": {}
       },
-      "id": "a8d8c438-2d52-41a1-8550-7703efc47e5f",
+      "id": "c26b78a0-e422-4945-92fe-88bc5fc53f6f",
       "name": "Find FluentCRM Contact",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        320,
-        496
+        -768,
+        0
       ],
       "onError": "continueErrorOutput"
     },
@@ -117,55 +117,55 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"subscriber\": {\n    \"tags\": [{{ $json.id }}]\n\n  }\n}",
+        "jsonBody": "={\n  \"subscriber\": {\n    \"attach_tags\": [{{ $json.id }}]\n\n  }\n}",
         "options": {}
       },
-      "id": "1bbd6f49-2c4e-4cf0-8940-d11296cc2942",
+      "id": "005636c4-2d19-4277-a384-f8058c6a5280",
       "name": "Add FluentCRM Tag",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1232,
-        480
+        160,
+        -16
       ]
     },
     {
       "parameters": {
         "jsCode": "console.log(`🎉 Successfully added 'no-future-bookings' tag to:`, $input.all());\n\nreturn $input.all().map(item => {\n  return {\n    json: {\n      ...item.json,\n      success: true\n    }\n  };\n});\n"
       },
-      "id": "3b927db9-e3c0-49a5-a462-068d17a73d17",
+      "id": "80f4a29c-7ad5-4e26-849e-7341c98e287f",
       "name": "Log Success",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        480
+        592,
+        -16
       ]
     },
     {
       "parameters": {
         "jsCode": "// Get the incoming JSON (adjust if your incoming variable is different)\nconst data = $input.first().json.data.appointments;\n\nconst customers = Object.values(data)\n    .flatMap(day => day.appointments)\n    .flatMap(appt => appt.bookings)\n    .map(booking => booking.customer);\n\n// Deduplicate by customer ID\nconst customerData = Object.values(\n    customers.reduce((acc, customer) => {\n        acc[customer.id] = customer;\n        return acc;\n    }, {})\n);\n\n// Output just one item per unique customer\n//return uniqueCustomers.map(cust => ({ json: cust }));\n\n\nreturn [{\n  success: false,\n  customerId: customerData[0].id,\n  email: customerData[0].email,\n  firstName: customerData[0].firstName,\n  lastName: customerData[0].lastName,\n  contactId: null,\n  tagAdded: false,\n  reason: 'Contact not found in FluentCRM',\n  timestamp: new Date().toISOString()\n}];\n\n"
       },
-      "id": "91cc2a8a-6584-46ea-8b32-4330fefb25c2",
+      "id": "536c582b-659f-4a49-86c8-f0822f6f1056",
       "name": "Log Contact Not Found",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        672,
-        688
+        -416,
+        192
       ]
     },
     {
       "parameters": {
         "jsCode": "// Summary of the workflow execution\nconst allInputs = $input.all();\nconst successful = allInputs.filter(item => item.json.success === true).length;\nconst failed = allInputs.filter(item => item.json.success === false).length;\nconst targetDate = $('Calculate Target Date').item.json.targetDate;\n\nconsole.log('\\n📊 WORKFLOW EXECUTION SUMMARY');\nconsole.log('================================');\nconsole.log(`Target Date: ${targetDate}`);\nconsole.log(`Tags Successfully Added: ${successful}`);\nconsole.log(`Contacts Not Found: ${failed}`);\nconsole.log(`Total Processed: ${successful + failed}`);\nconsole.log('================================\\n');\n\nreturn [{\n  workflowSummary: {\n    targetDate: targetDate,\n    tagsAdded: successful,\n    contactsNotFound: failed,\n    totalProcessed: successful + failed,\n    executionTime: new Date().toISOString()\n  }\n}];"
       },
-      "id": "cf02772d-672c-4dec-903b-363688ad3172",
+      "id": "a623ca21-eb81-46b6-b138-71e092e1d578",
       "name": "Workflow Summary",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1664,
-        544
+        800,
+        48
       ]
     },
     {
@@ -176,13 +176,13 @@
           ]
         }
       },
-      "id": "7a74e1a9-a4e4-4663-8723-82f7c377c2ed",
+      "id": "6b966dac-e98f-4673-b179-4c400d014a58",
       "name": "Schedule Trigger1",
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
       "position": [
-        112,
-        176
+        -976,
+        -320
       ]
     },
     {
@@ -214,10 +214,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 1,
       "position": [
-        1008,
-        176
+        -80,
+        -320
       ],
-      "id": "07ccd9bb-8b2a-4ad9-b194-ac43d5dd90d0"
+      "id": "3a59586e-ecbf-4f10-979b-13b97f1f4063"
     },
     {
       "parameters": {
@@ -229,7 +229,7 @@
           "parameters": [
             {
               "name": "dates",
-              "value": "={{ $('Calculate Target Date').item.json.targetDate }}"
+              "value": "={{ $('Calculate Target Date').item.json.targetDate.toDateTime().plus(1,'days') }}"
             },
             {
               "name": "customerId",
@@ -252,10 +252,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1232,
-        176
+        160,
+        -320
       ],
-      "id": "025b3ff3-e6d9-4321-b928-01867a249e09",
+      "id": "16f65f40-a4a2-4417-9893-b53c7ae6a6e4",
       "name": "Check Future bookings"
     },
     {
@@ -265,10 +265,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        784,
-        176
+        -304,
+        -320
       ],
-      "id": "a4da48d6-926a-41e7-93bd-748b0ea5c84e",
+      "id": "1a400bb7-bc59-404d-9547-9e1292c6f6f9",
       "name": "Flatten"
     },
     {
@@ -279,10 +279,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        176
+        384,
+        -320
       ],
-      "id": "8887f63d-d1f7-47d6-b1fd-ba6973b3a5cb",
+      "id": "1ab74c63-5ce7-4677-9043-3574decd4fb1",
       "name": "Parse Return JSON"
     },
     {
@@ -314,10 +314,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        96,
-        624
+        -992,
+        128
       ],
-      "id": "f14d1747-d040-46af-9372-90ed1c350b50",
+      "id": "ab6e27b6-8604-4946-8a84-e90b5d2fefc8",
       "name": "If"
     },
     {
@@ -325,10 +325,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        320,
-        768
+        -768,
+        272
       ],
-      "id": "74c80bed-3d9f-4844-b730-6fae35807fad",
+      "id": "3d1f798f-f1e2-48ee-b41b-ff3c4ca40c99",
       "name": "No Operation, do nothing"
     },
     {
@@ -350,10 +350,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        560,
-        480
+        -528,
+        -16
       ],
-      "id": "431d88c2-ca6c-40f6-9b39-340a8bd1d02b",
+      "id": "bfd71cb1-e138-4018-9742-2a0dd8758c82",
       "name": "GET Tags"
     },
     {
@@ -364,10 +364,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        784,
-        480
+        -304,
+        -16
       ],
-      "id": "87280434-7ab8-47c1-a297-c641e79a7324",
+      "id": "d01536f5-128e-41e2-9729-875dc0ef8b59",
       "name": "Split Out"
     },
     {
@@ -398,10 +398,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1008,
-        480
+        -80,
+        -16
       ],
-      "id": "20057366-cb32-41fd-8284-be5fc62160fa",
+      "id": "ad16b245-2a16-47b8-80f1-7af8d2f19cb6",
       "name": "Extract Follow Up 4days Tag"
     },
     {
@@ -414,10 +414,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -1088,
+        -496
       ],
-      "id": "eb57b032-4083-43d9-8cc8-08db6e706c0b",
+      "id": "eb99348b-c287-4afe-9ddd-de400b1b15b8",
       "name": "Sticky Note"
     },
     {
@@ -430,10 +430,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1152,
-        0
+        80,
+        -496
       ],
-      "id": "169695b3-465d-44cd-ac7f-dd2534839e17",
+      "id": "4325f0b6-7215-43e6-81b3-ee42cafe5db4",
       "name": "Sticky Note1"
     },
     {
@@ -445,10 +445,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        400
+        -1088,
+        -96
       ],
-      "id": "cbace4c6-1a22-499b-b5c6-dd2f3234900b",
+      "id": "4e5e29cb-1118-4262-8fd8-535b6eb993e7",
       "name": "Sticky Note2"
     },
     {
@@ -461,10 +461,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        512,
-        400
+        -576,
+        -96
       ],
-      "id": "866d31ca-24d3-4980-972a-e08e3216db99",
+      "id": "97fd06e0-5595-41ad-b999-aeceb2c2f856",
       "name": "Sticky Note3"
     }
   ],
@@ -654,8 +654,14 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "c33f0437-0a73-4b40-b9e7-294b4c42d31b",
+  "pinData": {
+    "Schedule Trigger1": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "versionId": "7f5a0590-1510-4bc1-9fff-59df5ce5f9eb",
   "triggerCount": 0,
   "shared": [
     {
