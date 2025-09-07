@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-27T21:34:21.422Z",
-  "updatedAt": "2025-08-29T16:17:19.000Z",
+  "updatedAt": "2025-09-06T15:52:11.000Z",
   "id": "anAWyvObi9GnY4sg",
   "name": "Create Invoice from Amelia",
   "active": false,
@@ -20,23 +20,23 @@
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
       "position": [
-        80,
-        240
+        -1072,
+        -224
       ],
-      "id": "48178a6f-0a6b-4219-bcbf-05293dcb2a43"
+      "id": "10179967-35ae-48ba-b8e5-6eab29191e9a"
     },
     {
       "parameters": {
-        "functionCode": "const discounts = {\n  \"Marc Torrisi\": 30,\n  \"Qualin Critch\": 50,\n  \"Shane Bentley\": 26,\n  \"Jo Sharpe\": 26,\n  \"Qualin Gritch\": 26,\n  \"Cheryl Solomon\": 26  \n};\n\nreturn items.map(item => {\n  const fullName = `${item.json.firstName} ${item.json.lastName}`;\n  const basePrice = item.json.booking_price ?? item.json.service_price ?? 0;\n  const discount = discounts[fullName] || 0;\n  const finalPrice = Math.max(basePrice - discount, 0);\n\n  item.json.finalPrice = finalPrice;\n  item.json.discount = discount;\n  return item;\n});"
+        "functionCode": "const discounts = {\n  \"Marc Torrisi\": 30,\n  \"Qualin Critch\": 50,\n  \"Shane Bentley\": 26,\n  \"Jo Sharpe\": 26,\n  \"Qualin Gritch\": 26,\n  \"Cheryl Solomon\": 26,\n  \"Coreena Long\": 40\n};\n\nreturn items.map(item => {\n  const fullName = `${item.json.firstName} ${item.json.lastName}`;\n  const basePrice = item.json.booking_price ?? item.json.service_price ?? 0;\n  const discount = discounts[fullName] || 0;\n  const finalPrice = Math.max(basePrice - discount, 0);\n\n  item.json.finalPrice = finalPrice;\n  item.json.discount = discount;\n  return item;\n});"
       },
       "name": "Apply Discounts & Final Price",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        1200,
-        240
+        64,
+        -224
       ],
-      "id": "2c279328-14a4-4967-ab6d-d37fc0891633"
+      "id": "ee583422-8439-42f8-8fec-188c1276f82f"
     },
     {
       "parameters": {
@@ -61,10 +61,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        80,
-        592
+        -1072,
+        128
       ],
-      "id": "72a056a3-b58d-4ddc-bf83-f2b9cc5a9998",
+      "id": "5bc8ca8d-82c3-441b-8be2-9fab0a605b0b",
       "name": "Get Stripe Customer",
       "executeOnce": false
     },
@@ -87,10 +87,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        304,
-        240
+        -848,
+        -224
       ],
-      "id": "394b7daa-b0b6-476a-bb77-ab4b0aac3b00",
+      "id": "5aa3e083-6832-4042-8ed1-1d8b93730d76",
       "name": "Get Todays Bookings"
     },
     {
@@ -100,10 +100,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
-        240
+        -624,
+        -224
       ],
-      "id": "64cd5372-4e08-468d-8022-11607534fda8",
+      "id": "2b194a27-d9c6-4baf-8bd0-ac82e1bc3566",
       "name": "Parse"
     },
     {
@@ -189,10 +189,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        976,
-        240
+        -176,
+        -224
       ],
-      "id": "db31744d-02a3-4440-851d-c31d1dfd5669",
+      "id": "afd09082-8461-40fd-9554-158f59f923bd",
       "name": "Edit Fields"
     },
     {
@@ -204,10 +204,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -1152,
+        -464
       ],
-      "id": "47432482-28c3-415d-8ae5-c06e450974f0",
+      "id": "1071620a-aae2-4c3c-8eed-746edcb65644",
       "name": "Sticky Note"
     },
     {
@@ -220,10 +220,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        480,
-        0
+        -672,
+        -464
       ],
-      "id": "74d1a5ac-dbe9-46a9-985e-06c064e70379",
+      "id": "804c2086-6a9e-406d-ab03-beb68e69fccc",
       "name": "Sticky Note1"
     },
     {
@@ -253,10 +253,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1936,
-        528
+        800,
+        64
       ],
-      "id": "7674c469-4db2-4937-9e04-8121a6a39721",
+      "id": "39c980a0-8915-4f0b-b541-a44fdc11d1d5",
       "name": "Create Stripe Invoice"
     },
     {
@@ -292,10 +292,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1680,
-        528
+        544,
+        64
       ],
-      "id": "61b851a5-6050-4bf7-a804-d4e4602c7753",
+      "id": "5efc2bd2-6b9b-462f-96d3-9aecba0f54d6",
       "name": "Stripe Invoice Items"
     },
     {
@@ -306,10 +306,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
-        528
+        304,
+        64
       ],
-      "id": "8c6be4b6-9b0f-4f0f-ae60-1fb51b0b7ff6",
+      "id": "e1242882-44b5-4c0b-905d-36074a26756e",
       "name": "Map Line Item Data"
     },
     {
@@ -357,10 +357,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1680,
-        240
+        544,
+        -224
       ],
-      "id": "6959b3a6-0686-43fe-8c64-ec6a812fd228",
+      "id": "22c59d4e-2c16-45b3-8d9c-749fb7607131",
       "name": "Filter Service_id != 2 and Not Paid and Not Cancelled"
     },
     {
@@ -370,10 +370,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        752,
-        240
+        -400,
+        -224
       ],
-      "id": "7dc6cf43-553b-4713-89b6-1336d35fa04d",
+      "id": "6a9f695c-6dc1-4792-aab1-5da670313349",
       "name": "Flatten"
     },
     {
@@ -384,10 +384,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
-        240
+        304,
+        -224
       ],
-      "id": "b5edbb0c-9726-4306-a681-95907bbb1ced",
+      "id": "e08412fa-74bd-466e-84a0-0e253a59c4f6",
       "name": "Map Stripe Emails / add searchName"
     },
     {
@@ -398,10 +398,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        528,
-        496
+        -624,
+        32
       ],
-      "id": "c309ddd7-93d1-4dc5-beb1-49d596dfd34c",
+      "id": "2a53f9c4-c9c0-420f-be04-85b0d6636711",
       "name": "Split Out"
     },
     {
@@ -431,10 +431,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        752,
-        496
+        -400,
+        32
       ],
-      "id": "ac885cf5-5952-4843-b685-5723bcd4735f",
+      "id": "705c62fa-e8d5-4ffe-8eac-eb16a1a931c0",
       "name": "Filter Only With Payment Method"
     },
     {
@@ -454,10 +454,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        960,
-        496
+        -192,
+        32
       ],
-      "id": "d6ab755a-fff8-41eb-a4fa-e75837cf17c8",
+      "id": "acb1cf9b-c96d-49dd-85d8-aef5da917324",
       "name": "Add data key"
     },
     {
@@ -470,10 +470,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        240,
-        480
+        -912,
+        16
       ],
-      "id": "73d3a0d4-fc17-4be7-a58c-0368db1941f3",
+      "id": "9c183d57-50a9-477c-98b8-c4e9a2e99385",
       "name": "Sticky Note2"
     },
     {
@@ -504,10 +504,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        288,
-        592
+        -864,
+        128
       ],
-      "id": "9497cd57-526c-4975-b5b2-177b3fa44a61",
+      "id": "baff2b55-91e6-418d-9864-842a113a3ae6",
       "name": "If Multiple Records"
     },
     {
@@ -519,10 +519,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1376,
-        688
+        240,
+        224
       ],
-      "id": "67475b92-349b-4d05-a84d-2597dcf25660",
+      "id": "9c04c1f3-8bce-4f8a-8b95-ee0278e7ed3e",
       "name": "Sticky Note3"
     },
     {
@@ -553,10 +553,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1680,
-        736
+        544,
+        272
       ],
-      "id": "ff689d13-a6ba-466c-bacb-1a39d0dc905a",
+      "id": "28ba442d-ca8d-48a6-badb-a50b2c74e150",
       "name": "Create Stripe Customer"
     },
     {
@@ -620,10 +620,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        1200,
-        544
+        64,
+        80
       ],
-      "id": "eeb06147-2839-410a-a7a7-2c68c7adf599",
+      "id": "3c3eb334-340e-4b10-a264-eafb92b70302",
       "name": "Stripe Record Exists Or Not"
     }
   ],
@@ -842,7 +842,7 @@
       }
     ]
   },
-  "versionId": "6d8deef1-f861-474b-886d-4ca639612f6e",
+  "versionId": "580212c0-9fdf-4992-81ae-38182db55e75",
   "triggerCount": 0,
   "shared": [
     {
