@@ -1,0 +1,1573 @@
+{
+  "name": "Chad Phase0 Tools",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## LogDailyDiscipline\n\nPOST log_daily_discipline",
+        "height": 288,
+        "width": 1184,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        -224
+      ],
+      "id": "7305c475-42a3-49d1-afda-d33e47463055",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## LogWorkout\n\nPOST log_workout",
+        "height": 272,
+        "width": 1184,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        144
+      ],
+      "id": "43faaa3a-997a-4798-a9d7-7288168a7d70",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## LogWeeklyGoal\n\nPOST log_weekly_goal",
+        "height": 272,
+        "width": 1184,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        464
+      ],
+      "id": "f4f40c63-3d00-414b-bcb1-85128935f96a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## LogHydration\n\nPOST log_hydration",
+        "height": 288,
+        "width": 1184,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        784
+      ],
+      "id": "604bf3b9-cf9b-455d-95cf-a6ec7e926f3e",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## LogBodyMetrics\n\nPOST log_body_metrics",
+        "height": 288,
+        "width": 1200,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        688,
+        -224
+      ],
+      "id": "ecf53fc3-6820-4dc6-b7b0-9cb9c5ebae69",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## LogDeviceData\n\nPOST log_device_data",
+        "height": 288,
+        "width": 1200,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        688,
+        144
+      ],
+      "id": "2f71824b-e96f-4ddd-93b3-e97d0430d75b",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## GetStreak\n\nGET daily_streak\n",
+        "height": 272,
+        "width": 1200,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        480
+      ],
+      "id": "d4bd6e3e-f89b-442f-b79d-ea2d79bc5b77",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## GetGoalStatus\n\nGET goal_status",
+        "height": 304,
+        "width": 1200,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        800
+      ],
+      "id": "23bf514e-8853-4de7-ab20-0dade859d765",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## GetWeeklyStreak\nGET weekly_streak",
+        "height": 288,
+        "width": 1200,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        144
+      ],
+      "id": "80cf6fe2-f9c0-43a6-9450-6eb4119deec1",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "tableId": "discipline_log",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        64,
+        -80
+      ],
+      "id": "02f3ebbf-6a21-4cf5-8164-1076221b20c0",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        432,
+        -80
+      ],
+      "id": "90f2db35-33bc-4dac-beea-455e621671a6",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  notes:$('Parse JSON').first().json.notes,\n  completed: Boolean( $('Parse JSON').first().json.completed ),\n  user_id:$('Parse JSON').first().json.user_id,\n  discipline_id:$input.first().json.id,\n  log_date: $('Parse JSON').first().json.log_date\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        -192
+      ],
+      "id": "5bf4f12e-12c9-460e-be6b-1b18775a4d76",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "tableId": "workout",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        256
+      ],
+      "id": "bab711d9-da08-403e-a975-6d2d16820a4a",
+      "name": "Create a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        272,
+        256
+      ],
+      "id": "992f21cc-58ae-42a4-a823-744526f31c11",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = '';\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\n\nreturn {\n  user_id: body.user_id,\n  type: body.type,\n  duration_min: parseInt( body.duration_min ),\n  distance_mi: parseInt( body.distance_mi ),\n  outdoor: Boolean( body.outdoor ),\n  pace_sec_per_mile: parseInt( body.pace_sec_per_mile ),\n  bench_press_weight_lb: parseInt( body.bench_press_weight_lb ),\n  bench_press_reps: parseInt( body.bench_press_reps ),\n  deadlift_weight_lb: parseInt( body.deadlift_weight_lb ),\n  deadlift_reps: parseInt( body.deadlift_reps ),\n  barbell_row_weight_lb: parseInt( body.barbell_row_weight_lb),\n  barbell_row_reps: parseInt( body.barbell_row_reps ),\n  tags: body.tags,\n  notes: body.notes,\n  log_date: $now\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        256
+      ],
+      "id": "bbb60e45-f1ae-495f-b315-99e5a6bb02f5",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "tableId": "weekly_goal",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        576
+      ],
+      "id": "bbf92363-a3c6-4eff-a886-1fdb795f0c00",
+      "name": "Create a row2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        272,
+        576
+      ],
+      "id": "49a9971a-636b-4949-abb6-45072578acce",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  week_start: body.week_start,\n  goal_text: body.goal_text,\n  status: body.status,\n  notes: body.notes\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        576
+      ],
+      "id": "e51eea69-ae5d-4beb-bd71-051754e7851a",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "tableId": "hydration_log",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        896
+      ],
+      "id": "f6c6fc78-1773-481d-92f9-8fddab9e4aa9",
+      "name": "Create a row3",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        272,
+        896
+      ],
+      "id": "17ee5866-b858-4f80-b5cd-3cb3c70984df",
+      "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  log_date: $now,\n  ounces: parseInt( body.ounces ),\n  tags: body.tags,\n  notes: body.notes\n  \n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        896
+      ],
+      "id": "cb8dcb54-fc60-47f2-b064-3d5dcab5b6bf",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -192
+      ],
+      "id": "407c8c9b-18c0-483a-af83-b8189d6eb0ba",
+      "name": "Error Handling2"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        256
+      ],
+      "id": "baa8c220-a6bc-4e83-a985-ee17c541dadc",
+      "name": "Error Handling"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        576
+      ],
+      "id": "bcd4ccf5-fecc-4b06-b072-53c3490892dc",
+      "name": "Error Handling3"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        896
+      ],
+      "id": "ea562a5e-c8bb-48f8-befa-a7abb3e65d12",
+      "name": "Error Handling4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1664,
+        -96
+      ],
+      "id": "a47aad08-fe39-4440-9577-43955aee8c49",
+      "name": "Respond to Webhook4"
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  log_date: $now,\n  weight_lb: parseInt( body.weight_lb ),\n  body_fat_pct: parseInt( body.body_fat_pct ),\n  subcutaneous_fat_pct: parseInt( body.subcutaneous_fat_pct ),\n  muscle_mass_lb: parseInt( body.muscle_mass_lb ),\n  water_weight_lb: parseInt( body.water_weight_lb ),\n  raw_data: body,\n  notes: body.notes\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        -96
+      ],
+      "id": "91ff58f4-bb9f-4235-ac09-1e25aa62d816",
+      "name": "Code4"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        -96
+      ],
+      "id": "3afbf48f-c985-4b56-b8e2-47779c600578",
+      "name": "Error Handling5"
+    },
+    {
+      "parameters": {
+        "tableId": "device_data_log",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        272
+      ],
+      "id": "c0b0ef46-55c2-44b0-b3dd-d1b4e00a5ad7",
+      "name": "Create a row5",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1664,
+        272
+      ],
+      "id": "2ccb44d2-94c3-47cc-b972-5394897f2bb6",
+      "name": "Respond to Webhook5"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        272
+      ],
+      "id": "b7e7ea7e-1434-4832-8a98-9db99c90c955",
+      "name": "Error Handling6"
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  log_date: $now,\n  source: body.source,\n  readiness_score: parseInt( body.readiness_score ),\n  sleep_score: parseInt( body.sleep_score ),\n  activity_score: parseInt( body.actvity_score ),\n  heart_rate: parseInt( body.heart_rate ),\n  raw_data: body,\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        272
+      ],
+      "id": "dbbfa4fa-3c3c-4d8a-97e9-e4ac9bfa81ea",
+      "name": "Code5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        3024,
+        240
+      ],
+      "id": "269180a0-2043-4cc4-8e4c-7a3e26e0b65c",
+      "name": "Respond to Webhook6"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2768,
+        240
+      ],
+      "id": "711c405a-ed1c-4bd9-9a9d-50f8b230f1e5",
+      "name": "Error Handling7"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date();\nconst dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.\nconst daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Monday as week start\n\nconst weekStart = new Date(now);\nweekStart.setDate(now.getDate() - daysToSubtract);\nweekStart.setHours(0, 0, 0, 0); // Set to start of day\n\nconst weekStartDate = weekStart.toISOString().split('T')[0];\n\nreturn {\n  user_id: $input.first().json.body.user_id,\n  week_start: weekStartDate\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2336,
+        240
+      ],
+      "id": "8f8a128f-482c-4bd2-83a6-7502860be46b",
+      "name": "Code6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        3024,
+        576
+      ],
+      "id": "24ca8ba9-8651-443f-89c5-9723880f1705",
+      "name": "Respond to Webhook7"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2768,
+        576
+      ],
+      "id": "6b1ddbb4-bf7a-442c-a60b-8738c135c752",
+      "name": "Error Handling8"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2336,
+        576
+      ],
+      "id": "9756b819-f218-4d28-9286-9a63e56044d9",
+      "name": "Code7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        3024,
+        912
+      ],
+      "id": "2ac621fd-8649-41f2-8512-1a0220ff3d07",
+      "name": "Respond to Webhook8"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2768,
+        912
+      ],
+      "id": "b1abd9ef-091b-43af-8220-93784fc72022",
+      "name": "Error Handling9"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2336,
+        912
+      ],
+      "id": "210a1739-fe15-4d7a-b213-3fd76c143248",
+      "name": "Code8"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "v_weekly_summary",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $json.user_id }}"
+            },
+            {
+              "keyName": "week_start",
+              "keyValue": "={{ $json.week_start }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        240
+      ],
+      "id": "7aff79b2-a240-4580-b1cc-82215d466d08",
+      "name": "Get a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "rpc/get_current_streak"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        576
+      ],
+      "id": "553aa748-31b6-4717-85c3-f4e54fc7bc03",
+      "name": "Get a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "discipline_log"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        912
+      ],
+      "id": "0c8459d9-80b1-4d56-980b-69374778e0fe",
+      "name": "Get a row2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log_body_metrics",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        752,
+        -96
+      ],
+      "id": "cdc4324f-9793-4cb2-b11d-94b258cad54b",
+      "name": "LogBodyMetrics",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log_device_data",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        768,
+        272
+      ],
+      "id": "262adb11-5c88-4fda-b448-7eea7f55887b",
+      "name": "LogDeviceData",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log_hydration",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        896
+      ],
+      "id": "f669ac2b-6433-41f5-9e3e-1e0eb43c7f72",
+      "name": "LogHydration",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log_weekly_goal",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        576
+      ],
+      "id": "2ffda808-3974-40b1-9885-3c09c58c4fb9",
+      "name": "LogWeeklyGoal",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log_workout",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        256
+      ],
+      "id": "b151ef21-00ac-493c-bb19-342eb7a1f6dd",
+      "name": "LogWorkout",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log_daily_discipline",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        -80
+      ],
+      "id": "f467d30c-8226-4e8f-9c57-0620d7df7b95",
+      "name": "LogDailyDiscipline",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "weekly_streak",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        240
+      ],
+      "id": "d4b03d03-0fdd-42f3-a467-102b597b80e0",
+      "name": "GetWeeklyGoals",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "daily_streak",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        576
+      ],
+      "id": "b719396d-5aff-416c-a3ce-5b6f6250e0bd",
+      "name": "GetStreak",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "goal_status",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2112,
+        912
+      ],
+      "id": "2d570218-f2da-41d6-909b-7d6419c436a1",
+      "name": "GetGoalStatus",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Chad Phase 0 Tools",
+        "height": 352,
+        "width": 1680,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        -640
+      ],
+      "id": "89c30fd5-6d3e-44e3-94cb-21353d23ffd7",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "tableId": "body_metrics_log",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        -96
+      ],
+      "id": "99ed8e1e-a03d-4638-9a94-28741e2c965c",
+      "name": "Create a row4",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## GetDisciplines",
+        "height": 288,
+        "width": 1184,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        -224
+      ],
+      "id": "1d6bc105-60e1-4f77-b2ac-a10eb1009ca5",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        3024,
+        -112
+      ],
+      "id": "64950f0e-f5fc-4be0-b4d0-fcfc6472f3a7",
+      "name": "Respond to Webhook9"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2768,
+        -112
+      ],
+      "id": "a34cb306-6297-45e7-bc3b-dc9d2263496d",
+      "name": "Error Handling10"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2336,
+        -112
+      ],
+      "id": "e42515cd-ffeb-4887-bdc9-aedbe90c91c0",
+      "name": "Code9"
+    },
+    {
+      "parameters": {
+        "path": "disciplines",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        -112
+      ],
+      "id": "c239543c-d2e1-42a7-8c8e-f60d45307505",
+      "name": "GetWeeklyGoals1",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9dn0arGWjiQcsDv3",
+          "name": "Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "discipline",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        -112
+      ],
+      "id": "2539efc5-60bb-4f95-aa61-4a928f6f1c3b",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "discipline",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "label",
+              "keyValue": "={{ $json.discipline_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        -80
+      ],
+      "id": "ccc52ae6-ffa4-4c45-9e22-86919c414c79",
+      "name": "Get a row3",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Po1mEWAGVVlPQlG7",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $json.body;\n\n// If it's already an object, leave it alone\nif (typeof body === \"object\") {\n  return body;\n}\n\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  try {\n    return JSON.parse(body);\n  } catch (e) {\n    throw new Error(\"Body is a string but not valid JSON: \" + body);\n  }\n}\n\n// Fallback if it's neither\nthrow new Error(\"Unexpected body type: \" + typeof body);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -432,
+        -192
+      ],
+      "id": "092c7957-ca18-4dd5-965c-dd2db17d2408",
+      "name": "Parse JSON"
+    }
+  ],
+  "pinData": {
+    "LogDailyDiscipline": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-dev-td3g.onrender.com",
+            "user-agent": "axios/1.8.3",
+            "content-length": "147",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, br",
+            "authorization": "Bearer f05c6d5245373f4a81f3eacddbfeb2602bb5e66add8cdd30a836432e313a1965",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "35.160.120.126",
+            "cf-ipcountry": "US",
+            "cf-ray": "97c23eaf1998962a-PDX",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "render-proxy-ttl": "4",
+            "rndr-id": "dcd23803-9a55-46c8",
+            "true-client-ip": "35.160.120.126",
+            "x-forwarded-for": "35.160.120.126, 104.23.160.125",
+            "x-forwarded-proto": "https",
+            "x-request-start": "1757374343578408"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "user_id": "34b8bafe-f09f-481b-a94e-e41d8e13e8fe",
+            "discipline_name": "Running",
+            "notes": "Morning Routine",
+            "completed": "true",
+            "log_date": "2025-09-08"
+          },
+          "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook/log_daily_discipline",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Error Handling2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row1": {
+      "main": [
+        [
+          {
+            "node": "Error Handling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Create a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row2": {
+      "main": [
+        [
+          {
+            "node": "Error Handling3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Create a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row3": {
+      "main": [
+        [
+          {
+            "node": "Error Handling4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Create a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling4": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Create a row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling5": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row5": {
+      "main": [
+        [
+          {
+            "node": "Error Handling6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling6": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "Create a row5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling7": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code6": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling8": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code7": {
+      "main": [
+        [
+          {
+            "node": "Get a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling9": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code8": {
+      "main": [
+        [
+          {
+            "node": "Get a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Error Handling7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row1": {
+      "main": [
+        [
+          {
+            "node": "Error Handling8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row2": {
+      "main": [
+        [
+          {
+            "node": "Error Handling9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogBodyMetrics": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogDeviceData": {
+      "main": [
+        [
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogHydration": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogWeeklyGoal": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogWorkout": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LogDailyDiscipline": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetWeeklyGoals": {
+      "main": [
+        [
+          {
+            "node": "Code6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetStreak": {
+      "main": [
+        [
+          {
+            "node": "Code7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetGoalStatus": {
+      "main": [
+        [
+          {
+            "node": "Code8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row4": {
+      "main": [
+        [
+          {
+            "node": "Error Handling5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling10": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code9": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetWeeklyGoals1": {
+      "main": [
+        [
+          {
+            "node": "Code9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Error Handling10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row3": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON": {
+      "main": [
+        [
+          {
+            "node": "Get a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fc0fb436-df1b-4c35-b028-b00cac4f9066",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e36638038ba027540464f5c7ca2a9e38142242a60ad22d34895c7e9597f46493"
+  },
+  "id": "DidYMz2PzVPrVNAZ",
+  "tags": []
+}
