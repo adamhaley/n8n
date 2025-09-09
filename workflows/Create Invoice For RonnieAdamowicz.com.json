@@ -22,7 +22,7 @@
     },
     {
       "parameters": {
-        "functionCode": "const discounts = {\n  \"Marc Torrisi\": 30,\n  \"Qualin Critch\": 50,\n  \"Shane Bentley\": 26,\n  \"Jo Sharpe\": 26,\n  \"Qualin Gritch\": 26,\n  \"Cheryl Solomon\": 26  \n};\n\nreturn items.map(item => {\n  const fullName = `${item.json.firstName} ${item.json.lastName}`;\n  const basePrice = item.json.booking_price ?? item.json.service_price ?? 0;\n  const discount = discounts[fullName] || 0;\n  const finalPrice = Math.max(basePrice - discount, 0);\n\n  item.json.finalPrice = finalPrice;\n  item.json.discount = discount;\n  return item;\n});"
+        "functionCode": "const discounts = {\n  \"Marc Torrisi\": 30,\n  \"Shane Bentley\": 26,\n  \"Jo Sharpe\": 26,\n  \"Qualin Critch\": 26,\n  \"Cheryl Solomon\": 26,\n  \"Coreena Long\": 40\n};\n\nreturn items.map(item => {\n  const fullName = `${item.json.firstName} ${item.json.lastName}`;\n  const basePrice = item.json.booking_price ?? item.json.service_price ?? 0;\n  const discount = discounts[fullName] || 0;\n  const finalPrice = Math.max(basePrice - discount, 0);\n\n  item.json.finalPrice = finalPrice;\n  item.json.discount = discount;\n  return item;\n});"
       },
       "name": "Apply Discounts & Final Price",
       "type": "n8n-nodes-base.function",
@@ -227,7 +227,7 @@
     },
     {
       "parameters": {
-        "content": "## Format customer Booking Data\n\n- parse JSON\n- Flatten array\n- [Set]-extract customer object\n- Apply Discounts\n- add searchName\n- Filter out service_id=2 && Not Paid && Canceled",
+        "content": "## Format customer Booking Data\n\n- parse JSON\n- Flatten array\n- [Set]-extract customer object\n- Apply Discounts\n- add searchName\n- Filter out service_id=2, Already Paid, Canceled",
         "height": 464,
         "width": 1424,
         "color": 4
@@ -240,17 +240,6 @@
       ],
       "id": "03a8c1cc-b1e2-4887-88d0-d0d1a8df1f5e",
       "name": "Sticky Note1"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        -1200,
-        848
-      ],
-      "id": "9e73fb59-c63d-4da4-acd6-e67e08316f04",
-      "name": "No Operation, do nothing"
     },
     {
       "parameters": {
@@ -279,7 +268,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -896,
+        -944,
         576
       ],
       "id": "9e002c2e-61b6-47d7-9508-57becb272a86",
@@ -329,7 +318,7 @@
       "typeVersion": 4.2,
       "position": [
         -1200,
-        544
+        576
       ],
       "id": "46d8d6d3-9ee2-4413-888e-af5f806fe6c7",
       "name": "Stripe Invoice Items",
@@ -347,13 +336,13 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "return {\n  customer:$json.data[0].id,\n  amount: Math.floor($('Filter Service_id != 2 and Not Paid and Not Cancelled').item.json.finalPrice * 100),\n  currency: 'aud',\n  description: $('Map Stripe Emails / add searchName').item.json.service_name + ' on ' + $('Map Stripe Emails / add searchName').item.json.bookingStart\n}"
+        "jsCode": "let customer = $json.data?.length > 0? $json.data[0].id : $json.id;\nreturn {\n  customer:  customer,\n  amount: Math.floor($('Filter Service_id != 2 and Not Paid and Not Cancelled').item.json.finalPrice * 100),\n  currency: 'aud',\n  description: $('Map Stripe Emails / add searchName').item.json.service_name + ' on ' + $('Map Stripe Emails / add searchName').item.json.bookingStart\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         -1440,
-        544
+        576
       ],
       "id": "13269bf9-b620-48b9-8707-46fac2b4368b",
       "name": "Map Line Item Data"
@@ -508,6 +497,115 @@
     },
     {
       "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Multiple Stripe Records found\n- If found multiple Customer Accts, filter by the one with a payment method\n",
+        "height": 448,
+        "width": 1120,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2640,
+        528
+      ],
+      "id": "d1f268c0-b8e1-42c6-9b5a-4ad6409da2c9",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e3770025-2fb8-4930-a351-19cbe7986535",
+              "leftValue": "={{ $json.data }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "array",
+                "operation": "lengthGt",
+                "rightType": "number"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2592,
+        640
+      ],
+      "id": "e208f7be-0180-4d60-8ece-63b893fab39c",
+      "name": "If Multiple Records"
+    },
+    {
+      "parameters": {
+        "content": "## Create Record In Stripe\n",
+        "height": 240,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1504,
+        736
+      ],
+      "id": "b923dc15-d097-45ef-aea1-8548689f221b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.stripe.com/v1/customers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=name",
+              "value": "={{ $json.data[0].name }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json.data[0].email }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $json.data[0].description }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1200,
+        784
+      ],
+      "id": "3ac0feeb-4cc6-4132-9ec5-4da012a975e9",
+      "name": "Create Stripe Customer",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "U8fq6tIf3iL5jUUD",
+          "name": "WP Amelia Basic Auth"
+        },
+        "httpBearerAuth": {
+          "id": "3GVkVoB6durMxexf",
+          "name": "Bearer Auth Stripe API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
         "rules": {
           "values": [
             {
@@ -571,57 +669,7 @@
         592
       ],
       "id": "4ba55288-7a7c-4309-b588-be2e1c2ca520",
-      "name": "Discard Non Existent Records"
-    },
-    {
-      "parameters": {
-        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Multiple Stripe Records found\n- If found multiple Customer Accts, filter by the one with a payment method\n",
-        "height": 464,
-        "width": 1104,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -2640,
-        528
-      ],
-      "id": "d1f268c0-b8e1-42c6-9b5a-4ad6409da2c9",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "e3770025-2fb8-4930-a351-19cbe7986535",
-              "leftValue": "={{ $json.data }}",
-              "rightValue": 1,
-              "operator": {
-                "type": "array",
-                "operation": "lengthGt",
-                "rightType": "number"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -2592,
-        640
-      ],
-      "id": "e208f7be-0180-4d60-8ece-63b893fab39c",
-      "name": "If Multiple Records"
+      "name": "Stripe Record Exists Or Not"
     }
   ],
   "pinData": {
@@ -784,25 +832,7 @@
       "main": [
         [
           {
-            "node": "Discard Non Existent Records",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Discard Non Existent Records": {
-      "main": [
-        [
-          {
-            "node": "Map Line Item Data",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "No Operation, do nothing",
+            "node": "Stripe Record Exists Or Not",
             "type": "main",
             "index": 0
           }
@@ -820,7 +850,36 @@
         ],
         [
           {
-            "node": "Discard Non Existent Records",
+            "node": "Stripe Record Exists Or Not",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stripe Record Exists Or Not": {
+      "main": [
+        [
+          {
+            "node": "Map Line Item Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Stripe Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Stripe Customer": {
+      "main": [
+        [
+          {
+            "node": "Map Line Item Data",
             "type": "main",
             "index": 0
           }
@@ -834,7 +893,7 @@
     "timezone": "Australia/Sydney",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "08844b93-f695-4264-9942-6eed5b14eeb7",
+  "versionId": "faf53ea3-3207-45a4-a4c2-73b2661dca5c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "573c9b4765088426ec02300020b44228e2ae1e75177bd73e7f7ebc50e1674b7a"
