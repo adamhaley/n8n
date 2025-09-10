@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-23T03:51:42.257Z",
-  "updatedAt": "2025-08-23T03:51:49.000Z",
+  "updatedAt": "2025-09-10T02:41:00.000Z",
   "id": "LYSgmIDUZ56DaKIu",
   "name": "Chad Tools",
   "active": false,
@@ -9,17 +9,17 @@
     {
       "parameters": {
         "content": "## LogDailyDiscipline\n\nPOST log_daily_discipline",
-        "height": 288,
-        "width": 1184,
+        "height": 336,
+        "width": 1200,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -16,
-        416
+        -3072,
+        -960
       ],
-      "id": "131d5d17-fdb4-4aeb-bb8a-eb07f3be3adf",
+      "id": "841ba613-9f3e-410f-91b5-ea7604150119",
       "name": "Sticky Note"
     },
     {
@@ -32,10 +32,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -16,
-        784
+        -3072,
+        -576
       ],
-      "id": "f83167e2-8050-4ad5-aa75-0c81da2f589d",
+      "id": "09d960df-8926-47ef-81e8-841f736f4db6",
       "name": "Sticky Note1"
     },
     {
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -16,
-        1104
+        -3072,
+        -256
       ],
-      "id": "3a2a8c03-dbda-4527-ac38-84e28e63ede4",
+      "id": "18ed201f-2225-4ea2-a519-891afa4cf83a",
       "name": "Sticky Note2"
     },
     {
@@ -64,10 +64,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -16,
-        1424
+        -3072,
+        80
       ],
-      "id": "150d792d-0ebe-44e2-a667-e0f4e3bb2aa0",
+      "id": "0c0fac8b-e558-4ac1-a524-41da93a7ef71",
       "name": "Sticky Note3"
     },
     {
@@ -80,10 +80,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1344,
-        416
+        -1712,
+        -944
       ],
-      "id": "9fc0d258-2298-4755-bba8-33e9aeaa642a",
+      "id": "1a7f7a64-7fcd-40bd-916b-e188f6514148",
       "name": "Sticky Note4"
     },
     {
@@ -96,10 +96,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1344,
-        784
+        -1712,
+        -576
       ],
-      "id": "5acc0a24-5cfb-4003-a169-12b720a4acb7",
+      "id": "21da7cbf-5ce4-410b-8b80-2aecfad60187",
       "name": "Sticky Note5"
     },
     {
@@ -112,10 +112,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2672,
-        784
+        -368,
+        -240
       ],
-      "id": "fcf1c173-8293-433a-9f52-2c2b3fed1ee7",
+      "id": "b5452e63-a199-4d87-b51f-80fae2069a8b",
       "name": "Sticky Note7"
     },
     {
@@ -128,10 +128,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2672,
-        1104
+        -368,
+        96
       ],
-      "id": "59376a42-dc06-410f-9f7b-7da982472ba7",
+      "id": "56c4daf8-398e-4345-b647-49ee2c34b31c",
       "name": "Sticky Note8"
     },
     {
@@ -144,43 +144,24 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2672,
-        416
+        -368,
+        -576
       ],
-      "id": "a0ba30e5-5f04-4dc1-97b1-fed202497f1d",
+      "id": "7a545459-54ee-4807-8cdb-474ae2be8405",
       "name": "Sticky Note9"
     },
     {
       "parameters": {
         "tableId": "discipline_log",
-        "fieldsUi": {
-          "fieldValues": [
-            {
-              "fieldId": "log_date",
-              "fieldValue": "={{ $now }}"
-            },
-            {
-              "fieldId": "notes",
-              "fieldValue": "={{ $json.notes }}"
-            },
-            {
-              "fieldId": "user_id",
-              "fieldValue": "={{ $json.user_id }}"
-            },
-            {
-              "fieldId": "discipline_id",
-              "fieldValue": "={{ $json.discipline_id }}"
-            }
-          ]
-        }
+        "dataToSend": "autoMapInputData"
       },
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        480,
-        528
+        -2336,
+        -800
       ],
-      "id": "ed58b297-9126-4563-8c95-1e07b4e71fdc",
+      "id": "3ae4c463-c9a0-4364-a0b2-0eb9aae7c66a",
       "name": "Create a row",
       "onError": "continueRegularOutput"
     },
@@ -191,23 +172,23 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        928,
-        528
+        -1968,
+        -800
       ],
-      "id": "f823a512-541a-48b4-ad95-321cb07f052d",
+      "id": "a7a83e84-cbab-41a4-a404-18df52faca2e",
       "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "jsCode": "return {\n  notes: $input.first().json.body.notes,\n  completed: Boolean( $input.first().json.body.completed),\n  user_id: $input.first().json.body.user_id,\n  discipline_id: parseInt( $input.first().json.body.discipline_id ),\n  \n}"
+        "jsCode": "return {\n  notes:$('Parse JSON').first().json.notes,\n  completed: Boolean( $('Parse JSON').first().json.completed ),\n  user_id:$('Parse JSON').first().json.user_id,\n  discipline_id:$input.first().json.id,\n  log_date: $('Parse JSON').first().json.log_date\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        272,
-        528
+        -2496,
+        -912
       ],
-      "id": "fc272259-b6ca-45ff-92d6-c50b2e537de0",
+      "id": "d90f882f-b9aa-42ed-a5e1-2758df39d483",
       "name": "Code"
     },
     {
@@ -218,10 +199,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        480,
-        896
+        -2576,
+        -464
       ],
-      "id": "4837b340-0c0b-4c06-b2b8-dc651b615b1f",
+      "id": "73e5c913-b296-4e2e-8b8a-d2ecc28614ab",
       "name": "Create a row1",
       "onError": "continueRegularOutput"
     },
@@ -232,23 +213,23 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        928,
-        896
+        -2128,
+        -464
       ],
-      "id": "e4c6a49b-ce0a-4560-8491-40a724abd37e",
+      "id": "c6d1e3e1-60b9-4b70-ae59-ab5873fde0d9",
       "name": "Respond to Webhook1"
     },
     {
       "parameters": {
-        "jsCode": "return {\n  user_id: $input.first().json.body.user_id,\n  type: $input.first().json.body.type,\n  duration_min: parseInt($input.first().json.body.duration_min),\n  distance_mi: parseInt($input.first().json.body.distance_mi),\n  outdoor: Boolean($input.first().json.body.outdoor),\n  pace_sec_per_mile: parseInt($input.first().json.body.pace_sec_per_mile),\n  bench_press_weight_lb: parseInt( $input.first().json.body.bench_press_weight_lb),\n  bench_press_reps: parseInt($input.first().json.body.bench_press_reps),\n  deadlift_weight_lb: parseInt( $input.first().json.body.deadlift_weight_lb),\n  deadlift_reps: parseInt($input.first().json.body.deadlift_reps),\n  barbell_row_weight_lb: parseInt($input.first().json.body.barbell_row_weight_lb),\n  barbell_row_reps: parseInt($input.first().json.body.barbell_row_reps ),\n  tags: $input.first().json.body.tags,\n  notes: $input.first().json.body.notes,\n  log_date: $now\n}"
+        "jsCode": "let body = '';\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\n\nreturn {\n  user_id: body.user_id,\n  type: body.type,\n  duration_min: parseInt( body.duration_min ),\n  distance_mi: parseInt( body.distance_mi ),\n  outdoor: Boolean( body.outdoor ),\n  pace_sec_per_mile: parseInt( body.pace_sec_per_mile ),\n  bench_press_weight_lb: parseInt( body.bench_press_weight_lb ),\n  bench_press_reps: parseInt( body.bench_press_reps ),\n  deadlift_weight_lb: parseInt( body.deadlift_weight_lb ),\n  deadlift_reps: parseInt( body.deadlift_reps ),\n  barbell_row_weight_lb: parseInt( body.barbell_row_weight_lb),\n  barbell_row_reps: parseInt( body.barbell_row_reps ),\n  tags: body.tags,\n  notes: body.notes,\n  log_date: $now\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        272,
-        896
+        -2784,
+        -464
       ],
-      "id": "342fc639-203b-4bf8-90d0-ac2a408e5b65",
+      "id": "7262b9bc-ed1b-4759-b887-e30d7db8b828",
       "name": "Code1"
     },
     {
@@ -259,10 +240,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        480,
-        1216
+        -2576,
+        -144
       ],
-      "id": "848fab62-0281-46a2-a854-fa1ede6c6a04",
+      "id": "652e26e9-841b-4490-a052-9d446f42c98e",
       "name": "Create a row2",
       "onError": "continueRegularOutput"
     },
@@ -273,36 +254,37 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        928,
-        1216
+        -2128,
+        -144
       ],
-      "id": "cd622de3-7d41-48c7-97f8-f41063da28bc",
+      "id": "9c8e275e-d968-4ad4-842a-f4a15402800d",
       "name": "Respond to Webhook2"
     },
     {
       "parameters": {
-        "jsCode": "return {\n  user_id: $input.first().json.body.user_id,\n  week_start: $now,\n  goal_text: $input.first().json.body.goal_text,\n  status: $input.first().json.body.status,\n  notes: $input.first().json.body.notes\n}"
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  week_start: body.week_start,\n  goal_text: body.goal_text,\n  status: body.status,\n  notes: body.notes\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        272,
-        1216
+        -2784,
+        -144
       ],
-      "id": "ef0c09b9-407b-453c-826e-ec416dbd8677",
+      "id": "47cf81ef-5dbc-41ac-be9b-851d84dbcca7",
       "name": "Code2"
     },
     {
       "parameters": {
-        "tableId": "hydration_log"
+        "tableId": "hydration_log",
+        "dataToSend": "autoMapInputData"
       },
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        496,
-        1536
+        -2560,
+        192
       ],
-      "id": "4198aa99-7372-4b40-9308-37cc8dde6839",
+      "id": "547f6c0b-8a32-484b-ad04-73c19589db21",
       "name": "Create a row3",
       "onError": "continueRegularOutput"
     },
@@ -313,23 +295,23 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        928,
-        1536
+        -2128,
+        192
       ],
-      "id": "916a42d4-4302-42f5-803f-781fc8cc2909",
+      "id": "00f49b1d-d7b1-4e9e-9593-f95d8808c8bb",
       "name": "Respond to Webhook3"
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  log_date: $now,\n  ounces: parseInt( body.ounces ),\n  tags: body.tags,\n  notes: body.notes\n  \n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        272,
-        1536
+        -2784,
+        192
       ],
-      "id": "65ba9f1b-5ccf-49c2-bcbe-c809aedef0b8",
+      "id": "57a97dec-9498-466b-a264-c51e2e52d803",
       "name": "Code3"
     },
     {
@@ -339,10 +321,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        704,
-        528
+        -2160,
+        -912
       ],
-      "id": "a41b0b6b-6e2d-433c-8d87-2a9f82ed9983",
+      "id": "d969a1e2-2377-498b-a3ed-66edf4251afb",
       "name": "Error Handling2"
     },
     {
@@ -352,10 +334,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        704,
-        896
+        -2352,
+        -464
       ],
-      "id": "26917782-aaa6-4a74-85be-57d656b674f1",
+      "id": "8d6c83f9-2f01-43a8-a563-2962df85238a",
       "name": "Error Handling"
     },
     {
@@ -365,10 +347,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        704,
-        1216
+        -2352,
+        -144
       ],
-      "id": "bdc98df9-4018-4ef1-9a2e-dbca0d754875",
+      "id": "f793e7a5-b630-47df-aa9c-c21a2cd679a7",
       "name": "Error Handling3"
     },
     {
@@ -378,25 +360,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        704,
-        1536
+        -2352,
+        192
       ],
-      "id": "71952f71-fc9b-4e8e-b492-670216562102",
+      "id": "96e0839e-e23d-4d95-ad9d-e34e3419ac24",
       "name": "Error Handling4"
-    },
-    {
-      "parameters": {
-        "tableId": "body_metrics_log"
-      },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
-      "position": [
-        1824,
-        544
-      ],
-      "id": "6be0c953-4f68-4f02-b0d0-4fa81de43713",
-      "name": "Create a row4",
-      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -405,23 +373,23 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2320,
-        544
+        -736,
+        -816
       ],
-      "id": "1abb16f7-f683-4407-ada4-0899c6f49d16",
+      "id": "360565c8-0601-48a6-878a-7ecf296b8b3d",
       "name": "Respond to Webhook4"
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  log_date: $now,\n  weight_lb: parseInt( body.weight_lb ),\n  body_fat_pct: parseInt( body.body_fat_pct ),\n  subcutaneous_fat_pct: parseInt( body.subcutaneous_fat_pct ),\n  muscle_mass_lb: parseInt( body.muscle_mass_lb ),\n  water_weight_lb: parseInt( body.water_weight_lb ),\n  raw_data: body,\n  notes: body.notes\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1616,
-        544
+        -1440,
+        -816
       ],
-      "id": "3888bd8f-95c9-47a7-b16b-c0b322886c20",
+      "id": "4e7f58e4-9ea8-4a53-8c56-ac2ae6106d35",
       "name": "Code4"
     },
     {
@@ -431,23 +399,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2064,
-        544
+        -992,
+        -816
       ],
-      "id": "7e9f592d-2ab6-4b8e-8637-af3b09b67007",
+      "id": "da299506-a832-45fc-9844-de99b2d5e3a1",
       "name": "Error Handling5"
     },
     {
       "parameters": {
-        "tableId": "device_data_log"
+        "tableId": "device_data_log",
+        "dataToSend": "autoMapInputData"
       },
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1824,
-        912
+        -1232,
+        -448
       ],
-      "id": "7484cfd6-121b-45fe-acfd-68ff01b9e164",
+      "id": "e1502671-a29a-4615-8198-2ca8a65ed0ef",
       "name": "Create a row5",
       "onError": "continueRegularOutput"
     },
@@ -458,10 +427,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2320,
-        912
+        -736,
+        -448
       ],
-      "id": "a90c262b-3559-4196-b16d-c9179df43100",
+      "id": "e2d9282e-877c-4fdc-9886-3a709e318659",
       "name": "Respond to Webhook5"
     },
     {
@@ -471,23 +440,23 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2064,
-        912
+        -992,
+        -448
       ],
-      "id": "c650a5b8-b59f-4ddc-9331-02558b75b8fa",
+      "id": "e2647c0e-39c4-40ce-96bb-fad9da53e4d6",
       "name": "Error Handling6"
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "let body = $json.body;\n// If it's already an object, leave it alone\nif (typeof  $json.body === \"object\") {\n   body = $json.body;\n}\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  \n    body = JSON.parse($json.body); \n  \n}\nreturn {\n  user_id: body.user_id,\n  log_date: $now,\n  source: body.source,\n  readiness_score: parseInt( body.readiness_score ),\n  sleep_score: parseInt( body.sleep_score ),\n  activity_score: parseInt( body.actvity_score ),\n  heart_rate: parseInt( body.heart_rate ),\n  raw_data: body,\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1632,
-        912
+        -1424,
+        -448
       ],
-      "id": "e57e811e-9cdf-4748-805d-60e0c8f90d6a",
+      "id": "647d93f5-a173-4296-af4d-6a35f64a671f",
       "name": "Code5"
     },
     {
@@ -497,10 +466,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        3664,
-        512
+        624,
+        -480
       ],
-      "id": "37d57f63-60cd-485c-84ed-a3b12be3e8ad",
+      "id": "9f61f563-4d2a-472c-bbe6-d2476d6ae740",
       "name": "Respond to Webhook6"
     },
     {
@@ -510,23 +479,23 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3408,
-        512
+        368,
+        -480
       ],
-      "id": "c1634268-4d58-4461-a699-17385b96976d",
+      "id": "1553d664-3deb-4772-b047-5f282703e156",
       "name": "Error Handling7"
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "const now = new Date();\nconst dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.\nconst daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Monday as week start\n\nconst weekStart = new Date(now);\nweekStart.setDate(now.getDate() - daysToSubtract);\nweekStart.setHours(0, 0, 0, 0); // Set to start of day\n\nconst weekStartDate = weekStart.toISOString().split('T')[0];\n\nreturn {\n  user_id: $input.first().json.body.user_id,\n  week_start: weekStartDate\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2976,
-        512
+        -64,
+        -480
       ],
-      "id": "c0988015-cca9-46de-9d22-7d9934d67466",
+      "id": "192a12dd-c7b0-4df0-b803-fe4983792a53",
       "name": "Code6"
     },
     {
@@ -536,10 +505,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        3664,
-        880
+        624,
+        -144
       ],
-      "id": "00b60501-efeb-415b-8170-08e6d66c3180",
+      "id": "9311e8e7-5f9c-4a61-84d9-1787cb9a442c",
       "name": "Respond to Webhook7"
     },
     {
@@ -549,23 +518,23 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3408,
-        880
+        368,
+        -144
       ],
-      "id": "f8becb0d-e615-46a4-98fe-bb7bf19fae1b",
+      "id": "7f60f076-70c1-4da4-8b55-835348903111",
       "name": "Error Handling8"
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "\nreturn $input.all();"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2976,
-        880
+        -64,
+        -144
       ],
-      "id": "7b7888df-963e-4206-87ce-2ddd8767a135",
+      "id": "5a458663-591a-46f0-a658-594477f0ae93",
       "name": "Code7"
     },
     {
@@ -575,10 +544,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        3664,
-        1216
+        624,
+        208
       ],
-      "id": "4896f1eb-18e6-4800-80a7-52a936c8c440",
+      "id": "8c112ee4-e361-4b1b-a454-c41acc98d8c3",
       "name": "Respond to Webhook8"
     },
     {
@@ -588,10 +557,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3408,
-        1216
+        368,
+        208
       ],
-      "id": "7f91ca93-cd55-436b-a15e-80e61ec858a9",
+      "id": "57ba3117-80b0-4403-b862-a33f2d2cbbb3",
       "name": "Error Handling9"
     },
     {
@@ -601,24 +570,36 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2976,
-        1216
+        -64,
+        208
       ],
-      "id": "c43b5aed-a31a-4bd7-8583-7059e955e8be",
+      "id": "1e129c6b-e9cd-4465-aede-89ea8a85ea56",
       "name": "Code8"
     },
     {
       "parameters": {
         "operation": "get",
-        "tableId": "v_weekly_summary"
+        "tableId": "v_weekly_summary",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $json.user_id }}"
+            },
+            {
+              "keyName": "week_start",
+              "keyValue": "={{ $json.week_start }}"
+            }
+          ]
+        }
       },
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3184,
-        512
+        144,
+        -480
       ],
-      "id": "0a2087c2-f0f8-4d52-993a-cf1a8789926f",
+      "id": "17cdfc5b-4a51-479d-b8a1-3647a2d995aa",
       "name": "Get a row",
       "onError": "continueRegularOutput"
     },
@@ -630,10 +611,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3184,
-        880
+        144,
+        -144
       ],
-      "id": "f8213879-50a0-49ae-a420-2073c18b1ff6",
+      "id": "52e6fd73-3a09-493c-bc9b-3386c0d37850",
       "name": "Get a row1",
       "onError": "continueRegularOutput"
     },
@@ -645,10 +626,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3184,
-        1216
+        144,
+        208
       ],
-      "id": "d29f3a18-52d7-4b22-a085-3bf44123660a",
+      "id": "218cebba-522a-4b7f-9740-cfff6b222a7b",
       "name": "Get a row2",
       "onError": "continueRegularOutput"
     },
@@ -662,10 +643,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        1408,
-        544
+        -1648,
+        -816
       ],
-      "id": "8f5cc354-1079-4f31-8f56-e7e4a0ba6db1",
+      "id": "a4ad080a-b6ed-4127-b5e2-028d5ed2a434",
       "name": "LogBodyMetrics",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -679,10 +660,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        1424,
-        912
+        -1632,
+        -448
       ],
-      "id": "d184016d-3fb7-478e-a524-46b18bb76c28",
+      "id": "2fee7280-a313-47dc-869c-1b2fbb165354",
       "name": "LogDeviceData",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -697,10 +678,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        48,
-        1536
+        -3008,
+        192
       ],
-      "id": "df6b8708-8c71-47d1-8a51-1399ebf2e696",
+      "id": "523d0ed0-8da1-4529-a4c7-805ce291029b",
       "name": "LogHydration",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -715,10 +696,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        48,
-        1216
+        -3008,
+        -144
       ],
-      "id": "c87e01ac-9fd2-44d1-9fbb-cc9b60be2d61",
+      "id": "d59ea88c-aa2d-43ae-b0bf-d88bdd6da070",
       "name": "LogWeeklyGoal",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -733,10 +714,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        48,
-        896
+        -3008,
+        -464
       ],
-      "id": "af4a198a-16bd-4084-8f4a-f9933bf5847b",
+      "id": "f21cba95-ba9e-4f5b-90d4-0cfc74a8047d",
       "name": "LogWorkout",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -746,15 +727,17 @@
         "path": "log_daily_discipline",
         "authentication": "headerAuth",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {
+          "rawBody": false
+        }
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        64,
-        528
+        -3056,
+        -800
       ],
-      "id": "e0b4144e-c725-43a6-a6a3-53eeba045a2c",
+      "id": "f14c8c2f-d18b-448a-8dac-19534919676c",
       "name": "LogDailyDiscipline",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -768,10 +751,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        2768,
-        512
+        -272,
+        -480
       ],
-      "id": "ddb01dcd-0364-42ad-a0fd-d0d47241e58e",
+      "id": "f648f160-1be6-466d-97a6-015a8549befa",
       "name": "GetWeeklyGoals",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -785,10 +768,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        2768,
-        880
+        -272,
+        -144
       ],
-      "id": "d9902e77-8850-4e12-bbf7-27060534c981",
+      "id": "0f00f889-238b-4eb9-bd31-c32ba82aaaa8",
       "name": "GetStreak",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -802,10 +785,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        2752,
-        1216
+        -288,
+        208
       ],
-      "id": "09aab93a-dceb-4056-aa89-55e3655b0593",
+      "id": "96f7d75c-cd58-41ce-a88a-253fb9dd1457",
       "name": "GetGoalStatus",
       "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
     },
@@ -819,11 +802,150 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -3056,
+        -1360
       ],
-      "id": "7d7b94de-b687-4da4-a8d3-a5f5bd48b9bc",
+      "id": "2b37017a-cd5d-4399-838e-63ae42f29bc3",
       "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "tableId": "body_metrics_log",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -1232,
+        -816
+      ],
+      "id": "ec56c581-9e89-4327-ac87-4fd7f868efad",
+      "name": "Create a row4",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## GetDisciplines",
+        "height": 288,
+        "width": 1184,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        -944
+      ],
+      "id": "295471b5-8d55-4af8-bc4f-ac6c6143eb80",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        624,
+        -832
+      ],
+      "id": "7ba9e9f0-6ca5-4e6f-843f-446b35de55d3",
+      "name": "Respond to Webhook9"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Returns error object with message if an error comes back from Google Sheets node\n */\nif($input.first().json.error){\n  return {\n    success: false,\n    message: $input.first().json.error\n  }\n\n}else{\n  return $input.all();\n}\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        -832
+      ],
+      "id": "a22a87a2-e745-4ccd-b20c-711a08aa9446",
+      "name": "Error Handling10"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -832
+      ],
+      "id": "542d9787-7107-464a-826e-68a01cbc9c07",
+      "name": "Code9"
+    },
+    {
+      "parameters": {
+        "path": "disciplines",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        -832
+      ],
+      "id": "966c34d1-4f1d-4947-8686-7e4fdc31c1cc",
+      "name": "GetWeeklyGoals1",
+      "webhookId": "711ce8f4-05ef-4e33-b503-5d37cfca505f"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "discipline",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        144,
+        -832
+      ],
+      "id": "95bb4930-e0cd-4812-90dd-6b019cb878eb",
+      "name": "Get many rows",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "discipline",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "label",
+              "keyValue": "={{ $json.discipline_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2656,
+        -800
+      ],
+      "id": "91751421-a758-477c-a9f2-2e90c9c12dc3",
+      "name": "Get a row3",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "let body = $json.body;\n\n// If it's already an object, leave it alone\nif (typeof body === \"object\") {\n  return body;\n}\n\n// If it's a string, try to parse it\nif (typeof body === \"string\") {\n  try {\n    return JSON.parse(body);\n  } catch (e) {\n    throw new Error(\"Body is a string but not valid JSON: \" + body);\n  }\n}\n\n// Fallback if it's neither\nthrow new Error(\"Unexpected body type: \" + typeof body);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2832,
+        -912
+      ],
+      "id": "7a3b6d08-a6cf-42f2-b29b-ee5e8ee7f4be",
+      "name": "Parse JSON"
     }
   ],
   "connections": {
@@ -953,17 +1075,6 @@
         [
           {
             "node": "Respond to Webhook3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create a row4": {
-      "main": [
-        [
-          {
-            "node": "Error Handling5",
             "type": "main",
             "index": 0
           }
@@ -1183,7 +1294,7 @@
       "main": [
         [
           {
-            "node": "Code",
+            "node": "Parse JSON",
             "type": "main",
             "index": 0
           }
@@ -1222,15 +1333,130 @@
           }
         ]
       ]
+    },
+    "Create a row4": {
+      "main": [
+        [
+          {
+            "node": "Error Handling5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handling10": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code9": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetWeeklyGoals1": {
+      "main": [
+        [
+          {
+            "node": "Code9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Error Handling10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row3": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON": {
+      "main": [
+        [
+          {
+            "node": "Get a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "02bfca0a-e829-456d-8090-408a750e79d1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "LogDailyDiscipline": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-dev-td3g.onrender.com",
+            "user-agent": "axios/1.8.3",
+            "content-length": "110",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, br",
+            "authorization": "Bearer f05c6d5245373f4a81f3eacddbfeb2602bb5e66add8cdd30a836432e313a1965",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "35.160.120.126",
+            "cf-ipcountry": "US",
+            "cf-ray": "97ca61373873ad66-PDX",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "render-proxy-ttl": "4",
+            "rndr-id": "6615a64c-159e-4bfd",
+            "true-client-ip": "35.160.120.126",
+            "x-forwarded-for": "35.160.120.126, 104.23.160.117",
+            "x-forwarded-proto": "https",
+            "x-request-start": "1757459644077473"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "user_id": "34b8bafe-f09f-481b-a94e-e41d8e13e8fe",
+            "log_date": "2025-09-09",
+            "discipline_name": "Morning Routine"
+          },
+          "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook/log_daily_discipline",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "3ca30910-ccc1-4e6f-997b-f0145f59e93e",
   "triggerCount": 0,
   "shared": [
     {
