@@ -4,15 +4,15 @@
     {
       "parameters": {
         "content": "## LogDailyDiscipline\n\nPOST log_daily_discipline",
-        "height": 288,
-        "width": 1184,
+        "height": 336,
+        "width": 1200,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         -672,
-        -224
+        -240
       ],
       "id": "7305c475-42a3-49d1-afda-d33e47463055",
       "name": "Sticky Note"
@@ -1035,6 +1035,7 @@
       ],
       "id": "ccc52ae6-ffa4-4c45-9e22-86919c414c79",
       "name": "Get a row3",
+      "alwaysOutputData": true,
       "credentials": {
         "supabaseApi": {
           "id": "Po1mEWAGVVlPQlG7",
@@ -1063,31 +1064,29 @@
           "headers": {
             "host": "n8n-dev-td3g.onrender.com",
             "user-agent": "axios/1.8.3",
-            "content-length": "147",
+            "content-length": "110",
             "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
             "accept-encoding": "gzip, br",
             "authorization": "Bearer f05c6d5245373f4a81f3eacddbfeb2602bb5e66add8cdd30a836432e313a1965",
             "cdn-loop": "cloudflare; loops=1",
             "cf-connecting-ip": "35.160.120.126",
             "cf-ipcountry": "US",
-            "cf-ray": "97c23eaf1998962a-PDX",
+            "cf-ray": "97ca61373873ad66-PDX",
             "cf-visitor": "{\"scheme\":\"https\"}",
             "content-type": "application/json",
             "render-proxy-ttl": "4",
-            "rndr-id": "dcd23803-9a55-46c8",
+            "rndr-id": "6615a64c-159e-4bfd",
             "true-client-ip": "35.160.120.126",
-            "x-forwarded-for": "35.160.120.126, 104.23.160.125",
+            "x-forwarded-for": "35.160.120.126, 104.23.160.117",
             "x-forwarded-proto": "https",
-            "x-request-start": "1757374343578408"
+            "x-request-start": "1757459644077473"
           },
           "params": {},
           "query": {},
           "body": {
             "user_id": "34b8bafe-f09f-481b-a94e-e41d8e13e8fe",
-            "discipline_name": "Running",
-            "notes": "Morning Routine",
-            "completed": "true",
-            "log_date": "2025-09-08"
+            "log_date": "2025-09-09",
+            "discipline_name": "Morning Routine"
           },
           "webhookUrl": "https://n8n-dev-td3g.onrender.com/webhook/log_daily_discipline",
           "executionMode": "production"
@@ -1563,7 +1562,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fc0fb436-df1b-4c35-b028-b00cac4f9066",
+  "versionId": "7dd291c8-8823-4ca1-bcd4-60303f0a054d",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e36638038ba027540464f5c7ca2a9e38142242a60ad22d34895c7e9597f46493"

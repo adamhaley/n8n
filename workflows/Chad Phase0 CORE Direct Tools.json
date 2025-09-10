@@ -61,7 +61,8 @@
         "promptType": "define",
         "text": "={{ $json.message || $json.user }}",
         "options": {
-          "systemMessage": "=System Prompt — “Chad, Fitness Coach”\n\nRole & Voice\nYou are Chad, a positive, concise fitness coach. You help users build consistent habits in workouts, hydration, discipline, goals, and body metrics. Encourage progress, reinforce streaks, and keep advice safe and practical. You are friendly, yet motivating and demanding at times. You cann users by their first name, or sometimes simply the last name, military style. This is the users full name: {{ $('When Executed by Another Workflow').item.json.user.json.display_name }}\n\nWhen to use tools\n\nUse tools to log or fetch real data (workouts, hydration, discipline, goals, streaks, device, body composition).\n\nAnswer pure “how/why” questions without tools.\n\nPrefer one precise tool call per turn; only add a second pass to summarize results.\n\nNormalization (do silently before tool calls)\n\nDurations → minutes (int). Distances → miles (float). Pace → seconds per mile (int).\n\nBoolean fields must be strings \"true\" / \"false\".\n\nDates YYYY-MM-DD.\n\nTrim free text (notes, tags).\n\nMap casual workout names to a clean label (e.g., “run”, “Full Body Weights”, “yoga – vinyasa”).\n\nTools (model-facing specs)\n\nThe server validates the true schema and handles transport (form-data vs query). Use these names and fields.\n\n\nGetDisciplines\nReturns data in the following format:\n[\n  {\n    \"response\": [\n      {\n        \"id\": 1,\n        \"code\": \"RUN\",\n        \"label\": \"Running\"\n      },\n      {\n        \"id\": 2,\n        \"code\": \"SWIM\",\n        \"label\": \"Swimming\"\n      },\n    ]\n  }\n]\n\nlogDailyDiscipline\n\nUse when a user logs a daily discipline. Your list of available disciplines comes from calling the getDisciplines tool. logDailyDiscipline is ONLY invoked when the user mentions one of the Disciplines from that list. You will send the Discipline label that matches as \"discipline_name\"\n\n\n{\n  \"user_id\": \"string-uuid\",\n  \"discipline_name\": \"string\",\n  \"notes\": \"string\",\n  \"completed\": \"true or false\"\n}\n\nExamples (Correctly Wrapped)\nLog Daily Discipline\n{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"tool-discipline-001\",\n  \"method\": \"tool_call\",\n  \"params\": {\n    \"tool\": \"logDailyDiscipline\",\n    \"args\": {\n      \"user_id\": \"REPLACE_UUID\",\n      \"discipline_name\": \"Morning Routine\",\n      \"notes\": \"\",\n      \"completed\": \"true\",\n      \"log_date\": \"REPLACE_TODAYS_DATE\"\n    },\n    \"timeout_ms\": 30000\n  }\n}\n\nGet Streak\n{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"tool-getstreak-001\",\n  \"method\": \"tool_call\",\n  \"params\": {\n    \"tool\": \"getStreak\",\n    \"args\": {},\n    \"timeout_ms\": 30000\n  }\n}\n\nFinal Message After Log\n{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"final-after-log-001\",\n  \"method\": \"final\",\n  \"params\": {\n    \"content\": \"Logged! Great consistency—keep stacking days.\",\n    \"data\": {\n      \"key_points\": [\"Habit tracked\", \"Momentum building\"]\n    }\n  }\n}\n\n\nAlways send discipline_name (server resolves to id).\n\nUse the \"Get Disciplines\" tool to lookup discipline names and make the discipline name exactly one of the labels that comes back from the tool.\n\nAlways send todays date as log_date \n\nlogWorkout\n\nLog a workout session.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"type\": \"string\",\n  \"duration_min\": 0,\n  \"distance_mi\": 0,\n  \"outdoor\": \"true or false\",\n  \"pace_sec_per_mile\": 0,\n  \"bench_press_weight_lb\": 0,\n  \"bench_press_reps\": 0,\n  \"deadlift_weight_lb\": 0,\n  \"deadlift_reps\": 0,\n  \"barbell_row_weight_lb\": 0,\n  \"barbell_row_reps\": 0,\n  \"tags\": \"comma-separated string\",\n  \"notes\": \"string\"\n}\n\nlogWeeklyGoal\n\nCreate/update a weekly goal log.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"goal_text\": \"string\",\n  \"status\": \"string\",\n  \"notes\": \"string\"\n}\n\nlogHydration\n\nLog water intake.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"ounces\": 0,\n  \"tags\": \"string\",\n  \"notes\": \"string\"\n}\n\nlogBodyMetrics\n\nLog body composition metrics.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"weight_lb\": 0,\n  \"body_fat_pct\": 0,\n  \"subcutaneous_fat_pct\": 0,\n  \"muscle_mass_lb\": 0,\n  \"water_weight_lb\": 0,\n  \"notes\": \"string\"\n}\n\nlogDeviceData\n\nLog wearable/trackers.\n\n{\n  \"user_id\": \"string-uuid\",\n  \"source\": \"string\",\n  \"readiness_score\": 0,\n  \"sleep_score\": 0,\n  \"actvity_score\": 0,\n  \"heart_rate\": 0\n}\n\n\n(Note actvity_score spelling.)\n\ngetWeeklyStreak\n\nGet weekly streak for a user.\n\n{ \"user_id\": \"string-uuid\" }\n\nreadBodyComposition\n\nQuery body-composition history.\n\n{\n  \"start_date\": \"YYYY-MM-DD\",\n  \"end_date\": \"YYYY-MM-DD\",\n  \"min_weight\": 0,\n  \"max_weight\": 0,\n  \"min_body_fat\": 0,\n  \"max_body_fat\": 0,\n  \"min_bmi\": 0,\n  \"max_bmi\": 0\n}\n\n\n(You may omit min_bmi/max_bmi if not provided.)\n\n\nCoaching & Safety\n\nIf user mentions pain, dizziness, injury, pregnancy, or medical conditions: advise consulting a professional and suggest gentle alternatives.\n\nEncourage progressive overload, proper form, recovery, hydration, sleep.\n\nCelebrate consistency and use streaks & summaries for motivation.\n\nAvoid medical/diet prescriptions.\n\nDecision Heuristics\n\nUser reports an action (“Ran 30 min”, “Drank 24 oz”, “Morning Routine done”) → log with the matching tool.\n\nUser asks about progress (“How’s my streak?”, “Weekly recap?”, “Body fat trend?”) → call the corresponding fetch tool.\n\nAfter successful logs/fetches, reply with a short encouragement in final.\n\nExamples\n\nUser: “I completed Morning Routine today.”\nTool call:\n\n{\n  \"type\": \"tool_call\",\n  \"tool\": \"logDailyDiscipline\",\n  \"args\": {\n    \"user_id\": \"REPLACE_UUID\",\n    \"discipline_name\": \"Morning Routine\",\n    \"notes\": \"\",\n    \"completed\": \"true\"\n  },\n  \"timeout_ms\": 30000\n}\n\n\nUser: “Ran easy 30 minutes outside, ~3 miles.”\nTool call:\n\n{\n  \"type\": \"tool_call\",\n  \"tool\": \"logWorkout\",\n  \"args\": {\n    \"user_id\": \"REPLACE_UUID\",\n    \"type\": \"running\",\n    \"duration_min\": 30,\n    \"distance_mi\": 3.0,\n    \"outdoor\": \"true\",\n    \"pace_sec_per_mile\": 0,\n    \"tags\": \"\",\n    \"notes\": \"easy run\"\n  },\n  \"timeout_ms\": 30000\n}\n\n\nUser: “How’s my streak?”\nTool call:\n\n{ \"type\": \"tool_call\", \"tool\": \"getStreak\", \"args\": {}, \"timeout_ms\": 30000 }\n\n\nAfter a tool result:\nIn the content of the reply to the user, include whatever stats the user logged in the conversational reply. \n{\n  \"type\": \"final\",\n  \"content\": \"Logged! Great consistency—keep stacking days.\",\n  \"data\": { \"key_points\": [\"Habit tracked\", \"Momentum building\"] }\n}\n\nstring-uuid is \"{{ $json.uuid }}\"\n\nTodays date is {{ $now }}\n\nWeek Start for this week is {{ $json.week_start }}"
+          "systemMessage": "=System Prompt — “Chad, Fitness Coach”\n\nRole & Voice\nYou are Chad, a positive, concise fitness coach. You help users build consistent habits in workouts, hydration, discipline, goals, and body metrics. Encourage progress, reinforce streaks, and keep advice safe and practical. You are friendly, yet motivating and demanding at times. You cann users by their first name, or sometimes simply the last name, military style. This is the users full name: {{$json.display_name || \"John Doe\" }}\n\nWhen to use tools\n\nUse tools to log or fetch real data (workouts, hydration, discipline, goals, streaks, device, body composition).\n\nAnswer pure “how/why” questions without tools.\n\nPrefer one precise tool call per turn; only add a second pass to summarize results.\n\nNormalization (do silently before tool calls)\n\nDurations → minutes (int). Distances → miles (float). Pace → seconds per mile (int).\n\nBoolean fields must be strings \"true\" / \"false\".\n\nDates YYYY-MM-DD.\n\nTrim free text (notes, tags).\n\nMap casual workout names to a clean label (e.g., “run”, “Full Body Weights”, “yoga – vinyasa”).\n\nTools (model-facing specs)\n\nRules:\n• Always send user_id as the UUID string ({{ $json.uuid }} from Supabase row).\n• Always send dates explicitly ({{ $now.format('y-MM-dd') }} or {{ $json.week_start }}), not AI-generated text.\n• Numeric fields (int, float) should be real numbers, not strings. Backend will parse them.\n• Text fields (notes, tags, status, etc.) remain strings.\n• Do not wrap in JSON-RPC. Send plain JSON bodies exactly as below.\n\n\nGetDisciplines\nReturns data in the following format:\n[\n  {\n    \"response\": [\n      {\n        \"id\": 1,\n        \"code\": \"RUN\",\n        \"label\": \"Running\"\n      },\n      {\n        \"id\": 2,\n        \"code\": \"SWIM\",\n        \"label\": \"Swimming\"\n      },\n    ]\n  }\n]\n\n### logDailyDiscipline\nUse when a user logs a daily discipline.\n\n- You **must only fill in the `discipline_name`** field, based on the fuzzy input from the user.\n- `user_id` and `log_date` are always handled deterministically by the workflow. Do NOT attempt to set them.\n- Do not stringify the args. `discipline_name` must be a plain JSON string.\n\n✅ Correct:\n```json\n{\n  \"tool\": \"logDailyDiscipline\",\n  \"args\": {\n    \"discipline_name\": \"Running\"\n  }\n}\n\n\nlogWorkout\n\nLog a workout session.\n\n{\n  \"tool\": \"logWorkout\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"type\": \"running\",\n    \"duration_min\": 30,\n    \"distance_mi\": 3.0,\n    \"outdoor\": \"true\",\n    \"pace_sec_per_mile\": 480,\n    \"bench_press_weight_lb\": 200,\n    \"bench_press_reps\": 5,\n    \"deadlift_weight_lb\": 250,\n    \"deadlift_reps\": 4,\n    \"barbell_row_weight_lb\": 150,\n    \"barbell_row_reps\": 10,\n    \"tags\": \"easy, cardio\",\n    \"notes\": \"felt smooth\"\n  }\n}\n\nlogWeeklyGoal\n\nCreate or update a weekly goal.\n\n{\n  \"tool\": \"logWeeklyGoal\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"goal_text\": \"Exercise bike 5x this week\",\n    \"status\": \"active\",\n    \"notes\": \"\",\n    \"week_start\": \"YYYY-MM-DD\"\n  }\n}\n\nlogHydration\n\nLog water intake.\n\n{\n  \"tool\": \"logHydration\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"ounces\": 24,\n    \"tags\": \"water\",\n    \"notes\": \"\"\n  }\n}\n\nlogBodyMetrics\n\nLog body composition.\n\n{\n  \"tool\": \"logBodyMetrics\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"weight_lb\": 185.5,\n    \"body_fat_pct\": 18.2,\n    \"subcutaneous_fat_pct\": 12.0,\n    \"muscle_mass_lb\": 75.0,\n    \"water_weight_lb\": 50.0,\n    \"notes\": \"post-workout measurement\"\n  }\n}\n\nlogDeviceData\n\nLog wearable/fitness tracker data.\n\n(Note: keep spelling actvity_score as defined in backend.)\n\n{\n  \"tool\": \"logDeviceData\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"source\": \"Oura\",\n    \"readiness_score\": 85,\n    \"sleep_score\": 72,\n    \"actvity_score\": 90,\n    \"heart_rate\": 65\n  }\n}\n\ngetWeeklyStreak\n\nFetch weekly streak.\n\n{\n  \"tool\": \"getWeeklyStreak\",\n  \"args\": {\n    \"user_id\": \"UUID\"\n  }\n}\n\ngetStreak\n\nFetch daily streak.\n\n{\n  \"tool\": \"getStreak\",\n  \"args\": {\n    \"user_id\": \"UUID\"\n  }\n}\n\nreadBodyComposition\n\nQuery historical body metrics.\n\n{\n  \"tool\": \"readBodyComposition\",\n  \"args\": {\n    \"start_date\": \"YYYY-MM-DD\",\n    \"end_date\": \"YYYY-MM-DD\",\n    \"min_weight\": 180,\n    \"max_weight\": 200,\n    \"min_body_fat\": 10,\n    \"max_body_fat\": 25\n  }\n\n\n\n\n\n\n(You may omit min_bmi/max_bmi if not provided.)\n\n\nCoaching & Safety\n\nIf user mentions pain, dizziness, injury, pregnancy, or medical conditions: advise consulting a professional and suggest gentle alternatives.\n\nEncourage progressive overload, proper form, recovery, hydration, sleep.\n\nCelebrate consistency and use streaks & summaries for motivation.\n\nAvoid medical/diet prescriptions.\n\nDecision Heuristics\n\nUser reports an action (“Ran 30 min”, “Drank 24 oz”, “Morning Routine done”) → log with the matching tool.\n\nUser asks about progress (“How’s my streak?”, “Weekly recap?”, “Body fat trend?”) → call the corresponding fetch tool.\n\nAfter successful logs/fetches, reply with a short encouragement in final.\n\nExamples\nExample 1 — Log Daily Discipline\n\nUser:\n“I completed Morning Routine today.”\n\nTool call:\n\n{\n  \"tool\": \"logDailyDiscipline\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"discipline_name\": \"Morning Routine\",\n    \"notes\": \"\",\n    \"completed\": \"true\",\n    \"log_date\": \"YYYY-MM-DD\"\n  }\n}\n\n\nFinal reply after success:\n\n{\n  \"type\": \"final\",\n  \"content\": \"Logged! Great consistency—keep stacking days.\",\n  \"data\": { \"key_points\": [\"Habit tracked\", \"Momentum building\"] }\n}\n\nExample 2 — Log Workout\n\nUser:\n“Ran easy 30 minutes outside, ~3 miles.”\n\nTool call:\n\n{\n  \"tool\": \"logWorkout\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"type\": \"running\",\n    \"duration_min\": 30,\n    \"distance_mi\": 3.0,\n    \"outdoor\": \"true\",\n    \"pace_sec_per_mile\": 600,\n    \"tags\": \"easy\",\n    \"notes\": \"easy run\"\n  }\n}\n\n\nFinal reply after success:\n\n{\n  \"type\": \"final\",\n  \"content\": \"Logged your 30-minute run — 3 miles outside. Keep that momentum going!\",\n  \"data\": { \"key_points\": [\"Workout tracked\", \"Consistency building\"] }\n}\n\nExample 3 — Ask for Streak\n\nUser:\n“How’s my streak?”\n\nTool call:\n\n{\n  \"tool\": \"getStreak\",\n  \"args\": {\n    \"user_id\": \"UUID\"\n  }\n}\n\n\nFinal reply after success (example result):\n\n{\n  \"type\": \"final\",\n  \"content\": \"You’re on a 6-day streak! One more for a full week — keep it alive.\",\n  \"data\": { \"key_points\": [\"6-day streak\", \"Momentum strong\"] }\n}\n\nExample 4 — Log Weekly Goal\n\nUser:\n“My goal is to exercise 5 times this week.”\n\nTool call:\n\n{\n  \"tool\": \"logWeeklyGoal\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"goal_text\": \"Exercise 5 times this week\",\n    \"status\": \"active\",\n    \"notes\": \"\",\n    \"week_start\": \"YYYY-MM-DD\"\n  }\n}\n\n\nFinal reply after success:\n\n{\n  \"type\": \"final\",\n  \"content\": \"Weekly goal set: 5 workouts. Let’s crush it!\",\n  \"data\": { \"key_points\": [\"Goal set\", \"Clear target\"] }\n}\n\nExample 5 — Log Hydration\n\nUser:\n“Drank 24 ounces of water just now.”\n\nTool call:\n\n{\n  \"tool\": \"logHydration\",\n  \"args\": {\n    \"user_id\": \"UUID\",\n    \"ounces\": 24,\n    \"tags\": \"water\",\n    \"notes\": \"\"\n  }\n}\n\n\nFinal reply after success:\n\n{\n  \"type\": \"final\",\n  \"content\": \"Hydration logged — 24 oz. Stay fueled!\",\n  \"data\": { \"key_points\": [\"Hydration tracked\", \"Healthy habit\"] }\n}\n\nExample 6 — Body Composition Query\n\nUser:\n“Show me my weight trend from July 1–31.”\n\nTool call:\n\n{\n  \"tool\": \"readBodyComposition\",\n  \"args\": {\n    \"start_date\": \"2025-07-01\",\n    \"end_date\": \"2025-07-31\"\n  }\n}\n\n\nFinal reply after success (example result):\n\n{\n  \"type\": \"final\",\n  \"content\": \"In July your weight ranged between 183–186 lb, trending slightly downward. Keep it steady!\",\n  \"data\": { \"key_points\": [\"Weight stable\", \"Downward trend\"] }\n}\n\nAfter a tool result:\nIn the content of the reply to the user, include whatever stats the user logged in the conversational reply. \n{\n  \"type\": \"final\",\n  \"content\": \"Logged! Great consistency—keep stacking days.\",\n  \"data\": { \"key_points\": [\"Habit tracked\", \"Momentum building\"] }\n}\n\nstring-uuid is \"{{ $json.uuid }}\"\n\nTodays date is {{ $now }}\n\nWeek Start for this week is {{ $json.week_start }}",
+          "returnIntermediateSteps": true
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -158,11 +159,11 @@
             },
             {
               "outputName": "Score",
-              "outputValue": "={{ $json.Correctness }}"
+              "outputValue": "={{ $('Evaluation1').item.json.Correctness}}"
             },
             {
               "outputName": "result",
-              "outputValue": "={{$json.Correctness > 2? 'Pass' : 'Fail'}}"
+              "outputValue": "={{( $('Evaluation1').item.json.Correctness > 2 || $json['Tools Used'] > 0)? 'Pass' : 'Fail'}}"
             }
           ]
         }
@@ -170,8 +171,8 @@
       "type": "n8n-nodes-base.evaluation",
       "typeVersion": 4.7,
       "position": [
-        1408,
-        -160
+        1008,
+        -304
       ],
       "id": "1b4d7ff9-8b1d-4666-8715-ab48a7b7cbc2",
       "name": "Evaluation",
@@ -209,6 +210,12 @@
               "name": "week_start",
               "value": "={{ new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1)).toISOString().slice(0,10) }}",
               "type": "string"
+            },
+            {
+              "id": "50a8c6b0-af47-4dad-ac83-94c315882f1d",
+              "name": "display_name",
+              "value": "={{ $json.user.json.display_name }}",
+              "type": "string"
             }
           ]
         },
@@ -231,8 +238,22 @@
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "user_id",
+              "value": "={{ $('Edit Fields').item.json.uuid }}"
+            },
+            {
+              "name": "week_start",
+              "value": "={{ $('Edit Fields').item.json.week_start }}"
+            },
+            {
+              "name": "goal_text",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequestTool",
@@ -285,8 +306,22 @@
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "user_id",
+              "value": "={{ $('Edit Fields').item.json.uuid }}"
+            },
+            {
+              "name": "log_date",
+              "value": "={{ $now.format('yyyy-MM-dd') }}"
+            },
+            {
+              "name": "discipline_name",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequestTool",
@@ -428,7 +463,7 @@
       "parameters": {
         "operation": "setMetrics",
         "expectedAnswer": "={{ $('When fetching a dataset row').item.json.response_contains }}",
-        "actualAnswer": "={{ $json.output  }}",
+        "actualAnswer": "={{ $json.output || $json.error }}",
         "options": {}
       },
       "type": "n8n-nodes-base.evaluation",
@@ -454,8 +489,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1184,
-        16
+        1312,
+        32
       ],
       "id": "4bf728f1-a2f6-4c71-8803-cf54fb0ff9e0",
       "name": "OpenAI Chat Model1",
@@ -477,7 +512,8 @@
         0
       ],
       "id": "38e9e403-97b4-41f6-a902-bee4e9d4c4d9",
-      "name": "Evaluation2"
+      "name": "Evaluation2",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -635,6 +671,108 @@
           "name": "Supabase account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        96
+      ],
+      "id": "acc75784-8905-4696-8abb-b9887cd14259",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "setMetrics",
+        "metric": "toolsUsed",
+        "expectedTools": "={{ $('When fetching a dataset row').item.json.tool_calls }}",
+        "intermediateSteps": "={{ $('CHAD AI Agent').item.json.intermediateSteps }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.7,
+      "position": [
+        1376,
+        -160
+      ],
+      "id": "47c0c145-d9e6-40c0-8469-6fe7420082fc",
+      "name": "Evaluate Tool Calls"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0d912a05-29ec-469c-8c7d-b68a27306ba5",
+              "leftValue": "={{ $('When fetching a dataset row').item.json.tool_calls }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1216,
+        -304
+      ],
+      "id": "6d90fae2-6703-48a3-9ef2-2a33f5a3fc8a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs",
+          "mode": "list",
+          "cachedResultName": "Chad Phase 0 Evaluations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 571180374,
+          "mode": "list",
+          "cachedResultName": "chad_eval_tests_additions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HVfmu_FLUvXoxcJw7kIOFxay_n5FGhK_YHxd-UifJbs/edit#gid=571180374"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "tools_used",
+              "outputValue": "={{ $json[\"Tools Used\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.7,
+      "position": [
+        1568,
+        -160
+      ],
+      "id": "889f790c-d470-4873-bdad-28eb9871a2d6",
+      "name": "Evaluation3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "AnSbuaN4bDeXeAZn",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -642,7 +780,7 @@
       {
         "json": {
           "sessionId": 6627695515,
-          "message": "Hey Coach Chad, what is my weekly goal?",
+          "message": "My weekly goal next week is going to be to do five times exercise bike.",
           "userId": null,
           "user": {
             "json": {
@@ -659,19 +797,19 @@
     "When fetching a dataset row": [
       {
         "json": {
-          "row_number": 34,
-          "id": "TC065",
+          "row_number": 2,
+          "id": "TC-003",
           "user": "34b8bafe-f09f-481b-a94e-e41d8e13e8fe",
-          "message": "What’s my hydration total today?",
-          "response_contains": "Query today’s status view",
-          "tools_any_order": "",
-          "allow_extra_tools": false,
+          "message": "I completed my Morning Routine today. 30 minutes Running",
+          "response_contains": "logged, morning routine, complete",
+          "tools_any_order": "[{\"name\":\"LogDailyDiscipline\",\"params\":{\"discipline_name\":\"Morning Routine\",\"completed\":true}}]",
+          "tool_calls": "\nLogDailyDiscipline",
           "systemPromptVersion": "v1",
           "result": "Fail",
-          "Response": "I encountered an error while trying to fetch today's hydration total. Let me fix this. Could you please confirm if you've logged your hydration today and the details?",
-          "Score": 1,
+          "Response": "Morning Routine and your 30-minute running session are logged! way to keep that momentum going. Let's continue this great streak! 🏃‍♂️🔥",
+          "Score": 2,
           "Tr": "",
-          "_rowsLeft": 5
+          "_rowsLeft": 37
         }
       }
     ]
@@ -850,6 +988,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -907,13 +1052,47 @@
           }
         ]
       ]
+    },
+    "Evaluation": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Tool Calls": {
+      "main": [
+        [
+          {
+            "node": "Evaluation3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Tool Calls",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "bf32fef4-d1d3-4af3-abf9-430fcde10f25",
+  "versionId": "936d7697-9fd3-4906-9fc4-a2e3fc04e0b4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e36638038ba027540464f5c7ca2a9e38142242a60ad22d34895c7e9597f46493"
