@@ -1,0 +1,155 @@
+{
+  "createdAt": "2025-09-10T22:42:50.765Z",
+  "updatedAt": "2025-09-10T22:51:55.000Z",
+  "id": "VKaL9JlBKHWhjeCM",
+  "name": "Pitch Paul R&D",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Generate Email from Word Doc\n\nt.haufler@deutsches-efelsteinhaus.com",
+        "height": 496,
+        "width": 912,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5f31d348-0632-445d-8acc-153a812ac484",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        96,
+        176
+      ],
+      "id": "4e97c484-2b14-4b89-bd6a-1e6e2d7e7706",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "1Xxx8LEzIJUdW00VkkyyNpo1ks3-CsGEoVh19bdUBCBY"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        304,
+        176
+      ],
+      "id": "a8a55cc6-db49-426d-a9c0-da708ae59534",
+      "name": "Get a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "9VnLh2Wcvuzi2wxb",
+          "name": "Google Docs account Markus Longdragon"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- CONFIG -------------------------------------------------\nconst TEST_MODE = true;  // flip to false when wiring to real nodes\n\nconst TEST_SUBJECT = 'Nachhaltige Sachwerte für Ihre Praxis';\nconst TEST_INTRO   = 'vielen Dank für Ihr Interesse. Basierend auf Ihren Schwerpunkten habe ich eine kurze, relevante Zusammenfassung vorbereitet.';\n\n// Node names as they appear in your canvas (change if needed)\nconst NODES = {\n  genSubject: 'Generate Subject',\n  genIntro: 'Generate Intro',\n  pitchPaul: 'Pitch-Paul',\n  defineOffer: 'Define Offer',\n};\n// ------------------------------------------------------------\n\n// Helpers\nfunction getFrom(nodeName, path) {\n  try {\n    const it = $items(nodeName, 0, 0); // first run, first item\n    if (!it || !it.json) return undefined;\n    return path.split('.').reduce((o, k) => (o == null ? o : o[k]), it.json);\n  } catch (_) {\n    return undefined;\n  }\n}\n\nfunction replaceAllLiteral(haystack, needle, replacement) {\n  const esc = needle.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');\n  return haystack.replace(new RegExp(esc, 'g'), (replacement ?? '').toString().trim());\n}\n\nfunction esc(s) {\n  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n}\n\n// 1) Load doc text\nlet raw = $json.content || '';\nraw = raw.replace(/\\u000b/g, '\\n').replace(/\\r/g, '').trim();\n\n// 2) Resolve subject/intro (test or prod)\nconst prodSubject =\n  getFrom(NODES.genSubject, 'subject') ??\n  getFrom(NODES.pitchPaul,  'output.subject') ??\n  getFrom(NODES.defineOffer,'emailSubject') ?? '';\n\nconst prodIntro =\n  getFrom(NODES.genIntro,   'intro') ??\n  getFrom(NODES.pitchPaul,  'output.pitchPaulAnswer') ??\n  getFrom(NODES.defineOffer,'offer') ?? '';\n\nconst subjectFrom = ($json.subject ?? (TEST_MODE ? TEST_SUBJECT : prodSubject)).toString();\nconst introFrom   = ($json.intro   ?? (TEST_MODE ? TEST_INTRO   : prodIntro)).toString();\n\n// 3) Do replacements (lowercase placeholders)\nlet content = raw;\ncontent = replaceAllLiteral(content, '{{subject}}', subjectFrom);\ncontent = replaceAllLiteral(content, '{{intro}}',   introFrom);\n\n// 4) Extract subject from \"Betreff:\" line if present\nlet subject = subjectFrom || '';\nlet textBody = content;\n\nconst lines = content.split('\\n');\nif (lines.length > 0 && /^ *betreff *:/i.test(lines[0])) {\n  const m = lines[0].match(/betreff *:\\s*(.*)$/i);\n  if (m && m[1]) subject = m[1].trim() || subject;\n  textBody = lines.slice(1).join('\\n').trim();\n}\n\n// 5) Cleanup + build HTML\ntextBody = textBody.replace(/\\n{3,}/g, '\\n\\n').trim();\n\nconst htmlBody = `\n<!DOCTYPE html>\n<html lang=\"de\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>${esc(subject || 'anfrage')}</title>\n</head>\n<body style=\"font-family: Arial, sans-serif; color:#333; background:#f9f9f9; padding:20px;\">\n  <div style=\"max-width:600px; margin:0 auto; background:#fff; padding:20px; border-radius:8px;\">\n    ${textBody.split('\\n').map(line => line.trim() ? `<p>${esc(line)}</p>` : '<br>').join('\\n')}\n  </div>\n</body>\n</html>\n`.trim();\n\n// 6) Emit\nreturn [{\n  json: {\n    documentId: $json.documentId,\n    subject,\n    textBody,\n    htmlBody,\n    contentReplaced: content,\n    TEST_MODE\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        176
+      ],
+      "id": "e25b1959-cc19-47c8-9400-d0c59aa22823",
+      "name": "Replace"
+    },
+    {
+      "parameters": {
+        "fromEmail": "t.haufler@deutsches-efelsteinhaus.com",
+        "toEmail": "adamhaley@gmail.com",
+        "subject": "Test",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        176
+      ],
+      "id": "dd30a57d-2d82-4a48-941e-e4ff925c5d71",
+      "name": "Send email",
+      "webhookId": "9047df5b-f709-49fe-a0c8-3357aff14764",
+      "credentials": {
+        "smtp": {
+          "id": "lp7pLLuR1ecyvoDK",
+          "name": "SMTP account (deutsches-edelsteinhaus.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a document": {
+      "main": [
+        [
+          {
+            "node": "Replace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Get a document": [
+      {
+        "json": {
+          "documentId": "1Xxx8LEzIJUdW00VkkyyNpo1ks3-CsGEoVh19bdUBCBY",
+          "content": "Betreff:  {{subject}}\nE-Mail-Text:\u000bSehr geehrte Frau Dr. [Nachname],\u000bSehr geehrter Herr Dr. [Nachname],\n{{intro}} \nAls Deutsches Edelsteinhaus unterstützen wir Zahnarzt-Praxen dabei, einen Teil ihres liquiden Vermögens krisensicher, inflationsgeschützt und diskret in echte Sachwerte umzuschichten: Investment-Farbedelsteine (wie Rubine, Saphire und andere) - unabhängig geprüft, zertifiziert , und werthaltig - für Generationen.\nGerade für inhabergeführte Praxen wie Ihre bieten sich bestimmte Edelsteine innerhalb eines diversifizierten Portfolios als zusätzliche stille Reserve an:\n🔹 Wertbeständig, inflationssicher und als mobiler Vermögensspeicher\u000b\u000b🔹 Als steuerlich interessante Unternehmensreserve\u000b\u000b🔹 Ohne Börsenrisiko, Verwaltungsaufwand oder laufende Kosten\nUnsere Kunden schätzen dabei besonders:\u000b – den persönlichen, vertraulichen Kontakt,\u000b – die transparente Struktur unserer Angebote,\u000b – und den bewusst zurückhaltenden, serviceorientierten Ansatz – wie man ihn auch auf Ihrer Website findet.\nWenn Sie das Thema interessiert, lade ich Sie gerne zu einem 15-minütigen, unverbindlichen Gespräch ein.\n\nIch freue mich auf Ihre Rückmeldung.\nMit besten Grüßen\u000b\u000bTatjana Haufler\u000bFachberaterin Edelsteine\u000bDeutsches Edelsteinhaus GmbH\nDeutsches Edelsteinhaus DEH GmbH\u000bKogenwiese 5\u000b88279 Amtzell\u000bDeutschland\n\u000b\nP.S.: Sehen Sie sich dazu vielleicht auch das Interview unseres Geschäftsführers Alexander Streeb mit dem renommierten Redakteur Markus Langemann auf Youtube an, über 350.000 Besucher sind begeistert: https://www.youtube.com/watch?v=DmvVy5avJjk \n\n-----\nDie gelb markierten Teile würden individuell gestaltet werden \n"
+        }
+      }
+    ]
+  },
+  "versionId": "2d12106b-2bbc-4437-816c-9499dcebff17",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-10T22:42:50.768Z",
+      "updatedAt": "2025-09-10T22:42:50.768Z",
+      "role": "workflow:owner",
+      "workflowId": "VKaL9JlBKHWhjeCM",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
