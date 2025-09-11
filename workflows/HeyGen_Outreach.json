@@ -1,0 +1,254 @@
+{
+  "createdAt": "2025-09-09T18:21:20.376Z",
+  "updatedAt": "2025-09-09T19:36:22.000Z",
+  "id": "37q43bxbtWyVZ6YO",
+  "name": "HeyGen Outreach",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        -160
+      ],
+      "id": "3edd8b05-f5ad-4cf4-9024-549c3018a8fb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -144,
+        -160
+      ],
+      "id": "af6c9189-f87f-4a78-ae61-bd3f8397b12b",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "aIDyvQUuR4iZRmoo",
+          "name": "Markus Longdragon Google Acct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Get Lead, Enrich",
+        "height": 464,
+        "width": 544,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -240
+      ],
+      "id": "ea0ea904-97ee-4980-9dd3-f2d12ec248e0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "actorId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "timeout": {}
+      },
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        464
+      ],
+      "id": "0de1bfe6-fc94-42c7-a6d5-0a619bd94c32",
+      "name": "Generate Website Screenshot",
+      "credentials": {
+        "apifyApi": {
+          "id": "dh2WW5qry105DFGj",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -352,
+        464
+      ],
+      "id": "1b1f9c8f-2fd8-4e9e-b0c8-8edf66ac9101",
+      "name": "HeyGenAvatar"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        96
+      ],
+      "id": "e1b1adf6-7680-4b6c-9213-f10eaa2a6da4",
+      "name": "Generate Script for HeyGen"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        784,
+        464
+      ],
+      "id": "dec5fe9f-9294-4da2-94d3-d2eb3955838c",
+      "name": "Composite Avatar and Screenshot",
+      "notesInFlow": true,
+      "notes": "triggers FFMPEG to create a composite video from the screenshot and avatar videos:\n\n ffmpeg -i background.mp4 -i mainvideo.mp4 -i greenvideo.mp4 -i logo.png -filter_complex /\n\n[1]scale[SC];[2]colorkey[CK]; /\n\n[0][SC]overlay[OVa];[OVa][CK]overlay[OVb];[OVb][3]overlay out.mp4\n"
+    },
+    {
+      "parameters": {
+        "content": "## Generate Script",
+        "height": 368,
+        "width": 432
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -80
+      ],
+      "id": "12f18c8e-3ff5-48ec-8c42-c6582f4c94f3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Pass script to HeyGen to get Avatar Video",
+        "height": 304,
+        "width": 544,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        384
+      ],
+      "id": "48fdfba1-ef96-4144-af28-8431a613f5dc",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Generate Screenshot / Avatar composite",
+        "height": 304,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        384
+      ],
+      "id": "bf20c0d1-09c2-478f-9e83-e7f54eb02979",
+      "name": "Sticky Note3"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Generate Script for HeyGen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Website Screenshot": {
+      "main": [
+        [
+          {
+            "node": "Composite Avatar and Screenshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HeyGenAvatar": {
+      "main": [
+        [
+          {
+            "node": "Generate Website Screenshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Script for HeyGen": {
+      "main": [
+        [
+          {
+            "node": "HeyGenAvatar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a7628239-7f9e-4895-ba05-8897492c441c",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-09T18:21:20.382Z",
+      "updatedAt": "2025-09-09T18:21:20.382Z",
+      "role": "workflow:owner",
+      "workflowId": "37q43bxbtWyVZ6YO",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
