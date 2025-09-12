@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-06T22:34:16.045Z",
-  "updatedAt": "2025-09-06T23:07:06.000Z",
+  "updatedAt": "2025-09-11T16:02:30.000Z",
   "id": "gK2bghMVHpes2pOk",
   "name": "Runpod/ComfyUI",
   "active": false,
@@ -21,7 +21,7 @@
       "parameters": {
         "content": "## R & D on ComfyUI / Runpod Integration\n",
         "height": 544,
-        "width": 1440,
+        "width": 1456,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -305,7 +305,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "d35beb0f-33ad-4762-8875-cf984573b75b",
+  "versionId": "458aa259-b629-4ad3-ac8b-b8a109423c28",
   "triggerCount": 0,
   "shared": [
     {
