@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-23T03:52:12.111Z",
-  "updatedAt": "2025-08-23T03:52:12.000Z",
+  "updatedAt": "2025-09-15T04:14:13.000Z",
   "id": "34jxGnkxsyP23Awu",
   "name": "Chad Voice Agent",
   "active": false,
@@ -9,131 +9,18 @@
     {
       "parameters": {
         "resource": "file",
-        "fileId": "={{ $json.message.voice.file_id }}",
+        "fileId": "={{ $('Receive Message').first().json.message.voice.file_id }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        512,
-        256
+        -704,
+        -160
       ],
-      "id": "11f0f520-6f00-469e-9471-0ea689deaa21",
+      "id": "2c9cb3fc-5034-432e-a9ee-e2608a0052ec",
       "name": "Download Message",
       "webhookId": "d6239fda-b394-43c7-87b8-889f340989e6"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "8743551c-0890-4d1a-9791-dd1d4087849d",
-              "name": "msg",
-              "value": "={{ $json.msg }}",
-              "type": "string"
-            },
-            {
-              "id": "caf017c7-8d7d-4aa5-ab7f-8e3eb27a8ec9",
-              "name": "sessionId",
-              "value": "={{ $('Is Voice or Text?').item.json.message.chat.id }}",
-              "type": "number"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        944,
-        368
-      ],
-      "id": "1de5b126-1b9d-4ba0-bf44-dc0fb7a6f388",
-      "name": "Add sessionId"
-    },
-    {
-      "parameters": {
-        "keys": {
-          "key": [
-            {
-              "currentKey": "message.text",
-              "newKey": "msg"
-            }
-          ]
-        },
-        "additionalOptions": {}
-      },
-      "type": "n8n-nodes-base.renameKeys",
-      "typeVersion": 1,
-      "position": [
-        736,
-        464
-      ],
-      "id": "abcc5841-289d-4575-b6ad-fb07a97853fc",
-      "name": "Normalize Msg"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.message.voice }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "object",
-                      "operation": "exists",
-                      "singleValue": true
-                    },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $json.message.text }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        288,
-        368
-      ],
-      "id": "79459b0f-d0ca-40b1-86f5-97c5953847fe",
-      "name": "Is Voice or Text?"
     },
     {
       "parameters": {
@@ -145,36 +32,17 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        64,
-        368
+        -1744,
+        -288
       ],
-      "id": "de0781b4-d91d-4c85-8c40-7e8dcd5d55ed",
+      "id": "2862011c-74cb-48d9-8c9e-3709f8e7d64e",
       "name": "Receive Message",
       "webhookId": "aac89fdd-865b-4f9b-9875-75909cc27924"
     },
     {
       "parameters": {
-        "operation": "sendAudio",
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "binaryData": true,
-        "additionalFields": {
-          "fileName": "reply.mp3"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        1840,
-        288
-      ],
-      "id": "7bec7ffc-892a-481e-9f89-c032bd6176ff",
-      "name": "Send Audio Reply",
-      "webhookId": "660355ff-7f58-4b7a-b966-21497023ff9d"
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Receive Message').item.json.message.chat.id }}",
-        "text": "={{ $('Call BOT CORE').item.json.output }}",
+        "chatId": "={{ $('Receive Message').first().json.message.chat.id }}",
+        "text": "={{ $('Call CHAD CORE').item.json.output || $json.error }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -183,25 +51,166 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2064,
-        368
+        704,
+        16
       ],
-      "id": "cea94925-ce01-41ad-9225-a91d09d0a298",
+      "id": "97c96260-02d2-4bdc-8153-7df83880c9ae",
       "name": "Send Text Reply",
       "webhookId": "531a0f31-0dd2-4cfa-80cc-0ac6e12e595d"
     },
     {
       "parameters": {
+        "content": "## Process Message from Telegram",
+        "height": 896,
+        "width": 1904,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1840,
+        -384
+      ],
+      "id": "a0115363-5e5c-4723-be1a-b8149345248a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -432,
+        -160
+      ],
+      "id": "f3226847-6823-4ef8-85ad-d70f9e1b6a2b",
+      "name": "Transcribe a recording"
+    },
+    {
+      "parameters": {
+        "content": "## TTS and Send back to Telegram",
+        "height": 912,
+        "width": 512,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -384
+      ],
+      "id": "8c2c5e29-a25d-4a5c-b7e0-48ff6362bfed",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "app_user"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        -160
+      ],
+      "id": "5da34056-e3a1-45fa-8b01-6903a53ad992",
+      "name": "Lookup System Users"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Receive Message').first().json.message.chat.id }}",
+        "text": "Access not authorized.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1264,
+        304
+      ],
+      "id": "88e2f2a1-b0b2-4a92-9b3e-fd28149c8ef1",
+      "name": "Send Unauthorized Message",
+      "webhookId": "dd178122-d4c5-4a9b-b3ce-d3c39de825d8"
+    },
+    {
+      "parameters": {
+        "jsCode": "if( $('Receive Message').first().json.message?.voice ){\n return {\n   msg: $input.first().json.text\n }\n}else if( $('Receive Message').first().json.message?.text ){\n  return {\n    msg: $('Receive Message').first().json.message.text\n  }\n}else if( $(\"Receive Message\").first().json.message?.photo ){\n  return {\n    msg:$input.first().json.content\n  }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        16
+      ],
+      "id": "0c060aa1-6636-4481-8b88-fc6faa5caa84",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "jsCode": "let authUserIndex = $input.all()\n  .map(item => item.json.telegram_user_id)\n  .indexOf($(\"Receive Message\").first().json.message.from.id);\n\nif (authUserIndex !== -1) {\n  return [\n    {\n      json: {\n        ...$input.all()[authUserIndex].json,\n        authorized: true,\n      },\n    },\n  ];\n} else {\n  return [\n    {\n      json: {\n        authorized: false,\n      },\n    },\n  ];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1488,
+        112
+      ],
+      "id": "19921184-5bda-4444-a688-d41943ed0559",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "93aabae9-ffe1-4564-a0d1-8c94c29ca94d",
+              "leftValue": "={{ $json.authorized }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1264,
+        32
+      ],
+      "id": "7d0d8fce-dc2a-4f32-b06e-6f04f40db510",
+      "name": "If"
+    },
+    {
+      "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "sptIOeflIGpXVtq5",
+          "value": "tMNqUSccvqDrOclH",
           "mode": "list",
-          "cachedResultName": "Chad Phase0 CORE"
+          "cachedResultName": "Chad Phase0 CORE Direct Tools"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "sessionId": "={{ $json.sessionId }}"
+            "sessionId": "={{ $('Receive Message').first().json.message.from.id }}",
+            "message": "={{ $json.msg }}",
+            "user": "={{ $('Code').item }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -212,7 +221,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
+              "type": "number",
               "removed": false
             },
             {
@@ -224,6 +233,26 @@
               "canBeUsedToMatch": true,
               "type": "string",
               "removed": false
+            },
+            {
+              "id": "userId",
+              "displayName": "userId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "user",
+              "displayName": "user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -234,27 +263,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1168,
-        368
+        240,
+        16
       ],
-      "id": "d1442ad8-73b7-493b-86e3-c5b1153ea555",
-      "name": "Call BOT CORE"
-    },
-    {
-      "parameters": {
-        "content": "## Process Message from Telegram",
-        "height": 784,
-        "width": 912,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "11be9ee9-d7d9-41ff-974d-03410731a728",
-      "name": "Sticky Note"
+      "id": "332aeaa6-e1e9-4edb-9fef-f40590bfaff3",
+      "name": "Call CHAD CORE"
     },
     {
       "parameters": {
@@ -270,18 +283,20 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $('Receive Message').item.json.message.voice }}",
+                    "leftValue": "={{ $('Receive Message').first().json.message.voice }}",
                     "rightValue": "",
                     "operator": {
                       "type": "object",
                       "operation": "exists",
                       "singleValue": true
                     },
-                    "id": "a8116d0d-5bdb-49da-8984-08a077e816ae"
+                    "id": "f058e11e-6675-4f9a-85af-0b5e12f440cb"
                   }
                 ],
                 "combinator": "and"
-              }
+              },
+              "renameOutput": true,
+              "outputKey": "voice"
             },
             {
               "conditions": {
@@ -293,8 +308,8 @@
                 },
                 "conditions": [
                   {
-                    "id": "cb242f13-0ce2-4645-9a69-6d9816104485",
-                    "leftValue": "={{ $('Receive Message').item.json.message.text}}",
+                    "id": "c8928123-9c0c-4b1d-b29e-c62107e0274f",
+                    "leftValue": "={{ $('Receive Message').first().json.message.text }}",
                     "rightValue": "",
                     "operator": {
                       "type": "string",
@@ -304,7 +319,34 @@
                   }
                 ],
                 "combinator": "and"
-              }
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "56ab71d3-1569-4de3-b6ac-849f8222f17d",
+                    "leftValue": "={{ $('Receive Message').first().json.message.photo.last() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "photo"
             }
           ]
         },
@@ -313,56 +355,50 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        1392,
-        368
-      ],
-      "id": "4943e077-7d04-4c85-a59e-3dc80f621b7a",
-      "name": "Is Voice or Text?1"
-    },
-    {
-      "parameters": {
-        "resource": "audio",
-        "operation": "transcribe",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        720,
-        256
-      ],
-      "id": "fe618ebf-2804-4066-9d88-6e53e12ca516",
-      "name": "Transcribe a recording"
-    },
-    {
-      "parameters": {
-        "resource": "audio",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        1600,
-        272
-      ],
-      "id": "f7d0664c-7c65-4cc0-a7a8-99b08d54f747",
-      "name": "Generate audio"
-    },
-    {
-      "parameters": {
-        "content": "## TTS and Send back to Telegram",
-        "height": 784,
-        "width": 768,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1520,
+        -976,
         0
       ],
-      "id": "c9558127-1835-4dd2-bf3f-476761d1fc90",
-      "name": "Sticky Note1"
+      "id": "4d299051-5f52-4d75-9367-4016e11b6862",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Receive Message').first().json.message.photo[3].file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -704,
+        208
+      ],
+      "id": "cc5a9524-3f4b-47e7-8ad2-73a7451f7118",
+      "name": "Get a file",
+      "webhookId": "a1fa15c4-f8f4-4f10-a31c-1ce923dbf5ec"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "text": "If the incoming image contains data relevant to health and fitness - body metrics, device data, or workout data, please output those metrics in a key:value list. Your output will be used by an AI health and fitness assistant to log the metrics. If it looks like device data from an Oura Ring, or an Apple watch for instance please prompt to log \"device data\" instead of \"body metrics\". In case of device data, attempt to infer the type of device from the iamge and include the type of device (ie: Oura, Apple Watch, etc). If it looks like the image contains details relevant to logging a specific workout, please specify that in your output. Please structure your output like a prompt to the assistant to log the data.\n\nIe: \"Please log the following [body metrics or device data or workout]:\n     weight_lb: 185.5,\n     body_fat_pct: 18.2,\n     subcutaneous_fat_pct: 12.0,\n     muscle_mass_lb: 75.0,\n     water_weight_lb: 50.0,\n     notes: post-workout measurement\"\n ",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -432,
+        208
+      ],
+      "id": "0701a031-de5f-4984-9811-b42da1d0ca1e",
+      "name": "Analyze image"
     }
   ],
   "connections": {
@@ -377,91 +413,11 @@
         ]
       ]
     },
-    "Normalize Msg": {
-      "main": [
-        [
-          {
-            "node": "Add sessionId",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Is Voice or Text?": {
-      "main": [
-        [
-          {
-            "node": "Download Message",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Normalize Msg",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Receive Message": {
       "main": [
         [
           {
-            "node": "Is Voice or Text?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Audio Reply": {
-      "main": [
-        [
-          {
-            "node": "Send Text Reply",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Add sessionId": {
-      "main": [
-        [
-          {
-            "node": "Call BOT CORE",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call BOT CORE": {
-      "main": [
-        [
-          {
-            "node": "Is Voice or Text?1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Is Voice or Text?1": {
-      "main": [
-        [
-          {
-            "node": "Generate audio",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Text Reply",
+            "node": "Lookup System Users",
             "type": "main",
             "index": 0
           }
@@ -472,18 +428,116 @@
       "main": [
         [
           {
-            "node": "Add sessionId",
+            "node": "Code2",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Generate audio": {
+    "Lookup System Users": {
       "main": [
         [
           {
-            "node": "Send Audio Reply",
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Call CHAD CORE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Unauthorized Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call CHAD CORE": {
+      "main": [
+        [
+          {
+            "node": "Send Text Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Download Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Code2",
             "type": "main",
             "index": 0
           }
@@ -495,9 +549,68 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "835886bc-7c8d-4be3-be0b-7682a5e1399b",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Receive Message": [
+      {
+        "json": {
+          "update_id": 522973289,
+          "message": {
+            "message_id": 137,
+            "from": {
+              "id": 6627695515,
+              "is_bot": false,
+              "first_name": "Adam",
+              "last_name": "Haley",
+              "username": "adamhaley7",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 6627695515,
+              "first_name": "Adam",
+              "last_name": "Haley",
+              "username": "adamhaley7",
+              "type": "private"
+            },
+            "date": 1757869956,
+            "photo": [
+              {
+                "file_id": "AgACAgEAAxkBAAOJaMb3hOTRhb6aTgvUnXVmB21qxTIAArmvMRv_CzhGq6L5oaUFI70BAAMCAANzAAM2BA",
+                "file_unique_id": "AQADua8xG_8LOEZ4",
+                "file_size": 1149,
+                "width": 42,
+                "height": 90
+              },
+              {
+                "file_id": "AgACAgEAAxkBAAOJaMb3hOTRhb6aTgvUnXVmB21qxTIAArmvMRv_CzhGq6L5oaUFI70BAAMCAANtAAM2BA",
+                "file_unique_id": "AQADua8xG_8LOEZy",
+                "file_size": 14875,
+                "width": 148,
+                "height": 320
+              },
+              {
+                "file_id": "AgACAgEAAxkBAAOJaMb3hOTRhb6aTgvUnXVmB21qxTIAArmvMRv_CzhGq6L5oaUFI70BAAMCAAN4AAM2BA",
+                "file_unique_id": "AQADua8xG_8LOEZ9",
+                "file_size": 56338,
+                "width": 369,
+                "height": 800
+              },
+              {
+                "file_id": "AgACAgEAAxkBAAOJaMb3hOTRhb6aTgvUnXVmB21qxTIAArmvMRv_CzhGq6L5oaUFI70BAAMCAAN5AAM2BA",
+                "file_unique_id": "AQADua8xG_8LOEZ-",
+                "file_size": 116296,
+                "width": 591,
+                "height": 1280
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "95b01bbc-27a0-4067-8bbb-829f23e825bc",
   "triggerCount": 0,
   "shared": [
     {
