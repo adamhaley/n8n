@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-04-25T17:52:35.238Z",
-  "updatedAt": "2025-06-17T00:18:26.000Z",
+  "updatedAt": "2025-09-15T04:02:53.000Z",
   "id": "Q1HVkL2oehj9cSlc",
   "name": "Resume Generator",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -207,5 +207,14 @@
   "pinData": {},
   "versionId": "641719eb-bcf4-4b66-92bd-96ab578e6f04",
   "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-04-25T17:52:35.246Z",
+      "updatedAt": "2025-04-25T17:52:35.246Z",
+      "role": "workflow:owner",
+      "workflowId": "Q1HVkL2oehj9cSlc",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
   "tags": []
 }
