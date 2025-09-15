@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-27T21:31:55.009Z",
-  "updatedAt": "2025-08-31T22:36:48.000Z",
+  "updatedAt": "2025-09-15T04:19:22.000Z",
   "id": "7PUN0MsnChwYbrXm",
   "name": "Blog Generator Agent",
   "active": false,
@@ -191,8 +191,8 @@
     {
       "parameters": {
         "content": "## POST To Wordpress\n\n- Load articles from Google Sheetset to publish=true and Publish Date set to Today's date\n- Load articles from Google Sheet set to publish=true and Publish Date set to blank\n\nThese options allow Blog Articles to be cued up days or weeks in advance, OR auto-post today if no date set ",
-        "height": 720,
-        "width": 2512,
+        "height": 656,
+        "width": 2384,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -286,7 +286,7 @@
       "parameters": {
         "content": "## Add Record to Sheet, Generate Image",
         "height": 528,
-        "width": 928,
+        "width": 816,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -1186,7 +1186,7 @@
       }
     ]
   },
-  "versionId": "fd3c6c0c-3624-4648-a33f-fc11b4d44a80",
+  "versionId": "f02c60a2-3c4c-404e-aace-b00d7ee728e5",
   "triggerCount": 0,
   "shared": [
     {
