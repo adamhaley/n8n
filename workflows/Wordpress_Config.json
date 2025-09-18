@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-08-31T22:38:25.507Z",
-  "updatedAt": "2025-08-31T22:38:48.000Z",
-  "id": "qv8c79TArozYgBHH",
+  "createdAt": "2025-08-27T21:32:41.598Z",
+  "updatedAt": "2025-08-27T21:32:41.000Z",
+  "id": "UfTKSznjDey9dfXr",
   "name": "Wordpress Config",
   "active": false,
   "isArchived": false,
@@ -14,10 +14,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        144,
-        80
+        528,
+        304
       ],
-      "id": "66317077-9139-467e-b706-377fa6e55723",
+      "id": "45362dc3-fc1d-4d15-ab55-c81e057c3cae",
       "name": "Get Categories"
     },
     {
@@ -27,10 +27,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        368,
-        80
+        752,
+        304
       ],
-      "id": "1876af7a-00a6-43ec-8274-47f715b86d49",
+      "id": "15ba6041-e8af-4541-a4ad-2d1ad96a95ea",
       "name": "Parse Categories"
     },
     {
@@ -40,10 +40,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1040,
-        80
+        1424,
+        304
       ],
-      "id": "c51d75ca-0c7f-4a6d-ba43-4e6c27b6897e",
+      "id": "594bfd34-8d09-4f32-a5a3-e88f4a2f002c",
       "name": "Config"
     },
     {
@@ -53,10 +53,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        592,
-        64
+        976,
+        288
       ],
-      "id": "995724eb-b889-4259-834f-61f7ab051443",
+      "id": "2367db43-7708-4d3f-8401-64ed62a19c36",
       "name": "Merge Tags and Categories"
     },
     {
@@ -67,10 +67,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        816,
-        80
+        1200,
+        304
       ],
-      "id": "c0d436cb-39da-4e24-b4ec-e7ddff43144c",
+      "id": "20d750cb-a251-48f4-8d65-ae88a0b74739",
       "name": "Aggregate"
     },
     {
@@ -83,10 +83,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        144,
-        -112
+        528,
+        112
       ],
-      "id": "38fc74bb-dcbd-4691-a8a1-1c01c069e870",
+      "id": "f6fc581b-581d-4fa6-9133-d1acc5290340",
       "name": "GET Wordpress Tags"
     },
     {
@@ -96,10 +96,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        368,
-        -112
+        752,
+        112
       ],
-      "id": "005c3994-c3ec-4abc-9828-96b48d3f81e6",
+      "id": "8359d069-33be-49b3-b8a6-f5d9de0f5ad5",
       "name": "Parse Tags"
     },
     {
@@ -112,13 +112,13 @@
           ]
         }
       },
-      "id": "84e17aec-0e5e-4cee-b22e-db4688a7b3c6",
+      "id": "14d2212d-81f8-4739-9822-956f0f3a5bc3",
       "typeVersion": 1.1,
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -304,
-        80
+        80,
+        304
       ]
     },
     {
@@ -138,10 +138,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -80,
-        80
+        304,
+        304
       ],
-      "id": "1fc20187-dac8-4e16-8007-3a08d86963f6",
+      "id": "b32531eb-22f4-47b6-ab0b-5c7ccc25fb87",
       "name": "Set Target Wordpress URL"
     },
     {
@@ -154,10 +154,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        96,
-        -224
+        480,
+        0
       ],
-      "id": "1ce57459-8227-49f9-a3d9-466870cc8d10",
+      "id": "e6970a5b-7084-4840-9f65-ff38d8b49d1c",
       "name": "Sticky Note5"
     },
     {
@@ -170,10 +170,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -384,
-        -224
+        0,
+        0
       ],
-      "id": "abc5f4ed-840a-4e8b-9df7-83a7fc0b3d95",
+      "id": "105bca72-c9e9-4bfa-8e2e-b3c4e385a183",
       "name": "Sticky Note"
     },
     {
@@ -183,10 +183,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        368,
-        256
+        752,
+        480
       ],
-      "id": "ed75e0c3-caa4-49d1-9c94-da506ba51b01",
+      "id": "faf9a79c-046b-4c4d-ac8b-c272f01a86d1",
       "name": "Parse Authors"
     },
     {
@@ -199,10 +199,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        144,
-        256
+        528,
+        480
       ],
-      "id": "e9ea0c23-b773-49c7-9668-861b9e1ae94e",
+      "id": "c03ccefb-3c78-4587-8ec8-181207b2e22b",
       "name": "Get Authors"
     }
   ],
@@ -334,14 +334,14 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "36af9cb8-4af4-4fd5-b135-c5b21d14d2e4",
+  "versionId": "dc8457e2-2db6-4f8e-a6ae-4b67edf83479",
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-31T22:38:25.511Z",
-      "updatedAt": "2025-08-31T22:38:25.511Z",
+      "createdAt": "2025-08-27T21:32:41.604Z",
+      "updatedAt": "2025-08-27T21:32:41.604Z",
       "role": "workflow:owner",
-      "workflowId": "qv8c79TArozYgBHH",
+      "workflowId": "UfTKSznjDey9dfXr",
       "projectId": "nZwUmEIL638ig6xE"
     }
   ],
