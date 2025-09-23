@@ -1,0 +1,241 @@
+{
+  "createdAt": "2025-09-22T18:53:15.573Z",
+  "updatedAt": "2025-09-22T21:03:10.000Z",
+  "id": "QCRbesfaZY1TWyzn",
+  "name": "LeadGen",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8f457192-9ed9-432a-98ae-0f8da7f8d245",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1399d0f0-daa1-4083-a1b1-683bd144b0c5",
+              "name": "sheet_id",
+              "value": "1ct2lzFXhDkWAROpdmN6L1e_uQQxKLSPlZCCKI4i44OY",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "aee200f1-a48a-4a2d-9389-f27174946171",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.sheet_id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1374417673,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ct2lzFXhDkWAROpdmN6L1e_uQQxKLSPlZCCKI4i44OY/edit#gid=1374417673"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "site"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "cda6c323-86bb-4870-bdb9-04906096654a",
+      "name": "Get Leads with No Website",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fopETI7hpoC_F4TtgviagZ3rD4Wl2CmKiNefQw85Jyc",
+          "mode": "list",
+          "cachedResultName": "Call Next",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fopETI7hpoC_F4TtgviagZ3rD4Wl2CmKiNefQw85Jyc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fopETI7hpoC_F4TtgviagZ3rD4Wl2CmKiNefQw85Jyc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "business_name": "={{ $json.name }}",
+            "phone": "={{ $json.phone }}",
+            "address": "={{ $json.full_address }}",
+            "category": "={{ $json.category }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "business_name",
+              "displayName": "business_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "called",
+              "displayName": "called",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        624,
+        0
+      ],
+      "id": "ce608c63-c327-499d-9c0b-2539c6180bc3",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xtQ979K9uDMYI6cX",
+          "name": "adamhaley@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get Leads with No Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Leads with No Website": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "17cdce6f-e57f-4b13-9017-03933feb2235",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-22T18:53:15.581Z",
+      "updatedAt": "2025-09-22T18:53:15.581Z",
+      "role": "workflow:owner",
+      "workflowId": "QCRbesfaZY1TWyzn",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
