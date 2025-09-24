@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-22T18:53:15.573Z",
-  "updatedAt": "2025-09-22T21:03:10.000Z",
+  "updatedAt": "2025-09-23T22:58:46.000Z",
   "id": "QCRbesfaZY1TWyzn",
   "name": "LeadGen",
   "active": false,
@@ -115,6 +115,26 @@
               "canBeUsedToMatch": true
             },
             {
+              "id": "contact",
+              "displayName": "contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoice_email",
+              "displayName": "invoice_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
               "id": "phone",
               "displayName": "phone",
               "required": false,
@@ -153,6 +173,16 @@
               "canBeUsedToMatch": true
             },
             {
+              "id": "answer",
+              "displayName": "answer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
               "id": "result",
               "displayName": "result",
               "required": false,
@@ -170,7 +200,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        624,
+        880,
         0
       ],
       "id": "ce608c63-c327-499d-9c0b-2539c6180bc3",
@@ -181,6 +211,20 @@
           "name": "adamhaley@gmail.com"
         }
       }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const item = $json;\n\nlet phoneRaw = item.phone || \"\";\n\n// Strip out wrappers\nphoneRaw = phoneRaw.replace(/^<tel:/, \"\").replace(/>$/, \"\");\n\n// Take the first number if multiple\nlet phone = phoneRaw.split(\"|\")[0].trim();\n\n// Add apostrophe to force Sheets treat it as text\nif (phone && !phone.startsWith(\"'\")) {\n  phone = `'${phone}`;\n}\n\nreturn {\n  ...item,\n  phone\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "273b1515-0895-40c9-b3db-28dc01f372aa",
+      "name": "Code in JavaScript"
     }
   ],
   "connections": {
@@ -210,6 +254,17 @@
       "main": [
         [
           {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
             "node": "Append row in sheet",
             "type": "main",
             "index": 0
@@ -226,7 +281,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "17cdce6f-e57f-4b13-9017-03933feb2235",
+  "versionId": "0715102e-ebf3-41d6-a8e2-27df7c18a904",
   "triggerCount": 0,
   "shared": [
     {
