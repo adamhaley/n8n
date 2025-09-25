@@ -1,0 +1,403 @@
+{
+  "createdAt": "2025-09-24T18:47:10.712Z",
+  "updatedAt": "2025-09-24T18:47:25.000Z",
+  "id": "1LTn77DOnNECy4vP",
+  "name": "Validate Emails",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## ✅ Pre-Validation (Truelist.io Free Plan)\n\n- Daily quota: **250 validations/day**  \n- Campaign needs: **100–200/day** → quota is enough  \n\n**Approach**  \n- Use **BATCH Validation API**).  \n- Run **daily scheduled n8n flow** to pre-validate next batch.  \n- Store results (`ok`, `risky`, `invalid`) in Supabase/Sheets.  \n- Always keep at least **2–3 days buffer** of validated addresses ready.  \n",
+        "height": 528,
+        "width": 848,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -176
+      ],
+      "id": "f01cf002-5dab-467d-9355-726ce7536ced",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "german_companies",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "ilike",
+              "keyValue": "={{ $json.email }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "email_status",
+              "fieldValue": "={{ $json.email_state }}:{{ $json.email_sub_state }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        32
+      ],
+      "id": "226913bf-cbb6-4c6a-9adc-e663d56d4801",
+      "name": "Update a row"
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2560,
+        208
+      ],
+      "id": "9c782aee-db32-4438-bb8a-d5d05c6c2ec6",
+      "name": "Wait",
+      "webhookId": "a2f78a2a-cab4-4cad-af0e-b11bc2a7fb44"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.truelist.io/api/v1/batches/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1920,
+        128
+      ],
+      "id": "45c0460d-ec13-42b3-8fe8-5cb7ac33251d",
+      "name": "Check Batch Status"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.truelist.io/api/v1/batches",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ $json.emails }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ $json.emails}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1696,
+        128
+      ],
+      "id": "b50f2516-12d6-47a0-afca-d96a4941d9a1",
+      "name": "Batch Validation Truelist.io"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "464fc089-5ec5-4659-85c4-61fd9e6d4c82",
+              "leftValue": "={{ $json.batch_state }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "1714ae59-43a0-4e96-826b-f209fb420497",
+              "leftValue": "={{ $json.annotated_csv_url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2128,
+        128
+      ],
+      "id": "add7c9ec-331b-4289-9aa7-317c69b8a02d",
+      "name": "If Completed"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Get the email string from current item\nconst raw = $json.email || \"\";\n\n// Split if commas exist, otherwise wrap in array\nlet emails = raw.includes(\",\")\n  ? raw.split(\",\").map(e => e.trim()).filter(Boolean)\n  : [raw.trim()];\n\nif(emails.length >1){\n  emails = [ emails[emails.length - 1] ];\n}\n\n// Return the new normalized array\nreturn {\n      ...emails, // always an array\n  };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        128
+      ],
+      "id": "2ca30b52-24e9-4f51-978c-ac9266cc81d4",
+      "name": "Extract emails, one per company"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect all input items\nconst allItems = $input.all();\n\n// Build array of arrays (each with one email)\nconst emailArrays = allItems.map(item => [item.json[\"0\"] || item.json.email || item.json.emails]);\n\n// Return a single object with the array-of-arrays\nreturn [\n  {\n    json: {\n      emails: emailArrays\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1488,
+        128
+      ],
+      "id": "50b4bdfe-e2c3-4e0e-ac5b-cb822b67bba2",
+      "name": "Format for Truelist.io"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw CSV string\nconst raw = $json.data || \"\";\n\n// Split into rows, trim whitespace\nconst rows = raw.trim().split(\"\\n\");\n\n// First row is header, remove it\nrows.shift();\n\n// Parse each row into an object\nconst results = rows.map(line => {\n  const [emailRaw, email, didYouMean, emailState, emailSubState] = line.split(\",\");\n\n  return {\n    json: {\n      email: email.trim(),\n      did_you_mean: didYouMean || null,\n      email_state: emailState || null,\n      email_sub_state: emailSubState || null\n    }\n  };\n});\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2560,
+        32
+      ],
+      "id": "b85149e9-0178-49e4-8780-5262a13c7c38",
+      "name": "Parse Results"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        816,
+        128
+      ],
+      "id": "58d6cf7b-18c9-4e7d-8838-0c5429eb9040",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.annotated_csv_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2336,
+        32
+      ],
+      "id": "7ebd7d9a-872f-4d4b-882c-21374e6791b6",
+      "name": "Get CSV"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "german_companies",
+        "limit": 100,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "neq"
+            },
+            {
+              "keyName": "email_status",
+              "condition": "is",
+              "keyValue": "=null"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        128
+      ],
+      "id": "f1ef7456-7307-4389-86d9-8ea9808a93df",
+      "name": "Get first 100 rows that haven't been validated"
+    }
+  ],
+  "connections": {
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Check Batch Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Batch Status": {
+      "main": [
+        [
+          {
+            "node": "If Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Batch Validation Truelist.io": {
+      "main": [
+        [
+          {
+            "node": "Check Batch Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Completed": {
+      "main": [
+        [
+          {
+            "node": "Get CSV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract emails, one per company": {
+      "main": [
+        [
+          {
+            "node": "Format for Truelist.io",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format for Truelist.io": {
+      "main": [
+        [
+          {
+            "node": "Batch Validation Truelist.io",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Results": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get first 100 rows that haven't been validated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get CSV": {
+      "main": [
+        [
+          {
+            "node": "Parse Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get first 100 rows that haven't been validated": {
+      "main": [
+        [
+          {
+            "node": "Extract emails, one per company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "a650cb83-e8a8-4523-b852-c1647a217d2a",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-24T18:47:10.718Z",
+      "updatedAt": "2025-09-24T18:47:10.718Z",
+      "role": "workflow:owner",
+      "workflowId": "1LTn77DOnNECy4vP",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
