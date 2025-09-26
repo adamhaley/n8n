@@ -1,0 +1,246 @@
+{
+  "createdAt": "2025-09-26T02:09:32.350Z",
+  "updatedAt": "2025-09-26T02:09:32.000Z",
+  "id": "FHyTZDNNHObH1Kzs",
+  "name": "Daily Stats",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://nxkchrwkcdnvlxouxqgc.supabase.co/rest/v1/rpc/get_daily_summary",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54a2NocndrY2Rudmx4b3V4cWdjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTUxMjA4OCwiZXhwIjoyMDcxMDg4MDg4fQ.Zxq0otsD0w0qzfF_6dddgS2tit4H6EwqjUvJe0lPvco"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54a2NocndrY2Rudmx4b3V4cWdjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTUxMjA4OCwiZXhwIjoyMDcxMDg4MDg4fQ.Zxq0otsD0w0qzfF_6dddgS2tit4H6EwqjUvJe0lPvco"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_user_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "name": "p_date",
+              "value": "={{ $now.format('y-MM-dd') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        816,
+        272
+      ],
+      "id": "abd35539-4b21-4e23-8d9a-866740cafd98",
+      "name": "Supabase RPC Call"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "app_user"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        528,
+        272
+      ],
+      "id": "f483e929-665c-4fcb-9ed9-17a4fb095794",
+      "name": "Get many rows"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Get many rows').item.json.telegram_user_id }}",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        560
+      ],
+      "id": "1d492715-c0d5-4f57-a344-2d6f6cebdf8b",
+      "name": "Send a text message",
+      "webhookId": "1ab08e37-8528-4a88-a2c5-1d45f055796f"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Assume the RPC response JSON is in items[0].json\nconst data = $json;\n\n// Build sections\nlet summary = `📊 Daily Summary – ${new Date().toISOString().slice(0,10)}\\n\\n`;\nlet nodata = true;\n\n\nif (data.workouts && data.workouts.length) {\n  summary += \"🏋️ Workouts:\\n\";\n  data.workouts.forEach(w => {\n    summary += `- ${w.type || \"Workout\"} (${w.duration_min || 0} min`;\n    if (w.distance_mi) summary += `, ${w.distance_mi} mi`;\n    summary += \")\\n\";\n  });\n  summary += \"\\n\";\n  nodata = false;\n}\n\nif (data.hydration && data.hydration.length) {\n  const totalOz = data.hydration.reduce((sum, h) => sum + (Number(h.ounces) || 0), 0);\n  summary += `💧 Hydration: ${totalOz} oz total (${data.hydration.length} entries)\\n\\n`;\n  nodata = false;\n}\n\nif (data.device_data && data.device_data.length) {\n  const d = data.device_data[0]; // assume latest\n  summary += \"📱 Oura / Device Data:\\n\";\n  summary += `- HR: ${d.heart_rate}\\n`;\n  summary += `- Sleep: ${d.sleep_score}\\n`;\n  summary += `- Activity: ${d.activity_score}\\n`;\n  summary += `- Readiness: ${d.readiness_score}\\n\\n`;\n  nodata = false;\n}\n\nif (data.body_metrics && data.body_metrics.length) {\n  const b = data.body_metrics[0]; // assume latest\n  summary += \"⚖️ Body Metrics:\\n\";\n  summary += `- Weight: ${b.weight_lb} lb\\n`;\n  summary += `- Body Fat: ${b.body_fat_pct}%\\n`;\n  summary += `- Muscle Mass: ${b.muscle_mass_lb} lb\\n`;\n  summary += `- Water: ${b.water_weight_lb} lb\\n`;\n  summary += `- Subcutaneous Fat: ${b.subcutaneous_fat_pct}%\\n\\n`;\n  nodata = false;\n}\n\nif (data.disciplines && data.disciplines.length) {\n  summary += \"📌 Disciplines:\\n\";\n  data.disciplines.forEach(d => {\n    summary += `- ${d.discipline}: ${d.completed ? \"✔\" : \"✖\"}`;\n    if (d.notes) summary += ` (${d.notes})`;\n    summary += \"\\n\";\n  });\n  summary += \"\\n\";\n  nodata = false;\n}\nif(nodata){\n  summary += 'No data for today.';\n}\n\nreturn { json: { message: summary.trim() } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        272
+      ],
+      "id": "bc775dea-b1a9-4a62-95ed-da4ade9ff38b",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "content": "## CHAD Daily summary\n📌 Daily Summary RPC Flow\n\n⏰ Trigger\nScheduled trigger runs every day at 8:00pm.\n",
+        "height": 512,
+        "width": 656,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a5cb03f5-1a76-4d3f-8a09-56844f811997",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 📡 Supabase RPC\nCall get_daily_summary(user_id, date)\n\nDatabase bundles together all metrics for that user on that date:\n- Workouts\n- Hydration logs\n- Disciplines (completed / not completed)\n- Device data (Oura scores, heart rate)\n- Body metrics (weight, body fat, muscle, etc.)",
+        "height": 512,
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "2ccd8369-4104-4b1c-b5e7-39063ff9c031",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 🧩 Code Node\n\nFormat the JSON response into a human-readable message.\nExample output:\n\nDaily Summary – 2025-09-22\n\nWorkouts: Running (45 min, 5 mi)\nHydration: 68 oz\nOura: HR 72 | Sleep 77 | Activity 95 | Readiness 80\nBody: 186 lb | 18% fat | 151 lb muscle\n\n",
+        "height": 512,
+        "width": 464,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        0
+      ],
+      "id": "0ea80a66-fbb6-4d19-a537-763062c9b7bd",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 20 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        272
+      ],
+      "id": "cdb9984d-a562-47a6-82f7-8f711971a246",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "connections": {
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Supabase RPC Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase RPC Call": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-09-25T20:00:00.034-04:00",
+          "Readable date": "September 25th 2025, 8:00:00 pm",
+          "Readable time": "8:00:00 pm",
+          "Day of week": "Thursday",
+          "Year": "2025",
+          "Month": "September",
+          "Day of month": "25",
+          "Hour": "20",
+          "Minute": "00",
+          "Second": "00",
+          "Timezone": "America/New_York (UTC-04:00)"
+        }
+      }
+    ]
+  },
+  "versionId": "85324f5b-bc24-4bbe-97e1-0304a4c6f3a1",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-26T02:09:32.373Z",
+      "updatedAt": "2025-09-26T02:09:32.373Z",
+      "role": "workflow:owner",
+      "workflowId": "FHyTZDNNHObH1Kzs",
+      "projectId": "nZwUmEIL638ig6xE"
+    }
+  ],
+  "tags": []
+}
