@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-03T00:11:53.249Z",
-  "updatedAt": "2025-08-07T16:51:12.000Z",
+  "updatedAt": "2025-10-01T20:13:04.000Z",
   "id": "iYGNG8kyyQUNs8uH",
   "name": "DS24 Booksales -> Katrin sheet",
   "active": false,
@@ -165,10 +165,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        2752,
-        -80
+        304,
+        832
       ],
-      "id": "a113d05c-d529-4bfc-9f91-81a5bbeacece",
+      "id": "09df0b8a-788c-4f78-9ac1-b15c0b855df7",
       "name": "Add Row to Google Sheet"
     },
     {
@@ -187,10 +187,10 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1792,
-        352
+        992,
+        832
       ],
-      "id": "fa2d7821-dbd0-4f44-ab60-7cbea6a0cc50",
+      "id": "5aec82a1-4282-46b4-8992-d6f882d79983",
       "name": "Create a person"
     },
     {
@@ -204,42 +204,59 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2752,
-        352
+        1584,
+        832
       ],
-      "id": "8b574f0c-df5a-48f5-8bea-c44b641cea0f",
+      "id": "40c42b4e-3b20-4643-bf5e-f7a785c6e37b",
       "name": "Create a note"
     },
     {
       "parameters": {
         "content": "## Pipedrive - add person and create note",
-        "height": 368,
-        "width": 1232
+        "height": 336,
+        "width": 848,
+        "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1680,
-        208
+        928,
+        704
       ],
-      "id": "10c4ea6a-da14-436f-b8b1-485bd3666a57",
+      "id": "bce2257d-c034-46c5-a3ec-13265a3fa4ae",
       "name": "Sticky Note"
     },
     {
       "parameters": {
-        "content": "## Append Row in Google Sheet If not exists\n\nCheck google sheet for match on email address, product , and todays date",
-        "height": 384,
-        "width": 1168,
+        "content": "## Append Row in Google Sheet ",
+        "height": 336,
+        "width": 304,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1744,
-        -192
+        224,
+        704
       ],
-      "id": "7d470c28-d0be-4d26-9ad6-ebc536a3b036",
+      "id": "b4c0ce08-b6fb-4a58-9956-03c3a350c777",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## DS24 Booksales -> Katrin sheet\n- Triggers on a Digistore sale\n- Logs order details (name, email, phone, address, etc.) to a Google Sheet used by the team\n- Creates a person in Pipedrive, and attaches a custom note to their profile with full contact info",
+        "height": 272,
+        "width": 1552,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        224,
+        80
+      ],
+      "id": "59f06706-c979-4d7c-a644-a50b7b614592",
+      "name": "Sticky Note3"
     },
     {
       "parameters": {
@@ -249,26 +266,26 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        352
+        672,
+        832
       ],
-      "id": "9242752c-83ae-42e2-85ad-7b1673fa2020",
+      "id": "fdcc1712-d1db-4c4f-b0e7-60aa047692e5",
       "name": "Code"
     },
     {
       "parameters": {
         "content": "## Pre-process\nMake sure data values aren't empty",
-        "height": 368,
-        "width": 304,
+        "height": 336,
+        "width": 368,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1360,
-        208
+        544,
+        704
       ],
-      "id": "758c6c8d-5ead-49bb-a1cf-3a9bbfc8355e",
+      "id": "f1c21a56-9d57-4bc8-8442-bb97e24c3a44",
       "name": "Sticky Note4"
     },
     {
@@ -284,10 +301,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        1424,
-        -432
+        288,
+        464
       ],
-      "id": "a7e93783-edac-4f77-bda5-30ac5f3f36d5",
+      "id": "14bdefa6-a604-454d-ac2c-3cf496dc30e0",
       "name": "Schedule Trigger"
     },
     {
@@ -298,10 +315,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1872,
-        -432
+        736,
+        464
       ],
-      "id": "77e2b63c-a480-49a6-99d7-5a3ea7e76545",
+      "id": "dbdcf4a2-d68d-4b5e-b466-4940aea850c6",
       "name": "Split Out",
       "alwaysOutputData": true
     },
@@ -383,10 +400,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2096,
-        -432
+        960,
+        464
       ],
-      "id": "fdc0ddf9-59cd-4292-b1ea-e5140389c11e",
+      "id": "6a189d06-4a27-4618-80db-e1c007951861",
       "name": "Filter"
     },
     {
@@ -399,10 +416,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2304,
-        -368
+        1168,
+        528
       ],
-      "id": "e29649c7-1b49-48e5-954c-2b94883b23db",
+      "id": "c7ccec96-5788-4559-95b5-e88cc8e2cf49",
       "name": "Get Buyer Data"
     },
     {
@@ -422,10 +439,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        2512,
-        -416
+        1376,
+        480
       ],
-      "id": "274264b7-6d8f-4331-9506-91b7e160f5d4",
+      "id": "e49df414-1a41-411e-8207-579479f9fedf",
       "name": "Merge"
     },
     {
@@ -438,11 +455,26 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1648,
-        -432
+        512,
+        464
       ],
-      "id": "7be9209c-d51b-4881-a4ff-0ec532fae588",
+      "id": "2ba1e06b-1f53-4cf6-9fed-9f9586894ef3",
       "name": "Get DS24 Orders"
+    },
+    {
+      "parameters": {
+        "content": "## Load DS24 Orders from API\nPoll every hour for all orders from -1h ago to now. Filter only those products in Buchfunnel group, get buyer data, format same as Digistore IPN fields",
+        "height": 320,
+        "width": 1552
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        224,
+        368
+      ],
+      "id": "21d820e1-0d46-46ac-bf77-6a219b56e501",
+      "name": "Sticky Note5"
     },
     {
       "parameters": {
@@ -452,10 +484,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2736,
-        -416
+        1600,
+        480
       ],
-      "id": "af6d5c06-5323-4494-b79b-c3127345f32e",
+      "id": "a5dd91cc-b8e0-46ef-99d2-76a9f3f89f95",
       "name": "Code1"
     },
     {
@@ -467,178 +499,11 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2240,
-        352
+        1280,
+        832
       ],
-      "id": "5d345d8b-7439-4541-a958-8ee6af42f560",
+      "id": "2dd7b46e-bcb8-4ef9-8ead-cb11ecb066e4",
       "name": "Get a person"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE",
-          "mode": "list",
-          "cachedResultName": "Katrin Buchkäufer mit Telefon bis 10.8.2024",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1696979597,
-          "mode": "list",
-          "cachedResultName": "export (1)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CjimHlsXSjtOoxUjn_a_u45Y6xgEqbVn3aHq8wXq6NE/edit#gid=1696979597"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "=E-Mail",
-              "lookupValue": "={{ $json.body.email }}"
-            },
-            {
-              "lookupColumn": "Produkt",
-              "lookupValue": "={{ $json.body.product_name }}"
-            },
-            {
-              "lookupColumn": "Datum",
-              "lookupValue": "={{ $now.format('y-MM-dd')}}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        2016,
-        -64
-      ],
-      "id": "58244d2b-872e-4fc1-92e4-d6ebd7ea21d6",
-      "name": "Get row(s) in sheet",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {
-        "jsCode": "if( $input.first().json.body ){\n  return $input.first().json.body;\n}else{\n  return $('Digistore On Order1').first().json.body\n}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2512,
-        -144
-      ],
-      "id": "4bc200ef-8f4b-4ab4-a79a-21a365446609",
-      "name": "Code2"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "loose",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "2bca5c6f-92a6-41d0-8dbe-c2b3af748aa4",
-              "leftValue": "={{  $json }}",
-              "rightValue": 0,
-              "operator": {
-                "type": "object",
-                "operation": "empty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "looseTypeValidation": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        2240,
-        -64
-      ],
-      "id": "0a11ca93-16f6-4155-bac1-8f39ec002f4c",
-      "name": "If No Result",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        2512,
-        48
-      ],
-      "id": "8af2f428-a539-44b7-bdfd-f44bf0382430",
-      "name": "No Operation, do nothing"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "4bc1401c-29df-48a8-9a53-824d29fa21d7",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        1408,
-        -64
-      ],
-      "id": "9b7bf1d6-e15b-497d-ac8d-073e957fe2ca",
-      "name": "Digistore On Order1",
-      "webhookId": "4bc1401c-29df-48a8-9a53-824d29fa21d7"
-    },
-    {
-      "parameters": {
-        "content": "## Digistore - order received\n",
-        "height": 384,
-        "width": 368,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1360,
-        -192
-      ],
-      "id": "cdec1787-9ab4-4a71-bbe0-e0338e26c139",
-      "name": "Sticky Note6"
-    },
-    {
-      "parameters": {
-        "content": "## DS24 Booksales -> Katrin sheet\n- Triggers on a Digistore sale\n- Logs order details (name, email, phone, address, etc.) to a Google Sheet used by the team\n- Creates a person in Pipedrive, and attaches a custom note to their profile with full contact info",
-        "height": 272,
-        "width": 1552,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1360,
-        -816
-      ],
-      "id": "dc9be1c7-2e2c-4e24-8e59-85512468bb04",
-      "name": "Sticky Note7"
-    },
-    {
-      "parameters": {
-        "content": "## Load DS24 Orders from API\nPoll every hour for all orders from -1h ago to now. Filter only those products in Buchfunnel group, get buyer data, format same as Digistore IPN fields",
-        "height": 320,
-        "width": 1552
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1360,
-        -528
-      ],
-      "id": "08ef2502-ee90-42d6-ade9-f011d13e8487",
-      "name": "Sticky Note8"
     }
   ],
   "connections": {
@@ -746,29 +611,7 @@
         ]
       ]
     },
-    "Get a person": {
-      "main": [
-        [
-          {
-            "node": "Create a note",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet": {
-      "main": [
-        [
-          {
-            "node": "If No Result",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code2": {
+    "Code1": {
       "main": [
         [
           {
@@ -779,29 +622,11 @@
         ]
       ]
     },
-    "If No Result": {
+    "Get a person": {
       "main": [
         [
           {
-            "node": "Code2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Digistore On Order1": {
-      "main": [
-        [
-          {
-            "node": "Get row(s) in sheet",
+            "node": "Create a note",
             "type": "main",
             "index": 0
           }
@@ -820,79 +645,22 @@
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-08-05T11:00:03.012+02:00",
-          "Readable date": "August 5th 2025, 11:00:03 am",
-          "Readable time": "11:00:03 am",
-          "Day of week": "Tuesday",
+          "timestamp": "2025-10-01T11:00:16.019+02:00",
+          "Readable date": "October 1st 2025, 11:00:16 am",
+          "Readable time": "11:00:16 am",
+          "Day of week": "Wednesday",
           "Year": "2025",
-          "Month": "August",
-          "Day of month": "05",
+          "Month": "October",
+          "Day of month": "01",
           "Hour": "11",
           "Minute": "00",
-          "Second": "03",
+          "Second": "16",
           "Timezone": "Europe/Berlin (UTC+02:00)"
-        }
-      }
-    ],
-    "Digistore On Order1": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.megyk.com",
-            "user-agent": "DigiStore-API/1.0 (Linux; en-US; rv:1.0.0.0) php/20130430 curl/20130430",
-            "content-length": "843",
-            "accept": "*/*",
-            "accept-charset": "utf-8",
-            "accept-encoding": "deflate, gzip, br, zstd",
-            "cache-control": "no-cache",
-            "content-type": "application/x-www-form-urlencoded; charset=utf-8",
-            "via": "2.0 Caddy",
-            "x-forwarded-for": "35.203.70.73",
-            "x-forwarded-host": "n8n.megyk.com",
-            "x-forwarded-proto": "https"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "email": "alfred@weinert.me",
-            "first_name": "Alfred",
-            "last_name": "Weinert",
-            "title": "",
-            "salutation": "Mr.",
-            "company": "",
-            "street": "Flurstraße 7",
-            "city": "Trebgast",
-            "zipcode": "95367",
-            "state": "",
-            "country_code": "DE",
-            "country_name": "Deutschland",
-            "phone_no": "+491703803912",
-            "order_id": "T9CYVYUM",
-            "transaction_id": "98977818",
-            "product_name": "BUCH: Die größten Gefahren für Ihr Vermögen (Aktion €3,99)",
-            "product_name_intern": "BUCH (€3,99): Die größten Gefahren für Ihr Vermögen",
-            "product_id": "568935",
-            "quantity": "1",
-            "receipt_url": "https://www.digistore24.com/receipt/568935/T9CYVYUM/RDEYH3UT",
-            "invoice_url": "https://www.digistore24.com/invoice/T9CYVYUM/98977818/W7Q47UDF.pdf",
-            "eticket_url": "",
-            "custom": "",
-            "tags": "deh-buch",
-            "event": "payment",
-            "amount_brutto": "3.99",
-            "amount_netto": "3.73",
-            "amount_vendor": "0.00",
-            "amount_affiliate": "2.81",
-            "currency": "EUR",
-            "is_gdpr_country": "Y"
-          },
-          "webhookUrl": "https://n8n.megyk.com/webhook/4bc1401c-29df-48a8-9a53-824d29fa21d7",
-          "executionMode": "production"
         }
       }
     ]
   },
-  "versionId": "3f783721-fb3a-4f23-9847-87c07128a81b",
+  "versionId": "721402cb-ecb5-4745-8b1e-4ec1fe18e748",
   "triggerCount": 0,
   "shared": [
     {
