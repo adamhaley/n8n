@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-08-07T23:06:53.978Z",
-  "updatedAt": "2025-08-07T23:08:09.000Z",
+  "updatedAt": "2025-10-02T16:25:17.000Z",
   "id": "8TnMdL6niQy8FZhV",
   "name": "DS24 Booksales ->Katrin Sheet",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -892,7 +892,7 @@
       }
     ]
   },
-  "versionId": "b2543623-734e-42c9-ac6b-54dec9c657ef",
+  "versionId": "383dfba6-fc8c-4735-95d8-9233bc0f8f99",
   "triggerCount": 0,
   "shared": [
     {
